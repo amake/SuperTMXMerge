@@ -4,21 +4,29 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
-import java.awt.Component;
-import javax.swing.JList;
+import javax.swing.border.TitledBorder;
 import org.madlonkay.supertmxmerge.TuDiffInfo;
 
 /**
  *
  * @author aaron.madlon-kay
  */
-public class TuDiffCell extends javax.swing.JPanel implements javax.swing.ListCellRenderer {
+public class TuDiffCell extends javax.swing.JPanel {
 
     /**
      * Creates new form TUDiffCell
      */
-    public TuDiffCell() {
+    public TuDiffCell(TuDiffInfo info) {
         initComponents();
+        
+        sourceText.setText(info.sourceText);
+        sourceText.setRows(sourceText.getLineCount());
+        TitledBorder sourceBorder = (TitledBorder) sourceTargetPane.getBorder();
+        sourceBorder.setTitle(info.sourceLanguage);
+        TitledBorder targetBorder = (TitledBorder) targetTargetPane.getBorder();
+        targetBorder.setTitle(info.targetLanguage);
+        tuvText1.setText(info.tuv1Text);
+        tuvText2.setText(info.tuv2Text);
     }
 
     /**
@@ -30,76 +38,69 @@ public class TuDiffCell extends javax.swing.JPanel implements javax.swing.ListCe
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        sourceTargetPane = new javax.swing.JSplitPane();
         jScrollPane3 = new javax.swing.JScrollPane();
         sourceText = new javax.swing.JTextArea();
-        targetLanguage = new javax.swing.JLabel();
+        targetTargetPane = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         tuvText1 = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         tuvText2 = new javax.swing.JTextArea();
 
-        setPreferredSize(new java.awt.Dimension(1, 94));
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
+        sourceTargetPane.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Source Language"));
+        sourceTargetPane.setDividerSize(0);
+        sourceTargetPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
+        jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        sourceText.setEditable(false);
         sourceText.setLineWrap(true);
+        sourceText.setText("Source text");
         sourceText.setWrapStyleWord(true);
         jScrollPane3.setViewportView(sourceText);
 
-        targetLanguage.setText("jLabel1");
+        sourceTargetPane.setTopComponent(jScrollPane3);
 
+        targetTargetPane.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Target Language"));
+        targetTargetPane.setDividerSize(0);
+        targetTargetPane.setResizeWeight(0.5);
+        targetTargetPane.setMinimumSize(new java.awt.Dimension(1, 1));
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        tuvText1.setEditable(false);
         tuvText1.setLineWrap(true);
+        tuvText1.setText("Target text 1");
         tuvText1.setWrapStyleWord(true);
         jScrollPane1.setViewportView(tuvText1);
 
+        targetTargetPane.setLeftComponent(jScrollPane1);
+
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        tuvText2.setEditable(false);
         tuvText2.setLineWrap(true);
+        tuvText2.setText("Target text 2");
         tuvText2.setWrapStyleWord(true);
         jScrollPane2.setViewportView(tuvText2);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(targetLanguage)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(targetLanguage)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addContainerGap())
-        );
+        targetTargetPane.setRightComponent(jScrollPane2);
+
+        sourceTargetPane.setBottomComponent(targetTargetPane);
+
+        add(sourceTargetPane);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSplitPane sourceTargetPane;
     private javax.swing.JTextArea sourceText;
-    private javax.swing.JLabel targetLanguage;
+    private javax.swing.JSplitPane targetTargetPane;
     private javax.swing.JTextArea tuvText1;
     private javax.swing.JTextArea tuvText2;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        if (value instanceof TuDiffInfo) {
-            TuDiffInfo diffInfo = (TuDiffInfo) value;
-            sourceText.setText(diffInfo.sourceText);
-            sourceText.setRows(sourceText.getLineCount());
-            targetLanguage.setText(diffInfo.targetLanguage);
-            tuvText1.setText(diffInfo.tuv1Text);
-            tuvText2.setText(diffInfo.tuv2Text);
-        }
-        return this;
-    }
 }

@@ -26,5 +26,6 @@ public class Main {
         TmxInfo tmx2 = new TmxInfo("tmx2.tmx", 32);
         DiffWindow window = new DiffWindow(tmx1, tmx2, diffs);
         window.setVisible(true);
+        window.pack();
     }
 }
