@@ -5,7 +5,6 @@
 package org.madlonkay.supertmxmerge.gui;
 
 import java.util.List;
-import java.util.ResourceBundle;
 import javax.swing.Box;
 import org.madlonkay.supertmxmerge.TmxInfo;
 import org.madlonkay.supertmxmerge.TuDiffInfo;
@@ -16,7 +15,6 @@ import org.madlonkay.supertmxmerge.util.LocString;
  * @author aaron.madlon-kay
  */
 public class DiffWindow extends javax.swing.JFrame {
-    private static final ResourceBundle blahaha = ResourceBundle.getBundle("org/madlonkay/supertmxmerge/Strings");
 
     /**
      * Creates new form MergeWindow
@@ -43,62 +41,38 @@ public class DiffWindow extends javax.swing.JFrame {
 
         jPanel2 = new javax.swing.JPanel();
         file1Label = new javax.swing.JLabel();
-        file1TextUnits = new javax.swing.JLabel();
         file2Label = new javax.swing.JLabel();
+        file1TextUnits = new javax.swing.JLabel();
         file2TextUnits = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel2.setLayout(new java.awt.GridLayout(2, 2));
 
         file1Label.setText("Filename 1");
+        jPanel2.add(file1Label);
+
+        file2Label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        file2Label.setText("Filename 2");
+        jPanel2.add(file2Label);
 
         file1TextUnits.setText("Segments 1");
+        jPanel2.add(file1TextUnits);
 
-        file2Label.setText("Filename 2");
-
+        file2TextUnits.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         file2TextUnits.setText("Segments 2");
+        jPanel2.add(file2TextUnits);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(file1Label)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(file2Label))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(file1TextUnits)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 226, Short.MAX_VALUE)
-                        .addComponent(file2TextUnits)))
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(file2Label)
-                    .addComponent(file1Label))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(file2TextUnits)
-                    .addComponent(file1TextUnits))
-                .addContainerGap())
-        );
-
-        getContentPane().add(jPanel2);
+        getContentPane().add(jPanel2, java.awt.BorderLayout.NORTH);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane1.setViewportView(jPanel1);
 
-        getContentPane().add(jScrollPane1);
+        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
