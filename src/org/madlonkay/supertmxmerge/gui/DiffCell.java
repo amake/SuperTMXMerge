@@ -5,7 +5,7 @@
 package org.madlonkay.supertmxmerge.gui;
 
 import javax.swing.border.TitledBorder;
-import org.madlonkay.supertmxmerge.DiffInfo;
+import org.madlonkay.supertmxmerge.data.DiffInfo;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**

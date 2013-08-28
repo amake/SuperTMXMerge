@@ -6,8 +6,8 @@ package org.madlonkay.supertmxmerge.gui;
 
 import java.util.List;
 import javax.swing.Box;
-import org.madlonkay.supertmxmerge.TmxInfo;
-import org.madlonkay.supertmxmerge.DiffInfo;
+import org.madlonkay.supertmxmerge.data.TmxInfo;
+import org.madlonkay.supertmxmerge.data.DiffInfo;
 import org.madlonkay.supertmxmerge.util.LocString;
 
     /**

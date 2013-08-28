@@ -4,6 +4,8 @@
  */
 package org.madlonkay.supertmxmerge;
 
+import org.madlonkay.supertmxmerge.data.DiffInfo;
+import org.madlonkay.supertmxmerge.data.TmxInfo;
 import java.util.ArrayList;
 import java.util.List;
 import org.madlonkay.supertmxmerge.gui.DiffWindow;

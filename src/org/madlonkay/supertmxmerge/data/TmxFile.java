@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.madlonkay.supertmxmerge.util;
+package org.madlonkay.supertmxmerge.data;
 
 import gen.core.tmx14.Tmx;
 import gen.core.tmx14.Tuv;
@@ -16,6 +16,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import org.madlonkay.supertmxmerge.SuperTmxMerge;
+import org.madlonkay.supertmxmerge.util.TuvUtil;
 
 /**
  *

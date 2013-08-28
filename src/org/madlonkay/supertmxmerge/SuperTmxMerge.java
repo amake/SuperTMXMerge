@@ -4,6 +4,8 @@
  */
 package org.madlonkay.supertmxmerge;
 
+import org.madlonkay.supertmxmerge.data.DiffInfo;
+import org.madlonkay.supertmxmerge.data.TmxInfo;
 import gen.core.tmx14.Tuv;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,7 +13,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import org.madlonkay.supertmxmerge.gui.DiffWindow;
-import org.madlonkay.supertmxmerge.util.TmxFile;
+import org.madlonkay.supertmxmerge.data.TmxFile;
 import org.madlonkay.supertmxmerge.util.TuvUtil;
 
 /**
