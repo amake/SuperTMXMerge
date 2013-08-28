@@ -20,7 +20,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        List<DiffInfo> diffs = new ArrayList<>();
+        List<DiffInfo> diffs = new ArrayList<DiffInfo>();
         diffs.add(new DiffInfo("Blah", "en-us", "ja-jp", "など", "などなど"));
         diffs.add(new DiffInfo("What", "en-us", "ja-jp", "何", "なぁに～"));
         diffs.add(new DiffInfo("What in the world is going on here, pray tell? \nmonkey1 monkey2 monkey3 monkey4 monkey5", "en-us", "ja-jp", "これは一体何なんだ！", "一体これはなんということだ！"));

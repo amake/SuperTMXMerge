@@ -55,15 +55,15 @@ public class SuperTmxMerge {
     
     private static DiffSet generateDiffSet(TmxFile tmx1, TmxFile tmx2) {
         // Deleted TUs
-        Set<String> deleted = new HashSet<>(tmx1.getTuvMap().keySet());
+        Set<String> deleted = new HashSet<String>(tmx1.getTuvMap().keySet());
         deleted.removeAll(tmx2.getTuvMap().keySet());
         
         // Added TUs
-        Set<String> added = new HashSet<>(tmx2.getTuvMap().keySet());
+        Set<String> added = new HashSet<String>(tmx2.getTuvMap().keySet());
         added.removeAll(tmx1.getTuvMap().keySet());
         
         // Modified TUs
-        Set<String> modified = new HashSet<>();
+        Set<String> modified = new HashSet<String>();
         for (Entry<String, Tuv> e : tmx1.getTuvMap().entrySet()) {
             Tuv newTuv = tmx2.getTuvMap().get(e.getKey());
             if (newTuv == null) {
@@ -77,7 +77,7 @@ public class SuperTmxMerge {
     }
     
     private static List<DiffInfo> generateDiffInfos(TmxFile tmx1, TmxFile tmx2, DiffSet set) {
-        List<DiffInfo> diffInfos = new ArrayList<>();
+        List<DiffInfo> diffInfos = new ArrayList<DiffInfo>();
         for (String key : set.deleted) {
             Tuv tuv = tmx1.getTuvMap().get(key);
             diffInfos.add(new DiffInfo(key, tmx1.getSourceLanguage(),
@@ -99,7 +99,7 @@ public class SuperTmxMerge {
     
     private static List<MergeInfo> generateMergeInfos(TmxFile baseTmx, TmxFile leftTmx,
             TmxFile rightTmx, DiffSet baseToLeft, DiffSet baseToRight) {
-        List<MergeInfo> mergeInfos = new ArrayList<>();
+        List<MergeInfo> mergeInfos = new ArrayList<MergeInfo>();
         // New in left
         for (String key : baseToLeft.added) {
             Tuv leftTuv = leftTmx.getTuvMap().get(key);
