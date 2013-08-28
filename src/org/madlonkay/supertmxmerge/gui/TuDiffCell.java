@@ -6,6 +6,7 @@ package org.madlonkay.supertmxmerge.gui;
 
 import javax.swing.border.TitledBorder;
 import org.madlonkay.supertmxmerge.TuDiffInfo;
+import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
  *
@@ -21,12 +22,36 @@ public class TuDiffCell extends javax.swing.JPanel {
         
         sourceText.setText(info.sourceText);
         sourceText.setRows(sourceText.getLineCount());
+        setSourceLanguage(info.sourceLanguage);
+        setTargetLanguage(info.targetLanguage);
+        setPreText(info.tuv1Text);
+        setPostText(info.tuv2Text);
+    }
+    
+    private void setSourceLanguage(String language) {
         TitledBorder sourceBorder = (TitledBorder) sourceTargetPane.getBorder();
-        sourceBorder.setTitle(info.sourceLanguage);
+        sourceBorder.setTitle(language);
+    }
+    
+    private void setTargetLanguage(String language) {
         TitledBorder targetBorder = (TitledBorder) targetTargetPane.getBorder();
-        targetBorder.setTitle(info.targetLanguage);
-        tuvText1.setText(info.tuv1Text);
-        tuvText2.setText(info.tuv2Text);
+        targetBorder.setTitle(language);
+    }
+    
+    private void setPreText(String text) {
+        if (text == null) {
+            tuvText1.setBackground(getBackground());
+            text = LocString.get("tuv_added");
+        }
+        tuvText1.setText(text);
+    }
+    
+    private void setPostText(String text) {
+        if (text == null) {
+            tuvText2.setBackground(getBackground());
+            text = LocString.get("tuv_deleted");
+        }
+        tuvText2.setText(text);
     }
 
     /**

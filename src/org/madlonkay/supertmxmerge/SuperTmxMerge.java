@@ -56,12 +56,12 @@ public class SuperTmxMerge {
         for (String key : deleted) {
             Tuv tuv = tmx1.getTuvMap().get(key);
             diffInfos.add(new TuDiffInfo(key, tmx1.getSourceLanguage(),
-                    TuvUtil.getLanguage(tuv), TuvUtil.getContent(tuv), ""));
+                    TuvUtil.getLanguage(tuv), TuvUtil.getContent(tuv), null));
         }
         for (String key : added) {
             Tuv tuv = tmx2.getTuvMap().get(key);
             diffInfos.add(new TuDiffInfo(key, tmx2.getSourceLanguage(),
-                    TuvUtil.getLanguage(tuv), "", TuvUtil.getContent(tuv)));
+                    TuvUtil.getLanguage(tuv), null, TuvUtil.getContent(tuv)));
         }
         for (String key : modified) {
             Tuv tuv1 = tmx1.getTuvMap().get(key);
