@@ -30,6 +30,9 @@ public class Main {
         //window.setVisible(true);
         //window.pack();
         
-        SuperTmxMerge.diff("C:\\Users\\aaron.madlon-kay\\Desktop\\Behavior+Cloth-old.tmx", "C:\\Users\\aaron.madlon-kay\\Desktop\\Behavior+Cloth-new.tmx");
+        //SuperTmxMerge.diff("C:\\Users\\aaron.madlon-kay\\Desktop\\Behavior+Cloth-old.tmx", "C:\\Users\\aaron.madlon-kay\\Desktop\\Behavior+Cloth-new.tmx");
+        SuperTmxMerge.merge("C:\\Users\\aaron.madlon-kay\\Desktop\\Behavior+Cloth-base.tmx",
+                "C:\\Users\\aaron.madlon-kay\\Desktop\\Behavior+Cloth-old.tmx",
+                "C:\\Users\\aaron.madlon-kay\\Desktop\\Behavior+Cloth-new.tmx");
     }
 }
