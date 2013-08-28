@@ -8,7 +8,6 @@ import gen.core.tmx14.Tuv;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import org.madlonkay.supertmxmerge.gui.DiffWindow;
@@ -50,23 +49,27 @@ public class SuperTmxMerge {
         window.pack();
     }
     
-    private static List<TuDiffInfo> generateDiffInfos(TmxFile tmx1, TmxFile tmx2,
+    public static void merge(String baseFile, String file1, String file2) {
+        
+    }
+    
+    private static List<DiffInfo> generateDiffInfos(TmxFile tmx1, TmxFile tmx2,
             Set<String> deleted, Set<String> added, Set<String> modified) {
-        List<TuDiffInfo> diffInfos = new ArrayList<>();
+        List<DiffInfo> diffInfos = new ArrayList<>();
         for (String key : deleted) {
             Tuv tuv = tmx1.getTuvMap().get(key);
-            diffInfos.add(new TuDiffInfo(key, tmx1.getSourceLanguage(),
+            diffInfos.add(new DiffInfo(key, tmx1.getSourceLanguage(),
                     TuvUtil.getLanguage(tuv), TuvUtil.getContent(tuv), null));
         }
         for (String key : added) {
             Tuv tuv = tmx2.getTuvMap().get(key);
-            diffInfos.add(new TuDiffInfo(key, tmx2.getSourceLanguage(),
+            diffInfos.add(new DiffInfo(key, tmx2.getSourceLanguage(),
                     TuvUtil.getLanguage(tuv), null, TuvUtil.getContent(tuv)));
         }
         for (String key : modified) {
             Tuv tuv1 = tmx1.getTuvMap().get(key);
             Tuv tuv2 = tmx2.getTuvMap().get(key);
-            diffInfos.add(new TuDiffInfo(key, tmx1.getSourceLanguage(),
+            diffInfos.add(new DiffInfo(key, tmx1.getSourceLanguage(),
                     TuvUtil.getLanguage(tuv1), TuvUtil.getContent(tuv1), TuvUtil.getContent(tuv2)));
         }
         return diffInfos;

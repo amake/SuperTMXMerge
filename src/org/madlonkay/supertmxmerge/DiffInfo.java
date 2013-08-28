@@ -8,7 +8,7 @@ package org.madlonkay.supertmxmerge;
  *
  * @author aaron.madlon-kay
  */
-public class TuDiffInfo {
+public class DiffInfo {
     
     public final String sourceText;
     public final String sourceLanguage;
@@ -17,7 +17,7 @@ public class TuDiffInfo {
     public final String tuv1Text;
     public final String tuv2Text;
     
-    public TuDiffInfo(String sourceText, String sourceLanguage,
+    public DiffInfo(String sourceText, String sourceLanguage,
             String targetLanguage, String tuv1Text, String tuv2Text) {
         this.sourceText = sourceText;
         this.sourceLanguage = sourceLanguage;

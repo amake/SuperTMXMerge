@@ -5,7 +5,7 @@
 package org.madlonkay.supertmxmerge.gui;
 
 import javax.swing.border.TitledBorder;
-import org.madlonkay.supertmxmerge.TuDiffInfo;
+import org.madlonkay.supertmxmerge.DiffInfo;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
@@ -17,7 +17,7 @@ public class DiffCell extends javax.swing.JPanel {
     /**
      * Creates new form TUDiffCell
      */
-    public DiffCell(TuDiffInfo info) {
+    public DiffCell(DiffInfo info) {
         initComponents();
         
         sourceText.setText(info.sourceText);

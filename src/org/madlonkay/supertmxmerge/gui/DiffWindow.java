@@ -7,7 +7,7 @@ package org.madlonkay.supertmxmerge.gui;
 import java.util.List;
 import javax.swing.Box;
 import org.madlonkay.supertmxmerge.TmxInfo;
-import org.madlonkay.supertmxmerge.TuDiffInfo;
+import org.madlonkay.supertmxmerge.DiffInfo;
 import org.madlonkay.supertmxmerge.util.LocString;
 
     /**
@@ -19,13 +19,13 @@ public class DiffWindow extends javax.swing.JFrame {
     /**
      * Creates new form MergeWindow
      */
-    public DiffWindow(TmxInfo file1, TmxInfo file2, List<TuDiffInfo> diffs) {
+    public DiffWindow(TmxInfo file1, TmxInfo file2, List<DiffInfo> diffs) {
         initComponents();
         file1Label.setText(file1.name);
         file1TextUnits.setText(LocString.getFormat("number_of_units", file1.textUnits));
         file2Label.setText(file2.name);
         file2TextUnits.setText(LocString.getFormat("number_of_units", file2.textUnits));
-        for (TuDiffInfo info : diffs) {
+        for (DiffInfo info : diffs) {
             jPanel1.add(new DiffCell(info));
         }
         jPanel1.add(Box.createVerticalGlue());
