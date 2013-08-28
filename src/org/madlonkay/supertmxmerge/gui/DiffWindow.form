@@ -34,9 +34,9 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="file1" min="-2" max="-2" attributes="0"/>
+                          <Component id="file1Label" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="file2" min="-2" max="-2" attributes="0"/>
+                          <Component id="file2Label" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="file1TextUnits" min="-2" max="-2" attributes="0"/>
@@ -53,8 +53,8 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="file2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="file1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="file2Label" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="file1Label" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -67,7 +67,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="file1">
+        <Component class="javax.swing.JLabel" name="file1Label">
           <Properties>
             <Property name="text" type="java.lang.String" value="Filename 1"/>
           </Properties>
@@ -77,7 +77,7 @@
             <Property name="text" type="java.lang.String" value="Segments 1"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="file2">
+        <Component class="javax.swing.JLabel" name="file2Label">
           <Properties>
             <Property name="text" type="java.lang.String" value="Filename 2"/>
           </Properties>

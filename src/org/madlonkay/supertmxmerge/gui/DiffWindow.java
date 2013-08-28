@@ -21,12 +21,12 @@ public class DiffWindow extends javax.swing.JFrame {
     /**
      * Creates new form MergeWindow
      */
-    public DiffWindow(TmxInfo file1Info, TmxInfo file2Info, List<TuDiffInfo> diffs) {
+    public DiffWindow(TmxInfo file1, TmxInfo file2, List<TuDiffInfo> diffs) {
         initComponents();
-        file1.setText(file1Info.name);
-        file1TextUnits.setText(LocString.getFormat("number_of_units", file1Info.textUnits));
-        file2.setText(file2Info.name);
-        file2TextUnits.setText(LocString.getFormat("number_of_units", file2Info.textUnits));
+        file1Label.setText(file1.name);
+        file1TextUnits.setText(LocString.getFormat("number_of_units", file1.textUnits));
+        file2Label.setText(file2.name);
+        file2TextUnits.setText(LocString.getFormat("number_of_units", file2.textUnits));
         for (TuDiffInfo info : diffs) {
             jPanel1.add(new TuDiffCell(info));
         }
@@ -42,9 +42,9 @@ public class DiffWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        file1 = new javax.swing.JLabel();
+        file1Label = new javax.swing.JLabel();
         file1TextUnits = new javax.swing.JLabel();
-        file2 = new javax.swing.JLabel();
+        file2Label = new javax.swing.JLabel();
         file2TextUnits = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
@@ -52,11 +52,11 @@ public class DiffWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
 
-        file1.setText("Filename 1");
+        file1Label.setText("Filename 1");
 
         file1TextUnits.setText("Segments 1");
 
-        file2.setText("Filename 2");
+        file2Label.setText("Filename 2");
 
         file2TextUnits.setText("Segments 2");
 
@@ -68,9 +68,9 @@ public class DiffWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(file1)
+                        .addComponent(file1Label)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(file2))
+                        .addComponent(file2Label))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(file1TextUnits)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 226, Short.MAX_VALUE)
@@ -82,8 +82,8 @@ public class DiffWindow extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(file2)
-                    .addComponent(file1))
+                    .addComponent(file2Label)
+                    .addComponent(file1Label))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(file2TextUnits)
@@ -104,9 +104,9 @@ public class DiffWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel file1;
+    private javax.swing.JLabel file1Label;
     private javax.swing.JLabel file1TextUnits;
-    private javax.swing.JLabel file2;
+    private javax.swing.JLabel file2Label;
     private javax.swing.JLabel file2TextUnits;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

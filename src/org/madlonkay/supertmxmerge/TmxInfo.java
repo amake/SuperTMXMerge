@@ -4,6 +4,9 @@
  */
 package org.madlonkay.supertmxmerge;
 
+import java.io.File;
+import org.madlonkay.supertmxmerge.util.TmxFile;
+
 /**
  *
  * @author aaron.madlon-kay
@@ -16,5 +19,10 @@ public class TmxInfo {
     public TmxInfo (String name, int textUnits) {
         this.name = name;
         this.textUnits = textUnits;
+    }
+    
+    public TmxInfo (TmxFile tmx) {
+        this.name = (new File(tmx.getFilePath())).getName();
+        this.textUnits = tmx.size();
     }
 }

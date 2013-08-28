@@ -24,8 +24,10 @@ public class Main {
         diffs.add(new TuDiffInfo("What in the world is going on here, pray tell? \nmonkey1 monkey2 monkey3 monkey4 monkey5", "en-us", "ja-jp", "これは一体何なんだ！", "一体これはなんということだ！"));
         TmxInfo tmx1 = new TmxInfo("tmx1.tmx", 35);
         TmxInfo tmx2 = new TmxInfo("tmx2.tmx", 32);
-        DiffWindow window = new DiffWindow(tmx1, tmx2, diffs);
-        window.setVisible(true);
-        window.pack();
+        //DiffWindow window = new DiffWindow(tmx1, tmx2, diffs);
+        //window.setVisible(true);
+        //window.pack();
+        
+        SuperTmxMerge.diff("C:\\Users\\aaron.madlon-kay\\Desktop\\Behavior+Cloth-old.tmx", "C:\\Users\\aaron.madlon-kay\\Desktop\\Behavior+Cloth-new.tmx");
     }
 }
