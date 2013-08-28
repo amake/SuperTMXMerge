@@ -4,11 +4,10 @@
  */
 package org.madlonkay.supertmxmerge;
 
-import org.madlonkay.supertmxmerge.data.DiffInfo;
-import org.madlonkay.supertmxmerge.data.TmxInfo;
-import java.util.ArrayList;
-import java.util.List;
-import org.madlonkay.supertmxmerge.gui.DiffWindow;
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
  *
@@ -20,19 +19,38 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        List<DiffInfo> diffs = new ArrayList<DiffInfo>();
-        diffs.add(new DiffInfo("Blah", "en-us", "ja-jp", "など", "などなど"));
-        diffs.add(new DiffInfo("What", "en-us", "ja-jp", "何", "なぁに～"));
-        diffs.add(new DiffInfo("What in the world is going on here, pray tell? \nmonkey1 monkey2 monkey3 monkey4 monkey5", "en-us", "ja-jp", "これは一体何なんだ！", "一体これはなんということだ！"));
-        TmxInfo tmx1 = new TmxInfo("tmx1.tmx", 35);
-        TmxInfo tmx2 = new TmxInfo("tmx2.tmx", 32);
-        //DiffWindow window = new DiffWindow(tmx1, tmx2, diffs);
-        //window.setVisible(true);
-        //window.pack();
         
-        //SuperTmxMerge.diff("C:\\Users\\aaron.madlon-kay\\Desktop\\Behavior+Cloth-old.tmx", "C:\\Users\\aaron.madlon-kay\\Desktop\\Behavior+Cloth-new.tmx");
-        SuperTmxMerge.merge("C:\\Users\\aaron.madlon-kay\\Desktop\\Behavior+Cloth-base.tmx",
-                "C:\\Users\\aaron.madlon-kay\\Desktop\\Behavior+Cloth-old.tmx",
-                "C:\\Users\\aaron.madlon-kay\\Desktop\\Behavior+Cloth-new.tmx");
+        if (args.length == 0) {
+            // Show file chooser.
+            return;
+        }
+        
+        boolean die = false;
+        for (String arg : args) {
+            File file = new File(arg);
+            if (!file.exists() || !file.canRead()) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, LocString.getFormat("error_bad_file", arg));
+                die = true;
+            }
+        }
+        
+        if (die) {
+            printUsage();
+            return;
+        }
+                
+        if (args.length == 2) {
+            SuperTmxMerge.diff(args[0], args[1]);
+            return;
+        } else if (args.length == 3) {
+            SuperTmxMerge.merge(args[0], args[1], args[2]);
+            return;
+        }
+        
+        printUsage();
+    }
+    
+    private static void printUsage() {
+        System.out.print(LocString.get("usage_directions"));
     }
 }
