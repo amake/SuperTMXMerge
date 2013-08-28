@@ -12,12 +12,12 @@ import org.madlonkay.supertmxmerge.util.LocString;
  *
  * @author aaron.madlon-kay
  */
-public class TuDiffCell extends javax.swing.JPanel {
+public class DiffCell extends javax.swing.JPanel {
 
     /**
      * Creates new form TUDiffCell
      */
-    public TuDiffCell(TuDiffInfo info) {
+    public DiffCell(TuDiffInfo info) {
         initComponents();
         
         sourceText.setText(info.sourceText);

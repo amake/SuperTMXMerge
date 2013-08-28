@@ -28,7 +28,7 @@ public class DiffWindow extends javax.swing.JFrame {
         file2Label.setText(file2.name);
         file2TextUnits.setText(LocString.getFormat("number_of_units", file2.textUnits));
         for (TuDiffInfo info : diffs) {
-            jPanel1.add(new TuDiffCell(info));
+            jPanel1.add(new DiffCell(info));
         }
         jPanel1.add(Box.createVerticalGlue());
     }
