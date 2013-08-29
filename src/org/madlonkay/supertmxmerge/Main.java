@@ -7,6 +7,7 @@ package org.madlonkay.supertmxmerge;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.madlonkay.supertmxmerge.gui.FileSelectWindow;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
@@ -21,7 +22,19 @@ public class Main {
     public static void main(String[] args) {
         
         if (args.length == 0) {
-            // Show file chooser.
+            final FileSelectWindow window = new FileSelectWindow();
+            window.setCallback(new Runnable() {
+                @Override
+                public void run() {
+                    if (window.isDiff()) {
+                        SuperTmxMerge.diff(window.getFile1(), window.getFile2());
+                    } else if (window.isMerge()) {
+                        SuperTmxMerge.merge(window.getBaseFile(), window.getLeftFile(), window.getRightFile());
+                    }
+                }
+            });
+            window.setVisible(true);
+            window.pack();
             return;
         }
         
