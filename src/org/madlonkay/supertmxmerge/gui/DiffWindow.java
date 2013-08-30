@@ -38,7 +38,9 @@ public class DiffWindow extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        controller = new org.madlonkay.supertmxmerge.DiffController();
         jPanel2 = new javax.swing.JPanel();
         file1Label = new javax.swing.JLabel();
         file2Label = new javax.swing.JLabel();
@@ -51,14 +53,18 @@ public class DiffWindow extends javax.swing.JFrame {
 
         jPanel2.setLayout(new java.awt.GridLayout(2, 2));
 
-        file1Label.setText("Filename 1");
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, controller, org.jdesktop.beansbinding.ELProperty.create("${file1Name}"), file1Label, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         jPanel2.add(file1Label);
 
         file2Label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         file2Label.setText("Filename 2");
         jPanel2.add(file2Label);
 
-        file1TextUnits.setText("Segments 1");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, controller, org.jdesktop.beansbinding.ELProperty.create("${file1SegmentCount}"), file1TextUnits, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         jPanel2.add(file1TextUnits);
 
         file2TextUnits.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -74,10 +80,13 @@ public class DiffWindow extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
+        bindingGroup.bind();
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.madlonkay.supertmxmerge.DiffController controller;
     private javax.swing.JLabel file1Label;
     private javax.swing.JLabel file1TextUnits;
     private javax.swing.JLabel file2Label;
@@ -85,5 +94,6 @@ public class DiffWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

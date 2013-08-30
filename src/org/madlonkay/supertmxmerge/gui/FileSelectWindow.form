@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Component class="javax.swing.JFileChooser" name="jFileChooser1">
       <Properties>
@@ -8,6 +8,16 @@
           <Connection code="new FileNameExtensionFilter(LocString.get(&quot;tmx_file_type_label&quot;), &quot;tmx&quot;)" type="code"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="org.madlonkay.supertmxmerge.MergeController" name="mergeController">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="SuperTmxMerge.getMergeController()"/>
+      </AuxValues>
+    </Component>
+    <Component class="org.madlonkay.supertmxmerge.DiffController" name="diffController">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="SuperTmxMerge.getDiffController()"/>
+      </AuxValues>
     </Component>
   </NonVisualComponents>
   <Properties>
@@ -39,6 +49,9 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JTabbedPane" name="diffMergeTabbedPane">
+      <BindingProperties>
+        <BindingProperty name="selectedIndex" source="mergeController" sourcePath="${actionType}" target="diffMergeTabbedPane" targetPath="selectedIndex" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
@@ -99,6 +112,12 @@
                       <Properties>
                         <Property name="columns" type="int" value="20"/>
                       </Properties>
+                      <BindingProperties>
+                        <BindingProperty name="text" source="diffController" sourcePath="${file1}" target="file1Field" targetPath="text" updateStrategy="0" immediately="false">
+                          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                          <Property name="name" type="java.lang.String" value=""/>
+                        </BindingProperty>
+                      </BindingProperties>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -120,6 +139,11 @@
                       <Properties>
                         <Property name="columns" type="int" value="20"/>
                       </Properties>
+                      <BindingProperties>
+                        <BindingProperty name="text" source="diffController" sourcePath="${file2}" target="file2Field" targetPath="text" updateStrategy="0" immediately="false">
+                          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                        </BindingProperty>
+                      </BindingProperties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="file2FieldActionPerformed"/>
                       </Events>
@@ -227,6 +251,11 @@
                           <ComponentRef name="leftFileButton"/>
                         </Property>
                       </Properties>
+                      <BindingProperties>
+                        <BindingProperty name="text" source="mergeController" sourcePath="${baseFile}" target="baseFileField" targetPath="text" updateStrategy="0" immediately="false">
+                          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                        </BindingProperty>
+                      </BindingProperties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="leftFileField">
                       <Properties>
@@ -235,6 +264,9 @@
                           <ComponentRef name="rightFileButton"/>
                         </Property>
                       </Properties>
+                      <BindingProperties>
+                        <BindingProperty name="text" source="mergeController" sourcePath="${leftFile}" target="leftFileField" targetPath="text" updateStrategy="0" immediately="false"/>
+                      </BindingProperties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="leftFileFieldActionPerformed"/>
                       </Events>
@@ -243,6 +275,11 @@
                       <Properties>
                         <Property name="columns" type="int" value="20"/>
                       </Properties>
+                      <BindingProperties>
+                        <BindingProperty name="text" source="mergeController" sourcePath="${rightFile}" target="rightFileField" targetPath="text" updateStrategy="0" immediately="false">
+                          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                        </BindingProperty>
+                      </BindingProperties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rightFileFieldActionPerformed"/>
                       </Events>

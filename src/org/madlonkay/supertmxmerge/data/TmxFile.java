@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 import org.madlonkay.supertmxmerge.SuperTmxMerge;
 import org.madlonkay.supertmxmerge.util.TuvUtil;
@@ -38,7 +39,7 @@ public class TmxFile {
         }
     }
 
-    public TmxFile(String filepath) {
+    public TmxFile(String filepath) throws UnmarshalException {
         this.filepath = filepath;
         try {
             this.doc = (Tmx) u.unmarshal(new FileInputStream(filepath));

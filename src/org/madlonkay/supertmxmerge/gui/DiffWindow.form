@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Component class="org.madlonkay.supertmxmerge.DiffController" name="controller">
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -36,9 +40,9 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JLabel" name="file1Label">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Filename 1"/>
-          </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="controller" sourcePath="${file1Name}" target="file1Label" targetPath="text" updateStrategy="0" immediately="false"/>
+          </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="file2Label">
           <Properties>
@@ -47,9 +51,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="file1TextUnits">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Segments 1"/>
-          </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="controller" sourcePath="${file1SegmentCount}" target="file1TextUnits" targetPath="text" updateStrategy="0" immediately="false"/>
+          </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="file2TextUnits">
           <Properties>
