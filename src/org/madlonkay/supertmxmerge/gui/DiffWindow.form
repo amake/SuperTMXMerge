@@ -3,6 +3,9 @@
 <Form version="1.5" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Component class="org.madlonkay.supertmxmerge.DiffController" name="controller">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="getController()"/>
+      </AuxValues>
     </Component>
   </NonVisualComponents>
   <Properties>
@@ -41,25 +44,35 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="file1Label">
           <BindingProperties>
-            <BindingProperty name="text" source="controller" sourcePath="${file1Name}" target="file1Label" targetPath="text" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="text" source="controller" sourcePath="${file1Name}" target="file1Label" targetPath="text" updateStrategy="1" immediately="false">
+              <Property name="name" type="java.lang.String" value="file1Name"/>
+            </BindingProperty>
           </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="file2Label">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="Filename 2"/>
           </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="controller" sourcePath="${file2Name}" target="file2Label" targetPath="text" updateStrategy="1" immediately="false">
+              <Property name="name" type="java.lang.String" value="file2Name"/>
+            </BindingProperty>
+          </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="file1TextUnits">
           <BindingProperties>
-            <BindingProperty name="text" source="controller" sourcePath="${file1SegmentCount}" target="file1TextUnits" targetPath="text" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="text" source="controller" sourcePath="${file1UnitCount}" target="file1TextUnits" targetPath="text" updateStrategy="1" immediately="false">
+              <Property name="name" type="java.lang.String" value="file1SegmentCount"/>
+            </BindingProperty>
           </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="file2TextUnits">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="Segments 2"/>
           </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="controller" sourcePath="${file2UnitCount}" target="file2TextUnits" targetPath="text" updateStrategy="0" immediately="false"/>
+          </BindingProperties>
         </Component>
       </SubComponents>
     </Container>

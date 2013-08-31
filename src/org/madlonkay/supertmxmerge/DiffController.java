@@ -6,6 +6,7 @@ package org.madlonkay.supertmxmerge;
 
 import gen.core.tmx14.Tuv;
 import java.beans.*;
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +30,16 @@ public class DiffController implements Serializable, IController {
     
     public static final String PROP_FILE1 = "file1";
     public static final String PROP_FILE2 = "file2";
+    public static final String PROP_FILE1NAME = "file1Name";
+    public static final String PROP_FILE2NAME = "file2Name";
+    public static final String PROP_FILE1UNITCOUNT = "file1UnitCount";
+    public static final String PROP_FILE2UNITCOUNT = "file2UnitCount";
 
     private String file1;
     private String file2;
+    
+    private TmxFile tmx1;
+    private TmxFile tmx2;
     
     private PropertyChangeSupport propertySupport;
     
@@ -67,22 +75,49 @@ public class DiffController implements Serializable, IController {
         propertySupport.firePropertyChange(PROP_FILE2, oldFile2, file2);
     }
     
+    public String getFile1Name() {
+        return tmx1 != null ? (new File(tmx1.getFilePath())).getName() : "File 1 name";
+    }
+    
+    public String getFile2Name() {
+        return tmx2 != null ? (new File(tmx2.getFilePath())).getName() : "File 2 name";
+    }
+    
+    public int getFile1UnitCount() {
+        return tmx1 != null ? tmx1.size() : -1;
+    }
+    
+    public int getFile2UnitCount() {
+        return tmx2 != null ? tmx2.size() : -1;
+    }
+    
+    private void setTmx1(TmxFile tmx) {
+        tmx1 = tmx;
+        propertySupport.firePropertyChange(PROP_FILE1NAME, "blah", getFile1Name());
+        propertySupport.firePropertyChange(PROP_FILE1UNITCOUNT, -1, getFile1UnitCount());
+    }
+    
+    private void setTmx2(TmxFile tmx) {
+        tmx2 = tmx;
+        propertySupport.firePropertyChange(PROP_FILE2NAME, "blah", getFile2Name());
+        propertySupport.firePropertyChange(PROP_FILE2UNITCOUNT, -1, getFile2UnitCount());
+    }
+    
     @Override
     public void go() {
-        
-        TmxFile tmx1 = null;
-        TmxFile tmx2 = null;
         try {
-            tmx1 = new TmxFile(getFile1());
-            tmx2 = new TmxFile(getFile2());
+            setTmx1(new TmxFile(getFile1()));
+            setTmx2(new TmxFile(getFile2()));
         } catch (UnmarshalException ex) {
             Logger.getLogger(MergeController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         DiffSet diffs = DiffUtil.generateDiffSet(tmx1, tmx2);
         
-        DiffWindow window = new DiffWindow(new TmxInfo(tmx1), new TmxInfo(tmx2),
-                generateDiffInfos(tmx1, tmx2, diffs));
+        DiffWindow window = new DiffWindow(this);
+        for (DiffInfo info : generateDiffInfos(tmx1, tmx2, diffs)) {
+            window.addDiffInfo(info);
+        }
         window.setVisible(true);
         window.pack();
     }
