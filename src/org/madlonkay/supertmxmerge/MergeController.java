@@ -15,7 +15,6 @@ import javax.xml.bind.UnmarshalException;
 import org.madlonkay.supertmxmerge.data.DiffSet;
 import org.madlonkay.supertmxmerge.data.MergeInfo;
 import org.madlonkay.supertmxmerge.data.TmxFile;
-import org.madlonkay.supertmxmerge.data.TmxInfo;
 import org.madlonkay.supertmxmerge.gui.MergeWindow;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
 import org.madlonkay.supertmxmerge.util.FileUtil;
