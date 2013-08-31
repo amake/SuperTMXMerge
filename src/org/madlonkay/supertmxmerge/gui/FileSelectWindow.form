@@ -10,14 +10,8 @@
       </Properties>
     </Component>
     <Component class="org.madlonkay.supertmxmerge.MergeController" name="mergeController">
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="SuperTmxMerge.getMergeController()"/>
-      </AuxValues>
     </Component>
     <Component class="org.madlonkay.supertmxmerge.DiffController" name="diffController">
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="SuperTmxMerge.getDiffController()"/>
-      </AuxValues>
     </Component>
   </NonVisualComponents>
   <Properties>

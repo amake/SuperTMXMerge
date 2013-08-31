@@ -66,8 +66,8 @@ public class FileSelectWindow extends javax.swing.JFrame {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jFileChooser1 = new javax.swing.JFileChooser();
-        mergeController = SuperTmxMerge.getMergeController();
-        diffController = SuperTmxMerge.getDiffController();
+        mergeController = new org.madlonkay.supertmxmerge.MergeController();
+        diffController = new org.madlonkay.supertmxmerge.DiffController();
         diffMergeTabbedPane = new javax.swing.JTabbedPane();
         diffPanel = new javax.swing.JPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
