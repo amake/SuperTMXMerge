@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Component class="org.madlonkay.supertmxmerge.MergeController" name="controller">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="getController()"/>
+      </AuxValues>
+    </Component>
+    <Component class="org.madlonkay.supertmxmerge.gui.UnitCountConverter" name="unitCountConverter1">
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -36,38 +45,67 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JLabel" name="leftFilename">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Left Filename"/>
-          </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="controller" sourcePath="${leftTmx.fileName}" target="leftFilename" targetPath="text" updateStrategy="1" immediately="false">
+              <Property name="name" type="java.lang.String" value="leftFileName"/>
+            </BindingProperty>
+          </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="centerFilename">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Center Filename"/>
           </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="controller" sourcePath="${baseTmx.fileName}" target="centerFilename" targetPath="text" updateStrategy="1" immediately="false">
+              <Property name="name" type="java.lang.String" value="baseFileName"/>
+            </BindingProperty>
+          </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="rightFilename">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="Right Filename"/>
           </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="controller" sourcePath="${rightTmx.fileName}" target="rightFilename" targetPath="text" updateStrategy="1" immediately="false">
+              <Property name="name" type="java.lang.String" value="rightFileName"/>
+            </BindingProperty>
+          </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="leftTextUnits">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Left Segments"/>
-          </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="controller" sourcePath="${leftTmx.size}" target="leftTextUnits" targetPath="text" updateStrategy="1" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                <ComponentRef name="unitCountConverter1"/>
+              </Property>
+              <Property name="name" type="java.lang.String" value="leftFileUnitCount"/>
+            </BindingProperty>
+          </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="centerTextUnits">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Center Segments"/>
           </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="controller" sourcePath="${baseTmx.size}" target="centerTextUnits" targetPath="text" updateStrategy="1" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                <ComponentRef name="unitCountConverter1"/>
+              </Property>
+              <Property name="name" type="java.lang.String" value="baseFileUnitCount"/>
+            </BindingProperty>
+          </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="rightTextUnits">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="Right Segments"/>
           </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="controller" sourcePath="${rightTmx.size}" target="rightTextUnits" targetPath="text" updateStrategy="1" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                <ComponentRef name="unitCountConverter1"/>
+              </Property>
+              <Property name="name" type="java.lang.String" value="rightFileUnitCount"/>
+            </BindingProperty>
+          </BindingProperties>
         </Component>
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>

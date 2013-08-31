@@ -7,6 +7,8 @@
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="getController()"/>
       </AuxValues>
     </Component>
+    <Component class="org.madlonkay.supertmxmerge.gui.UnitCountConverter" name="unitCountConverter1">
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -44,7 +46,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="file1Label">
           <BindingProperties>
-            <BindingProperty name="text" source="controller" sourcePath="${file1Name}" target="file1Label" targetPath="text" updateStrategy="1" immediately="false">
+            <BindingProperty name="text" source="controller" sourcePath="${tmx1.fileName}" target="file1Label" targetPath="text" updateStrategy="1" immediately="false">
               <Property name="name" type="java.lang.String" value="file1Name"/>
             </BindingProperty>
           </BindingProperties>
@@ -54,15 +56,18 @@
             <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="text" source="controller" sourcePath="${file2Name}" target="file2Label" targetPath="text" updateStrategy="1" immediately="false">
+            <BindingProperty name="text" source="controller" sourcePath="${tmx2.fileName}" target="file2Label" targetPath="text" updateStrategy="1" immediately="false">
               <Property name="name" type="java.lang.String" value="file2Name"/>
             </BindingProperty>
           </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="file1TextUnits">
           <BindingProperties>
-            <BindingProperty name="text" source="controller" sourcePath="${file1UnitCount}" target="file1TextUnits" targetPath="text" updateStrategy="1" immediately="false">
-              <Property name="name" type="java.lang.String" value="file1SegmentCount"/>
+            <BindingProperty name="text" source="controller" sourcePath="${tmx1.size}" target="file1TextUnits" targetPath="text" updateStrategy="1" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                <ComponentRef name="unitCountConverter1"/>
+              </Property>
+              <Property name="name" type="java.lang.String" value="file1UnitCount"/>
             </BindingProperty>
           </BindingProperties>
         </Component>
@@ -71,7 +76,12 @@
             <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="text" source="controller" sourcePath="${file2UnitCount}" target="file2TextUnits" targetPath="text" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="text" source="controller" sourcePath="${tmx2.size}" target="file2TextUnits" targetPath="text" updateStrategy="1" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                <ComponentRef name="unitCountConverter1"/>
+              </Property>
+              <Property name="name" type="java.lang.String" value="file2UnitCount"/>
+            </BindingProperty>
           </BindingProperties>
         </Component>
       </SubComponents>

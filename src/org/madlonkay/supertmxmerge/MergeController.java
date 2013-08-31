@@ -28,9 +28,11 @@ public class MergeController implements Serializable, IController {
     public static final String PROP_BASEFILE = "baseFile";
     public static final String PROP_LEFTFILE = "leftFile";
     public static final String PROP_RIGHTFILE = "rightFile";
-    public static final String PROP_ACTIONTYPE = "actionType";
     
     public static final Logger LOGGER = Logger.getLogger(MergeController.class.getName());
+    public static final String PROP_BASETMX = "PROP_BASETMX";
+    public static final String PROP_LEFTTMX = "PROP_LEFTTMX";
+    public static final String PROP_RIGHTTMX = "PROP_RIGHTTMX";
 
     private PropertyChangeSupport propertySupport;
     
@@ -38,8 +40,10 @@ public class MergeController implements Serializable, IController {
     private String leftFile;
     private String rightFile;
     
-    private int actionType;
-
+    private TmxFile baseTmx;
+    private TmxFile leftTmx;
+    private TmxFile rightTmx;
+    
     public MergeController() {
         propertySupport = new PropertyChangeSupport(this);
     }
@@ -84,22 +88,15 @@ public class MergeController implements Serializable, IController {
     
     @Override
     public void go() {
-        TmxFile baseTmx = null;
-        TmxFile leftTmx = null;
-        TmxFile rightTmx = null;
         try {
-            baseTmx = new TmxFile(getBaseFile());
-            leftTmx = new TmxFile(getLeftFile());
-            rightTmx = new TmxFile(getRightFile());
+            setBaseTmx(new TmxFile(getBaseFile()));
+            setLeftTmx(new TmxFile(getLeftFile()));
+            setRightTmx(new TmxFile(getRightFile()));
         } catch (UnmarshalException ex) {
             Logger.getLogger(MergeController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        DiffSet baseToLeft = DiffUtil.generateDiffSet(baseTmx, leftTmx);
-        DiffSet baseToRight = DiffUtil.generateDiffSet(baseTmx, rightTmx);
-        
-        MergeWindow window = new MergeWindow(new TmxInfo(baseTmx), new TmxInfo(leftTmx),
-                new TmxInfo(rightTmx), generateMergeInfos(baseTmx, leftTmx, rightTmx, baseToLeft, baseToRight));
+        MergeWindow window = new MergeWindow(this);
         window.pack();
         window.setLocationRelativeTo(null);
         window.setVisible(true);
@@ -113,48 +110,51 @@ public class MergeController implements Serializable, IController {
                 && !getLeftFile().equals(getRightFile());
     }
     
-    private static List<MergeInfo> generateMergeInfos(TmxFile baseTmx, TmxFile leftTmx,
-            TmxFile rightTmx, DiffSet baseToLeft, DiffSet baseToRight) {
+    public List<MergeInfo> getMergeInfos() {
+        
+        DiffSet baseToLeft = DiffUtil.generateDiffSet(getBaseTmx(), getLeftTmx());
+        DiffSet baseToRight = DiffUtil.generateDiffSet(getBaseTmx(), getRightTmx());
+        
         List<MergeInfo> mergeInfos = new ArrayList<MergeInfo>();
         // New in left
         for (String key : baseToLeft.added) {
-            Tuv leftTuv = leftTmx.getTuvMap().get(key);
-            Tuv rightTuv = rightTmx.getTuvMap().get(key);
+            Tuv leftTuv = getLeftTmx().getTuvMap().get(key);
+            Tuv rightTuv = getRightTmx().getTuvMap().get(key);
             if (rightTuv == null) {
                 continue;
             }
             if (!TuvUtil.equals(leftTuv, rightTuv)) {
-                mergeInfos.add(new MergeInfo(key, leftTmx.getSourceLanguage(), TuvUtil.getLanguage(leftTuv),
+                mergeInfos.add(new MergeInfo(key, getLeftTmx().getSourceLanguage(), TuvUtil.getLanguage(leftTuv),
                         null, TuvUtil.getContent(leftTuv), TuvUtil.getContent(rightTuv)));
             }
         }
         // New in right
         for (String key : baseToRight.added) {
-            Tuv leftTuv = leftTmx.getTuvMap().get(key);
+            Tuv leftTuv = getLeftTmx().getTuvMap().get(key);
             if (leftTuv == null) {
                 continue;
             }
-            Tuv rightTuv = rightTmx.getTuvMap().get(key);
+            Tuv rightTuv = getRightTmx().getTuvMap().get(key);
             if (!TuvUtil.equals(leftTuv, rightTuv)) {
-                mergeInfos.add(new MergeInfo(key, rightTmx.getSourceLanguage(), TuvUtil.getLanguage(rightTuv),
+                mergeInfos.add(new MergeInfo(key, getRightTmx().getSourceLanguage(), TuvUtil.getLanguage(rightTuv),
                         null, TuvUtil.getContent(leftTuv), TuvUtil.getContent(rightTuv)));
             }
         }
         // Deleted from left
         for (String key : baseToLeft.deleted) {
-            Tuv rightTuv = rightTmx.getTuvMap().get(key);
+            Tuv rightTuv = getRightTmx().getTuvMap().get(key);
             if (rightTuv != null) {
-                Tuv baseTuv = baseTmx.getTuvMap().get(key);
-                mergeInfos.add(new MergeInfo(key, rightTmx.getSourceLanguage(), TuvUtil.getLanguage(rightTuv),
+                Tuv baseTuv = getBaseTmx().getTuvMap().get(key);
+                mergeInfos.add(new MergeInfo(key, getRightTmx().getSourceLanguage(), TuvUtil.getLanguage(rightTuv),
                         TuvUtil.getContent(baseTuv), null, TuvUtil.getContent(rightTuv)));
             }
         }
         // Deleted from right
         for (String key : baseToRight.deleted) {
-            Tuv leftTuv = leftTmx.getTuvMap().get(key);
+            Tuv leftTuv = getLeftTmx().getTuvMap().get(key);
             if (leftTuv != null) {
-                Tuv baseTuv = baseTmx.getTuvMap().get(key);
-                mergeInfos.add(new MergeInfo(key, rightTmx.getSourceLanguage(), TuvUtil.getLanguage(baseTuv),
+                Tuv baseTuv = getBaseTmx().getTuvMap().get(key);
+                mergeInfos.add(new MergeInfo(key, getRightTmx().getSourceLanguage(), TuvUtil.getLanguage(baseTuv),
                         TuvUtil.getContent(baseTuv), TuvUtil.getContent(leftTuv), null));
             }
         }
@@ -163,11 +163,11 @@ public class MergeController implements Serializable, IController {
             if (!baseToRight.modified.contains(key)) {
                 continue;
             }
-            Tuv leftTuv = leftTmx.getTuvMap().get(key);
-            Tuv rightTuv = rightTmx.getTuvMap().get(key);
+            Tuv leftTuv = getLeftTmx().getTuvMap().get(key);
+            Tuv rightTuv = getRightTmx().getTuvMap().get(key);
             if (!TuvUtil.equals(leftTuv, rightTuv)) {
-                Tuv baseTuv = baseTmx.getTuvMap().get(key);
-                mergeInfos.add(new MergeInfo(key, baseTmx.getSourceLanguage(), TuvUtil.getLanguage(baseTuv),
+                Tuv baseTuv = getBaseTmx().getTuvMap().get(key);
+                mergeInfos.add(new MergeInfo(key, getBaseTmx().getSourceLanguage(), TuvUtil.getLanguage(baseTuv),
                         TuvUtil.getContent(baseTuv), TuvUtil.getContent(leftTuv), TuvUtil.getContent(rightTuv)));
             }
         }
@@ -176,14 +176,62 @@ public class MergeController implements Serializable, IController {
             if (!baseToLeft.modified.contains(key)) {
                 continue;
             }
-            Tuv leftTuv = leftTmx.getTuvMap().get(key);
-            Tuv rightTuv = rightTmx.getTuvMap().get(key);
-            Tuv baseTuv = baseTmx.getTuvMap().get(key);
+            Tuv leftTuv = getLeftTmx().getTuvMap().get(key);
+            Tuv rightTuv = getRightTmx().getTuvMap().get(key);
+            Tuv baseTuv = getBaseTmx().getTuvMap().get(key);
             if (!TuvUtil.equals(leftTuv, rightTuv)) {
-                mergeInfos.add(new MergeInfo(key, baseTmx.getSourceLanguage(), TuvUtil.getLanguage(baseTuv),
+                mergeInfos.add(new MergeInfo(key, getBaseTmx().getSourceLanguage(), TuvUtil.getLanguage(baseTuv),
                         TuvUtil.getContent(baseTuv), TuvUtil.getContent(leftTuv), TuvUtil.getContent(rightTuv)));
             }
         }
         return mergeInfos;
+    }
+
+    /**
+     * @return the baseTmx
+     */
+    public TmxFile getBaseTmx() {
+        return baseTmx;
+    }
+
+    /**
+     * @param baseTmx the baseTmx to set
+     */
+    public void setBaseTmx(TmxFile baseTmx) {
+        org.madlonkay.supertmxmerge.data.TmxFile oldBaseTmx = this.baseTmx;
+        this.baseTmx = baseTmx;
+        propertySupport.firePropertyChange(PROP_BASETMX, oldBaseTmx, baseTmx);
+    }
+
+    /**
+     * @return the leftTmx
+     */
+    public TmxFile getLeftTmx() {
+        return leftTmx;
+    }
+
+    /**
+     * @param leftTmx the leftTmx to set
+     */
+    public void setLeftTmx(TmxFile leftTmx) {
+        org.madlonkay.supertmxmerge.data.TmxFile oldLeftTmx = this.leftTmx;
+        this.leftTmx = leftTmx;
+        propertySupport.firePropertyChange(PROP_LEFTTMX, oldLeftTmx, leftTmx);
+    }
+
+    /**
+     * @return the rightTmx
+     */
+    public TmxFile getRightTmx() {
+        return rightTmx;
+    }
+
+    /**
+     * @param rightTmx the rightTmx to set
+     */
+    public void setRightTmx(TmxFile rightTmx) {
+        org.madlonkay.supertmxmerge.data.TmxFile oldRightTmx = this.rightTmx;
+        this.rightTmx = rightTmx;
+        propertySupport.firePropertyChange(PROP_RIGHTTMX, oldRightTmx, rightTmx);
     }
 }

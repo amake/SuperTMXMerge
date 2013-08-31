@@ -6,10 +6,13 @@ package org.madlonkay.supertmxmerge.data;
 
 import gen.core.tmx14.Tmx;
 import gen.core.tmx14.Tuv;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,13 +44,17 @@ public class TmxFile {
      * http://stackoverflow.com/questions/3587196/jaxb-saxparseexception-when-unmarshalling-document-with-relative-path-to-dtd
      */
     private static XMLReader XMLREADER = null;
-    private Tmx doc = null;
+    public static final String PROP_DATA = "data";
+    
+    private PropertyChangeSupport propertySupport;
+    
+    private Tmx data = null;
     private String filepath = null;
     private Map<String, Tuv> anonymousTuvs = null;
     
     private static final String FEATURE_NAMESPACES = "http://xml.org/sax/features/namespaces";
     private static final String FEATURE_NAMESPACE_PREFIXES = "http://xml.org/sax/features/namespace-prefixes";
-
+    
     static {
         try {
             JAXBContext jc = JAXBContext.newInstance(Tmx.class);
@@ -76,10 +83,12 @@ public class TmxFile {
     }
 
     public TmxFile(String filepath) throws UnmarshalException {
+        propertySupport = new PropertyChangeSupport(this);
+        
         this.filepath = filepath;
         try {
             Source source = new SAXSource(XMLREADER, new InputSource(new FileInputStream(filepath)));
-            this.doc = (Tmx) UNMARSHALLER.unmarshal(source);
+            this.data = (Tmx) UNMARSHALLER.unmarshal(source);
         } catch (JAXBException ex) {
             Logger.getLogger(TmxFile.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FileNotFoundException ex) {
@@ -87,22 +96,50 @@ public class TmxFile {
         }
     }
 
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertySupport.addPropertyChangeListener(listener);
+    }
+    
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertySupport.removePropertyChangeListener(listener);
+    }
+    
     public String getSourceLanguage() {
-        return doc.getHeader().getSrclang();
+        return getData().getHeader().getSrclang();
     }
 
-    public int size() {
-        return doc.getBody().getTu().size();
+    public int getSize() {
+        return getData().getBody().getTu().size();
     }
     
     public String getFilePath() {
         return filepath;
     }
+    
+    public String getFileName() {
+        return (new File(getFilePath())).getName();
+    }
 
     public Map<String, Tuv> getTuvMap() {
         if (anonymousTuvs == null) {
-            anonymousTuvs = TuvUtil.generateTuvMap(doc.getBody().getTu(), getSourceLanguage());
+            anonymousTuvs = TuvUtil.generateTuvMap(getData().getBody().getTu(), getSourceLanguage());
         }
         return anonymousTuvs;
+    }
+
+    /**
+     * @return the doc
+     */
+    public Tmx getData() {
+        return data;
+    }
+
+    /**
+     * @param data the doc to set
+     */
+    public void setData(Tmx data) {
+        gen.core.tmx14.Tmx oldData = this.data;
+        this.data = data;
+        propertySupport.firePropertyChange(PROP_DATA, oldData, data);
     }
 }

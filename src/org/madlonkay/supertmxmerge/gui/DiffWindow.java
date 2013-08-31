@@ -45,6 +45,7 @@ public class DiffWindow extends javax.swing.JFrame {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         controller = getController();
+        unitCountConverter1 = new org.madlonkay.supertmxmerge.gui.UnitCountConverter();
         jPanel2 = new javax.swing.JPanel();
         file1Label = new javax.swing.JLabel();
         file2Label = new javax.swing.JLabel();
@@ -57,26 +58,28 @@ public class DiffWindow extends javax.swing.JFrame {
 
         jPanel2.setLayout(new java.awt.GridLayout(2, 2));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${file1Name}"), file1Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file1Name");
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx1.fileName}"), file1Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file1Name");
         bindingGroup.addBinding(binding);
 
         jPanel2.add(file1Label);
 
         file2Label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${file2Name}"), file2Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file2Name");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx2.fileName}"), file2Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file2Name");
         bindingGroup.addBinding(binding);
 
         jPanel2.add(file2Label);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${file1UnitCount}"), file1TextUnits, org.jdesktop.beansbinding.BeanProperty.create("text"), "file1SegmentCount");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx1.size}"), file1TextUnits, org.jdesktop.beansbinding.BeanProperty.create("text"), "file1UnitCount");
+        binding.setConverter(unitCountConverter1);
         bindingGroup.addBinding(binding);
 
         jPanel2.add(file1TextUnits);
 
         file2TextUnits.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, controller, org.jdesktop.beansbinding.ELProperty.create("${file2UnitCount}"), file2TextUnits, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx2.size}"), file2TextUnits, org.jdesktop.beansbinding.BeanProperty.create("text"), "file2UnitCount");
+        binding.setConverter(unitCountConverter1);
         bindingGroup.addBinding(binding);
 
         jPanel2.add(file2TextUnits);
@@ -104,6 +107,7 @@ public class DiffWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private org.madlonkay.supertmxmerge.gui.UnitCountConverter unitCountConverter1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

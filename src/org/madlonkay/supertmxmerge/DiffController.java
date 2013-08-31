@@ -29,14 +29,11 @@ public class DiffController implements Serializable, IController {
     
     public static final String PROP_FILE1 = "file1";
     public static final String PROP_FILE2 = "file2";
-    public static final String PROP_FILE1NAME = "file1Name";
-    public static final String PROP_FILE2NAME = "file2Name";
-    public static final String PROP_FILE1UNITCOUNT = "file1UnitCount";
-    public static final String PROP_FILE2UNITCOUNT = "file2UnitCount";
+    public static final String PROP_TMX1 = "tmx1";
+    public static final String PROP_TMX2 = "tmx2";
 
     private String file1;
     private String file2;
-    
     private TmxFile tmx1;
     private TmxFile tmx2;
     
@@ -74,32 +71,24 @@ public class DiffController implements Serializable, IController {
         propertySupport.firePropertyChange(PROP_FILE2, oldFile2, file2);
     }
     
-    public String getFile1Name() {
-        return tmx1 != null ? (new File(tmx1.getFilePath())).getName() : "File 1 name";
+    public TmxFile getTmx1() {
+        return tmx1;
     }
     
-    public String getFile2Name() {
-        return tmx2 != null ? (new File(tmx2.getFilePath())).getName() : "File 2 name";
+    public void setTmx1(TmxFile tmx1) {
+        TmxFile oldTmx1 = this.tmx1;
+        this.tmx1 = tmx1;
+        propertySupport.firePropertyChange(PROP_TMX1, oldTmx1, tmx1);
     }
     
-    public int getFile1UnitCount() {
-        return tmx1 != null ? tmx1.size() : -1;
+    public TmxFile getTmx2() {
+        return tmx2;
     }
     
-    public int getFile2UnitCount() {
-        return tmx2 != null ? tmx2.size() : -1;
-    }
-    
-    private void setTmx1(TmxFile tmx) {
-        tmx1 = tmx;
-        propertySupport.firePropertyChange(PROP_FILE1NAME, "blah", getFile1Name());
-        propertySupport.firePropertyChange(PROP_FILE1UNITCOUNT, -1, getFile1UnitCount());
-    }
-    
-    private void setTmx2(TmxFile tmx) {
-        tmx2 = tmx;
-        propertySupport.firePropertyChange(PROP_FILE2NAME, "blah", getFile2Name());
-        propertySupport.firePropertyChange(PROP_FILE2UNITCOUNT, -1, getFile2UnitCount());
+    public void setTmx2(TmxFile tmx2) {
+        TmxFile oldTmx2 = this.tmx2;
+        this.tmx2 = tmx2;
+        propertySupport.firePropertyChange(PROP_TMX2, oldTmx2, tmx2);
     }
     
     @Override
