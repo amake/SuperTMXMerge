@@ -77,6 +77,7 @@ public class DiffCell extends javax.swing.JPanel {
         sourceTargetPane.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Source Language"));
         sourceTargetPane.setDividerSize(0);
         sourceTargetPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+        sourceTargetPane.setResizeWeight(0.5);
 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
