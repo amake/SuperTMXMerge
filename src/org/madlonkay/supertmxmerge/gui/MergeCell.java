@@ -4,7 +4,11 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
+import java.awt.Color;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.border.Border;
+import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import org.madlonkay.supertmxmerge.data.MergeInfo;
 import org.madlonkay.supertmxmerge.util.LocString;
@@ -15,6 +19,15 @@ import org.madlonkay.supertmxmerge.util.LocString;
  */
 public class MergeCell extends javax.swing.JPanel {
 
+    private static Border BORDER_DEFAULT;
+    private static Border BORDER_SELECTED;
+    
+    static {
+        JScrollPane sp = new JScrollPane();
+        BORDER_DEFAULT = sp.getBorder();
+        BORDER_SELECTED = new MatteBorder(2, 2, 2, 2, Color.BLUE);
+    }
+    
     /**
      * Creates new form TUDiffCell
      */
@@ -28,6 +41,9 @@ public class MergeCell extends javax.swing.JPanel {
         setBaseText(info.baseTuvText);
         setLeftText(info.leftTuvText);
         setRightText(info.rightTuvText);
+        tuvTextLeft.addMouseListener(new ClickForwarder(leftButton));
+        tuvTextRight.addMouseListener(new ClickForwarder(rightButton));
+        tuvTextCenter.addMouseListener(new ClickForwarder(centerButton));
     }
     
     private void setSourceLanguage(String language) {
@@ -84,16 +100,17 @@ public class MergeCell extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         buttonGroup2 = new javax.swing.ButtonGroup();
+        borderConverter1 = new BorderConverter(BORDER_SELECTED, BORDER_DEFAULT);
+        leftButton = new javax.swing.JRadioButton();
+        centerButton = new javax.swing.JRadioButton();
+        rightButton = new javax.swing.JRadioButton();
         sourceTargetPane = new javax.swing.JSplitPane();
         jScrollPane3 = new javax.swing.JScrollPane();
         sourceText = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        leftButton = new javax.swing.JRadioButton();
-        centerButton = new javax.swing.JRadioButton();
-        rightButton = new javax.swing.JRadioButton();
         targetTargetPane = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         tuvTextLeft = new javax.swing.JTextArea();
@@ -103,11 +120,30 @@ public class MergeCell extends javax.swing.JPanel {
         jScrollPane5 = new javax.swing.JScrollPane();
         tuvTextRight = new javax.swing.JTextArea();
 
+        buttonGroup2.add(leftButton);
+        leftButton.setText(LocString.get("choose_left_tuv")); // NOI18N
+        leftButton.setContentAreaFilled(false);
+        leftButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                leftButtonActionPerformed(evt);
+            }
+        });
+
+        buttonGroup2.add(centerButton);
+        centerButton.setText(LocString.get("choose_center_tuv")); // NOI18N
+        centerButton.setContentAreaFilled(false);
+        centerButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        buttonGroup2.add(rightButton);
+        rightButton.setText(LocString.get("choose_right_tuv")); // NOI18N
+        rightButton.setContentAreaFilled(false);
+
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
         sourceTargetPane.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Source Language"));
         sourceTargetPane.setDividerSize(0);
         sourceTargetPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+        sourceTargetPane.setResizeWeight(0.5);
 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -122,33 +158,15 @@ public class MergeCell extends javax.swing.JPanel {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Target Language"));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setLayout(new java.awt.BorderLayout());
-
-        buttonGroup2.add(leftButton);
-        leftButton.setText(LocString.get("choose_left_tuv")); // NOI18N
-        leftButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                leftButtonActionPerformed(evt);
-            }
-        });
-        jPanel2.add(leftButton, java.awt.BorderLayout.WEST);
-
-        buttonGroup2.add(centerButton);
-        centerButton.setText(LocString.get("choose_center_tuv")); // NOI18N
-        centerButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanel2.add(centerButton, java.awt.BorderLayout.CENTER);
-
-        buttonGroup2.add(rightButton);
-        rightButton.setText(LocString.get("choose_right_tuv")); // NOI18N
-        jPanel2.add(rightButton, java.awt.BorderLayout.EAST);
-
-        jPanel1.add(jPanel2, java.awt.BorderLayout.NORTH);
-
         targetTargetPane.setBorder(null);
         targetTargetPane.setDividerSize(0);
         targetTargetPane.setResizeWeight(0.33);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, leftButton, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jScrollPane1, org.jdesktop.beansbinding.BeanProperty.create("border"), "tuvTextLeftBorder");
+        binding.setConverter(borderConverter1);
+        bindingGroup.addBinding(binding);
 
         tuvTextLeft.setEditable(false);
         tuvTextLeft.setLineWrap(true);
@@ -164,6 +182,10 @@ public class MergeCell extends javax.swing.JPanel {
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, centerButton, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jScrollPane2, org.jdesktop.beansbinding.BeanProperty.create("border"), "tuvTextCenterBorder");
+        binding.setConverter(borderConverter1);
+        bindingGroup.addBinding(binding);
+
         tuvTextCenter.setEditable(false);
         tuvTextCenter.setLineWrap(true);
         tuvTextCenter.setText("Target text 2");
@@ -171,6 +193,10 @@ public class MergeCell extends javax.swing.JPanel {
         jScrollPane2.setViewportView(tuvTextCenter);
 
         jSplitPane1.setLeftComponent(jScrollPane2);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, rightButton, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jScrollPane5, org.jdesktop.beansbinding.BeanProperty.create("border"), "tuvTextRightBorder");
+        binding.setConverter(borderConverter1);
+        bindingGroup.addBinding(binding);
 
         tuvTextRight.setLineWrap(true);
         tuvTextRight.setText("Target text 2");
@@ -186,6 +212,8 @@ public class MergeCell extends javax.swing.JPanel {
         sourceTargetPane.setRightComponent(jPanel1);
 
         add(sourceTargetPane);
+
+        bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
 
     private void leftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leftButtonActionPerformed
@@ -193,10 +221,10 @@ public class MergeCell extends javax.swing.JPanel {
     }//GEN-LAST:event_leftButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.madlonkay.supertmxmerge.gui.BorderConverter borderConverter1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JRadioButton centerButton;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -210,6 +238,7 @@ public class MergeCell extends javax.swing.JPanel {
     private javax.swing.JTextArea tuvTextCenter;
     private javax.swing.JTextArea tuvTextLeft;
     private javax.swing.JTextArea tuvTextRight;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
 }
