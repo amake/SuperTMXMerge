@@ -118,8 +118,10 @@ public class DiffController implements Serializable, IController {
         for (DiffInfo info : generateDiffInfos(tmx1, tmx2, diffs)) {
             window.addDiffInfo(info);
         }
-        window.setVisible(true);
+        
         window.pack();
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
     }
 
     @Override

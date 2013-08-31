@@ -32,8 +32,9 @@ public class SuperTmxMerge {
     
     public static void promptForFiles() {
         FileSelectWindow window = new FileSelectWindow();
-        window.setVisible(true);
+        window.setLocationRelativeTo(null);
         window.pack();
+        window.setVisible(true);
     }
     
 }

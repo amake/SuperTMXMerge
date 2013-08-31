@@ -101,8 +101,9 @@ public class MergeController implements Serializable, IController {
         
         MergeWindow window = new MergeWindow(new TmxInfo(baseTmx), new TmxInfo(leftTmx),
                 new TmxInfo(rightTmx), generateMergeInfos(baseTmx, leftTmx, rightTmx, baseToLeft, baseToRight));
-        window.setVisible(true);
         window.pack();
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
     }
     
     @Override
