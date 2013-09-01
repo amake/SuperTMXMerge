@@ -29,6 +29,13 @@ public class BorderConverter extends Converter {
     private Border selectedBorder;
     private Border defaultBorder;
 
+    /**
+     * Empty constructor to make NetBeans' design view happy.
+     * Do not use.
+     */
+    public BorderConverter() {
+    }
+    
     public BorderConverter(Border selectedBorder, Border defaultBorder) {
         this.selectedBorder = selectedBorder;
         this.defaultBorder = defaultBorder;
@@ -41,7 +48,7 @@ public class BorderConverter extends Converter {
 
     @Override
     public Object convertReverse(Object value) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return value == selectedBorder;
     }
     
 }
