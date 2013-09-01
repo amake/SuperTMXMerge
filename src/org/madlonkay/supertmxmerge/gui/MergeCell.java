@@ -134,7 +134,6 @@ public class MergeCell extends javax.swing.JPanel {
         tuvTextRight = new javax.swing.JTextArea();
 
         buttonGroup2.add(leftButton);
-        leftButton.setText(LocString.get("choose_left_tuv")); // NOI18N
         leftButton.setContentAreaFilled(false);
         leftButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,12 +142,10 @@ public class MergeCell extends javax.swing.JPanel {
         });
 
         buttonGroup2.add(centerButton);
-        centerButton.setText(LocString.get("choose_center_tuv")); // NOI18N
         centerButton.setContentAreaFilled(false);
         centerButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         buttonGroup2.add(rightButton);
-        rightButton.setText(LocString.get("choose_right_tuv")); // NOI18N
         rightButton.setContentAreaFilled(false);
 
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));

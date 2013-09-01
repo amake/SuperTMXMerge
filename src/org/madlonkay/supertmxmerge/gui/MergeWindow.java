@@ -82,6 +82,7 @@ public class MergeWindow extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         mergeInfoPanel = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         okButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
@@ -174,9 +175,11 @@ public class MergeWindow extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
-        okButton.setText("OK");
+        okButton.setText(LocString.get("save_button")); // NOI18N
         okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 okButtonActionPerformed(evt);
@@ -184,7 +187,7 @@ public class MergeWindow extends javax.swing.JFrame {
         });
         jPanel1.add(okButton);
 
-        cancelButton.setText("Cancel");
+        cancelButton.setText(LocString.get("discard_button")); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
@@ -192,7 +195,9 @@ public class MergeWindow extends javax.swing.JFrame {
         });
         jPanel1.add(cancelButton);
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.SOUTH);
+        jPanel3.add(jPanel1, java.awt.BorderLayout.EAST);
+
+        getContentPane().add(jPanel3, java.awt.BorderLayout.SOUTH);
 
         bindingGroup.bind();
 
@@ -235,6 +240,7 @@ public class MergeWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel leftFilename;
     private javax.swing.JLabel leftTextUnits;
