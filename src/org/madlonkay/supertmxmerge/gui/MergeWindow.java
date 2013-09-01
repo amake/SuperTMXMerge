@@ -87,8 +87,12 @@ public class MergeWindow extends javax.swing.JFrame {
         cancelButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle(LocString.get("merge_window_title")); // NOI18N
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         jPanel2.setLayout(new java.awt.GridLayout(3, 3));
+
+        leftFilename.setText("leftFilename");
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${leftTmx.fileName}"), leftFilename, org.jdesktop.beansbinding.BeanProperty.create("text"), "leftFileName");
         bindingGroup.addBinding(binding);
@@ -96,6 +100,7 @@ public class MergeWindow extends javax.swing.JFrame {
         jPanel2.add(leftFilename);
 
         centerFilename.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        centerFilename.setText("centerFilename");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${baseTmx.fileName}"), centerFilename, org.jdesktop.beansbinding.BeanProperty.create("text"), "baseFileName");
         bindingGroup.addBinding(binding);
@@ -103,11 +108,14 @@ public class MergeWindow extends javax.swing.JFrame {
         jPanel2.add(centerFilename);
 
         rightFilename.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        rightFilename.setText("rightFilename");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${rightTmx.fileName}"), rightFilename, org.jdesktop.beansbinding.BeanProperty.create("text"), "rightFileName");
         bindingGroup.addBinding(binding);
 
         jPanel2.add(rightFilename);
+
+        leftTextUnits.setText("leftTextUnits");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${leftTmx.size}"), leftTextUnits, org.jdesktop.beansbinding.BeanProperty.create("text"), "leftFileUnitCount");
         binding.setConverter(unitCountConverter1);
@@ -116,6 +124,7 @@ public class MergeWindow extends javax.swing.JFrame {
         jPanel2.add(leftTextUnits);
 
         centerTextUnits.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        centerTextUnits.setText("centerTextUnits");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${baseTmx.size}"), centerTextUnits, org.jdesktop.beansbinding.BeanProperty.create("text"), "baseFileUnitCount");
         binding.setConverter(unitCountConverter1);
@@ -124,6 +133,7 @@ public class MergeWindow extends javax.swing.JFrame {
         jPanel2.add(centerTextUnits);
 
         rightTextUnits.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        rightTextUnits.setText("rightTextUnits");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${rightTmx.size}"), rightTextUnits, org.jdesktop.beansbinding.BeanProperty.create("text"), "rightFileUnitCount");
         binding.setConverter(unitCountConverter1);

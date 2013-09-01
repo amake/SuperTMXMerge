@@ -68,8 +68,12 @@ public class DiffWindow extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle(LocString.get("diff_window_title")); // NOI18N
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         jPanel2.setLayout(new java.awt.GridLayout(2, 2));
+
+        file1Label.setText("file1Label");
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx1.fileName}"), file1Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file1Name");
         bindingGroup.addBinding(binding);
@@ -77,11 +81,14 @@ public class DiffWindow extends javax.swing.JFrame {
         jPanel2.add(file1Label);
 
         file2Label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        file2Label.setText("file2Label");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx2.fileName}"), file2Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file2Name");
         bindingGroup.addBinding(binding);
 
         jPanel2.add(file2Label);
+
+        file1TextUnits.setText("file1TextUnits");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx1.size}"), file1TextUnits, org.jdesktop.beansbinding.BeanProperty.create("text"), "file1UnitCount");
         binding.setConverter(unitCountConverter1);
@@ -90,6 +97,7 @@ public class DiffWindow extends javax.swing.JFrame {
         jPanel2.add(file1TextUnits);
 
         file2TextUnits.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        file2TextUnits.setText("file2TextUnits");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx2.size}"), file2TextUnits, org.jdesktop.beansbinding.BeanProperty.create("text"), "file2UnitCount");
         binding.setConverter(unitCountConverter1);

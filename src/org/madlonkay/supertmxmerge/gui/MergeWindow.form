@@ -12,6 +12,9 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="title" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+      <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="merge_window_title" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -33,6 +36,13 @@
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="jPanel2">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+            <EmptyBorder bottom="4" left="4" right="4" top="4"/>
+          </Border>
+        </Property>
+      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
           <BorderConstraints direction="North"/>
@@ -45,6 +55,9 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JLabel" name="leftFilename">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="leftFilename"/>
+          </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="controller" sourcePath="${leftTmx.fileName}" target="leftFilename" targetPath="text" updateStrategy="1" immediately="false">
               <Property name="name" type="java.lang.String" value="leftFileName"/>
@@ -54,6 +67,7 @@
         <Component class="javax.swing.JLabel" name="centerFilename">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
+            <Property name="text" type="java.lang.String" value="centerFilename"/>
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="controller" sourcePath="${baseTmx.fileName}" target="centerFilename" targetPath="text" updateStrategy="1" immediately="false">
@@ -64,6 +78,7 @@
         <Component class="javax.swing.JLabel" name="rightFilename">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="text" type="java.lang.String" value="rightFilename"/>
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="controller" sourcePath="${rightTmx.fileName}" target="rightFilename" targetPath="text" updateStrategy="1" immediately="false">
@@ -72,6 +87,9 @@
           </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="leftTextUnits">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="leftTextUnits"/>
+          </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="controller" sourcePath="${leftTmx.size}" target="leftTextUnits" targetPath="text" updateStrategy="1" immediately="false">
               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
@@ -84,6 +102,7 @@
         <Component class="javax.swing.JLabel" name="centerTextUnits">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
+            <Property name="text" type="java.lang.String" value="centerTextUnits"/>
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="controller" sourcePath="${baseTmx.size}" target="centerTextUnits" targetPath="text" updateStrategy="1" immediately="false">
@@ -97,6 +116,7 @@
         <Component class="javax.swing.JLabel" name="rightTextUnits">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="text" type="java.lang.String" value="rightTextUnits"/>
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="controller" sourcePath="${rightTmx.size}" target="rightTextUnits" targetPath="text" updateStrategy="1" immediately="false">
