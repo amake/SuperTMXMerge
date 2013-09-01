@@ -112,6 +112,9 @@
                           <Property name="name" type="java.lang.String" value=""/>
                         </BindingProperty>
                       </BindingProperties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="file1FieldActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>

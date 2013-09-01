@@ -24,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JTextField;
+import javax.swing.TransferHandler;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.madlonkay.supertmxmerge.IController;
 import org.madlonkay.supertmxmerge.util.LocString;
@@ -41,6 +42,12 @@ public class FileSelectWindow extends javax.swing.JFrame {
      */
     public FileSelectWindow() {
         initComponents();
+        TransferHandler th = new FileDropHandler();
+        file1Field.setTransferHandler(th);
+        file2Field.setTransferHandler(th);
+        leftFileField.setTransferHandler(th);
+        rightFileField.setTransferHandler(th);
+        baseFileField.setTransferHandler(th);
     }
 
     private void promptChooseFile(JTextField target) {
@@ -136,6 +143,11 @@ public class FileSelectWindow extends javax.swing.JFrame {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, diffController, org.jdesktop.beansbinding.ELProperty.create("${file1}"), file1Field, org.jdesktop.beansbinding.BeanProperty.create("text"), "");
         bindingGroup.addBinding(binding);
 
+        file1Field.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                file1FieldActionPerformed(evt);
+            }
+        });
         jPanel3.add(file1Field);
 
         jPanel1.add(jPanel3);
@@ -319,6 +331,10 @@ public class FileSelectWindow extends javax.swing.JFrame {
             controller.go();
         }
     }//GEN-LAST:event_okButtonActionPerformed
+
+    private void file1FieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_file1FieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_file1FieldActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton baseFileButton;
