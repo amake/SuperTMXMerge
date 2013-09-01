@@ -227,7 +227,8 @@ public class MergeWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_useAllRight
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        setVisible(false);
+        dispose();
+        System.exit(0);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -328,6 +328,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         IController controller = getActiveController();
         if (controller.validateInput()) {
+            setVisible(false);
             controller.go();
         }
     }//GEN-LAST:event_okButtonActionPerformed
