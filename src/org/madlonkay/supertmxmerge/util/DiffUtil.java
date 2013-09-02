@@ -29,6 +29,7 @@ import org.madlonkay.supertmxmerge.data.TmxFile;
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
 public class DiffUtil {
+    
     public static DiffSet generateDiffSet(TmxFile tmx1, TmxFile tmx2) {
         // Deleted TUs
         Set<String> deleted = new HashSet<String>(tmx1.getTuvMap().keySet());

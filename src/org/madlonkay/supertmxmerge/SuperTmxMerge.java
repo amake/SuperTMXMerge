@@ -40,6 +40,7 @@ public class SuperTmxMerge {
         controller.setBaseFile(baseFile);
         controller.setLeftFile(file1);
         controller.setRightFile(file2);
+        controller.setOutputFile(null);
         controller.go();
     }
     

@@ -19,13 +19,16 @@ package org.madlonkay.supertmxmerge.util;
 
 import java.io.File;
 import java.util.logging.Level;
-import static org.madlonkay.supertmxmerge.MergeController.LOGGER;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
 public class FileUtil {
+    
+    private static final Logger LOGGER = Logger.getLogger(FileUtil.class.getName());
+    
     public static boolean validateFile(String path) {
         if (path == null || path.isEmpty()) {
             return false;

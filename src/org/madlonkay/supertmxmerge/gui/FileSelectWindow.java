@@ -57,12 +57,11 @@ public class FileSelectWindow extends javax.swing.JFrame {
         // Inspired by https://netbeans.org/kb/docs/java/gui-filechooser.html#config
         int returnVal = jFileChooser1.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = jFileChooser1.getSelectedFile();
             try {
-              target.setText(file.getCanonicalPath());
+                String file = jFileChooser1.getSelectedFile().getCanonicalPath();
+                target.setText(file);
             } catch (IOException ex) {
-              LOGGER.log(Level.SEVERE,
-                    LocString.getFormat("error_canonical_path", file.getAbsolutePath()), ex);
+                throw new RuntimeException(ex);
             }
         }
     }

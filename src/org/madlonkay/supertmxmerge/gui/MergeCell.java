@@ -116,7 +116,7 @@ public class MergeCell extends javax.swing.JPanel {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup = new javax.swing.ButtonGroup();
         borderConverter1 = new BorderConverter(BORDER_SELECTED, BORDER_DEFAULT);
         leftButton = new javax.swing.JRadioButton();
         centerButton = new javax.swing.JRadioButton();
@@ -136,7 +136,7 @@ public class MergeCell extends javax.swing.JPanel {
         jScrollPane5 = new javax.swing.JScrollPane();
         tuvTextRight = new javax.swing.JTextArea();
 
-        buttonGroup2.add(leftButton);
+        buttonGroup.add(leftButton);
         leftButton.setContentAreaFilled(false);
         leftButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,11 +144,11 @@ public class MergeCell extends javax.swing.JPanel {
             }
         });
 
-        buttonGroup2.add(centerButton);
+        buttonGroup.add(centerButton);
         centerButton.setContentAreaFilled(false);
         centerButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        buttonGroup2.add(rightButton);
+        buttonGroup.add(rightButton);
         rightButton.setContentAreaFilled(false);
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -248,7 +248,7 @@ public class MergeCell extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.madlonkay.supertmxmerge.gui.BorderConverter borderConverter1;
-    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup;
     private javax.swing.JRadioButton centerButton;
     private javax.swing.JLabel itemNumberLabel;
     private javax.swing.JPanel jPanel1;
