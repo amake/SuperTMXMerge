@@ -89,15 +89,13 @@ public class FileSelectWindow extends javax.swing.JFrame {
         diffController = new org.madlonkay.supertmxmerge.DiffController();
         diffMergeTabbedPane = new javax.swing.JTabbedPane();
         diffPanel = new javax.swing.JPanel();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         file1Button = new javax.swing.JButton();
-        file1Field = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
         file2Button = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        file1Field = new javax.swing.JTextField();
         file2Field = new javax.swing.JTextField();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         mergePanel = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -123,12 +121,11 @@ public class FileSelectWindow extends javax.swing.JFrame {
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeController, org.jdesktop.beansbinding.ELProperty.create("${actionType}"), diffMergeTabbedPane, org.jdesktop.beansbinding.BeanProperty.create("selectedIndex"));
         bindingGroup.addBinding(binding);
 
-        diffPanel.setLayout(new java.awt.BorderLayout());
-        diffPanel.add(filler1, java.awt.BorderLayout.NORTH);
+        diffPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
 
-        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.PAGE_AXIS));
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.LINE_AXIS));
+        jPanel3.setLayout(new java.awt.GridLayout(0, 1));
 
         file1Button.setText(LocString.get("select_button_file1")); // NOI18N
         file1Button.addActionListener(new java.awt.event.ActionListener() {
@@ -138,7 +135,19 @@ public class FileSelectWindow extends javax.swing.JFrame {
         });
         jPanel3.add(file1Button);
 
-        file1Field.setColumns(20);
+        file2Button.setText(LocString.get("select_button_file2")); // NOI18N
+        file2Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                file2ButtonActionPerformed(evt);
+            }
+        });
+        jPanel3.add(file2Button);
+
+        jPanel1.add(jPanel3, java.awt.BorderLayout.WEST);
+
+        jPanel4.setLayout(new java.awt.GridLayout(0, 1));
+
+        file1Field.setColumns(45);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, diffController, org.jdesktop.beansbinding.ELProperty.create("${file1}"), file1Field, org.jdesktop.beansbinding.BeanProperty.create("text"), "");
         bindingGroup.addBinding(binding);
@@ -148,21 +157,9 @@ public class FileSelectWindow extends javax.swing.JFrame {
                 file1FieldActionPerformed(evt);
             }
         });
-        jPanel3.add(file1Field);
+        jPanel4.add(file1Field);
 
-        jPanel1.add(jPanel3);
-
-        jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.LINE_AXIS));
-
-        file2Button.setText(LocString.get("select_button_file2")); // NOI18N
-        file2Button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                file2ButtonActionPerformed(evt);
-            }
-        });
-        jPanel4.add(file2Button);
-
-        file2Field.setColumns(20);
+        file2Field.setColumns(45);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, diffController, org.jdesktop.beansbinding.ELProperty.create("${file2}"), file2Field, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
@@ -174,21 +171,20 @@ public class FileSelectWindow extends javax.swing.JFrame {
         });
         jPanel4.add(file2Field);
 
-        jPanel1.add(jPanel4);
+        jPanel1.add(jPanel4, java.awt.BorderLayout.CENTER);
 
-        diffPanel.add(jPanel1, java.awt.BorderLayout.CENTER);
-        diffPanel.add(filler2, java.awt.BorderLayout.SOUTH);
+        diffPanel.add(jPanel1);
 
         diffMergeTabbedPane.addTab(LocString.get("file_select_diff_tab"), diffPanel); // NOI18N
 
+        mergePanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         mergePanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel6.setLayout(new javax.swing.BoxLayout(jPanel6, javax.swing.BoxLayout.LINE_AXIS));
+        jPanel6.setLayout(new java.awt.BorderLayout());
 
-        jPanel7.setLayout(new javax.swing.BoxLayout(jPanel7, javax.swing.BoxLayout.PAGE_AXIS));
+        jPanel7.setLayout(new java.awt.GridLayout(0, 1));
 
         baseFileButton.setText(LocString.get("select_button_base_file")); // NOI18N
-        baseFileButton.setNextFocusableComponent(baseFileField);
         baseFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 baseFileButtonActionPerformed(evt);
@@ -197,7 +193,6 @@ public class FileSelectWindow extends javax.swing.JFrame {
         jPanel7.add(baseFileButton);
 
         leftFileButton.setText(LocString.get("select_button_left_file")); // NOI18N
-        leftFileButton.setNextFocusableComponent(leftFileField);
         leftFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 leftFileButtonActionPerformed(evt);
@@ -206,7 +201,6 @@ public class FileSelectWindow extends javax.swing.JFrame {
         jPanel7.add(leftFileButton);
 
         rightFileButton.setText(LocString.get("select_button_right_file")); // NOI18N
-        rightFileButton.setNextFocusableComponent(rightFileField);
         rightFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rightFileButtonActionPerformed(evt);
@@ -214,12 +208,11 @@ public class FileSelectWindow extends javax.swing.JFrame {
         });
         jPanel7.add(rightFileButton);
 
-        jPanel6.add(jPanel7);
+        jPanel6.add(jPanel7, java.awt.BorderLayout.WEST);
 
-        jPanel8.setLayout(new javax.swing.BoxLayout(jPanel8, javax.swing.BoxLayout.PAGE_AXIS));
+        jPanel8.setLayout(new java.awt.GridLayout(0, 1));
 
         baseFileField.setColumns(20);
-        baseFileField.setNextFocusableComponent(leftFileButton);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeController, org.jdesktop.beansbinding.ELProperty.create("${baseFile}"), baseFileField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
@@ -227,7 +220,6 @@ public class FileSelectWindow extends javax.swing.JFrame {
         jPanel8.add(baseFileField);
 
         leftFileField.setColumns(20);
-        leftFileField.setNextFocusableComponent(rightFileButton);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeController, org.jdesktop.beansbinding.ELProperty.create("${leftFile}"), leftFileField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
@@ -251,7 +243,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
         });
         jPanel8.add(rightFileField);
 
-        jPanel6.add(jPanel8);
+        jPanel6.add(jPanel8, java.awt.BorderLayout.CENTER);
 
         mergePanel.add(jPanel6, java.awt.BorderLayout.CENTER);
 
@@ -348,8 +340,6 @@ public class FileSelectWindow extends javax.swing.JFrame {
     private javax.swing.JTextField file1Field;
     private javax.swing.JButton file2Button;
     private javax.swing.JTextField file2Field;
-    private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler2;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
