@@ -46,10 +46,11 @@ public class MergeController implements Serializable, IController {
     public static final String PROP_LEFTFILE = "leftFile";
     public static final String PROP_RIGHTFILE = "rightFile";
     
-    public static final String PROP_BASETMX = "PROP_BASETMX";
-    public static final String PROP_LEFTTMX = "PROP_LEFTTMX";
-    public static final String PROP_RIGHTTMX = "PROP_RIGHTTMX";
-    public static final String PROP_OUTPUTFILE = "PROP_OUTPUTFILE";
+    public static final String PROP_BASETMX = "baseTmx";
+    public static final String PROP_LEFTTMX = "leftTmx";
+    public static final String PROP_RIGHTTMX = "rightTmx";
+    public static final String PROP_OUTPUTFILE = "outputFile";
+    public static final String PROP_CONFLICTCOUNT = "conflictCount";
 
     private PropertyChangeSupport propertySupport;
     
@@ -61,6 +62,8 @@ public class MergeController implements Serializable, IController {
     private TmxFile baseTmx;
     private TmxFile leftTmx;
     private TmxFile rightTmx;
+    
+    private int conflictCount;
     
     public MergeController() {
         propertySupport = new PropertyChangeSupport(this);
@@ -212,6 +215,7 @@ public class MergeController implements Serializable, IController {
                 addedKeys.add(key);
             }
         }
+        setConflictCount(mergeInfos.size());
         return mergeInfos;
     }
 
@@ -277,5 +281,21 @@ public class MergeController implements Serializable, IController {
         java.lang.String oldOutputFile = this.outputFile;
         this.outputFile = outputFile;
         propertySupport.firePropertyChange(PROP_OUTPUTFILE, oldOutputFile, outputFile);
+    }
+
+    /**
+     * @return the conflictCount
+     */
+    public int getConflictCount() {
+        return conflictCount;
+    }
+
+    /**
+     * @param conflictCount the conflictCount to set
+     */
+    public void setConflictCount(int conflictCount) {
+        int oldConflictCount = this.conflictCount;
+        this.conflictCount = conflictCount;
+        propertySupport.firePropertyChange(PROP_CONFLICTCOUNT, oldConflictCount, conflictCount);
     }
 }

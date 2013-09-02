@@ -43,11 +43,14 @@ public class DiffController implements Serializable, IController {
     public static final String PROP_FILE2 = "file2";
     public static final String PROP_TMX1 = "tmx1";
     public static final String PROP_TMX2 = "tmx2";
+    public static final String PROP_CHANGECOUNT = "changeCount";
 
     private String file1;
     private String file2;
     private TmxFile tmx1;
     private TmxFile tmx2;
+    
+    private int changeCount;
     
     private PropertyChangeSupport propertySupport;
     
@@ -111,9 +114,9 @@ public class DiffController implements Serializable, IController {
         } catch (UnmarshalException ex) {
             Logger.getLogger(MergeController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         DiffWindow window = new DiffWindow(this);
-        
+
         window.pack();
         window.setLocationRelativeTo(null);
         window.setVisible(true);
@@ -145,6 +148,23 @@ public class DiffController implements Serializable, IController {
             diffInfos.add(new DiffInfo(key, getTmx1().getSourceLanguage(),
                     TuvUtil.getLanguage(tuv1), TuvUtil.getContent(tuv1), TuvUtil.getContent(tuv2)));
         }
+        setChangeCount(diffInfos.size());
         return diffInfos;
+    }
+
+    /**
+     * @return the changeCount
+     */
+    public int getChangeCount() {
+        return changeCount;
+    }
+
+    /**
+     * @param changeCount the changeCount to set
+     */
+    public void setChangeCount(int changeCount) {
+        int oldChangeCount = this.changeCount;
+        this.changeCount = changeCount;
+        propertySupport.firePropertyChange(PROP_CHANGECOUNT, oldChangeCount, changeCount);
     }
 }

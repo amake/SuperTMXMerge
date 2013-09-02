@@ -30,9 +30,10 @@ public class DiffCell extends javax.swing.JPanel {
     /**
      * Creates new form TUDiffCell
      */
-    public DiffCell(DiffInfo info) {
+    public DiffCell(int itemNumber, DiffInfo info) {
         initComponents();
         
+        itemNumberLabel.setText(String.valueOf(itemNumber));
         sourceText.setText(info.sourceText);
         sourceText.setRows(sourceText.getLineCount());
         setSourceLanguage(info.sourceLanguage);
@@ -42,7 +43,7 @@ public class DiffCell extends javax.swing.JPanel {
     }
     
     private void setSourceLanguage(String language) {
-        TitledBorder sourceBorder = (TitledBorder) sourceTargetPane.getBorder();
+        TitledBorder sourceBorder = (TitledBorder) sourceTextPanel.getBorder();
         sourceBorder.setTitle(language);
     }
     
@@ -76,7 +77,9 @@ public class DiffCell extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        itemNumberLabel = new javax.swing.JLabel();
         sourceTargetPane = new javax.swing.JSplitPane();
+        sourceTextPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         sourceText = new javax.swing.JTextArea();
         targetTargetPane = new javax.swing.JSplitPane();
@@ -85,12 +88,20 @@ public class DiffCell extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         tuvText2 = new javax.swing.JTextArea();
 
-        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
+        setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        setLayout(new java.awt.BorderLayout());
 
-        sourceTargetPane.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Source Language"));
+        itemNumberLabel.setText("n");
+        itemNumberLabel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        add(itemNumberLabel, java.awt.BorderLayout.WEST);
+
+        sourceTargetPane.setBorder(null);
         sourceTargetPane.setDividerSize(0);
         sourceTargetPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         sourceTargetPane.setResizeWeight(0.5);
+
+        sourceTextPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Source Language"));
+        sourceTextPanel.setLayout(new javax.swing.BoxLayout(sourceTextPanel, javax.swing.BoxLayout.LINE_AXIS));
 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -100,9 +111,11 @@ public class DiffCell extends javax.swing.JPanel {
         sourceText.setWrapStyleWord(true);
         jScrollPane3.setViewportView(sourceText);
 
-        sourceTargetPane.setTopComponent(jScrollPane3);
+        sourceTextPanel.add(jScrollPane3);
 
-        targetTargetPane.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Target Language"));
+        sourceTargetPane.setTopComponent(sourceTextPanel);
+
+        targetTargetPane.setBorder(javax.swing.BorderFactory.createTitledBorder("Target Language"));
         targetTargetPane.setDividerSize(0);
         targetTargetPane.setResizeWeight(0.5);
         targetTargetPane.setMinimumSize(new java.awt.Dimension(1, 1));
@@ -129,14 +142,16 @@ public class DiffCell extends javax.swing.JPanel {
 
         sourceTargetPane.setBottomComponent(targetTargetPane);
 
-        add(sourceTargetPane);
+        add(sourceTargetPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel itemNumberLabel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane sourceTargetPane;
     private javax.swing.JTextArea sourceText;
+    private javax.swing.JPanel sourceTextPanel;
     private javax.swing.JSplitPane targetTargetPane;
     private javax.swing.JTextArea tuvText1;
     private javax.swing.JTextArea tuvText2;

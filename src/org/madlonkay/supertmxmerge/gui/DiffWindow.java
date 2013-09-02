@@ -33,8 +33,10 @@ public class DiffWindow extends javax.swing.JFrame {
     public DiffWindow(DiffController controller) {
         this.controller = controller;
         initComponents();
+        int n = 1;
         for (DiffInfo info : controller.getDiffInfos()) {
-            addDiffInfo(info);
+            addDiffInfo(n, info);
+            n++;
         }
     }
     
@@ -42,8 +44,8 @@ public class DiffWindow extends javax.swing.JFrame {
         return controller;
     }
     
-    private void addDiffInfo(DiffInfo info) {
-        jPanel1.add(new DiffCell(info));
+    private void addDiffInfo(int itemNumber, DiffInfo info) {
+        jPanel1.add(new DiffCell(itemNumber, info));
     }
     
     /**
@@ -57,22 +59,26 @@ public class DiffWindow extends javax.swing.JFrame {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         controller = getController();
-        unitCountConverter1 = new org.madlonkay.supertmxmerge.gui.UnitCountConverter();
+        unitCountConverter = new LocStringConverter("number_of_units", "number_of_units_singular");
+        changeCountConverter = new LocStringConverter("number_of_changes", "number_of_changes_singular");
+        jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         file1Label = new javax.swing.JLabel();
         file2Label = new javax.swing.JLabel();
         file1TextUnits = new javax.swing.JLabel();
         file2TextUnits = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        changeCountLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(LocString.get("diff_window_title")); // NOI18N
 
+        jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.PAGE_AXIS));
+
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         jPanel2.setLayout(new java.awt.GridLayout(2, 2));
-
-        file1Label.setText("file1Label");
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx1.fileName}"), file1Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file1Name");
         bindingGroup.addBinding(binding);
@@ -80,31 +86,39 @@ public class DiffWindow extends javax.swing.JFrame {
         jPanel2.add(file1Label);
 
         file2Label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        file2Label.setText("file2Label");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx2.fileName}"), file2Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file2Name");
         bindingGroup.addBinding(binding);
 
         jPanel2.add(file2Label);
 
-        file1TextUnits.setText("file1TextUnits");
-
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx1.size}"), file1TextUnits, org.jdesktop.beansbinding.BeanProperty.create("text"), "file1UnitCount");
-        binding.setConverter(unitCountConverter1);
+        binding.setConverter(unitCountConverter);
         bindingGroup.addBinding(binding);
 
         jPanel2.add(file1TextUnits);
 
         file2TextUnits.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        file2TextUnits.setText("file2TextUnits");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx2.size}"), file2TextUnits, org.jdesktop.beansbinding.BeanProperty.create("text"), "file2UnitCount");
-        binding.setConverter(unitCountConverter1);
+        binding.setConverter(unitCountConverter);
         bindingGroup.addBinding(binding);
 
         jPanel2.add(file2TextUnits);
 
-        getContentPane().add(jPanel2, java.awt.BorderLayout.NORTH);
+        jPanel3.add(jPanel2);
+
+        jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.LINE_AXIS));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${changeCount}"), changeCountLabel, org.jdesktop.beansbinding.BeanProperty.create("text"), "changeCount");
+        binding.setConverter(changeCountConverter);
+        bindingGroup.addBinding(binding);
+
+        jPanel4.add(changeCountLabel);
+
+        jPanel3.add(jPanel4);
+
+        getContentPane().add(jPanel3, java.awt.BorderLayout.NORTH);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -119,6 +133,8 @@ public class DiffWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.madlonkay.supertmxmerge.gui.LocStringConverter changeCountConverter;
+    private javax.swing.JLabel changeCountLabel;
     private org.madlonkay.supertmxmerge.DiffController controller;
     private javax.swing.JLabel file1Label;
     private javax.swing.JLabel file1TextUnits;
@@ -126,8 +142,10 @@ public class DiffWindow extends javax.swing.JFrame {
     private javax.swing.JLabel file2TextUnits;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private org.madlonkay.supertmxmerge.gui.UnitCountConverter unitCountConverter1;
+    private org.madlonkay.supertmxmerge.gui.LocStringConverter unitCountConverter;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

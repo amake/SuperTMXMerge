@@ -7,7 +7,15 @@
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="getController()"/>
       </AuxValues>
     </Component>
-    <Component class="org.madlonkay.supertmxmerge.gui.UnitCountConverter" name="unitCountConverter1">
+    <Component class="org.madlonkay.supertmxmerge.gui.LocStringConverter" name="unitCountConverter">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new LocStringConverter(&quot;number_of_units&quot;, &quot;number_of_units_singular&quot;)"/>
+      </AuxValues>
+    </Component>
+    <Component class="org.madlonkay.supertmxmerge.gui.LocStringConverter" name="changeCountConverter">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new LocStringConverter(&quot;number_of_changes&quot;, &quot;number_of_changes_singular&quot;)"/>
+      </AuxValues>
     </Component>
   </NonVisualComponents>
   <Properties>
@@ -35,73 +43,89 @@
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="jPanel2">
-      <Properties>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-            <EmptyBorder bottom="4" left="4" right="4" top="4"/>
-          </Border>
-        </Property>
-      </Properties>
+    <Container class="javax.swing.JPanel" name="jPanel3">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
           <BorderConstraints direction="North"/>
         </Constraint>
       </Constraints>
 
-      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
-        <Property name="columns" type="int" value="2"/>
-        <Property name="rows" type="int" value="2"/>
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout">
+        <Property name="axis" type="int" value="3"/>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="file1Label">
+        <Container class="javax.swing.JPanel" name="jPanel2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="file1Label"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                <EmptyBorder bottom="4" left="4" right="4" top="4"/>
+              </Border>
+            </Property>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="text" source="controller" sourcePath="${tmx1.fileName}" target="file1Label" targetPath="text" updateStrategy="1" immediately="false">
-              <Property name="name" type="java.lang.String" value="file1Name"/>
-            </BindingProperty>
-          </BindingProperties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="file2Label">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="file2Label"/>
-          </Properties>
-          <BindingProperties>
-            <BindingProperty name="text" source="controller" sourcePath="${tmx2.fileName}" target="file2Label" targetPath="text" updateStrategy="1" immediately="false">
-              <Property name="name" type="java.lang.String" value="file2Name"/>
-            </BindingProperty>
-          </BindingProperties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="file1TextUnits">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="file1TextUnits"/>
-          </Properties>
-          <BindingProperties>
-            <BindingProperty name="text" source="controller" sourcePath="${tmx1.size}" target="file1TextUnits" targetPath="text" updateStrategy="1" immediately="false">
-              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                <ComponentRef name="unitCountConverter1"/>
-              </Property>
-              <Property name="name" type="java.lang.String" value="file1UnitCount"/>
-            </BindingProperty>
-          </BindingProperties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="file2TextUnits">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="file2TextUnits"/>
-          </Properties>
-          <BindingProperties>
-            <BindingProperty name="text" source="controller" sourcePath="${tmx2.size}" target="file2TextUnits" targetPath="text" updateStrategy="1" immediately="false">
-              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                <ComponentRef name="unitCountConverter1"/>
-              </Property>
-              <Property name="name" type="java.lang.String" value="file2UnitCount"/>
-            </BindingProperty>
-          </BindingProperties>
-        </Component>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
+            <Property name="columns" type="int" value="2"/>
+            <Property name="rows" type="int" value="2"/>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="file1Label">
+              <BindingProperties>
+                <BindingProperty name="text" source="controller" sourcePath="${tmx1.fileName}" target="file1Label" targetPath="text" updateStrategy="1" immediately="false">
+                  <Property name="name" type="java.lang.String" value="file1Name"/>
+                </BindingProperty>
+              </BindingProperties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="file2Label">
+              <Properties>
+                <Property name="horizontalAlignment" type="int" value="4"/>
+              </Properties>
+              <BindingProperties>
+                <BindingProperty name="text" source="controller" sourcePath="${tmx2.fileName}" target="file2Label" targetPath="text" updateStrategy="1" immediately="false">
+                  <Property name="name" type="java.lang.String" value="file2Name"/>
+                </BindingProperty>
+              </BindingProperties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="file1TextUnits">
+              <BindingProperties>
+                <BindingProperty name="text" source="controller" sourcePath="${tmx1.size}" target="file1TextUnits" targetPath="text" updateStrategy="1" immediately="false">
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                    <ComponentRef name="unitCountConverter"/>
+                  </Property>
+                  <Property name="name" type="java.lang.String" value="file1UnitCount"/>
+                </BindingProperty>
+              </BindingProperties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="file2TextUnits">
+              <Properties>
+                <Property name="horizontalAlignment" type="int" value="4"/>
+              </Properties>
+              <BindingProperties>
+                <BindingProperty name="text" source="controller" sourcePath="${tmx2.size}" target="file2TextUnits" targetPath="text" updateStrategy="1" immediately="false">
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                    <ComponentRef name="unitCountConverter"/>
+                  </Property>
+                  <Property name="name" type="java.lang.String" value="file2UnitCount"/>
+                </BindingProperty>
+              </BindingProperties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="jPanel4">
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="changeCountLabel">
+              <BindingProperties>
+                <BindingProperty name="text" source="controller" sourcePath="${changeCount}" target="changeCountLabel" targetPath="text" updateStrategy="1" immediately="false">
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                    <ComponentRef name="changeCountConverter"/>
+                  </Property>
+                  <Property name="name" type="java.lang.String" value="changeCount"/>
+                </BindingProperty>
+              </BindingProperties>
+            </Component>
+          </SubComponents>
+        </Container>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">

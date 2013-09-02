@@ -24,11 +24,29 @@ import org.madlonkay.supertmxmerge.util.LocString;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class UnitCountConverter extends Converter {
+public class LocStringConverter extends Converter {
 
+    private String id;
+    private String idSingular;
+    
+    /**
+     * Empty constructor to make NetBeans' design view happy.
+     * Do not use.
+     */
+    public LocStringConverter() {
+    }
+    
+    public LocStringConverter(String id, String idSingular) {
+        this.id = id;
+        this.idSingular = idSingular;
+    }
+    
     @Override
     public Object convertForward(Object value) {
-        return LocString.getFormat("number_of_units", value);
+        if (value instanceof Integer && ((Integer) value) == 1) {
+            return LocString.get(idSingular);
+        }
+        return LocString.getFormat(id, value);
     }
 
     @Override

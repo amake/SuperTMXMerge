@@ -7,9 +7,17 @@
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="getController()"/>
       </AuxValues>
     </Component>
-    <Component class="org.madlonkay.supertmxmerge.gui.UnitCountConverter" name="unitCountConverter1">
+    <Component class="org.madlonkay.supertmxmerge.gui.LocStringConverter" name="unitCountConverter">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new LocStringConverter(&quot;number_of_units&quot;, &quot;number_of_units_singular&quot;)"/>
+      </AuxValues>
     </Component>
-    <Component class="org.madlonkay.supertmxmerge.gui.SaveButtonConverter" name="saveButtonConverter1">
+    <Component class="org.madlonkay.supertmxmerge.gui.SaveButtonConverter" name="saveButtonConverter">
+    </Component>
+    <Component class="org.madlonkay.supertmxmerge.gui.LocStringConverter" name="conflictCountConverter">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new LocStringConverter(&quot;number_of_conflicts&quot;, &quot;number_of_conflicts_singular&quot;)"/>
+      </AuxValues>
     </Component>
   </NonVisualComponents>
   <Properties>
@@ -32,123 +40,187 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,0,-92,0,0,1,80"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,0,-92,0,0,1,89"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="jPanel2">
-      <Properties>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-            <EmptyBorder bottom="4" left="4" right="4" top="4"/>
-          </Border>
-        </Property>
-      </Properties>
+    <Container class="javax.swing.JPanel" name="jPanel4">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
           <BorderConstraints direction="North"/>
         </Constraint>
       </Constraints>
 
-      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
-        <Property name="columns" type="int" value="3"/>
-        <Property name="rows" type="int" value="3"/>
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout">
+        <Property name="axis" type="int" value="3"/>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="leftFilename">
-          <BindingProperties>
-            <BindingProperty name="text" source="controller" sourcePath="${leftTmx.fileName}" target="leftFilename" targetPath="text" updateStrategy="1" immediately="false">
-              <Property name="name" type="java.lang.String" value="leftFileName"/>
-            </BindingProperty>
-          </BindingProperties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="centerFilename">
+        <Container class="javax.swing.JPanel" name="jPanel2">
           <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-          </Properties>
-          <BindingProperties>
-            <BindingProperty name="text" source="controller" sourcePath="${baseTmx.fileName}" target="centerFilename" targetPath="text" updateStrategy="1" immediately="false">
-              <Property name="name" type="java.lang.String" value="baseFileName"/>
-            </BindingProperty>
-          </BindingProperties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="rightFilename">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="4"/>
-          </Properties>
-          <BindingProperties>
-            <BindingProperty name="text" source="controller" sourcePath="${rightTmx.fileName}" target="rightFilename" targetPath="text" updateStrategy="1" immediately="false">
-              <Property name="name" type="java.lang.String" value="rightFileName"/>
-            </BindingProperty>
-          </BindingProperties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="leftTextUnits">
-          <BindingProperties>
-            <BindingProperty name="text" source="controller" sourcePath="${leftTmx.size}" target="leftTextUnits" targetPath="text" updateStrategy="1" immediately="false">
-              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                <ComponentRef name="unitCountConverter1"/>
-              </Property>
-              <Property name="name" type="java.lang.String" value="leftFileUnitCount"/>
-            </BindingProperty>
-          </BindingProperties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="centerTextUnits">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-          </Properties>
-          <BindingProperties>
-            <BindingProperty name="text" source="controller" sourcePath="${baseTmx.size}" target="centerTextUnits" targetPath="text" updateStrategy="1" immediately="false">
-              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                <ComponentRef name="unitCountConverter1"/>
-              </Property>
-              <Property name="name" type="java.lang.String" value="baseFileUnitCount"/>
-            </BindingProperty>
-          </BindingProperties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="rightTextUnits">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="4"/>
-          </Properties>
-          <BindingProperties>
-            <BindingProperty name="text" source="controller" sourcePath="${rightTmx.size}" target="rightTextUnits" targetPath="text" updateStrategy="1" immediately="false">
-              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                <ComponentRef name="unitCountConverter1"/>
-              </Property>
-              <Property name="name" type="java.lang.String" value="rightFileUnitCount"/>
-            </BindingProperty>
-          </BindingProperties>
-        </Component>
-        <Component class="javax.swing.JButton" name="allLeftButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="choose_all_left" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                <EmptyBorder bottom="4" left="4" right="4" top="4"/>
+              </Border>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="useAllLeft"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="allBaseButton">
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
+            <Property name="columns" type="int" value="3"/>
+            <Property name="rows" type="int" value="2"/>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="leftFilename">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
+              </Properties>
+              <BindingProperties>
+                <BindingProperty name="text" source="controller" sourcePath="${leftTmx.fileName}" target="leftFilename" targetPath="text" updateStrategy="1" immediately="false">
+                  <Property name="name" type="java.lang.String" value="leftFileName"/>
+                </BindingProperty>
+              </BindingProperties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="centerFilename">
+              <Properties>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+              </Properties>
+              <BindingProperties>
+                <BindingProperty name="text" source="controller" sourcePath="${baseTmx.fileName}" target="centerFilename" targetPath="text" updateStrategy="1" immediately="false">
+                  <Property name="name" type="java.lang.String" value="baseFileName"/>
+                </BindingProperty>
+              </BindingProperties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="rightFilename">
+              <Properties>
+                <Property name="horizontalAlignment" type="int" value="4"/>
+              </Properties>
+              <BindingProperties>
+                <BindingProperty name="text" source="controller" sourcePath="${rightTmx.fileName}" target="rightFilename" targetPath="text" updateStrategy="1" immediately="false">
+                  <Property name="name" type="java.lang.String" value="rightFileName"/>
+                </BindingProperty>
+              </BindingProperties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="leftTextUnits">
+              <BindingProperties>
+                <BindingProperty name="text" source="controller" sourcePath="${leftTmx.size}" target="leftTextUnits" targetPath="text" updateStrategy="1" immediately="false">
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                    <ComponentRef name="unitCountConverter"/>
+                  </Property>
+                  <Property name="name" type="java.lang.String" value="leftFileUnitCount"/>
+                </BindingProperty>
+              </BindingProperties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="centerTextUnits">
+              <Properties>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+              </Properties>
+              <BindingProperties>
+                <BindingProperty name="text" source="controller" sourcePath="${baseTmx.size}" target="centerTextUnits" targetPath="text" updateStrategy="1" immediately="false">
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                    <ComponentRef name="unitCountConverter"/>
+                  </Property>
+                  <Property name="name" type="java.lang.String" value="baseFileUnitCount"/>
+                </BindingProperty>
+              </BindingProperties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="rightTextUnits">
+              <Properties>
+                <Property name="horizontalAlignment" type="int" value="4"/>
+              </Properties>
+              <BindingProperties>
+                <BindingProperty name="text" source="controller" sourcePath="${rightTmx.size}" target="rightTextUnits" targetPath="text" updateStrategy="1" immediately="false">
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                    <ComponentRef name="unitCountConverter"/>
+                  </Property>
+                  <Property name="name" type="java.lang.String" value="rightFileUnitCount"/>
+                </BindingProperty>
+              </BindingProperties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="jPanel6">
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="conflictCountLabel">
+              <Properties>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="horizontalTextPosition" type="int" value="0"/>
+              </Properties>
+              <BindingProperties>
+                <BindingProperty name="text" source="controller" sourcePath="${conflictCount}" target="conflictCountLabel" targetPath="text" updateStrategy="1" immediately="false">
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                    <ComponentRef name="conflictCountConverter"/>
+                  </Property>
+                  <Property name="name" type="java.lang.String" value="conflictCount"/>
+                </BindingProperty>
+              </BindingProperties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="jPanel5">
           <Properties>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="choose_all_center" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                <EmptyBorder bottom="4" left="4" right="4" top="4"/>
+              </Border>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="useAllBase"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="allRightButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="choose_all_right" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="useAllRight"/>
-          </Events>
-        </Component>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JButton" name="allLeftButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="choose_all_left" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="useAllLeft"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.Box$Filler" name="filler1">
+              <Properties>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[32767, 0]"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.HorizontalGlue"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JButton" name="allBaseButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="choose_all_center" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="useAllBase"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.Box$Filler" name="filler2">
+              <Properties>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[32767, 0]"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.HorizontalGlue"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JButton" name="allRightButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="choose_all_right" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="useAllRight"/>
+              </Events>
+            </Component>
+          </SubComponents>
+        </Container>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -191,9 +263,9 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="saveButton">
               <BindingProperties>
-                <BindingProperty name="text" source="controller" sourcePath="${outputFile}" target="saveButton" targetPath="text" updateStrategy="0" immediately="false">
+                <BindingProperty name="text" source="controller" sourcePath="${outputFile}" target="saveButton" targetPath="text" updateStrategy="1" immediately="false">
                   <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                    <ComponentRef name="saveButtonConverter1"/>
+                    <ComponentRef name="saveButtonConverter"/>
                   </Property>
                   <Property name="name" type="java.lang.String" value="saveButton"/>
                 </BindingProperty>

@@ -41,13 +41,15 @@ public class MergeWindow extends javax.swing.JFrame {
         this.controller = controller;
         initComponents();
         
+        int n = 1;
         for (MergeInfo info : controller.getMergeInfos()) {
-            addMergeInfo(info);
+            addMergeInfo(n, info);
+            n++;
         }
     }
     
-    private void addMergeInfo(MergeInfo info) {
-        MergeCell cell = new MergeCell(info);
+    private void addMergeInfo(int itemNumber, MergeInfo info) {
+        MergeCell cell = new MergeCell(itemNumber, info);
         leftRadioButtons.add(cell.getLeftButton());
         rightRadioButtons.add(cell.getRightButton());
         centerRadioButtons.add(cell.getCenterButton());
@@ -69,8 +71,10 @@ public class MergeWindow extends javax.swing.JFrame {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         controller = getController();
-        unitCountConverter1 = new org.madlonkay.supertmxmerge.gui.UnitCountConverter();
-        saveButtonConverter1 = new org.madlonkay.supertmxmerge.gui.SaveButtonConverter();
+        unitCountConverter = new LocStringConverter("number_of_units", "number_of_units_singular");
+        saveButtonConverter = new org.madlonkay.supertmxmerge.gui.SaveButtonConverter();
+        conflictCountConverter = new LocStringConverter("number_of_conflicts", "number_of_conflicts_singular");
+        jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         leftFilename = new javax.swing.JLabel();
         centerFilename = new javax.swing.JLabel();
@@ -78,8 +82,13 @@ public class MergeWindow extends javax.swing.JFrame {
         leftTextUnits = new javax.swing.JLabel();
         centerTextUnits = new javax.swing.JLabel();
         rightTextUnits = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        conflictCountLabel = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
         allLeftButton = new javax.swing.JButton();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         allBaseButton = new javax.swing.JButton();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         allRightButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         mergeInfoPanel = new javax.swing.JPanel();
@@ -91,8 +100,12 @@ public class MergeWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(LocString.get("merge_window_title")); // NOI18N
 
+        jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.PAGE_AXIS));
+
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
-        jPanel2.setLayout(new java.awt.GridLayout(3, 3));
+        jPanel2.setLayout(new java.awt.GridLayout(2, 3));
+
+        leftFilename.setToolTipText("");
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${leftTmx.fileName}"), leftFilename, org.jdesktop.beansbinding.BeanProperty.create("text"), "leftFileName");
         bindingGroup.addBinding(binding);
@@ -114,7 +127,7 @@ public class MergeWindow extends javax.swing.JFrame {
         jPanel2.add(rightFilename);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${leftTmx.size}"), leftTextUnits, org.jdesktop.beansbinding.BeanProperty.create("text"), "leftFileUnitCount");
-        binding.setConverter(unitCountConverter1);
+        binding.setConverter(unitCountConverter);
         bindingGroup.addBinding(binding);
 
         jPanel2.add(leftTextUnits);
@@ -122,7 +135,7 @@ public class MergeWindow extends javax.swing.JFrame {
         centerTextUnits.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${baseTmx.size}"), centerTextUnits, org.jdesktop.beansbinding.BeanProperty.create("text"), "baseFileUnitCount");
-        binding.setConverter(unitCountConverter1);
+        binding.setConverter(unitCountConverter);
         bindingGroup.addBinding(binding);
 
         jPanel2.add(centerTextUnits);
@@ -130,10 +143,28 @@ public class MergeWindow extends javax.swing.JFrame {
         rightTextUnits.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${rightTmx.size}"), rightTextUnits, org.jdesktop.beansbinding.BeanProperty.create("text"), "rightFileUnitCount");
-        binding.setConverter(unitCountConverter1);
+        binding.setConverter(unitCountConverter);
         bindingGroup.addBinding(binding);
 
         jPanel2.add(rightTextUnits);
+
+        jPanel4.add(jPanel2);
+
+        jPanel6.setLayout(new javax.swing.BoxLayout(jPanel6, javax.swing.BoxLayout.LINE_AXIS));
+
+        conflictCountLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        conflictCountLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${conflictCount}"), conflictCountLabel, org.jdesktop.beansbinding.BeanProperty.create("text"), "conflictCount");
+        binding.setConverter(conflictCountConverter);
+        bindingGroup.addBinding(binding);
+
+        jPanel6.add(conflictCountLabel);
+
+        jPanel4.add(jPanel6);
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.LINE_AXIS));
 
         allLeftButton.setText(LocString.get("choose_all_left")); // NOI18N
         allLeftButton.addActionListener(new java.awt.event.ActionListener() {
@@ -141,7 +172,8 @@ public class MergeWindow extends javax.swing.JFrame {
                 useAllLeft(evt);
             }
         });
-        jPanel2.add(allLeftButton);
+        jPanel5.add(allLeftButton);
+        jPanel5.add(filler1);
 
         allBaseButton.setText(LocString.get("choose_all_center")); // NOI18N
         allBaseButton.addActionListener(new java.awt.event.ActionListener() {
@@ -149,7 +181,8 @@ public class MergeWindow extends javax.swing.JFrame {
                 useAllBase(evt);
             }
         });
-        jPanel2.add(allBaseButton);
+        jPanel5.add(allBaseButton);
+        jPanel5.add(filler2);
 
         allRightButton.setText(LocString.get("choose_all_right")); // NOI18N
         allRightButton.addActionListener(new java.awt.event.ActionListener() {
@@ -157,9 +190,11 @@ public class MergeWindow extends javax.swing.JFrame {
                 useAllRight(evt);
             }
         });
-        jPanel2.add(allRightButton);
+        jPanel5.add(allRightButton);
 
-        getContentPane().add(jPanel2, java.awt.BorderLayout.NORTH);
+        jPanel4.add(jPanel5);
+
+        getContentPane().add(jPanel4, java.awt.BorderLayout.NORTH);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -172,8 +207,8 @@ public class MergeWindow extends javax.swing.JFrame {
 
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, controller, org.jdesktop.beansbinding.ELProperty.create("${outputFile}"), saveButton, org.jdesktop.beansbinding.BeanProperty.create("text"), "saveButton");
-        binding.setConverter(saveButtonConverter1);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${outputFile}"), saveButton, org.jdesktop.beansbinding.BeanProperty.create("text"), "saveButton");
+        binding.setConverter(saveButtonConverter);
         bindingGroup.addBinding(binding);
 
         saveButton.addActionListener(new java.awt.event.ActionListener() {
@@ -233,11 +268,18 @@ public class MergeWindow extends javax.swing.JFrame {
     private javax.swing.JButton allRightButton;
     private javax.swing.JLabel centerFilename;
     private javax.swing.JLabel centerTextUnits;
+    private org.madlonkay.supertmxmerge.gui.LocStringConverter conflictCountConverter;
+    private javax.swing.JLabel conflictCountLabel;
     private org.madlonkay.supertmxmerge.MergeController controller;
     private javax.swing.JButton discardButton;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel leftFilename;
     private javax.swing.JLabel leftTextUnits;
@@ -245,8 +287,8 @@ public class MergeWindow extends javax.swing.JFrame {
     private javax.swing.JLabel rightFilename;
     private javax.swing.JLabel rightTextUnits;
     private javax.swing.JButton saveButton;
-    private org.madlonkay.supertmxmerge.gui.SaveButtonConverter saveButtonConverter1;
-    private org.madlonkay.supertmxmerge.gui.UnitCountConverter unitCountConverter1;
+    private org.madlonkay.supertmxmerge.gui.SaveButtonConverter saveButtonConverter;
+    private org.madlonkay.supertmxmerge.gui.LocStringConverter unitCountConverter;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
