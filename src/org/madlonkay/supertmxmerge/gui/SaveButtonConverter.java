@@ -15,40 +15,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package org.madlonkay.supertmxmerge;
+package org.madlonkay.supertmxmerge.gui;
 
+import org.jdesktop.beansbinding.Converter;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class Main {
+public class SaveButtonConverter extends Converter {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-                
-        if (args.length == 0) {
-            SuperTmxMerge.promptForFiles();
-            return;
-        }
-                
-        if (args.length == 2) {
-            SuperTmxMerge.diff(args[0], args[1]);
-            return;
-        } else if (args.length == 3) {
-            SuperTmxMerge.merge(args[0], args[1], args[2]);
-            return;
-        } else if (args.length == 4) {
-            SuperTmxMerge.mergeTo(args[0], args[1], args[2], args[3]);
-        }
-        
-        printUsage();
+    @Override
+    public Object convertForward(Object value) {
+        return ((String) value).isEmpty() ? LocString.get("save_as_button") : LocString.get("save_button");
+    }
+
+    @Override
+    public Object convertReverse(Object value) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    private static void printUsage() {
-        System.out.print(LocString.get("usage_directions"));
-    }
 }

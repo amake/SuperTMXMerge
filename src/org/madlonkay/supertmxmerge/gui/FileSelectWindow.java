@@ -48,6 +48,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
         leftFileField.setTransferHandler(th);
         rightFileField.setTransferHandler(th);
         baseFileField.setTransferHandler(th);
+        mergeController.setOutputFile("");
     }
 
     private void promptChooseFile(JTextField target) {

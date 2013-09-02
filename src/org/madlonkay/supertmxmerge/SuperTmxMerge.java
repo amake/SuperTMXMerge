@@ -43,6 +43,15 @@ public class SuperTmxMerge {
         controller.go();
     }
     
+    public static void mergeTo(String baseFile, String file1, String file2, String outputFile) {
+        MergeController controller = new MergeController();
+        controller.setBaseFile(baseFile);
+        controller.setLeftFile(file1);
+        controller.setRightFile(file2);
+        controller.setOutputFile(outputFile);
+        controller.go();
+    }
+    
     public static void promptForFiles() {
         FileSelectWindow window = new FileSelectWindow();
         window.setLocationRelativeTo(null);

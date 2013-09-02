@@ -9,6 +9,8 @@
     </Component>
     <Component class="org.madlonkay.supertmxmerge.gui.UnitCountConverter" name="unitCountConverter1">
     </Component>
+    <Component class="org.madlonkay.supertmxmerge.gui.SaveButtonConverter" name="saveButtonConverter1">
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -55,9 +57,6 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JLabel" name="leftFilename">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="leftFilename"/>
-          </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="controller" sourcePath="${leftTmx.fileName}" target="leftFilename" targetPath="text" updateStrategy="1" immediately="false">
               <Property name="name" type="java.lang.String" value="leftFileName"/>
@@ -67,7 +66,6 @@
         <Component class="javax.swing.JLabel" name="centerFilename">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="centerFilename"/>
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="controller" sourcePath="${baseTmx.fileName}" target="centerFilename" targetPath="text" updateStrategy="1" immediately="false">
@@ -78,7 +76,6 @@
         <Component class="javax.swing.JLabel" name="rightFilename">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="rightFilename"/>
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="controller" sourcePath="${rightTmx.fileName}" target="rightFilename" targetPath="text" updateStrategy="1" immediately="false">
@@ -87,9 +84,6 @@
           </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="leftTextUnits">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="leftTextUnits"/>
-          </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="controller" sourcePath="${leftTmx.size}" target="leftTextUnits" targetPath="text" updateStrategy="1" immediately="false">
               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
@@ -102,7 +96,6 @@
         <Component class="javax.swing.JLabel" name="centerTextUnits">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="centerTextUnits"/>
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="controller" sourcePath="${baseTmx.size}" target="centerTextUnits" targetPath="text" updateStrategy="1" immediately="false">
@@ -116,7 +109,6 @@
         <Component class="javax.swing.JLabel" name="rightTextUnits">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="rightTextUnits"/>
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="controller" sourcePath="${rightTmx.size}" target="rightTextUnits" targetPath="text" updateStrategy="1" immediately="false">
@@ -127,7 +119,7 @@
             </BindingProperty>
           </BindingProperties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="allLeftButton">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="choose_all_left" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
@@ -137,7 +129,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="useAllLeft"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="allBaseButton">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="choose_all_center" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
@@ -147,7 +139,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="useAllBase"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton3">
+        <Component class="javax.swing.JButton" name="allRightButton">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="choose_all_right" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
@@ -197,24 +189,27 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="okButton">
-              <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="save_button" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
-                </Property>
-              </Properties>
+            <Component class="javax.swing.JButton" name="saveButton">
+              <BindingProperties>
+                <BindingProperty name="text" source="controller" sourcePath="${outputFile}" target="saveButton" targetPath="text" updateStrategy="0" immediately="false">
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                    <ComponentRef name="saveButtonConverter1"/>
+                  </Property>
+                  <Property name="name" type="java.lang.String" value="saveButton"/>
+                </BindingProperty>
+              </BindingProperties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="okButtonActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="cancelButton">
+            <Component class="javax.swing.JButton" name="discardButton">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="discard_button" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelButtonActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="discardButtonActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

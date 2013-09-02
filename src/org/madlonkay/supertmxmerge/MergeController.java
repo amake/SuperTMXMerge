@@ -38,20 +38,23 @@ import org.madlonkay.supertmxmerge.util.TuvUtil;
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
 public class MergeController implements Serializable, IController {
+    public static final Logger LOGGER = Logger.getLogger(MergeController.class.getName());
+    
     public static final String PROP_BASEFILE = "baseFile";
     public static final String PROP_LEFTFILE = "leftFile";
     public static final String PROP_RIGHTFILE = "rightFile";
     
-    public static final Logger LOGGER = Logger.getLogger(MergeController.class.getName());
     public static final String PROP_BASETMX = "PROP_BASETMX";
     public static final String PROP_LEFTTMX = "PROP_LEFTTMX";
     public static final String PROP_RIGHTTMX = "PROP_RIGHTTMX";
+    public static final String PROP_OUTPUTFILE = "PROP_OUTPUTFILE";
 
     private PropertyChangeSupport propertySupport;
     
     private String baseFile;
     private String leftFile;
     private String rightFile;
+    private String outputFile;
     
     private TmxFile baseTmx;
     private TmxFile leftTmx;
@@ -246,5 +249,21 @@ public class MergeController implements Serializable, IController {
         org.madlonkay.supertmxmerge.data.TmxFile oldRightTmx = this.rightTmx;
         this.rightTmx = rightTmx;
         propertySupport.firePropertyChange(PROP_RIGHTTMX, oldRightTmx, rightTmx);
+    }
+
+    /**
+     * @return the outputFile
+     */
+    public String getOutputFile() {
+        return outputFile;
+    }
+
+    /**
+     * @param outputFile the outputFile to set
+     */
+    public void setOutputFile(String outputFile) {
+        java.lang.String oldOutputFile = this.outputFile;
+        this.outputFile = outputFile;
+        propertySupport.firePropertyChange(PROP_OUTPUTFILE, oldOutputFile, outputFile);
     }
 }
