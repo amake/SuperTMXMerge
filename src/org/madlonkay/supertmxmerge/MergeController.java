@@ -85,6 +85,7 @@ public class MergeController implements Serializable, IController {
         java.lang.String oldBaseFile = this.baseFile;
         this.baseFile = baseFile;
         propertySupport.firePropertyChange(PROP_BASEFILE, oldBaseFile, baseFile);
+        propertySupport.firePropertyChange(PROP_INPUTISVALID, null, null);
     }
 
     public String getLeftFile() {
@@ -95,6 +96,7 @@ public class MergeController implements Serializable, IController {
         java.lang.String oldLeftFile = this.leftFile;
         this.leftFile = leftFile;
         propertySupport.firePropertyChange(PROP_LEFTFILE, oldLeftFile, leftFile);
+        propertySupport.firePropertyChange(PROP_INPUTISVALID, null, null);
     }
 
     public String getRightFile() {
@@ -105,6 +107,7 @@ public class MergeController implements Serializable, IController {
         java.lang.String oldRightFile = this.rightFile;
         this.rightFile = rightFile;
         propertySupport.firePropertyChange(PROP_RIGHTFILE, oldRightFile, rightFile);
+        propertySupport.firePropertyChange(PROP_INPUTISVALID, null, null);
     }
     
     @Override
@@ -124,7 +127,7 @@ public class MergeController implements Serializable, IController {
     }
     
     @Override
-    public boolean validateInput() {
+    public boolean getInputIsValid() {
         return FileUtil.validateFile(getBaseFile()) && FileUtil.validateFile(getLeftFile())
                 && FileUtil.validateFile(getRightFile())
                 && !getBaseFile().equals(getLeftFile()) && !getBaseFile().equals(getRightFile())

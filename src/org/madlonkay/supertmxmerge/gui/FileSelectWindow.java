@@ -26,7 +26,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.TransferHandler;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.madlonkay.supertmxmerge.DiffController;
 import org.madlonkay.supertmxmerge.IController;
+import org.madlonkay.supertmxmerge.MergeController;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
@@ -65,7 +67,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
         }
     }
     
-    private IController getActiveController() {
+    public IController getActiveController() {
         Component component = diffMergeTabbedPane.getSelectedComponent();
         if (component == diffPanel) {
             return diffController;
@@ -73,6 +75,18 @@ public class FileSelectWindow extends javax.swing.JFrame {
             return mergeController;
         }
         return null;
+    }
+    
+    public DiffController getDiffController() {
+        return diffController;
+    }
+    
+    public MergeController getMergeController() {
+        return mergeController;
+    }
+    
+    public boolean canProceed() {
+        return true;
     }
     
     /**
@@ -90,6 +104,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
         diffController = new org.madlonkay.supertmxmerge.DiffController();
         diffMergeTabbedPane = new javax.swing.JTabbedPane();
         diffPanel = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         file1Button = new javax.swing.JButton();
@@ -97,6 +112,10 @@ public class FileSelectWindow extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         file1Field = new javax.swing.JTextField();
         file2Field = new javax.swing.JTextField();
+        diffButtonPanel = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        diffOkButton = new javax.swing.JButton();
+        diffCancelButton = new javax.swing.JButton();
         mergePanel = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -107,10 +126,10 @@ public class FileSelectWindow extends javax.swing.JFrame {
         baseFileField = new javax.swing.JTextField();
         leftFileField = new javax.swing.JTextField();
         rightFileField = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        okButton = new javax.swing.JButton();
-        cancelButton = new javax.swing.JButton();
+        mergeButtonPanel = new javax.swing.JPanel();
+        jPanel10 = new javax.swing.JPanel();
+        mergeOkButton = new javax.swing.JButton();
+        mergeCancelButton = new javax.swing.JButton();
 
         jFileChooser1.setFileFilter(new FileNameExtensionFilter(LocString.get("tmx_file_type_label"), "tmx"));
 
@@ -119,10 +138,8 @@ public class FileSelectWindow extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.PAGE_AXIS));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeController, org.jdesktop.beansbinding.ELProperty.create("${actionType}"), diffMergeTabbedPane, org.jdesktop.beansbinding.BeanProperty.create("selectedIndex"));
-        bindingGroup.addBinding(binding);
-
         diffPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        diffPanel.setLayout(new javax.swing.BoxLayout(diffPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -150,7 +167,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
         file1Field.setColumns(45);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, diffController, org.jdesktop.beansbinding.ELProperty.create("${file1}"), file1Field, org.jdesktop.beansbinding.BeanProperty.create("text"), "");
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, diffController, org.jdesktop.beansbinding.ELProperty.create("${file1}"), file1Field, org.jdesktop.beansbinding.BeanProperty.create("text"), "");
         bindingGroup.addBinding(binding);
 
         file1Field.addActionListener(new java.awt.event.ActionListener() {
@@ -174,12 +191,42 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
         jPanel1.add(jPanel4, java.awt.BorderLayout.CENTER);
 
-        diffPanel.add(jPanel1);
+        jPanel2.add(jPanel1);
+
+        diffPanel.add(jPanel2);
+
+        diffButtonPanel.setLayout(new java.awt.BorderLayout());
+
+        jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.LINE_AXIS));
+
+        diffOkButton.setText(LocString.get("ok_button")); // NOI18N
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${diffController.inputIsValid}"), diffOkButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"), "okButton");
+        bindingGroup.addBinding(binding);
+
+        diffOkButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                diffOkButtonActionPerformed(evt);
+            }
+        });
+        jPanel5.add(diffOkButton);
+
+        diffCancelButton.setText(LocString.get("cancel_button")); // NOI18N
+        diffCancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+        jPanel5.add(diffCancelButton);
+
+        diffButtonPanel.add(jPanel5, java.awt.BorderLayout.EAST);
+
+        diffPanel.add(diffButtonPanel);
 
         diffMergeTabbedPane.addTab(LocString.get("file_select_diff_tab"), diffPanel); // NOI18N
 
         mergePanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
-        mergePanel.setLayout(new java.awt.BorderLayout());
+        mergePanel.setLayout(new javax.swing.BoxLayout(mergePanel, javax.swing.BoxLayout.PAGE_AXIS));
 
         jPanel6.setLayout(new java.awt.BorderLayout());
 
@@ -246,35 +293,39 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
         jPanel6.add(jPanel8, java.awt.BorderLayout.CENTER);
 
-        mergePanel.add(jPanel6, java.awt.BorderLayout.CENTER);
+        mergePanel.add(jPanel6);
 
-        diffMergeTabbedPane.addTab(LocString.get("file_select_merge_tab"), mergePanel); // NOI18N
+        mergeButtonPanel.setLayout(new java.awt.BorderLayout());
 
-        getContentPane().add(diffMergeTabbedPane);
+        jPanel10.setLayout(new javax.swing.BoxLayout(jPanel10, javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel2.setLayout(new java.awt.BorderLayout());
+        mergeOkButton.setText(LocString.get("ok_button")); // NOI18N
 
-        jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.LINE_AXIS));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${mergeController.inputIsValid}"), mergeOkButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
 
-        okButton.setText(LocString.get("ok_button")); // NOI18N
-        okButton.addActionListener(new java.awt.event.ActionListener() {
+        mergeOkButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                okButtonActionPerformed(evt);
+                mergeOkButtonActionPerformed(evt);
             }
         });
-        jPanel5.add(okButton);
+        jPanel10.add(mergeOkButton);
 
-        cancelButton.setText(LocString.get("cancel_button")); // NOI18N
-        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+        mergeCancelButton.setText(LocString.get("cancel_button")); // NOI18N
+        mergeCancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
             }
         });
-        jPanel5.add(cancelButton);
+        jPanel10.add(mergeCancelButton);
 
-        jPanel2.add(jPanel5, java.awt.BorderLayout.EAST);
+        mergeButtonPanel.add(jPanel10, java.awt.BorderLayout.EAST);
 
-        getContentPane().add(jPanel2);
+        mergePanel.add(mergeButtonPanel);
+
+        diffMergeTabbedPane.addTab(LocString.get("file_select_merge_tab"), mergePanel); // NOI18N
+
+        getContentPane().add(diffMergeTabbedPane);
 
         bindingGroup.bind();
 
@@ -318,24 +369,28 @@ public class FileSelectWindow extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-        IController controller = getActiveController();
-        if (controller.validateInput()) {
-            setVisible(false);
-            controller.go();
-        }
-    }//GEN-LAST:event_okButtonActionPerformed
+    private void diffOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diffOkButtonActionPerformed
+        dispose();
+        getDiffController().go();
+    }//GEN-LAST:event_diffOkButtonActionPerformed
 
     private void file1FieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_file1FieldActionPerformed
-        // TODO add your handling code here:
+        dispose();
+        getMergeController().go();
     }//GEN-LAST:event_file1FieldActionPerformed
+
+    private void mergeOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mergeOkButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mergeOkButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton baseFileButton;
     private javax.swing.JTextField baseFileField;
-    private javax.swing.JButton cancelButton;
+    private javax.swing.JPanel diffButtonPanel;
+    private javax.swing.JButton diffCancelButton;
     private org.madlonkay.supertmxmerge.DiffController diffController;
     private javax.swing.JTabbedPane diffMergeTabbedPane;
+    private javax.swing.JButton diffOkButton;
     private javax.swing.JPanel diffPanel;
     private javax.swing.JButton file1Button;
     private javax.swing.JTextField file1Field;
@@ -343,6 +398,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
     private javax.swing.JTextField file2Field;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -352,9 +408,11 @@ public class FileSelectWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JButton leftFileButton;
     private javax.swing.JTextField leftFileField;
+    private javax.swing.JPanel mergeButtonPanel;
+    private javax.swing.JButton mergeCancelButton;
     private org.madlonkay.supertmxmerge.MergeController mergeController;
+    private javax.swing.JButton mergeOkButton;
     private javax.swing.JPanel mergePanel;
-    private javax.swing.JButton okButton;
     private javax.swing.JButton rightFileButton;
     private javax.swing.JTextField rightFileField;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;

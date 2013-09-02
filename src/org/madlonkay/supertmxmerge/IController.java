@@ -22,6 +22,8 @@ package org.madlonkay.supertmxmerge;
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
 public interface IController {
-    public boolean validateInput();
+    public static final String PROP_INPUTISVALID = "inputIsValid";
+    
+    public boolean getInputIsValid();
     public void go();
 }

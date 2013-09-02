@@ -74,6 +74,7 @@ public class DiffController implements Serializable, IController {
         String oldFile1 = this.file1;
         this.file1 = file1;
         propertySupport.firePropertyChange(PROP_FILE1, oldFile1, file1);
+        propertySupport.firePropertyChange(PROP_INPUTISVALID, null, null);
     }
     
     public String getFile2() {
@@ -84,6 +85,7 @@ public class DiffController implements Serializable, IController {
         String oldFile2 = this.file2;
         this.file2 = file2;
         propertySupport.firePropertyChange(PROP_FILE2, oldFile2, file2);
+        propertySupport.firePropertyChange(PROP_INPUTISVALID, null, null);
     }
     
     public TmxFile getTmx1() {
@@ -123,7 +125,7 @@ public class DiffController implements Serializable, IController {
     }
 
     @Override
-    public boolean validateInput() {
+    public boolean getInputIsValid() {
         return FileUtil.validateFile(getFile1()) 
                 && FileUtil.validateFile(getFile2()) && !getFile1().equals(getFile2());
     }
