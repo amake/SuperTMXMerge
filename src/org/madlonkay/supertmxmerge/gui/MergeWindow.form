@@ -19,6 +19,8 @@
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new LocStringConverter(&quot;number_of_conflicts&quot;, &quot;number_of_conflicts_singular&quot;)"/>
       </AuxValues>
     </Component>
+    <Component class="javax.swing.JFileChooser" name="jFileChooser1">
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -263,6 +265,7 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="saveButton">
               <BindingProperties>
+                <BindingProperty name="enabled" source="controller" sourcePath="${outputIsValid}" target="saveButton" targetPath="enabled" updateStrategy="0" immediately="false"/>
                 <BindingProperty name="text" source="controller" sourcePath="${outputFile}" target="saveButton" targetPath="text" updateStrategy="1" immediately="false">
                   <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
                     <ComponentRef name="saveButtonConverter"/>

@@ -29,15 +29,6 @@ import java.util.Map;
  */
 public class TuvUtil {
     
-    public static Map<String, Tuv> generateTuvMap(List<Tu> tus, String sourceLanguage) {
-        Map<String, Tuv> map = new HashMap<String, Tuv>();
-        for (Tu tu : tus) {
-            map.put(getContent(getSourceTuv(tu, sourceLanguage)),
-                    getTargetTuv(tu, sourceLanguage));
-        }
-        return map;
-    }
-    
     public static Tuv getSourceTuv(Tu tu, String sourceLanguage) {
         for (Tuv tuv : tu.getTuv()) {
             if (sourceLanguage.equals(getLanguage(tuv))) {

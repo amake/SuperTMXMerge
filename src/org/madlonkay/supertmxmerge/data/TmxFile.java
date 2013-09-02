@@ -18,6 +18,7 @@
 package org.madlonkay.supertmxmerge.data;
 
 import gen.core.tmx14.Tmx;
+import gen.core.tmx14.Tu;
 import gen.core.tmx14.Tuv;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -25,16 +26,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.Source;
 import javax.xml.transform.sax.SAXSource;
-import org.madlonkay.supertmxmerge.SuperTmxMerge;
 import org.madlonkay.supertmxmerge.util.TuvUtil;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
@@ -50,27 +54,32 @@ import org.xml.sax.helpers.XMLReaderFactory;
  */
 public class TmxFile {
 
-    private static Unmarshaller UNMARSHALLER = null;
+    private static final JAXBContext CONTEXT;
+    private static final Unmarshaller UNMARSHALLER;
+    private static final Marshaller MARSHALLER;
     /**
      * Special XMLReader with EntityResolver required to resolve system DTD per
      * http://stackoverflow.com/questions/3587196/jaxb-saxparseexception-when-unmarshalling-document-with-relative-path-to-dtd
      */
-    private static XMLReader XMLREADER = null;
-    public static final String PROP_DATA = "data";
+    private static final XMLReader XMLREADER;
     
     private PropertyChangeSupport propertySupport;
     
-    private Tmx data = null;
-    private String filepath = null;
-    private Map<String, Tuv> anonymousTuvs = null;
+    private Tmx data;
+    private String filepath;
+    private Map<String, Tuv> anonymousTuvs;
+    private Map<String, Tu> tuMap;
     
     private static final String FEATURE_NAMESPACES = "http://xml.org/sax/features/namespaces";
     private static final String FEATURE_NAMESPACE_PREFIXES = "http://xml.org/sax/features/namespace-prefixes";
     
+    private static final Logger LOGGER = Logger.getLogger(TmxFile.class.getName());
+    
     static {
         try {
-            JAXBContext jc = JAXBContext.newInstance(Tmx.class);
-            UNMARSHALLER = jc.createUnmarshaller();
+            CONTEXT = JAXBContext.newInstance(Tmx.class);
+            UNMARSHALLER = CONTEXT.createUnmarshaller();
+            MARSHALLER = CONTEXT.createMarshaller();
             XMLReader xmlreader = XMLReaderFactory.createXMLReader();
             xmlreader.setFeature(FEATURE_NAMESPACES, true);
             xmlreader.setFeature(FEATURE_NAMESPACE_PREFIXES, true);
@@ -84,13 +93,13 @@ public class TmxFile {
             });
             XMLREADER = xmlreader;
         } catch (JAXBException ex) {
-            Logger.getLogger(SuperTmxMerge.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex);
         } catch (SAXNotRecognizedException ex) {
-            Logger.getLogger(TmxFile.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex);
         } catch (SAXNotSupportedException ex) {
-            Logger.getLogger(TmxFile.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex);
         } catch (SAXException ex) {
-            Logger.getLogger(TmxFile.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex);
         }
     }
 
@@ -134,9 +143,26 @@ public class TmxFile {
 
     public Map<String, Tuv> getTuvMap() {
         if (anonymousTuvs == null) {
-            anonymousTuvs = TuvUtil.generateTuvMap(getData().getBody().getTu(), getSourceLanguage());
+            generateMaps();
         }
         return anonymousTuvs;
+    }
+    
+    public Map<String, Tu> getTuMap() {
+        if (tuMap == null) {
+            generateMaps();
+        }
+        return tuMap;
+    }
+    
+    private void generateMaps() {
+        anonymousTuvs = new HashMap<String, Tuv>();
+        tuMap = new HashMap<String, Tu>();
+        for (Tu tu : getData().getBody().getTu()) {
+            String key = TuvUtil.getContent(TuvUtil.getSourceTuv(tu, getSourceLanguage()));
+            tuMap.put(key, tu);
+            anonymousTuvs.put(key, TuvUtil.getTargetTuv(tu, getSourceLanguage()));
+        }
     }
 
     /**
@@ -145,13 +171,21 @@ public class TmxFile {
     public Tmx getData() {
         return data;
     }
-
-    /**
-     * @param data the doc to set
-     */
-    public void setData(Tmx data) {
-        gen.core.tmx14.Tmx oldData = this.data;
-        this.data = data;
-        propertySupport.firePropertyChange(PROP_DATA, oldData, data);
+    
+    public void applyChanges(ResolutionSet resolution) {
+        List<Tu> tus = getData().getBody().getTu();
+        for (String key : resolution.toDelete) {
+            tus.remove(tuMap.get(key));
+        }
+        for (Entry<String, Tuv> e : resolution.toReplace.entrySet()) {
+            Tu tu = tuMap.get(e.getKey());
+            tu.getTuv().remove(anonymousTuvs.get(e.getKey()));
+            tu.getTuv().add(e.getValue());
+        }
+        tus.addAll(resolution.toAdd);
+    }
+    
+    public void writeTo(String outputFile) throws JAXBException {
+        MARSHALLER.marshal(getData(), new File(outputFile));
     }
 }

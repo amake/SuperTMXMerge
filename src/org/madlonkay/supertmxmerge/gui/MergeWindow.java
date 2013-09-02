@@ -17,11 +17,14 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFileChooser;
 import javax.swing.JRadioButton;
 import org.madlonkay.supertmxmerge.MergeController;
 import org.madlonkay.supertmxmerge.data.MergeInfo;
+import org.madlonkay.supertmxmerge.util.FileUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
     /**
@@ -50,10 +53,26 @@ public class MergeWindow extends javax.swing.JFrame {
     
     private void addMergeInfo(int itemNumber, MergeInfo info) {
         MergeCell cell = new MergeCell(itemNumber, info);
-        leftRadioButtons.add(cell.getLeftButton());
-        rightRadioButtons.add(cell.getRightButton());
-        centerRadioButtons.add(cell.getCenterButton());
+        JRadioButton[] buttons = {
+                cell.getLeftButton(),
+                cell.getCenterButton(),
+                cell.getRightButton()
+            };
+        leftRadioButtons.add(buttons[0]);
+        centerRadioButtons.add(buttons[1]);
+        rightRadioButtons.add(buttons[2]);
+        for (JRadioButton button : buttons) {
+            button.addActionListener(controller);
+        }
+        controller.addSelection(info.sourceText, buttons);
         mergeInfoPanel.add(cell);
+    }
+    
+    private void activateAllButtons(List<JRadioButton> buttons) {
+        for (JRadioButton b : buttons) {
+            b.setSelected(true);
+        }
+        controller.actionPerformed(null);
     }
     
     private MergeController getController() {
@@ -74,6 +93,7 @@ public class MergeWindow extends javax.swing.JFrame {
         unitCountConverter = new LocStringConverter("number_of_units", "number_of_units_singular");
         saveButtonConverter = new org.madlonkay.supertmxmerge.gui.SaveButtonConverter();
         conflictCountConverter = new LocStringConverter("number_of_conflicts", "number_of_conflicts_singular");
+        jFileChooser1 = new javax.swing.JFileChooser();
         jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         leftFilename = new javax.swing.JLabel();
@@ -207,6 +227,8 @@ public class MergeWindow extends javax.swing.JFrame {
 
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, controller, org.jdesktop.beansbinding.ELProperty.create("${outputIsValid}"), saveButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${outputFile}"), saveButton, org.jdesktop.beansbinding.BeanProperty.create("text"), "saveButton");
         binding.setConverter(saveButtonConverter);
         bindingGroup.addBinding(binding);
@@ -236,25 +258,31 @@ public class MergeWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void useAllLeft(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useAllLeft
-        for (JRadioButton b : leftRadioButtons) {
-            b.setSelected(true);
-        }
+        activateAllButtons(leftRadioButtons);
     }//GEN-LAST:event_useAllLeft
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        setVisible(false);
+        if (!FileUtil.validateFile(controller.getOutputFile())) {
+            if (jFileChooser1.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+                try {
+                    String file = jFileChooser1.getSelectedFile().getCanonicalPath();
+                    controller.setOutputFile(file);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } else {
+                return;
+            }
+        }
+        controller.resolve();
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void useAllBase(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useAllBase
-        for (JRadioButton b : centerRadioButtons) {
-            b.setSelected(true);
-        }
+        activateAllButtons(centerRadioButtons);
     }//GEN-LAST:event_useAllBase
 
     private void useAllRight(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useAllRight
-        for (JRadioButton b : rightRadioButtons) {
-            b.setSelected(true);
-        }
+        activateAllButtons(rightRadioButtons);
     }//GEN-LAST:event_useAllRight
 
     private void discardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discardButtonActionPerformed
@@ -274,6 +302,7 @@ public class MergeWindow extends javax.swing.JFrame {
     private javax.swing.JButton discardButton;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
+    private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
