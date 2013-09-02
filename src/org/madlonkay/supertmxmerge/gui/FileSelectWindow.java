@@ -85,10 +85,6 @@ public class FileSelectWindow extends javax.swing.JFrame {
         return mergeController;
     }
     
-    public boolean canProceed() {
-        return true;
-    }
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -170,11 +166,6 @@ public class FileSelectWindow extends javax.swing.JFrame {
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, diffController, org.jdesktop.beansbinding.ELProperty.create("${file1}"), file1Field, org.jdesktop.beansbinding.BeanProperty.create("text"), "");
         bindingGroup.addBinding(binding);
 
-        file1Field.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                file1FieldActionPerformed(evt);
-            }
-        });
         jPanel4.add(file1Field);
 
         file2Field.setColumns(45);
@@ -182,11 +173,6 @@ public class FileSelectWindow extends javax.swing.JFrame {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, diffController, org.jdesktop.beansbinding.ELProperty.create("${file2}"), file2Field, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        file2Field.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                file2FieldActionPerformed(evt);
-            }
-        });
         jPanel4.add(file2Field);
 
         jPanel1.add(jPanel4, java.awt.BorderLayout.CENTER);
@@ -272,11 +258,6 @@ public class FileSelectWindow extends javax.swing.JFrame {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeController, org.jdesktop.beansbinding.ELProperty.create("${leftFile}"), leftFileField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        leftFileField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                leftFileFieldActionPerformed(evt);
-            }
-        });
         jPanel8.add(leftFileField);
 
         rightFileField.setColumns(20);
@@ -284,11 +265,6 @@ public class FileSelectWindow extends javax.swing.JFrame {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeController, org.jdesktop.beansbinding.ELProperty.create("${rightFile}"), rightFileField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        rightFileField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rightFileFieldActionPerformed(evt);
-            }
-        });
         jPanel8.add(rightFileField);
 
         jPanel6.add(jPanel8, java.awt.BorderLayout.CENTER);
@@ -332,18 +308,6 @@ public class FileSelectWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void file2FieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_file2FieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_file2FieldActionPerformed
-
-    private void leftFileFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leftFileFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_leftFileFieldActionPerformed
-
-    private void rightFileFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rightFileFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rightFileFieldActionPerformed
-
     private void file1ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_file1ButtonActionPerformed
         promptChooseFile(file1Field);
     }//GEN-LAST:event_file1ButtonActionPerformed
@@ -374,13 +338,9 @@ public class FileSelectWindow extends javax.swing.JFrame {
         getDiffController().go();
     }//GEN-LAST:event_diffOkButtonActionPerformed
 
-    private void file1FieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_file1FieldActionPerformed
+    private void mergeOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mergeOkButtonActionPerformed
         dispose();
         getMergeController().go();
-    }//GEN-LAST:event_file1FieldActionPerformed
-
-    private void mergeOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mergeOkButtonActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_mergeOkButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
