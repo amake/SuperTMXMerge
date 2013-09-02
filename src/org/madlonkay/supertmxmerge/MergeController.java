@@ -21,7 +21,9 @@ import gen.core.tmx14.Tuv;
 import java.beans.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.UnmarshalException;
@@ -132,6 +134,7 @@ public class MergeController implements Serializable, IController {
         DiffSet baseToRight = DiffUtil.generateDiffSet(getBaseTmx(), getRightTmx());
         
         List<MergeInfo> mergeInfos = new ArrayList<MergeInfo>();
+        Set<String> addedKeys = new HashSet<String>();
         // New in left
         for (String key : baseToLeft.added) {
             Tuv leftTuv = getLeftTmx().getTuvMap().get(key);
@@ -142,10 +145,14 @@ public class MergeController implements Serializable, IController {
             if (!TuvUtil.equals(leftTuv, rightTuv)) {
                 mergeInfos.add(new MergeInfo(key, getLeftTmx().getSourceLanguage(), TuvUtil.getLanguage(leftTuv),
                         null, TuvUtil.getContent(leftTuv), TuvUtil.getContent(rightTuv)));
+                addedKeys.add(key);
             }
         }
         // New in right
         for (String key : baseToRight.added) {
+            if (addedKeys.contains(key)) {
+                continue;
+            }
             Tuv leftTuv = getLeftTmx().getTuvMap().get(key);
             if (leftTuv == null) {
                 continue;
@@ -154,6 +161,7 @@ public class MergeController implements Serializable, IController {
             if (!TuvUtil.equals(leftTuv, rightTuv)) {
                 mergeInfos.add(new MergeInfo(key, getRightTmx().getSourceLanguage(), TuvUtil.getLanguage(rightTuv),
                         null, TuvUtil.getContent(leftTuv), TuvUtil.getContent(rightTuv)));
+                addedKeys.add(key);
             }
         }
         // Deleted from left
@@ -163,6 +171,7 @@ public class MergeController implements Serializable, IController {
                 Tuv baseTuv = getBaseTmx().getTuvMap().get(key);
                 mergeInfos.add(new MergeInfo(key, getRightTmx().getSourceLanguage(), TuvUtil.getLanguage(rightTuv),
                         TuvUtil.getContent(baseTuv), null, TuvUtil.getContent(rightTuv)));
+                addedKeys.add(key);
             }
         }
         // Deleted from right
@@ -172,6 +181,7 @@ public class MergeController implements Serializable, IController {
                 Tuv baseTuv = getBaseTmx().getTuvMap().get(key);
                 mergeInfos.add(new MergeInfo(key, getRightTmx().getSourceLanguage(), TuvUtil.getLanguage(baseTuv),
                         TuvUtil.getContent(baseTuv), TuvUtil.getContent(leftTuv), null));
+                addedKeys.add(key);
             }
         }
         // Modified on left
@@ -185,6 +195,7 @@ public class MergeController implements Serializable, IController {
                 Tuv baseTuv = getBaseTmx().getTuvMap().get(key);
                 mergeInfos.add(new MergeInfo(key, getBaseTmx().getSourceLanguage(), TuvUtil.getLanguage(baseTuv),
                         TuvUtil.getContent(baseTuv), TuvUtil.getContent(leftTuv), TuvUtil.getContent(rightTuv)));
+                addedKeys.add(key);
             }
         }
         // Modified on right
@@ -198,6 +209,7 @@ public class MergeController implements Serializable, IController {
             if (!TuvUtil.equals(leftTuv, rightTuv)) {
                 mergeInfos.add(new MergeInfo(key, getBaseTmx().getSourceLanguage(), TuvUtil.getLanguage(baseTuv),
                         TuvUtil.getContent(baseTuv), TuvUtil.getContent(leftTuv), TuvUtil.getContent(rightTuv)));
+                addedKeys.add(key);
             }
         }
         return mergeInfos;

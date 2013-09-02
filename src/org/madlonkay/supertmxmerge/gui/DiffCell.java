@@ -54,7 +54,7 @@ public class DiffCell extends javax.swing.JPanel {
     private void setPreText(String text) {
         if (text == null) {
             tuvText1.setBackground(getBackground());
-            text = LocString.get("tuv_added");
+            text = LocString.get("tuv_not_present");
         }
         tuvText1.setText(text);
     }

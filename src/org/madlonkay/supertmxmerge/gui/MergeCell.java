@@ -52,8 +52,8 @@ public class MergeCell extends javax.swing.JPanel {
         setSourceLanguage(info.sourceLanguage);
         setTargetLanguage(info.targetLanguage);
         setBaseText(info.baseTuvText);
-        setLeftText(info.leftTuvText);
-        setRightText(info.rightTuvText);
+        setLeftText(info.leftTuvText, info.baseTuvText != null);
+        setRightText(info.rightTuvText, info.baseTuvText != null);
         tuvTextLeft.addMouseListener(new ClickForwarder(leftButton));
         tuvTextRight.addMouseListener(new ClickForwarder(rightButton));
         tuvTextCenter.addMouseListener(new ClickForwarder(centerButton));
@@ -72,23 +72,23 @@ public class MergeCell extends javax.swing.JPanel {
     private void setBaseText(String text) {
         if (text == null) {
             tuvTextCenter.setBackground(getBackground());
-            text = LocString.get("tuv_deleted");
+            text = LocString.get("tuv_not_present");
         }
         tuvTextCenter.setText(text);
     }
     
-    private void setLeftText(String text) {
+    private void setLeftText(String text, boolean presentInBase) {
         if (text == null) {
             tuvTextLeft.setBackground(getBackground());
-            text = LocString.get("tuv_deleted");
+            text = presentInBase? LocString.get("tuv_deleted") : LocString.get("tuv_not_present");
         }
         tuvTextLeft.setText(text);
     }
     
-    private void setRightText(String text) {
+    private void setRightText(String text, boolean presentInBase) {
         if (text == null) {
             tuvTextRight.setBackground(getBackground());
-            text = LocString.get("tuv_deleted");
+            text = presentInBase? LocString.get("tuv_deleted") : LocString.get("tuv_not_present");
         }
         tuvTextRight.setText(text);
     }
