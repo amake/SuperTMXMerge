@@ -112,12 +112,7 @@ public class DiffController implements Serializable, IController {
             Logger.getLogger(MergeController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        DiffSet diffs = DiffUtil.generateDiffSet(tmx1, tmx2);
-        
         DiffWindow window = new DiffWindow(this);
-        for (DiffInfo info : generateDiffInfos(tmx1, tmx2, diffs)) {
-            window.addDiffInfo(info);
-        }
         
         window.pack();
         window.setLocationRelativeTo(null);
@@ -130,22 +125,24 @@ public class DiffController implements Serializable, IController {
                 && FileUtil.validateFile(getFile2()) && !getFile1().equals(getFile2());
     }
     
-    private static List<DiffInfo> generateDiffInfos(TmxFile tmx1, TmxFile tmx2, DiffSet set) {
+    public List<DiffInfo> getDiffInfos() {
+        DiffSet set = DiffUtil.generateDiffSet(getTmx1(), getTmx2());
+        
         List<DiffInfo> diffInfos = new ArrayList<DiffInfo>();
         for (String key : set.deleted) {
-            Tuv tuv = tmx1.getTuvMap().get(key);
-            diffInfos.add(new DiffInfo(key, tmx1.getSourceLanguage(),
+            Tuv tuv = getTmx1().getTuvMap().get(key);
+            diffInfos.add(new DiffInfo(key, getTmx1().getSourceLanguage(),
                     TuvUtil.getLanguage(tuv), TuvUtil.getContent(tuv), null));
         }
         for (String key : set.added) {
-            Tuv tuv = tmx2.getTuvMap().get(key);
-            diffInfos.add(new DiffInfo(key, tmx2.getSourceLanguage(),
+            Tuv tuv = getTmx2().getTuvMap().get(key);
+            diffInfos.add(new DiffInfo(key, getTmx2().getSourceLanguage(),
                     TuvUtil.getLanguage(tuv), null, TuvUtil.getContent(tuv)));
         }
         for (String key : set.modified) {
-            Tuv tuv1 = tmx1.getTuvMap().get(key);
-            Tuv tuv2 = tmx2.getTuvMap().get(key);
-            diffInfos.add(new DiffInfo(key, tmx1.getSourceLanguage(),
+            Tuv tuv1 = getTmx1().getTuvMap().get(key);
+            Tuv tuv2 = getTmx2().getTuvMap().get(key);
+            diffInfos.add(new DiffInfo(key, getTmx1().getSourceLanguage(),
                     TuvUtil.getLanguage(tuv1), TuvUtil.getContent(tuv1), TuvUtil.getContent(tuv2)));
         }
         return diffInfos;

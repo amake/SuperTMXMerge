@@ -33,18 +33,17 @@ public class DiffWindow extends javax.swing.JFrame {
     public DiffWindow(DiffController controller) {
         this.controller = controller;
         initComponents();
+        for (DiffInfo info : controller.getDiffInfos()) {
+            addDiffInfo(info);
+        }
     }
     
     private DiffController getController() {
         return controller;
     }
     
-    public void addDiffInfo(DiffInfo info) {
+    private void addDiffInfo(DiffInfo info) {
         jPanel1.add(new DiffCell(info));
-    }
-    
-    private String formatUnitCount(int i) {
-        return LocString.getFormat("number_of_units", i);
     }
     
     /**
