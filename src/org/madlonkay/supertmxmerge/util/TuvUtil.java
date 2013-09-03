@@ -19,9 +19,7 @@ package org.madlonkay.supertmxmerge.util;
 
 import gen.core.tmx14.Tu;
 import gen.core.tmx14.Tuv;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -55,7 +53,8 @@ public class TuvUtil {
     }
     
     public static String getContent(Tuv tuv) {
-        return (String) tuv.getSeg().getContent().get(0);
+        List<Object> content = tuv.getSeg().getContent();
+        return content.isEmpty() ? "" : (String) content.get(0);
     }
     
     public static boolean equals(Tuv tuv1, Tuv tuv2) {
