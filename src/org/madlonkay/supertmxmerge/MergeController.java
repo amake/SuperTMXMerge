@@ -374,9 +374,10 @@ public class MergeController implements Serializable, IController, ActionListene
                     break;
             }
         }
-        baseTmx.applyChanges(new ResolutionSet(toDelete, toAdd, toModify));
+        
         try {
-            baseTmx.writeTo(outputFile);
+            TmxFile outputTmx = baseTmx.applyChanges(new ResolutionSet(toDelete, toAdd, toModify));
+            outputTmx.writeTo(outputFile);
         } catch (JAXBException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }

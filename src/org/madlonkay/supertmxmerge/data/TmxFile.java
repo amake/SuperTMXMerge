@@ -26,6 +26,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -111,10 +113,14 @@ public class TmxFile {
             Source source = new SAXSource(XMLREADER, new InputSource(new FileInputStream(filepath)));
             this.data = (Tmx) UNMARSHALLER.unmarshal(source);
         } catch (JAXBException ex) {
-            Logger.getLogger(TmxFile.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(TmxFile.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private TmxFile(Tmx data) {
+        this.data = data;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -172,17 +178,32 @@ public class TmxFile {
         return data;
     }
     
-    public void applyChanges(ResolutionSet resolution) {
+    public TmxFile applyChanges(ResolutionSet resolution) throws JAXBException {
+        Tmx originalData = clone(getData());
         List<Tu> tus = getData().getBody().getTu();
         for (String key : resolution.toDelete) {
-            tus.remove(tuMap.get(key));
+            tus.remove(getTuMap().get(key));
         }
         for (Entry<String, Tuv> e : resolution.toReplace.entrySet()) {
-            Tu tu = tuMap.get(e.getKey());
-            tu.getTuv().remove(anonymousTuvs.get(e.getKey()));
+            Tu tu = getTuMap().get(e.getKey());
+            tu.getTuv().remove(getTuvMap().get(e.getKey()));
             tu.getTuv().add(e.getValue());
         }
         tus.addAll(resolution.toAdd);
+        Tmx modifiedData = getData();
+        this.data = originalData;
+        this.anonymousTuvs = null;
+        this.tuMap = null;
+        return new TmxFile(modifiedData);
+    }
+    
+    public static Tmx clone(Tmx jaxbObject) throws JAXBException {
+        // Inspired by: http://stackoverflow.com/a/10870833/448068
+        StringWriter xml = new StringWriter();
+        MARSHALLER.marshal(jaxbObject, xml);
+        StringReader reader = new StringReader(xml.toString());
+        Source source = new SAXSource(XMLREADER, new InputSource(reader));
+        return (Tmx) UNMARSHALLER.unmarshal(source);
     }
     
     public void writeTo(String outputFile) throws JAXBException {
