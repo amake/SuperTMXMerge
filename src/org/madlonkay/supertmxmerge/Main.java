@@ -17,6 +17,10 @@
  */
 package org.madlonkay.supertmxmerge;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
@@ -24,11 +28,23 @@ import org.madlonkay.supertmxmerge.util.LocString;
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
 public class Main {
-
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (UnsupportedLookAndFeelException ex) {
+            throw new RuntimeException(ex);
+        } catch (ClassNotFoundException ex) {
+            throw new RuntimeException(ex);
+        } catch (InstantiationException ex) {
+            throw new RuntimeException(ex);
+        } catch (IllegalAccessException ex) {
+            throw new RuntimeException(ex);
+        }
                 
         if (args.length == 0) {
             SuperTmxMerge.promptForFiles();
