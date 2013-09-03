@@ -11,15 +11,21 @@ SuperTMXMerge understands the underlying format and presents diffs and merges in
 Usage
 =====
 
-Graphical interface: Launch SuperTMXMerge.jar as usual.
+Graphical interface: Launch SuperTMXMerge.jar as usual:
+
+    java -jar SuperTMXMerge.jar
 
 Command-line diff:
 
-  java -jar SuperTMXMerge.jar file1 file2
+    java -jar SuperTMXMerge.jar file1 file2
 
 Command-line 3-way merge:
 
-  java -jar SuperTMXMerge.jar baseFile file1 file2
+    java -jar SuperTMXMerge.jar baseFile file1 file2
+
+Command-line 3-way merge (for use with VCS tools):
+
+    java -jar SuperTMXMerge.jar baseFile file1 file2 outputFile
 
 
 License
