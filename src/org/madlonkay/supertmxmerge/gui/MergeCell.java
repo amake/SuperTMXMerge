@@ -20,6 +20,7 @@ package org.madlonkay.supertmxmerge.gui;
 import java.awt.Color;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
@@ -161,7 +162,6 @@ public class MergeCell extends javax.swing.JPanel {
         sourceTargetPane.setBorder(null);
         sourceTargetPane.setDividerSize(0);
         sourceTargetPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
-        sourceTargetPane.setResizeWeight(0.5);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Source Language"));
         jPanel2.setLayout(new java.awt.BorderLayout());
@@ -170,6 +170,7 @@ public class MergeCell extends javax.swing.JPanel {
 
         sourceText.setEditable(false);
         sourceText.setColumns(40);
+        sourceText.setFont(UIManager.getDefaults().getFont("Label.font"));
         sourceText.setLineWrap(true);
         sourceText.setRows(2);
         sourceText.setText("Source text");
@@ -194,6 +195,7 @@ public class MergeCell extends javax.swing.JPanel {
         bindingGroup.addBinding(binding);
 
         tuvTextLeft.setEditable(false);
+        tuvTextLeft.setFont(UIManager.getDefaults().getFont("Label.font"));
         tuvTextLeft.setLineWrap(true);
         tuvTextLeft.setText("Target text 1");
         tuvTextLeft.setWrapStyleWord(true);
@@ -212,6 +214,7 @@ public class MergeCell extends javax.swing.JPanel {
         bindingGroup.addBinding(binding);
 
         tuvTextCenter.setEditable(false);
+        tuvTextCenter.setFont(UIManager.getDefaults().getFont("Label.font"));
         tuvTextCenter.setLineWrap(true);
         tuvTextCenter.setText("Target text 2");
         tuvTextCenter.setWrapStyleWord(true);
@@ -224,6 +227,7 @@ public class MergeCell extends javax.swing.JPanel {
         bindingGroup.addBinding(binding);
 
         tuvTextRight.setEditable(false);
+        tuvTextRight.setFont(UIManager.getDefaults().getFont("Label.font"));
         tuvTextRight.setLineWrap(true);
         tuvTextRight.setText("Target text 2");
         tuvTextRight.setWrapStyleWord(true);

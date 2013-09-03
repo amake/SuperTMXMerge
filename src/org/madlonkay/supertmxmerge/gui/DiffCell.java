@@ -17,6 +17,7 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
+import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import org.madlonkay.supertmxmerge.data.DiffInfo;
 import org.madlonkay.supertmxmerge.util.LocString;
@@ -98,7 +99,6 @@ public class DiffCell extends javax.swing.JPanel {
         sourceTargetPane.setBorder(null);
         sourceTargetPane.setDividerSize(0);
         sourceTargetPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
-        sourceTargetPane.setResizeWeight(0.5);
 
         sourceTextPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Source Language"));
         sourceTextPanel.setLayout(new javax.swing.BoxLayout(sourceTextPanel, javax.swing.BoxLayout.LINE_AXIS));
@@ -106,7 +106,10 @@ public class DiffCell extends javax.swing.JPanel {
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         sourceText.setEditable(false);
+        sourceText.setColumns(40);
+        sourceText.setFont(UIManager.getDefaults().getFont("Label.font"));
         sourceText.setLineWrap(true);
+        sourceText.setRows(2);
         sourceText.setText("Source text");
         sourceText.setWrapStyleWord(true);
         jScrollPane3.setViewportView(sourceText);
@@ -123,6 +126,7 @@ public class DiffCell extends javax.swing.JPanel {
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         tuvText1.setEditable(false);
+        tuvText1.setFont(UIManager.getDefaults().getFont("Label.font"));
         tuvText1.setLineWrap(true);
         tuvText1.setText("Target text 1");
         tuvText1.setWrapStyleWord(true);
@@ -133,6 +137,7 @@ public class DiffCell extends javax.swing.JPanel {
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         tuvText2.setEditable(false);
+        tuvText2.setFont(UIManager.getDefaults().getFont("Label.font"));
         tuvText2.setLineWrap(true);
         tuvText2.setText("Target text 2");
         tuvText2.setWrapStyleWord(true);

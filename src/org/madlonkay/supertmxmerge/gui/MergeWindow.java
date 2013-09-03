@@ -191,6 +191,7 @@ public class MergeWindow extends javax.swing.JFrame {
 
         jPanel6.add(conflictCountLabel);
 
+        instructionsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         instructionsLabel.setText(LocString.get("merge_window_directions")); // NOI18N
         jPanel6.add(instructionsLabel);
 

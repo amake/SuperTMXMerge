@@ -45,7 +45,6 @@
         </Property>
         <Property name="dividerSize" type="int" value="0"/>
         <Property name="orientation" type="int" value="0"/>
-        <Property name="resizeWeight" type="double" value="0.5"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -81,7 +80,12 @@
                 <Component class="javax.swing.JTextArea" name="sourceText">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
+                    <Property name="columns" type="int" value="40"/>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="UIManager.getDefaults().getFont(&quot;Label.font&quot;)" type="code"/>
+                    </Property>
                     <Property name="lineWrap" type="boolean" value="true"/>
+                    <Property name="rows" type="int" value="2"/>
                     <Property name="text" type="java.lang.String" value="Source text"/>
                     <Property name="wrapStyleWord" type="boolean" value="true"/>
                   </Properties>
@@ -126,6 +130,9 @@
                 <Component class="javax.swing.JTextArea" name="tuvText1">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="UIManager.getDefaults().getFont(&quot;Label.font&quot;)" type="code"/>
+                    </Property>
                     <Property name="lineWrap" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="Target text 1"/>
                     <Property name="wrapStyleWord" type="boolean" value="true"/>
@@ -148,6 +155,9 @@
                 <Component class="javax.swing.JTextArea" name="tuvText2">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="UIManager.getDefaults().getFont(&quot;Label.font&quot;)" type="code"/>
+                    </Property>
                     <Property name="lineWrap" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="Target text 2"/>
                     <Property name="wrapStyleWord" type="boolean" value="true"/>

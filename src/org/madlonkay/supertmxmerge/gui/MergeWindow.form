@@ -192,6 +192,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="instructionsLabel">
               <Properties>
+                <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="merge_window_directions" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                 </Property>

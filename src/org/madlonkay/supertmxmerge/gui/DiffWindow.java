@@ -80,11 +80,14 @@ public class DiffWindow extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         jPanel2.setLayout(new java.awt.GridLayout(2, 2));
 
+        file1Label.setFont(file1Label.getFont().deriveFont(file1Label.getFont().getStyle() | java.awt.Font.BOLD, file1Label.getFont().getSize()+2));
+
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx1.fileName}"), file1Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file1Name");
         bindingGroup.addBinding(binding);
 
         jPanel2.add(file1Label);
 
+        file2Label.setFont(file2Label.getFont().deriveFont(file2Label.getFont().getStyle() | java.awt.Font.BOLD, file2Label.getFont().getSize()+2));
         file2Label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx2.fileName}"), file2Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file2Name");
