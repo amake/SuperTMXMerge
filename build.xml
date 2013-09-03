@@ -6,7 +6,9 @@
         <copy todir="dist">
             <fileset dir="release" includes="*"/>
         </copy>
+        <chmod file="dist/SuperTMXMerge.sh" perm="ugo+rx"/>
         <copy file="README.md" tofile="dist/README.TXT" overwrite="yes"/>
+        <copy file="LICENSE" todir="dist"/>
     </target>
     <target name="gen">
         <exec executable="xjc">
