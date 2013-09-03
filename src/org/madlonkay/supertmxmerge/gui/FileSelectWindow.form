@@ -74,7 +74,9 @@
               <SubComponents>
                 <Container class="javax.swing.JPanel" name="jPanel1">
 
-                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout">
+                    <Property name="verticalGap" type="int" value="2"/>
+                  </Layout>
                   <SubComponents>
                     <Container class="javax.swing.JPanel" name="jPanel3">
                       <Constraints>
@@ -120,6 +122,7 @@
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
                         <Property name="columns" type="int" value="1"/>
                         <Property name="rows" type="int" value="0"/>
+                        <Property name="verticalGap" type="int" value="1"/>
                       </Layout>
                       <SubComponents>
                         <Component class="javax.swing.JTextField" name="file1Field">
@@ -150,6 +153,13 @@
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="diffButtonPanel">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                    <EmptyBorder bottom="4" left="4" right="4" top="4"/>
+                  </Border>
+                </Property>
+              </Properties>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
               <SubComponents>
@@ -273,6 +283,7 @@
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
                     <Property name="columns" type="int" value="1"/>
                     <Property name="rows" type="int" value="0"/>
+                    <Property name="verticalGap" type="int" value="1"/>
                   </Layout>
                   <SubComponents>
                     <Component class="javax.swing.JTextField" name="baseFileField">
@@ -308,6 +319,13 @@
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="mergeButtonPanel">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                    <EmptyBorder bottom="4" left="4" right="4" top="4"/>
+                  </Border>
+                </Property>
+              </Properties>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
               <SubComponents>

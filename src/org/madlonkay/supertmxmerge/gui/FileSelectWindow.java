@@ -136,7 +136,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
         diffPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         diffPanel.setLayout(new javax.swing.BoxLayout(diffPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jPanel1.setLayout(new java.awt.BorderLayout());
+        jPanel1.setLayout(new java.awt.BorderLayout(0, 2));
 
         jPanel3.setLayout(new java.awt.GridLayout(0, 1));
 
@@ -158,7 +158,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
         jPanel1.add(jPanel3, java.awt.BorderLayout.WEST);
 
-        jPanel4.setLayout(new java.awt.GridLayout(0, 1));
+        jPanel4.setLayout(new java.awt.GridLayout(0, 1, 0, 1));
 
         file1Field.setColumns(45);
 
@@ -180,6 +180,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
         diffPanel.add(jPanel2);
 
+        diffButtonPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         diffButtonPanel.setLayout(new java.awt.BorderLayout());
 
         jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.LINE_AXIS));
@@ -243,7 +244,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
         jPanel6.add(jPanel7, java.awt.BorderLayout.WEST);
 
-        jPanel8.setLayout(new java.awt.GridLayout(0, 1));
+        jPanel8.setLayout(new java.awt.GridLayout(0, 1, 0, 1));
 
         baseFileField.setColumns(20);
 
@@ -270,6 +271,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
         mergePanel.add(jPanel6);
 
+        mergeButtonPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         mergeButtonPanel.setLayout(new java.awt.BorderLayout());
 
         jPanel10.setLayout(new javax.swing.BoxLayout(jPanel10, javax.swing.BoxLayout.LINE_AXIS));
