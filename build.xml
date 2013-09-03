@@ -6,6 +6,7 @@
         <copy todir="dist">
             <fileset dir="release" includes="*"/>
         </copy>
+        <copy file="README.md" tofile="dist/README.TXT" overwrite="yes"/>
     </target>
     <target name="gen">
         <exec executable="xjc">
