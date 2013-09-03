@@ -66,6 +66,7 @@ public class MergeController implements Serializable, IController, ActionListene
     public static final String PROP_CONFLICTCOUNT = "conflictCount";
     
     public static final String PROP_OUTPUTISVALID = "outputIsValid";
+    public static final String PROP_HASUNSAVEDCHANGES = "hasUnsavedChanges";
 
     private PropertyChangeSupport propertySupport;
     
@@ -85,6 +86,8 @@ public class MergeController implements Serializable, IController, ActionListene
     private Map<String, Tuv> toReplace;
     
     private List<ConflictInfo> conflicts;
+    
+    private boolean hasUnsavedChanges = true;
     
     public MergeController() {
         propertySupport = new PropertyChangeSupport(this);
@@ -393,6 +396,7 @@ public class MergeController implements Serializable, IController, ActionListene
     @Override
     public void actionPerformed(ActionEvent ae) {
         propertySupport.firePropertyChange(PROP_OUTPUTISVALID, null, null);
+        setHasUnsavedChanges(true);
     }
     
     public void resolve() {
@@ -414,6 +418,7 @@ public class MergeController implements Serializable, IController, ActionListene
         try {
             TmxFile outputTmx = baseTmx.applyChanges(new ResolutionSet(toDelete, toAdd, toReplace));
             outputTmx.writeTo(outputFile);
+            setHasUnsavedChanges(false);
         } catch (JAXBException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
@@ -438,5 +443,15 @@ public class MergeController implements Serializable, IController, ActionListene
             n++;
         }
         return -1;
+    }
+    
+    public void setHasUnsavedChanges(boolean hasUnsavedChanges) {
+        boolean oldHasUnsavedChanges = this.hasUnsavedChanges;
+        this.hasUnsavedChanges = hasUnsavedChanges;
+        propertySupport.firePropertyChange(PROP_HASUNSAVEDCHANGES, oldHasUnsavedChanges, hasUnsavedChanges);
+    }
+    
+    public boolean getHasUnsavedChanges() {
+        return hasUnsavedChanges;
     }
 }

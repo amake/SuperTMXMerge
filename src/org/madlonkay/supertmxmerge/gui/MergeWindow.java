@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import org.madlonkay.supertmxmerge.MergeController;
 import org.madlonkay.supertmxmerge.data.ConflictInfo;
@@ -104,6 +105,7 @@ public class MergeWindow extends javax.swing.JFrame {
         rightTextUnits = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         conflictCountLabel = new javax.swing.JLabel();
+        instructionsLabel = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         allLeftButton = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
@@ -113,18 +115,22 @@ public class MergeWindow extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         mergeInfoPanel = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
         saveButton = new javax.swing.JButton();
-        discardButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle(LocString.get("merge_window_title")); // NOI18N
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.PAGE_AXIS));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         jPanel2.setLayout(new java.awt.GridLayout(2, 3));
 
+        leftFilename.setFont(leftFilename.getFont().deriveFont(leftFilename.getFont().getStyle() | java.awt.Font.BOLD, leftFilename.getFont().getSize()+2));
         leftFilename.setToolTipText("");
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${leftTmx.fileName}"), leftFilename, org.jdesktop.beansbinding.BeanProperty.create("text"), "leftFileName");
@@ -132,6 +138,7 @@ public class MergeWindow extends javax.swing.JFrame {
 
         jPanel2.add(leftFilename);
 
+        centerFilename.setFont(centerFilename.getFont().deriveFont(centerFilename.getFont().getStyle() | java.awt.Font.BOLD, centerFilename.getFont().getSize()+2));
         centerFilename.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${baseTmx.fileName}"), centerFilename, org.jdesktop.beansbinding.BeanProperty.create("text"), "baseFileName");
@@ -139,6 +146,7 @@ public class MergeWindow extends javax.swing.JFrame {
 
         jPanel2.add(centerFilename);
 
+        rightFilename.setFont(rightFilename.getFont().deriveFont(rightFilename.getFont().getStyle() | java.awt.Font.BOLD, rightFilename.getFont().getSize()+2));
         rightFilename.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${rightTmx.fileName}"), rightFilename, org.jdesktop.beansbinding.BeanProperty.create("text"), "rightFileName");
@@ -170,8 +178,10 @@ public class MergeWindow extends javax.swing.JFrame {
 
         jPanel4.add(jPanel2);
 
-        jPanel6.setLayout(new javax.swing.BoxLayout(jPanel6, javax.swing.BoxLayout.LINE_AXIS));
+        jPanel6.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        jPanel6.setLayout(new java.awt.GridLayout(0, 1, 0, 4));
 
+        conflictCountLabel.setForeground(new java.awt.Color(255, 0, 0));
         conflictCountLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         conflictCountLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
@@ -180,6 +190,9 @@ public class MergeWindow extends javax.swing.JFrame {
         bindingGroup.addBinding(binding);
 
         jPanel6.add(conflictCountLabel);
+
+        instructionsLabel.setText(LocString.get("merge_window_directions")); // NOI18N
+        jPanel6.add(instructionsLabel);
 
         jPanel4.add(jPanel6);
 
@@ -223,11 +236,10 @@ public class MergeWindow extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         jPanel3.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, controller, org.jdesktop.beansbinding.ELProperty.create("${outputIsValid}"), saveButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, controller, org.jdesktop.beansbinding.ELProperty.create("${outputIsValid and hasUnsavedChanges}"), saveButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${outputFile}"), saveButton, org.jdesktop.beansbinding.BeanProperty.create("text"), "saveButton");
         binding.setConverter(saveButtonConverter);
@@ -238,17 +250,7 @@ public class MergeWindow extends javax.swing.JFrame {
                 saveButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(saveButton);
-
-        discardButton.setText(LocString.get("discard_button")); // NOI18N
-        discardButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                discardButtonActionPerformed(evt);
-            }
-        });
-        jPanel1.add(discardButton);
-
-        jPanel3.add(jPanel1, java.awt.BorderLayout.EAST);
+        jPanel3.add(saveButton, java.awt.BorderLayout.EAST);
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.SOUTH);
 
@@ -285,10 +287,19 @@ public class MergeWindow extends javax.swing.JFrame {
         activateAllButtons(rightRadioButtons);
     }//GEN-LAST:event_useAllRight
 
-    private void discardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discardButtonActionPerformed
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        if (controller.getHasUnsavedChanges()) {
+            int response = JOptionPane.showConfirmDialog(this,
+                LocString.get("confirm_close_message"),
+                LocString.get("merge_window_title"),
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+            if (response != JOptionPane.YES_OPTION) {
+                return;
+            }
+        }
         dispose();
-        System.exit(0);
-    }//GEN-LAST:event_discardButtonActionPerformed
+    }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton allBaseButton;
@@ -299,11 +310,10 @@ public class MergeWindow extends javax.swing.JFrame {
     private org.madlonkay.supertmxmerge.gui.LocStringConverter conflictCountConverter;
     private javax.swing.JLabel conflictCountLabel;
     private org.madlonkay.supertmxmerge.MergeController controller;
-    private javax.swing.JButton discardButton;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
+    private javax.swing.JLabel instructionsLabel;
     private javax.swing.JFileChooser jFileChooser1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
