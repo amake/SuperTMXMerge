@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.xml.bind.UnmarshalException;
 import org.madlonkay.supertmxmerge.data.DiffInfo;
 import org.madlonkay.supertmxmerge.data.DiffSet;
@@ -31,6 +32,7 @@ import org.madlonkay.supertmxmerge.data.TmxFile;
 import org.madlonkay.supertmxmerge.gui.DiffWindow;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
 import org.madlonkay.supertmxmerge.util.FileUtil;
+import org.madlonkay.supertmxmerge.util.LocString;
 import org.madlonkay.supertmxmerge.util.TuvUtil;
 
 /**
@@ -50,7 +52,7 @@ public class DiffController implements Serializable, IController {
     private TmxFile tmx1;
     private TmxFile tmx2;
     
-    private int changeCount;
+    private List<DiffInfo> diffInfos;
     
     private PropertyChangeSupport propertySupport;
     
@@ -116,12 +118,20 @@ public class DiffController implements Serializable, IController {
         } catch (UnmarshalException ex) {
             Logger.getLogger(MergeController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        DiffWindow window = new DiffWindow(this);
-
-        window.pack();
-        window.setLocationRelativeTo(null);
-        window.setVisible(true);
+        
+        generateDiffData();
+        
+        if (diffInfos.isEmpty()) {
+            JOptionPane.showMessageDialog(null,
+                        LocString.get("identical_files_message"),
+                        LocString.get("diff_window_title"),
+                        JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            DiffWindow window = new DiffWindow(this);
+            window.pack();
+            window.setLocationRelativeTo(null);
+            window.setVisible(true);
+        }
     }
 
     @Override
@@ -131,9 +141,18 @@ public class DiffController implements Serializable, IController {
     }
     
     public List<DiffInfo> getDiffInfos() {
+        if (diffInfos == null) {
+            generateDiffData();
+        }
+        return diffInfos;
+    }
+    
+    private void generateDiffData() {
+        
+        diffInfos = new ArrayList<DiffInfo>();
+        
         DiffSet set = DiffUtil.generateDiffSet(getTmx1(), getTmx2());
         
-        List<DiffInfo> diffInfos = new ArrayList<DiffInfo>();
         for (String key : set.deleted) {
             Tuv tuv = getTmx1().getTuvMap().get(key);
             diffInfos.add(new DiffInfo(key, getTmx1().getSourceLanguage(),
@@ -150,23 +169,13 @@ public class DiffController implements Serializable, IController {
             diffInfos.add(new DiffInfo(key, getTmx1().getSourceLanguage(),
                     TuvUtil.getLanguage(tuv1), TuvUtil.getContent(tuv1), TuvUtil.getContent(tuv2)));
         }
-        setChangeCount(diffInfos.size());
-        return diffInfos;
+        propertySupport.firePropertyChange(PROP_CHANGECOUNT, null, null);
     }
 
     /**
      * @return the changeCount
      */
     public int getChangeCount() {
-        return changeCount;
-    }
-
-    /**
-     * @param changeCount the changeCount to set
-     */
-    public void setChangeCount(int changeCount) {
-        int oldChangeCount = this.changeCount;
-        this.changeCount = changeCount;
-        propertySupport.firePropertyChange(PROP_CHANGECOUNT, oldChangeCount, changeCount);
+        return diffInfos.size();
     }
 }

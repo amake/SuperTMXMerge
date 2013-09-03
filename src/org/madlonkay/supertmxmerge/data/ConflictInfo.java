@@ -21,7 +21,7 @@ package org.madlonkay.supertmxmerge.data;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class MergeInfo {
+public class ConflictInfo {
     public final String sourceText;
     public final String sourceLanguage;
     
@@ -30,7 +30,7 @@ public class MergeInfo {
     public final String leftTuvText;
     public final String rightTuvText;
     
-    public MergeInfo(String sourceText, String sourceLanguage,
+    public ConflictInfo(String sourceText, String sourceLanguage,
             String targetLanguage, String baseTuvText, String leftTuvText, String rightTuvText) {
         this.sourceText = sourceText;
         this.sourceLanguage = sourceLanguage;

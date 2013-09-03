@@ -23,7 +23,7 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JRadioButton;
 import org.madlonkay.supertmxmerge.MergeController;
-import org.madlonkay.supertmxmerge.data.MergeInfo;
+import org.madlonkay.supertmxmerge.data.ConflictInfo;
 import org.madlonkay.supertmxmerge.util.FileUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
@@ -45,13 +45,13 @@ public class MergeWindow extends javax.swing.JFrame {
         initComponents();
         
         int n = 1;
-        for (MergeInfo info : controller.getMergeInfos()) {
+        for (ConflictInfo info : controller.getConflicts()) {
             addMergeInfo(n, info);
             n++;
         }
     }
     
-    private void addMergeInfo(int itemNumber, MergeInfo info) {
+    private void addMergeInfo(int itemNumber, ConflictInfo info) {
         MergeCell cell = new MergeCell(itemNumber, info);
         JRadioButton[] buttons = {
                 cell.getLeftButton(),

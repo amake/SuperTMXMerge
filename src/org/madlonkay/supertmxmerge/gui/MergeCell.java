@@ -23,7 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
-import org.madlonkay.supertmxmerge.data.MergeInfo;
+import org.madlonkay.supertmxmerge.data.ConflictInfo;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
@@ -44,7 +44,7 @@ public class MergeCell extends javax.swing.JPanel {
     /**
      * Creates new form TUDiffCell
      */
-    public MergeCell(int itemNumber, MergeInfo info) {
+    public MergeCell(int itemNumber, ConflictInfo info) {
         initComponents();
         
         itemNumberLabel.setText(String.valueOf(itemNumber));

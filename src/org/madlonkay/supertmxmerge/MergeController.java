@@ -22,6 +22,7 @@ import gen.core.tmx14.Tuv;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.*;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,15 +34,18 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractButton;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.UnmarshalException;
 import org.madlonkay.supertmxmerge.data.DiffSet;
-import org.madlonkay.supertmxmerge.data.MergeInfo;
+import org.madlonkay.supertmxmerge.data.ConflictInfo;
 import org.madlonkay.supertmxmerge.data.ResolutionSet;
 import org.madlonkay.supertmxmerge.data.TmxFile;
 import org.madlonkay.supertmxmerge.gui.MergeWindow;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
 import org.madlonkay.supertmxmerge.util.FileUtil;
+import org.madlonkay.supertmxmerge.util.LocString;
 import org.madlonkay.supertmxmerge.util.TuvUtil;
 
 /**
@@ -73,14 +77,14 @@ public class MergeController implements Serializable, IController, ActionListene
     private TmxFile baseTmx;
     private TmxFile leftTmx;
     private TmxFile rightTmx;
-    
-    private int conflictCount;
-    
+        
     private Map<String, AbstractButton[]> selections = new HashMap<String, AbstractButton[]>();
     
-    private Set<String> toDelete = new HashSet<String>();
-    private Set<Tu> toAdd = new HashSet<Tu>();
-    private Map<String, Tuv> toModify = new HashMap<String, Tuv>();
+    private Set<String> toDelete;
+    private Set<Tu> toAdd;
+    private Map<String, Tuv> toReplace;
+    
+    private List<ConflictInfo> conflicts;
     
     public MergeController() {
         propertySupport = new PropertyChangeSupport(this);
@@ -137,10 +141,39 @@ public class MergeController implements Serializable, IController, ActionListene
             Logger.getLogger(MergeController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        MergeWindow window = new MergeWindow(this);
-        window.pack();
-        window.setLocationRelativeTo(null);
-        window.setVisible(true);
+        generateMergeData();
+        
+        if (conflicts.isEmpty()) {
+            // No conflicts; can auto-merge.
+            if (FileUtil.validateFile(outputFile)) {
+                // Output location is set; write output file there and finish.
+                resolve();
+            } else if (toDelete.isEmpty() && toAdd.isEmpty() && toReplace.isEmpty()) {
+                // Output location not set, and files are identical.
+                JOptionPane.showMessageDialog(null,
+                        LocString.get("identical_files_message"),
+                        LocString.get("merge_window_title"),
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // Output location not set, files need merging.
+                JFileChooser chooser = new JFileChooser();
+                if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        String file = chooser.getSelectedFile().getCanonicalPath();
+                        setOutputFile(file);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    resolve();
+                }
+            }
+        } else {
+            // Have conflicts; show window.
+            MergeWindow window = new MergeWindow(this);
+            window.pack();
+            window.setLocationRelativeTo(null);
+            window.setVisible(true);
+        }
     }
     
     @Override
@@ -176,13 +209,25 @@ public class MergeController implements Serializable, IController, ActionListene
         selections.put(key, buttons);
     }
     
-    public List<MergeInfo> getMergeInfos() {
+    public List<ConflictInfo> getConflicts() {
+        if (conflicts == null) {
+            generateMergeData();
+        }
+        return conflicts;
+    }
+    
+    private void generateMergeData() {
+        
+        conflicts = new ArrayList<ConflictInfo>();
+        
+        toDelete = new HashSet<String>();
+        toAdd = new HashSet<Tu>();
+        toReplace = new HashMap<String, Tuv>();
         
         DiffSet baseToLeft = DiffUtil.generateDiffSet(getBaseTmx(), getLeftTmx());
         DiffSet baseToRight = DiffUtil.generateDiffSet(getBaseTmx(), getRightTmx());
         
-        List<MergeInfo> mergeInfos = new ArrayList<MergeInfo>();
-        Set<String> addedKeys = new HashSet<String>();
+        Set<String> conflictKeys = new HashSet<String>();
         // New in left
         for (String key : baseToLeft.added) {
             Tuv leftTuv = getLeftTmx().getTuvMap().get(key);
@@ -192,14 +237,14 @@ public class MergeController implements Serializable, IController, ActionListene
                 continue;
             }
             if (!TuvUtil.equals(leftTuv, rightTuv)) {
-                mergeInfos.add(new MergeInfo(key, getLeftTmx().getSourceLanguage(), TuvUtil.getLanguage(leftTuv),
+                conflicts.add(new ConflictInfo(key, getLeftTmx().getSourceLanguage(), TuvUtil.getLanguage(leftTuv),
                         null, TuvUtil.getContent(leftTuv), TuvUtil.getContent(rightTuv)));
-                addedKeys.add(key);
+                conflictKeys.add(key);
             }
         }
         // New in right
         for (String key : baseToRight.added) {
-            if (addedKeys.contains(key)) {
+            if (conflictKeys.contains(key)) {
                 continue;
             }
             Tuv leftTuv = getLeftTmx().getTuvMap().get(key);
@@ -209,9 +254,9 @@ public class MergeController implements Serializable, IController, ActionListene
                 continue;
             }
             if (!TuvUtil.equals(leftTuv, rightTuv)) {
-                mergeInfos.add(new MergeInfo(key, getRightTmx().getSourceLanguage(), TuvUtil.getLanguage(rightTuv),
+                conflicts.add(new ConflictInfo(key, getRightTmx().getSourceLanguage(), TuvUtil.getLanguage(rightTuv),
                         null, TuvUtil.getContent(leftTuv), TuvUtil.getContent(rightTuv)));
-                addedKeys.add(key);
+                conflictKeys.add(key);
             }
         }
         // Deleted from left
@@ -222,9 +267,9 @@ public class MergeController implements Serializable, IController, ActionListene
                 continue;
             } else {
                 Tuv baseTuv = getBaseTmx().getTuvMap().get(key);
-                mergeInfos.add(new MergeInfo(key, getRightTmx().getSourceLanguage(), TuvUtil.getLanguage(rightTuv),
+                conflicts.add(new ConflictInfo(key, getRightTmx().getSourceLanguage(), TuvUtil.getLanguage(rightTuv),
                         TuvUtil.getContent(baseTuv), null, TuvUtil.getContent(rightTuv)));
-                addedKeys.add(key);
+                conflictKeys.add(key);
             }
         }
         // Deleted from right
@@ -235,43 +280,43 @@ public class MergeController implements Serializable, IController, ActionListene
                 continue;
             } else {
                 Tuv baseTuv = getBaseTmx().getTuvMap().get(key);
-                mergeInfos.add(new MergeInfo(key, getRightTmx().getSourceLanguage(), TuvUtil.getLanguage(baseTuv),
+                conflicts.add(new ConflictInfo(key, getRightTmx().getSourceLanguage(), TuvUtil.getLanguage(baseTuv),
                         TuvUtil.getContent(baseTuv), TuvUtil.getContent(leftTuv), null));
-                addedKeys.add(key);
+                conflictKeys.add(key);
             }
         }
         // Modified on left
         for (String key : baseToLeft.modified) {
+            Tuv baseTuv = getBaseTmx().getTuvMap().get(key);
             Tuv leftTuv = getLeftTmx().getTuvMap().get(key);
             Tuv rightTuv = getRightTmx().getTuvMap().get(key);
-            if (TuvUtil.equals(leftTuv, rightTuv)) {
-                toModify.put(key, leftTuv);
+            if (TuvUtil.equals(leftTuv, rightTuv) || TuvUtil.equals(baseTuv, rightTuv)) {
+                toReplace.put(key, leftTuv);
                 continue;
             } else {
-                Tuv baseTuv = getBaseTmx().getTuvMap().get(key);
-                mergeInfos.add(new MergeInfo(key, getBaseTmx().getSourceLanguage(), TuvUtil.getLanguage(baseTuv),
+                conflicts.add(new ConflictInfo(key, getBaseTmx().getSourceLanguage(), TuvUtil.getLanguage(baseTuv),
                         TuvUtil.getContent(baseTuv), TuvUtil.getContent(leftTuv), TuvUtil.getContent(rightTuv)));
-                addedKeys.add(key);
+                conflictKeys.add(key);
             }
         }
         // Modified on right
         for (String key : baseToRight.modified) {
-            if (addedKeys.contains(key)) {
+            if (conflictKeys.contains(key)) {
                 continue;
             }
             Tuv leftTuv = getLeftTmx().getTuvMap().get(key);
             Tuv rightTuv = getRightTmx().getTuvMap().get(key);
             Tuv baseTuv = getBaseTmx().getTuvMap().get(key);
-            if (TuvUtil.equals(leftTuv, rightTuv)) {
-                toModify.put(key, rightTuv);
+            if (TuvUtil.equals(leftTuv, rightTuv) || TuvUtil.equals(baseTuv, leftTuv)) {
+                toReplace.put(key, rightTuv);
+                continue;
             } else {
-                mergeInfos.add(new MergeInfo(key, getBaseTmx().getSourceLanguage(), TuvUtil.getLanguage(baseTuv),
+                conflicts.add(new ConflictInfo(key, getBaseTmx().getSourceLanguage(), TuvUtil.getLanguage(baseTuv),
                         TuvUtil.getContent(baseTuv), TuvUtil.getContent(leftTuv), TuvUtil.getContent(rightTuv)));
-                addedKeys.add(key);
+                conflictKeys.add(key);
             }
         }
-        setConflictCount(mergeInfos.size());
-        return mergeInfos;
+        propertySupport.firePropertyChange(PROP_CONFLICTCOUNT, null, null);
     }
 
     /**
@@ -342,16 +387,7 @@ public class MergeController implements Serializable, IController, ActionListene
      * @return the conflictCount
      */
     public int getConflictCount() {
-        return conflictCount;
-    }
-
-    /**
-     * @param conflictCount the conflictCount to set
-     */
-    public void setConflictCount(int conflictCount) {
-        int oldConflictCount = this.conflictCount;
-        this.conflictCount = conflictCount;
-        propertySupport.firePropertyChange(PROP_CONFLICTCOUNT, oldConflictCount, conflictCount);
+        return conflicts.size();
     }
 
     @Override
@@ -376,7 +412,7 @@ public class MergeController implements Serializable, IController, ActionListene
         }
         
         try {
-            TmxFile outputTmx = baseTmx.applyChanges(new ResolutionSet(toDelete, toAdd, toModify));
+            TmxFile outputTmx = baseTmx.applyChanges(new ResolutionSet(toDelete, toAdd, toReplace));
             outputTmx.writeTo(outputFile);
         } catch (JAXBException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -387,7 +423,7 @@ public class MergeController implements Serializable, IController, ActionListene
         if (!tmx.getTuvMap().containsKey(key)) {
             toDelete.add(key);
         } else if (baseTmx.getTuvMap().containsKey(key)) {
-            toModify.put(key, tmx.getTuvMap().get(key));
+            toReplace.put(key, tmx.getTuvMap().get(key));
         } else {
             toAdd.add(tmx.getTuMap().get(key));
         }
