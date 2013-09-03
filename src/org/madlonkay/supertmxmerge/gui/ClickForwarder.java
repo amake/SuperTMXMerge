@@ -35,6 +35,8 @@ public class ClickForwarder extends MouseAdapter {
     
     @Override
     public void mouseClicked(MouseEvent me) {
-        target.doClick();
-    }    
+        if (me.getButton() == MouseEvent.BUTTON1 && me.getModifiersEx() == 0) {
+            target.doClick();
+        }
+    }
 }
