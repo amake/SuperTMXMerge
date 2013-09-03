@@ -169,7 +169,7 @@ public class MergeCell extends javax.swing.JPanel {
         sourceScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         sourceText.setEditable(false);
-        sourceText.setColumns(40);
+        sourceText.setColumns(72);
         sourceText.setFont(UIManager.getDefaults().getFont("Label.font"));
         sourceText.setLineWrap(true);
         sourceText.setRows(2);

@@ -17,6 +17,8 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import org.madlonkay.supertmxmerge.DiffController;
 import org.madlonkay.supertmxmerge.data.DiffInfo;
 import org.madlonkay.supertmxmerge.util.LocString;
@@ -26,9 +28,9 @@ import org.madlonkay.supertmxmerge.util.LocString;
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
 public class DiffWindow extends javax.swing.JFrame {
-
+   
     /**
-     * Creates new form MergeWindow
+     * Creates new form DiffWindow
      */
     public DiffWindow(DiffController controller) {
         this.controller = controller;
@@ -37,6 +39,13 @@ public class DiffWindow extends javax.swing.JFrame {
         for (DiffInfo info : controller.getDiffInfos()) {
             addDiffInfo(n, info);
             n++;
+        }
+    }
+    
+    public void fixSize() {
+        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        if (getHeight() > screen.height * 0.9) {
+            setSize((int) (getWidth() * 1.1), (int) (screen.height * 0.9));
         }
     }
     

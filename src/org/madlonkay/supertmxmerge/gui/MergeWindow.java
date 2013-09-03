@@ -17,6 +17,8 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,7 @@ public class MergeWindow extends javax.swing.JFrame {
     private List<JRadioButton> leftRadioButtons = new ArrayList<JRadioButton>();
     private List<JRadioButton> rightRadioButtons = new ArrayList<JRadioButton>();
     private List<JRadioButton> centerRadioButtons = new ArrayList<JRadioButton>();
-    
+        
     /**
      * Creates new form MergeWindow
      */
@@ -49,6 +51,13 @@ public class MergeWindow extends javax.swing.JFrame {
         for (ConflictInfo info : controller.getConflicts()) {
             addMergeInfo(n, info);
             n++;
+        }        
+    }
+    
+    public void fixSize() {
+        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        if (getHeight() > screen.height * 0.9) {
+            setSize((int) (getWidth() * 1.1), (int) (screen.height * 0.9));
         }
     }
     

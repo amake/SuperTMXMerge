@@ -174,6 +174,7 @@ public class MergeController implements Serializable, IController, ActionListene
             // Have conflicts; show window.
             MergeWindow window = new MergeWindow(this);
             window.pack();
+            window.fixSize();
             window.setLocationRelativeTo(null);
             window.setVisible(true);
         }

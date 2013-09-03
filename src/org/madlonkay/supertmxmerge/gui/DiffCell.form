@@ -45,6 +45,7 @@
         </Property>
         <Property name="dividerSize" type="int" value="0"/>
         <Property name="orientation" type="int" value="0"/>
+        <Property name="resizeWeight" type="double" value="0.5"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -80,7 +81,7 @@
                 <Component class="javax.swing.JTextArea" name="sourceText">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
-                    <Property name="columns" type="int" value="40"/>
+                    <Property name="columns" type="int" value="72"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                       <Connection code="UIManager.getDefaults().getFont(&quot;Label.font&quot;)" type="code"/>
                     </Property>

@@ -129,6 +129,7 @@ public class DiffController implements Serializable, IController {
         } else {
             DiffWindow window = new DiffWindow(this);
             window.pack();
+            window.fixSize();
             window.setLocationRelativeTo(null);
             window.setVisible(true);
         }
