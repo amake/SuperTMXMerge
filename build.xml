@@ -2,6 +2,11 @@
 <project name="SuperTMXMerge" default="default" basedir=".">
     <description>Builds, tests, and runs the project SuperTMXMerge.</description>
     <import file="nbproject/build-impl.xml"/>
+    <target name="-post-jar">
+        <copy todir="dist">
+            <fileset dir="release" includes="*"/>
+        </copy>
+    </target>
     <target name="gen">
         <exec executable="xjc">
             <arg line="-d src"/>
