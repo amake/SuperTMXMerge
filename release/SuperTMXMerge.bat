@@ -1,3 +1,3 @@
-cd /D %~dp0
+@echo off
 
-java -jar SuperTMXMerge.jar %*
+start /min java -jar %~dp0SuperTMXMerge.jar %*
