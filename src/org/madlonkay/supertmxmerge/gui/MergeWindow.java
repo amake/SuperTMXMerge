@@ -56,9 +56,11 @@ public class MergeWindow extends javax.swing.JFrame {
     
     public void fixSize() {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        if (getHeight() > screen.height * 0.9) {
-            setSize((int) (getWidth() * 1.1), (int) (screen.height * 0.9));
+        int newHeight = getHeight();
+        if (newHeight > screen.height * 0.9) {
+            newHeight = (int) (screen.height * 0.9);
         }
+        setSize((int) (getWidth() * 1.1), newHeight);
     }
     
     private void addMergeInfo(int itemNumber, ConflictInfo info) {

@@ -36,7 +36,6 @@ public class DiffCell extends javax.swing.JPanel {
         
         itemNumberLabel.setText(String.valueOf(itemNumber));
         sourceText.setText(info.sourceText);
-        sourceText.setRows(sourceText.getLineCount());
         setSourceLanguage(info.sourceLanguage);
         setTargetLanguage(info.targetLanguage);
         setPreText(info.tuv1Text);
@@ -110,7 +109,6 @@ public class DiffCell extends javax.swing.JPanel {
         sourceText.setColumns(72);
         sourceText.setFont(UIManager.getDefaults().getFont("Label.font"));
         sourceText.setLineWrap(true);
-        sourceText.setRows(2);
         sourceText.setText("Source text");
         sourceText.setWrapStyleWord(true);
         jScrollPane3.setViewportView(sourceText);

@@ -82,6 +82,7 @@
         </Property>
         <Property name="dividerSize" type="int" value="0"/>
         <Property name="orientation" type="int" value="0"/>
+        <Property name="resizeWeight" type="double" value="0.5"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -127,7 +128,6 @@
                       <Connection code="UIManager.getDefaults().getFont(&quot;Label.font&quot;)" type="code"/>
                     </Property>
                     <Property name="lineWrap" type="boolean" value="true"/>
-                    <Property name="rows" type="int" value="2"/>
                     <Property name="text" type="java.lang.String" value="Source text"/>
                     <Property name="wrapStyleWord" type="boolean" value="true"/>
                   </Properties>

@@ -50,7 +50,6 @@ public class MergeCell extends javax.swing.JPanel {
         
         itemNumberLabel.setText(String.valueOf(itemNumber));
         sourceText.setText(info.sourceText);
-        sourceText.setRows(sourceText.getLineCount());
         setSourceLanguage(info.sourceLanguage);
         setTargetLanguage(info.targetLanguage);
         setBaseText(info.baseTuvText);
@@ -162,6 +161,7 @@ public class MergeCell extends javax.swing.JPanel {
         sourceTargetPane.setBorder(null);
         sourceTargetPane.setDividerSize(0);
         sourceTargetPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+        sourceTargetPane.setResizeWeight(0.5);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Source Language"));
         jPanel2.setLayout(new java.awt.BorderLayout());
@@ -172,7 +172,6 @@ public class MergeCell extends javax.swing.JPanel {
         sourceText.setColumns(72);
         sourceText.setFont(UIManager.getDefaults().getFont("Label.font"));
         sourceText.setLineWrap(true);
-        sourceText.setRows(2);
         sourceText.setText("Source text");
         sourceText.setWrapStyleWord(true);
         sourceScrollPane.setViewportView(sourceText);
