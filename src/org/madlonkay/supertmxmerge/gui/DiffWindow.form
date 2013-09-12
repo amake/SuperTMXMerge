@@ -17,6 +17,8 @@
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new LocStringConverter(&quot;number_of_changes&quot;, &quot;number_of_changes_singular&quot;)"/>
       </AuxValues>
     </Component>
+    <Component class="org.madlonkay.supertmxmerge.gui.MapToTextConverter" name="mapToTextConverter">
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -80,6 +82,12 @@
                 <BindingProperty name="text" source="controller" sourcePath="${tmx1.fileName}" target="file1Label" targetPath="text" updateStrategy="1" immediately="false">
                   <Property name="name" type="java.lang.String" value="file1Name"/>
                 </BindingProperty>
+                <BindingProperty name="toolTipText" source="controller" sourcePath="${tmx1.metadata}" target="file1Label" targetPath="toolTipText" updateStrategy="0" immediately="false">
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                    <ComponentRef name="mapToTextConverter"/>
+                  </Property>
+                  <Property name="name" type="java.lang.String" value="file1Metadata"/>
+                </BindingProperty>
               </BindingProperties>
             </Component>
             <Component class="javax.swing.JLabel" name="file2Label">
@@ -94,6 +102,12 @@
               <BindingProperties>
                 <BindingProperty name="text" source="controller" sourcePath="${tmx2.fileName}" target="file2Label" targetPath="text" updateStrategy="1" immediately="false">
                   <Property name="name" type="java.lang.String" value="file2Name"/>
+                </BindingProperty>
+                <BindingProperty name="toolTipText" source="controller" sourcePath="${tmx2.metadata}" target="file2Label" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                    <ComponentRef name="mapToTextConverter"/>
+                  </Property>
+                  <Property name="name" type="java.lang.String" value="tmx2Metadata"/>
                 </BindingProperty>
               </BindingProperties>
             </Component>

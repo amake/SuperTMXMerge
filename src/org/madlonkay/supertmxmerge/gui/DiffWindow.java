@@ -19,6 +19,7 @@ package org.madlonkay.supertmxmerge.gui;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import javax.swing.ToolTipManager;
 import org.madlonkay.supertmxmerge.DiffController;
 import org.madlonkay.supertmxmerge.data.DiffInfo;
 import org.madlonkay.supertmxmerge.util.LocString;
@@ -40,6 +41,9 @@ public class DiffWindow extends javax.swing.JFrame {
             addDiffInfo(n, info);
             n++;
         }
+        // Keep tooltips open. Via:
+        // http://www.rgagnon.com/javadetails/java-0528.html
+        ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
     }
     
     public void fixSize() {
@@ -72,6 +76,7 @@ public class DiffWindow extends javax.swing.JFrame {
         controller = getController();
         unitCountConverter = new LocStringConverter("number_of_units", "number_of_units_singular");
         changeCountConverter = new LocStringConverter("number_of_changes", "number_of_changes_singular");
+        mapToTextConverter = new org.madlonkay.supertmxmerge.gui.MapToTextConverter();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         file1Label = new javax.swing.JLabel();
@@ -95,6 +100,9 @@ public class DiffWindow extends javax.swing.JFrame {
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx1.fileName}"), file1Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file1Name");
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx1.metadata}"), file1Label, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"), "file1Metadata");
+        binding.setConverter(mapToTextConverter);
+        bindingGroup.addBinding(binding);
 
         jPanel2.add(file1Label);
 
@@ -102,6 +110,9 @@ public class DiffWindow extends javax.swing.JFrame {
         file2Label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx2.fileName}"), file2Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file2Name");
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx2.metadata}"), file2Label, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"), "tmx2Metadata");
+        binding.setConverter(mapToTextConverter);
         bindingGroup.addBinding(binding);
 
         jPanel2.add(file2Label);
@@ -159,6 +170,7 @@ public class DiffWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private org.madlonkay.supertmxmerge.gui.MapToTextConverter mapToTextConverter;
     private org.madlonkay.supertmxmerge.gui.LocStringConverter unitCountConverter;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables

@@ -41,6 +41,7 @@ import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.Source;
 import javax.xml.transform.sax.SAXSource;
+import org.madlonkay.supertmxmerge.util.ReflectionUtil;
 import org.madlonkay.supertmxmerge.util.TuvUtil;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
@@ -71,6 +72,7 @@ public class TmxFile {
     private String filepath;
     private Map<String, Tuv> anonymousTuvs;
     private Map<String, Tu> tuMap;
+    private Map<String, String> tmxMetadata;
     
     private static final String FEATURE_NAMESPACES = "http://xml.org/sax/features/namespaces";
     private static final String FEATURE_NAMESPACE_PREFIXES = "http://xml.org/sax/features/namespace-prefixes";
@@ -169,6 +171,17 @@ public class TmxFile {
             tuMap.put(key, tu);
             anonymousTuvs.put(key, TuvUtil.getTargetTuv(tu, getSourceLanguage()));
         }
+    }
+    
+    public Map<String, String> getMetadata() {
+        if (tmxMetadata == null) {
+            generateMetadata();
+        }
+        return tmxMetadata;
+    }
+    
+    private void generateMetadata() {
+        tmxMetadata = ReflectionUtil.simplePropsToMap(getData().getHeader());
     }
 
     /**

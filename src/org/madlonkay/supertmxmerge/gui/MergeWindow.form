@@ -21,6 +21,8 @@
     </Component>
     <Component class="javax.swing.JFileChooser" name="jFileChooser1">
     </Component>
+    <Component class="org.madlonkay.supertmxmerge.gui.MapToTextConverter" name="mapToTextConverter">
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="0"/>
@@ -82,11 +84,16 @@
                     <Font bold="true" component="leftFilename" property="font" relativeSize="true" size="2"/>
                   </FontInfo>
                 </Property>
-                <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
               <BindingProperties>
                 <BindingProperty name="text" source="controller" sourcePath="${leftTmx.fileName}" target="leftFilename" targetPath="text" updateStrategy="1" immediately="false">
                   <Property name="name" type="java.lang.String" value="leftFileName"/>
+                </BindingProperty>
+                <BindingProperty name="toolTipText" source="controller" sourcePath="${leftTmx.metadata}" target="leftFilename" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                    <ComponentRef name="mapToTextConverter"/>
+                  </Property>
+                  <Property name="name" type="java.lang.String" value="leftTmxMetadata"/>
                 </BindingProperty>
               </BindingProperties>
             </Component>
@@ -103,6 +110,12 @@
                 <BindingProperty name="text" source="controller" sourcePath="${baseTmx.fileName}" target="centerFilename" targetPath="text" updateStrategy="1" immediately="false">
                   <Property name="name" type="java.lang.String" value="baseFileName"/>
                 </BindingProperty>
+                <BindingProperty name="toolTipText" source="controller" sourcePath="${baseTmx.metadata}" target="centerFilename" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                    <ComponentRef name="mapToTextConverter"/>
+                  </Property>
+                  <Property name="name" type="java.lang.String" value="centerTmxMetadata"/>
+                </BindingProperty>
               </BindingProperties>
             </Component>
             <Component class="javax.swing.JLabel" name="rightFilename">
@@ -117,6 +130,12 @@
               <BindingProperties>
                 <BindingProperty name="text" source="controller" sourcePath="${rightTmx.fileName}" target="rightFilename" targetPath="text" updateStrategy="1" immediately="false">
                   <Property name="name" type="java.lang.String" value="rightFileName"/>
+                </BindingProperty>
+                <BindingProperty name="toolTipText" source="controller" sourcePath="${rightTmx.metadata}" target="rightFilename" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                    <ComponentRef name="mapToTextConverter"/>
+                  </Property>
+                  <Property name="name" type="java.lang.String" value="rightTmxMetadata"/>
                 </BindingProperty>
               </BindingProperties>
             </Component>

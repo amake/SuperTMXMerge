@@ -25,6 +25,7 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+import javax.swing.ToolTipManager;
 import org.madlonkay.supertmxmerge.MergeController;
 import org.madlonkay.supertmxmerge.data.ConflictInfo;
 import org.madlonkay.supertmxmerge.util.FileUtil;
@@ -51,7 +52,10 @@ public class MergeWindow extends javax.swing.JFrame {
         for (ConflictInfo info : controller.getConflicts()) {
             addMergeInfo(n, info);
             n++;
-        }        
+        }
+        // Keep tooltips open. Via:
+        // http://www.rgagnon.com/javadetails/java-0528.html
+        ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
     }
     
     public void fixSize() {
@@ -106,6 +110,7 @@ public class MergeWindow extends javax.swing.JFrame {
         saveButtonConverter = new org.madlonkay.supertmxmerge.gui.SaveButtonConverter();
         conflictCountConverter = new LocStringConverter("number_of_conflicts", "number_of_conflicts_singular");
         jFileChooser1 = new javax.swing.JFileChooser();
+        mapToTextConverter = new org.madlonkay.supertmxmerge.gui.MapToTextConverter();
         jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         leftFilename = new javax.swing.JLabel();
@@ -142,9 +147,11 @@ public class MergeWindow extends javax.swing.JFrame {
         jPanel2.setLayout(new java.awt.GridLayout(2, 3));
 
         leftFilename.setFont(leftFilename.getFont().deriveFont(leftFilename.getFont().getStyle() | java.awt.Font.BOLD, leftFilename.getFont().getSize()+2));
-        leftFilename.setToolTipText("");
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${leftTmx.fileName}"), leftFilename, org.jdesktop.beansbinding.BeanProperty.create("text"), "leftFileName");
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${leftTmx.metadata}"), leftFilename, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"), "leftTmxMetadata");
+        binding.setConverter(mapToTextConverter);
         bindingGroup.addBinding(binding);
 
         jPanel2.add(leftFilename);
@@ -154,6 +161,9 @@ public class MergeWindow extends javax.swing.JFrame {
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${baseTmx.fileName}"), centerFilename, org.jdesktop.beansbinding.BeanProperty.create("text"), "baseFileName");
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${baseTmx.metadata}"), centerFilename, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"), "centerTmxMetadata");
+        binding.setConverter(mapToTextConverter);
+        bindingGroup.addBinding(binding);
 
         jPanel2.add(centerFilename);
 
@@ -161,6 +171,9 @@ public class MergeWindow extends javax.swing.JFrame {
         rightFilename.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${rightTmx.fileName}"), rightFilename, org.jdesktop.beansbinding.BeanProperty.create("text"), "rightFileName");
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${rightTmx.metadata}"), rightFilename, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"), "rightTmxMetadata");
+        binding.setConverter(mapToTextConverter);
         bindingGroup.addBinding(binding);
 
         jPanel2.add(rightFilename);
@@ -334,6 +347,7 @@ public class MergeWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel leftFilename;
     private javax.swing.JLabel leftTextUnits;
+    private org.madlonkay.supertmxmerge.gui.MapToTextConverter mapToTextConverter;
     private javax.swing.JPanel mergeInfoPanel;
     private javax.swing.JLabel rightFilename;
     private javax.swing.JLabel rightTextUnits;
