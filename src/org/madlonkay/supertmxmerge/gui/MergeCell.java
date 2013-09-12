@@ -25,6 +25,7 @@ import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import org.madlonkay.supertmxmerge.data.ConflictInfo;
+import org.madlonkay.supertmxmerge.util.DiffUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
@@ -58,6 +59,8 @@ public class MergeCell extends javax.swing.JPanel {
         tuvTextLeft.addMouseListener(new ClickForwarder(leftButton));
         tuvTextRight.addMouseListener(new ClickForwarder(rightButton));
         tuvTextCenter.addMouseListener(new ClickForwarder(centerButton));
+        DiffUtil.applyStyling(tuvTextCenter, tuvTextLeft, info.leftTuvDiff);
+        DiffUtil.applyStyling(tuvTextCenter, tuvTextRight, info.rightTuvDiff, true);
     }
     
     private void setSourceLanguage(String language) {
@@ -129,12 +132,12 @@ public class MergeCell extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         targetTargetPane = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tuvTextLeft = new javax.swing.JTextArea();
+        tuvTextLeft = new javax.swing.JTextPane();
         jSplitPane1 = new javax.swing.JSplitPane();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tuvTextCenter = new javax.swing.JTextArea();
+        tuvTextCenter = new javax.swing.JTextPane();
         jScrollPane5 = new javax.swing.JScrollPane();
-        tuvTextRight = new javax.swing.JTextArea();
+        tuvTextRight = new javax.swing.JTextPane();
 
         buttonGroup.add(leftButton);
         leftButton.setContentAreaFilled(false);
@@ -195,9 +198,7 @@ public class MergeCell extends javax.swing.JPanel {
 
         tuvTextLeft.setEditable(false);
         tuvTextLeft.setFont(UIManager.getDefaults().getFont("Label.font"));
-        tuvTextLeft.setLineWrap(true);
         tuvTextLeft.setText("Target text 1");
-        tuvTextLeft.setWrapStyleWord(true);
         jScrollPane1.setViewportView(tuvTextLeft);
 
         targetTargetPane.setLeftComponent(jScrollPane1);
@@ -214,9 +215,7 @@ public class MergeCell extends javax.swing.JPanel {
 
         tuvTextCenter.setEditable(false);
         tuvTextCenter.setFont(UIManager.getDefaults().getFont("Label.font"));
-        tuvTextCenter.setLineWrap(true);
         tuvTextCenter.setText("Target text 2");
-        tuvTextCenter.setWrapStyleWord(true);
         jScrollPane2.setViewportView(tuvTextCenter);
 
         jSplitPane1.setLeftComponent(jScrollPane2);
@@ -227,9 +226,7 @@ public class MergeCell extends javax.swing.JPanel {
 
         tuvTextRight.setEditable(false);
         tuvTextRight.setFont(UIManager.getDefaults().getFont("Label.font"));
-        tuvTextRight.setLineWrap(true);
-        tuvTextRight.setText("Target text 2");
-        tuvTextRight.setWrapStyleWord(true);
+        tuvTextRight.setText("Target text 3");
         jScrollPane5.setViewportView(tuvTextRight);
 
         jSplitPane1.setRightComponent(jScrollPane5);
@@ -266,9 +263,9 @@ public class MergeCell extends javax.swing.JPanel {
     private javax.swing.JSplitPane sourceTargetPane;
     private javax.swing.JTextArea sourceText;
     private javax.swing.JSplitPane targetTargetPane;
-    private javax.swing.JTextArea tuvTextCenter;
-    private javax.swing.JTextArea tuvTextLeft;
-    private javax.swing.JTextArea tuvTextRight;
+    private javax.swing.JTextPane tuvTextCenter;
+    private javax.swing.JTextPane tuvTextLeft;
+    private javax.swing.JTextPane tuvTextRight;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 

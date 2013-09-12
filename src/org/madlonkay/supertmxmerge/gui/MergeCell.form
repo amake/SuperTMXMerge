@@ -188,15 +188,13 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTextArea" name="tuvTextLeft">
+                    <Component class="javax.swing.JTextPane" name="tuvTextLeft">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                           <Connection code="UIManager.getDefaults().getFont(&quot;Label.font&quot;)" type="code"/>
                         </Property>
-                        <Property name="lineWrap" type="boolean" value="true"/>
                         <Property name="text" type="java.lang.String" value="Target text 1"/>
-                        <Property name="wrapStyleWord" type="boolean" value="true"/>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -237,15 +235,13 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                       <SubComponents>
-                        <Component class="javax.swing.JTextArea" name="tuvTextCenter">
+                        <Component class="javax.swing.JTextPane" name="tuvTextCenter">
                           <Properties>
                             <Property name="editable" type="boolean" value="false"/>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="UIManager.getDefaults().getFont(&quot;Label.font&quot;)" type="code"/>
                             </Property>
-                            <Property name="lineWrap" type="boolean" value="true"/>
                             <Property name="text" type="java.lang.String" value="Target text 2"/>
-                            <Property name="wrapStyleWord" type="boolean" value="true"/>
                           </Properties>
                         </Component>
                       </SubComponents>
@@ -270,15 +266,13 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                       <SubComponents>
-                        <Component class="javax.swing.JTextArea" name="tuvTextRight">
+                        <Component class="javax.swing.JTextPane" name="tuvTextRight">
                           <Properties>
                             <Property name="editable" type="boolean" value="false"/>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="UIManager.getDefaults().getFont(&quot;Label.font&quot;)" type="code"/>
                             </Property>
-                            <Property name="lineWrap" type="boolean" value="true"/>
-                            <Property name="text" type="java.lang.String" value="Target text 2"/>
-                            <Property name="wrapStyleWord" type="boolean" value="true"/>
+                            <Property name="text" type="java.lang.String" value="Target text 3"/>
                           </Properties>
                         </Component>
                       </SubComponents>

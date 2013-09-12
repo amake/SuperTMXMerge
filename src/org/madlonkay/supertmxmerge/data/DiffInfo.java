@@ -17,6 +17,9 @@
  */
 package org.madlonkay.supertmxmerge.data;
 
+import bmsi.util.Diff;
+import org.madlonkay.supertmxmerge.util.DiffUtil;
+
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
@@ -30,6 +33,8 @@ public class DiffInfo {
     public final String tuv1Text;
     public final String tuv2Text;
     
+    public final Diff.change diff;
+    
     public DiffInfo(String sourceText, String sourceLanguage,
             String targetLanguage, String tuv1Text, String tuv2Text) {
         this.sourceText = sourceText;
@@ -37,5 +42,6 @@ public class DiffInfo {
         this.targetLanguage = targetLanguage;
         this.tuv1Text = tuv1Text;
         this.tuv2Text = tuv2Text;
+        this.diff = DiffUtil.getCharacterDiff(tuv1Text, tuv2Text);
     }
 }

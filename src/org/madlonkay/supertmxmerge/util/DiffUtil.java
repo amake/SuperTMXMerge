@@ -17,10 +17,17 @@
  */
 package org.madlonkay.supertmxmerge.util;
 
+import bmsi.util.Diff;
 import gen.core.tmx14.Tuv;
+import java.awt.Color;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import javax.swing.JTextPane;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import org.madlonkay.supertmxmerge.data.DiffSet;
 import org.madlonkay.supertmxmerge.data.TmxFile;
 
@@ -29,6 +36,33 @@ import org.madlonkay.supertmxmerge.data.TmxFile;
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
 public class DiffUtil {
+    
+    private static final AttributeSet STYLE_INSERTED;
+    private static final AttributeSet STYLE_INSERTED_ALT;
+    private static final AttributeSet STYLE_DELETED;
+    private static final AttributeSet STYLE_DELETED_ALT;
+    
+    static {
+        MutableAttributeSet inserted = new SimpleAttributeSet();
+        StyleConstants.setUnderline(inserted, true);
+        StyleConstants.setForeground(inserted, Color.GREEN);
+        STYLE_INSERTED = inserted;
+        
+        MutableAttributeSet insertedAlt = new SimpleAttributeSet();
+        StyleConstants.setUnderline(insertedAlt, true);
+        StyleConstants.setForeground(insertedAlt, Color.BLUE);
+        STYLE_INSERTED_ALT = insertedAlt;
+        
+        MutableAttributeSet deleted = new SimpleAttributeSet();
+        StyleConstants.setStrikeThrough(deleted, true);
+        StyleConstants.setForeground(deleted, Color.RED);
+        STYLE_DELETED = deleted;
+        
+        MutableAttributeSet deletedAlt = new SimpleAttributeSet();
+        StyleConstants.setStrikeThrough(deletedAlt, true);
+        StyleConstants.setForeground(deletedAlt, Color.ORANGE);
+        STYLE_DELETED_ALT = deletedAlt;
+    }
     
     public static DiffSet generateDiffSet(TmxFile tmx1, TmxFile tmx2) {
         // Deleted TUs
@@ -51,5 +85,56 @@ public class DiffUtil {
             }
         }
         return new DiffSet(deleted, added, modified);
+    }
+    
+    public static Diff.change getCharacterDiff(String from, String to) {
+        // Don't compute diff if entire strings were added/removed.
+        if (from == null || to == null) {
+            return null;
+        }
+        
+        int[] fromArray = toArray(from);
+        int[] toArray = toArray(to);
+        
+        return new Diff(fromArray, toArray).diff_2(false);
+    }
+    
+    private static int[] toArray(String string) {
+        if (string == null) {
+            return new int[] {};
+        }
+        int[] result = new int[string.length()];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = (int) string.charAt(i);
+        }
+        return result;
+    }
+    
+    public static void applyStyling(JTextPane deleteComponent,
+            JTextPane insertComponent, Diff.change styling, boolean alternateColors) {
+        if (styling == null) {
+            return;
+        }
+        
+        if (styling.deleted > 0 && deleteComponent != null) {
+            deleteComponent.setSelectionStart(styling.line1);
+            deleteComponent.setSelectionEnd(styling.line1 + styling.deleted);
+            deleteComponent.setCharacterAttributes(
+                    alternateColors ? STYLE_DELETED_ALT : STYLE_DELETED, false);
+        }
+        
+        if (styling.inserted > 0 && insertComponent != null) {
+            insertComponent.setSelectionStart(styling.line1);
+            insertComponent.setSelectionEnd(styling.line1 + styling.inserted);
+            insertComponent.setCharacterAttributes(
+                    alternateColors ? STYLE_INSERTED_ALT : STYLE_INSERTED, false);
+        }
+        
+        applyStyling(deleteComponent, insertComponent, styling.link, alternateColors);
+    }
+    
+    public static void applyStyling(JTextPane deleteComponent,
+            JTextPane insertComponent, Diff.change styling) {
+        applyStyling(deleteComponent, insertComponent, styling, false);
     }
 }

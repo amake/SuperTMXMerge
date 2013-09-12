@@ -20,6 +20,7 @@ package org.madlonkay.supertmxmerge.gui;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import org.madlonkay.supertmxmerge.data.DiffInfo;
+import org.madlonkay.supertmxmerge.util.DiffUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
@@ -40,6 +41,7 @@ public class DiffCell extends javax.swing.JPanel {
         setTargetLanguage(info.targetLanguage);
         setPreText(info.tuv1Text);
         setPostText(info.tuv2Text);
+        DiffUtil.applyStyling(tuvText1, tuvText2, info.diff);
     }
     
     private void setSourceLanguage(String language) {
@@ -84,9 +86,9 @@ public class DiffCell extends javax.swing.JPanel {
         sourceText = new javax.swing.JTextArea();
         targetTargetPane = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tuvText1 = new javax.swing.JTextArea();
+        tuvText1 = new javax.swing.JTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tuvText2 = new javax.swing.JTextArea();
+        tuvText2 = new javax.swing.JTextPane();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setLayout(new java.awt.BorderLayout());
@@ -126,9 +128,7 @@ public class DiffCell extends javax.swing.JPanel {
 
         tuvText1.setEditable(false);
         tuvText1.setFont(UIManager.getDefaults().getFont("Label.font"));
-        tuvText1.setLineWrap(true);
         tuvText1.setText("Target text 1");
-        tuvText1.setWrapStyleWord(true);
         jScrollPane1.setViewportView(tuvText1);
 
         targetTargetPane.setLeftComponent(jScrollPane1);
@@ -137,9 +137,7 @@ public class DiffCell extends javax.swing.JPanel {
 
         tuvText2.setEditable(false);
         tuvText2.setFont(UIManager.getDefaults().getFont("Label.font"));
-        tuvText2.setLineWrap(true);
         tuvText2.setText("Target text 2");
-        tuvText2.setWrapStyleWord(true);
         jScrollPane2.setViewportView(tuvText2);
 
         targetTargetPane.setRightComponent(jScrollPane2);
@@ -157,8 +155,8 @@ public class DiffCell extends javax.swing.JPanel {
     private javax.swing.JTextArea sourceText;
     private javax.swing.JPanel sourceTextPanel;
     private javax.swing.JSplitPane targetTargetPane;
-    private javax.swing.JTextArea tuvText1;
-    private javax.swing.JTextArea tuvText2;
+    private javax.swing.JTextPane tuvText1;
+    private javax.swing.JTextPane tuvText2;
     // End of variables declaration//GEN-END:variables
 
 }
