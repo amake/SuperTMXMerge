@@ -216,6 +216,14 @@
         <seg>{0}個のユニット</seg>
       </tuv>
     </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dignissim pretium eros, eget consectetur est fringilla sed. Proin purus dui, semper et lacus eget, consequat pulvinar lectus. Maecenas elementum erat in leo cursus, id gravida nisi malesuada. Mauris mattis lacus vel velit egestas, eget iaculis odio faucibus.</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103036Z" creationid="aaron.madlon-kay" creationdate="20130831T103036Z">
+        <seg>私たちは、コメントを投稿してください。最大の経済、生産性が向上するが、セールスマンは、こちらをご覧ください。常に機能や湖純粋なパフォーマンス、写真撮影バレーボール施設に入れる。我々は、それがライオンの過程であったと思いますし、その子が必要ですね。ニーズにログインリソースや意志、ターゲットを絞った産業観光の必要性。</seg>
+      </tuv>
+    </tu>
 <!-- Alternative translations -->
   </body>
 </tmx>
