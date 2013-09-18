@@ -17,8 +17,6 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import javax.swing.ToolTipManager;
 import org.madlonkay.supertmxmerge.DiffController;
 import org.madlonkay.supertmxmerge.data.DiffInfo;
