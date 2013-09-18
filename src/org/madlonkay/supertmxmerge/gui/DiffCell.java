@@ -50,7 +50,7 @@ public class DiffCell extends javax.swing.JPanel {
     }
     
     private void setTargetLanguage(String language) {
-        TitledBorder targetBorder = (TitledBorder) targetTargetPane.getBorder();
+        TitledBorder targetBorder = (TitledBorder) targetTextsPanel.getBorder();
         targetBorder.setTitle(language);
     }
     
@@ -80,11 +80,11 @@ public class DiffCell extends javax.swing.JPanel {
     private void initComponents() {
 
         itemNumberLabel = new javax.swing.JLabel();
-        sourceTargetPane = new javax.swing.JSplitPane();
+        jPanel2 = new javax.swing.JPanel();
         sourceTextPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         sourceText = new javax.swing.JTextArea();
-        targetTargetPane = new javax.swing.JSplitPane();
+        targetTextsPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tuvText1 = new javax.swing.JTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -97,13 +97,10 @@ public class DiffCell extends javax.swing.JPanel {
         itemNumberLabel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         add(itemNumberLabel, java.awt.BorderLayout.WEST);
 
-        sourceTargetPane.setBorder(null);
-        sourceTargetPane.setDividerSize(0);
-        sourceTargetPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
-        sourceTargetPane.setResizeWeight(0.5);
+        jPanel2.setLayout(new java.awt.GridLayout(0, 1));
 
         sourceTextPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Source Language"));
-        sourceTextPanel.setLayout(new javax.swing.BoxLayout(sourceTextPanel, javax.swing.BoxLayout.LINE_AXIS));
+        sourceTextPanel.setLayout(new java.awt.GridLayout(1, 0));
 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -117,12 +114,10 @@ public class DiffCell extends javax.swing.JPanel {
 
         sourceTextPanel.add(jScrollPane3);
 
-        sourceTargetPane.setTopComponent(sourceTextPanel);
+        jPanel2.add(sourceTextPanel);
 
-        targetTargetPane.setBorder(javax.swing.BorderFactory.createTitledBorder("Target Language"));
-        targetTargetPane.setDividerSize(0);
-        targetTargetPane.setResizeWeight(0.5);
-        targetTargetPane.setMinimumSize(new java.awt.Dimension(1, 1));
+        targetTextsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Target Language"));
+        targetTextsPanel.setLayout(new java.awt.GridLayout(1, 0));
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -131,7 +126,7 @@ public class DiffCell extends javax.swing.JPanel {
         tuvText1.setText("Target text 1");
         jScrollPane1.setViewportView(tuvText1);
 
-        targetTargetPane.setLeftComponent(jScrollPane1);
+        targetTextsPanel.add(jScrollPane1);
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -140,21 +135,21 @@ public class DiffCell extends javax.swing.JPanel {
         tuvText2.setText("Target text 2");
         jScrollPane2.setViewportView(tuvText2);
 
-        targetTargetPane.setRightComponent(jScrollPane2);
+        targetTextsPanel.add(jScrollPane2);
 
-        sourceTargetPane.setBottomComponent(targetTargetPane);
+        jPanel2.add(targetTextsPanel);
 
-        add(sourceTargetPane, java.awt.BorderLayout.CENTER);
+        add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel itemNumberLabel;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JSplitPane sourceTargetPane;
     private javax.swing.JTextArea sourceText;
     private javax.swing.JPanel sourceTextPanel;
-    private javax.swing.JSplitPane targetTargetPane;
+    private javax.swing.JPanel targetTextsPanel;
     private javax.swing.JTextPane tuvText1;
     private javax.swing.JTextPane tuvText2;
     // End of variables declaration//GEN-END:variables

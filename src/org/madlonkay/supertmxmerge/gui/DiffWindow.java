@@ -52,7 +52,11 @@ public class DiffWindow extends javax.swing.JFrame {
         if (newHeight > screen.height * 0.9) {
             newHeight = (int) (screen.height * 0.9);
         }
-        setSize((int) (getWidth() * 1.1), newHeight);
+        int newWidth = (int) (getWidth() * 1.1);
+        if (newWidth > screen.width * 0.9) {
+            newWidth = (int) (screen.width * 0.9);
+        }
+        setSize(newWidth, newHeight);
     }
     
     private DiffController getController() {
@@ -60,7 +64,7 @@ public class DiffWindow extends javax.swing.JFrame {
     }
     
     private void addDiffInfo(int itemNumber, DiffInfo info) {
-        jPanel1.add(new DiffCell(itemNumber, info));
+        diffsPanel.add(new DiffCell(itemNumber, info));
     }
     
     /**
@@ -86,10 +90,11 @@ public class DiffWindow extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         changeCountLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
+        diffsPanel = new org.madlonkay.supertmxmerge.gui.ReasonablySizedPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(LocString.get("diff_window_title")); // NOI18N
+        setLocationByPlatform(true);
 
         jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -147,8 +152,8 @@ public class DiffWindow extends javax.swing.JFrame {
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
-        jScrollPane1.setViewportView(jPanel1);
+        diffsPanel.setLayout(new javax.swing.BoxLayout(diffsPanel, javax.swing.BoxLayout.PAGE_AXIS));
+        jScrollPane1.setViewportView(diffsPanel);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -161,11 +166,11 @@ public class DiffWindow extends javax.swing.JFrame {
     private org.madlonkay.supertmxmerge.gui.LocStringConverter changeCountConverter;
     private javax.swing.JLabel changeCountLabel;
     private org.madlonkay.supertmxmerge.DiffController controller;
+    private org.madlonkay.supertmxmerge.gui.ReasonablySizedPanel diffsPanel;
     private javax.swing.JLabel file1Label;
     private javax.swing.JLabel file1TextUnits;
     private javax.swing.JLabel file2Label;
     private javax.swing.JLabel file2TextUnits;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
