@@ -159,10 +159,10 @@ public class MergeCell extends javax.swing.JPanel {
         itemNumberLabel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         add(itemNumberLabel, java.awt.BorderLayout.WEST);
 
-        sourceTargetPanel.setLayout(new java.awt.GridLayout(0, 1));
+        sourceTargetPanel.setLayout(new java.awt.BorderLayout());
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Source Language"));
-        jPanel2.setLayout(new java.awt.GridLayout());
+        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
         sourceScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -176,10 +176,10 @@ public class MergeCell extends javax.swing.JPanel {
 
         jPanel2.add(sourceScrollPane);
 
-        sourceTargetPanel.add(jPanel2);
+        sourceTargetPanel.add(jPanel2, java.awt.BorderLayout.NORTH);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Target Language"));
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -218,7 +218,7 @@ public class MergeCell extends javax.swing.JPanel {
 
         jPanel1.add(jScrollPane5);
 
-        sourceTargetPanel.add(jPanel1);
+        sourceTargetPanel.add(jPanel1, java.awt.BorderLayout.CENTER);
 
         add(sourceTargetPanel, java.awt.BorderLayout.CENTER);
 

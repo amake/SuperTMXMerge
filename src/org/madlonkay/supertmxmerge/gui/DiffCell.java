@@ -97,7 +97,7 @@ public class DiffCell extends javax.swing.JPanel {
         itemNumberLabel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         add(itemNumberLabel, java.awt.BorderLayout.WEST);
 
-        jPanel2.setLayout(new java.awt.GridLayout(0, 1));
+        jPanel2.setLayout(new java.awt.BorderLayout());
 
         sourceTextPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Source Language"));
         sourceTextPanel.setLayout(new java.awt.GridLayout(1, 0));
@@ -114,7 +114,7 @@ public class DiffCell extends javax.swing.JPanel {
 
         sourceTextPanel.add(jScrollPane3);
 
-        jPanel2.add(sourceTextPanel);
+        jPanel2.add(sourceTextPanel, java.awt.BorderLayout.NORTH);
 
         targetTextsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Target Language"));
         targetTextsPanel.setLayout(new java.awt.GridLayout(1, 0));
@@ -137,7 +137,7 @@ public class DiffCell extends javax.swing.JPanel {
 
         targetTextsPanel.add(jScrollPane2);
 
-        jPanel2.add(targetTextsPanel);
+        jPanel2.add(targetTextsPanel, java.awt.BorderLayout.CENTER);
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
