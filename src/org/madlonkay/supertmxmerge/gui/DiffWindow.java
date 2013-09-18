@@ -46,19 +46,6 @@ public class DiffWindow extends javax.swing.JFrame {
         ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
     }
     
-    public void fixSize() {
-        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        int newHeight = (int) (getHeight() * 1.1);
-        if (newHeight > screen.height * 0.9) {
-            newHeight = (int) (screen.height * 0.9);
-        }
-        int newWidth = (int) (getWidth() * 1.1);
-        if (newWidth > screen.width * 0.9) {
-            newWidth = (int) (screen.width * 0.9);
-        }
-        setSize(newWidth, newHeight);
-    }
-    
     private DiffController getController() {
         return controller;
     }

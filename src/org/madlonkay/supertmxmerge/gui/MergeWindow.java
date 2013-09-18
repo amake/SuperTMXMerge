@@ -58,15 +58,6 @@ public class MergeWindow extends javax.swing.JFrame {
         ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
     }
     
-    public void fixSize() {
-        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        int newHeight = (int) (getHeight() * 1.1);
-        if (newHeight > screen.height * 0.9) {
-            newHeight = (int) (screen.height * 0.9);
-        }
-        setSize((int) (getWidth() * 1.1), newHeight);
-    }
-    
     private void addMergeInfo(int itemNumber, ConflictInfo info) {
         MergeCell cell = new MergeCell(itemNumber, info);
         JRadioButton[] buttons = {
@@ -81,7 +72,7 @@ public class MergeWindow extends javax.swing.JFrame {
             button.addActionListener(controller);
         }
         controller.addSelection(info.sourceText, buttons);
-        mergeInfoPanel.add(cell);
+        conflictInfoPanel.add(cell);
     }
     
     private void activateAllButtons(List<JRadioButton> buttons) {
@@ -129,12 +120,13 @@ public class MergeWindow extends javax.swing.JFrame {
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         allRightButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        mergeInfoPanel = new javax.swing.JPanel();
+        conflictInfoPanel = new org.madlonkay.supertmxmerge.gui.ReasonablySizedPanel();
         jPanel3 = new javax.swing.JPanel();
         saveButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle(LocString.get("merge_window_title")); // NOI18N
+        setLocationByPlatform(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -256,8 +248,8 @@ public class MergeWindow extends javax.swing.JFrame {
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        mergeInfoPanel.setLayout(new javax.swing.BoxLayout(mergeInfoPanel, javax.swing.BoxLayout.Y_AXIS));
-        jScrollPane1.setViewportView(mergeInfoPanel);
+        conflictInfoPanel.setLayout(new javax.swing.BoxLayout(conflictInfoPanel, javax.swing.BoxLayout.PAGE_AXIS));
+        jScrollPane1.setViewportView(conflictInfoPanel);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -334,6 +326,7 @@ public class MergeWindow extends javax.swing.JFrame {
     private javax.swing.JLabel centerTextUnits;
     private org.madlonkay.supertmxmerge.gui.LocStringConverter conflictCountConverter;
     private javax.swing.JLabel conflictCountLabel;
+    private org.madlonkay.supertmxmerge.gui.ReasonablySizedPanel conflictInfoPanel;
     private org.madlonkay.supertmxmerge.MergeController controller;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
@@ -348,7 +341,6 @@ public class MergeWindow extends javax.swing.JFrame {
     private javax.swing.JLabel leftFilename;
     private javax.swing.JLabel leftTextUnits;
     private org.madlonkay.supertmxmerge.gui.MapToTextConverter mapToTextConverter;
-    private javax.swing.JPanel mergeInfoPanel;
     private javax.swing.JLabel rightFilename;
     private javax.swing.JLabel rightTextUnits;
     private javax.swing.JButton saveButton;

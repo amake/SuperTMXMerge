@@ -32,6 +32,7 @@ import org.madlonkay.supertmxmerge.data.TmxFile;
 import org.madlonkay.supertmxmerge.gui.DiffWindow;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
 import org.madlonkay.supertmxmerge.util.FileUtil;
+import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 import org.madlonkay.supertmxmerge.util.TuvUtil;
 
@@ -128,10 +129,7 @@ public class DiffController implements Serializable, IController {
                         JOptionPane.INFORMATION_MESSAGE);
         } else {
             DiffWindow window = new DiffWindow(this);
-            window.pack();
-            window.fixSize();
-            window.setLocationRelativeTo(null);
-            window.setVisible(true);
+            GuiUtil.displayWindow(window);
         }
     }
 

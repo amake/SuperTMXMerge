@@ -45,6 +45,7 @@ import org.madlonkay.supertmxmerge.data.TmxFile;
 import org.madlonkay.supertmxmerge.gui.MergeWindow;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
 import org.madlonkay.supertmxmerge.util.FileUtil;
+import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 import org.madlonkay.supertmxmerge.util.TuvUtil;
 
@@ -173,10 +174,7 @@ public class MergeController implements Serializable, IController, ActionListene
         } else {
             // Have conflicts; show window.
             MergeWindow window = new MergeWindow(this);
-            window.pack();
-            window.fixSize();
-            window.setLocationRelativeTo(null);
-            window.setVisible(true);
+            GuiUtil.displayWindow(window);
         }
     }
     

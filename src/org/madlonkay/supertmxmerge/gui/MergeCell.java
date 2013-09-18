@@ -125,15 +125,13 @@ public class MergeCell extends javax.swing.JPanel {
         centerButton = new javax.swing.JRadioButton();
         rightButton = new javax.swing.JRadioButton();
         itemNumberLabel = new javax.swing.JLabel();
-        sourceTargetPane = new javax.swing.JSplitPane();
+        sourceTargetPanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         sourceScrollPane = new javax.swing.JScrollPane();
         sourceText = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
-        targetTargetPane = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         tuvTextLeft = new javax.swing.JTextPane();
-        jSplitPane1 = new javax.swing.JSplitPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         tuvTextCenter = new javax.swing.JTextPane();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -161,13 +159,10 @@ public class MergeCell extends javax.swing.JPanel {
         itemNumberLabel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         add(itemNumberLabel, java.awt.BorderLayout.WEST);
 
-        sourceTargetPane.setBorder(null);
-        sourceTargetPane.setDividerSize(0);
-        sourceTargetPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
-        sourceTargetPane.setResizeWeight(0.5);
+        sourceTargetPanel.setLayout(new java.awt.GridLayout(0, 1));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Source Language"));
-        jPanel2.setLayout(new java.awt.BorderLayout());
+        jPanel2.setLayout(new java.awt.GridLayout());
 
         sourceScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -179,16 +174,12 @@ public class MergeCell extends javax.swing.JPanel {
         sourceText.setWrapStyleWord(true);
         sourceScrollPane.setViewportView(sourceText);
 
-        jPanel2.add(sourceScrollPane, java.awt.BorderLayout.CENTER);
+        jPanel2.add(sourceScrollPane);
 
-        sourceTargetPane.setTopComponent(jPanel2);
+        sourceTargetPanel.add(jPanel2);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Target Language"));
-        jPanel1.setLayout(new java.awt.BorderLayout());
-
-        targetTargetPane.setBorder(null);
-        targetTargetPane.setDividerSize(0);
-        targetTargetPane.setResizeWeight(0.33);
+        jPanel1.setLayout(new java.awt.GridLayout());
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -201,11 +192,7 @@ public class MergeCell extends javax.swing.JPanel {
         tuvTextLeft.setText("Target text 1");
         jScrollPane1.setViewportView(tuvTextLeft);
 
-        targetTargetPane.setLeftComponent(jScrollPane1);
-
-        jSplitPane1.setBorder(null);
-        jSplitPane1.setDividerSize(0);
-        jSplitPane1.setResizeWeight(0.5);
+        jPanel1.add(jScrollPane1);
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -218,7 +205,7 @@ public class MergeCell extends javax.swing.JPanel {
         tuvTextCenter.setText("Target text 2");
         jScrollPane2.setViewportView(tuvTextCenter);
 
-        jSplitPane1.setLeftComponent(jScrollPane2);
+        jPanel1.add(jScrollPane2);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, rightButton, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jScrollPane5, org.jdesktop.beansbinding.BeanProperty.create("border"), "tuvTextRightBorder");
         binding.setConverter(borderConverter1);
@@ -229,15 +216,11 @@ public class MergeCell extends javax.swing.JPanel {
         tuvTextRight.setText("Target text 3");
         jScrollPane5.setViewportView(tuvTextRight);
 
-        jSplitPane1.setRightComponent(jScrollPane5);
+        jPanel1.add(jScrollPane5);
 
-        targetTargetPane.setRightComponent(jSplitPane1);
+        sourceTargetPanel.add(jPanel1);
 
-        jPanel1.add(targetTargetPane, java.awt.BorderLayout.CENTER);
-
-        sourceTargetPane.setRightComponent(jPanel1);
-
-        add(sourceTargetPane, java.awt.BorderLayout.CENTER);
+        add(sourceTargetPanel, java.awt.BorderLayout.CENTER);
 
         bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
@@ -256,13 +239,11 @@ public class MergeCell extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JRadioButton leftButton;
     private javax.swing.JRadioButton rightButton;
     private javax.swing.JScrollPane sourceScrollPane;
-    private javax.swing.JSplitPane sourceTargetPane;
+    private javax.swing.JPanel sourceTargetPanel;
     private javax.swing.JTextArea sourceText;
-    private javax.swing.JSplitPane targetTargetPane;
     private javax.swing.JTextPane tuvTextCenter;
     private javax.swing.JTextPane tuvTextLeft;
     private javax.swing.JTextPane tuvTextRight;
