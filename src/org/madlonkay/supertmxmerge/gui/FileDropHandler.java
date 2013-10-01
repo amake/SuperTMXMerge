@@ -67,9 +67,9 @@ public class FileDropHandler extends TransferHandler {
                 return false;
             }
             File file = files.get(0);
-            if (!file.getName().endsWith(".tmx")) {
-                return false;
-            }
+            //if (!file.getName().endsWith(".tmx")) {
+            //    return false;
+            //}
             String filePath = file.getCanonicalPath();
             textArea.setText(filePath);
         } catch (UnsupportedFlavorException ex) {
