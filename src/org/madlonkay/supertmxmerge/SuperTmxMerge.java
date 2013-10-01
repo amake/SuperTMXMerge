@@ -17,6 +17,7 @@
  */
 package org.madlonkay.supertmxmerge;
 
+import java.io.File;
 import java.util.logging.Logger;
 import org.madlonkay.supertmxmerge.gui.FileSelectWindow;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
@@ -29,14 +30,14 @@ public class SuperTmxMerge {
     
     public static final Logger LOGGER = Logger.getLogger(SuperTmxMerge.class.getName());
     
-    public static void diff(String file1, String file2) {
+    public static void diff(File file1, File file2) {
         DiffController controller = new DiffController();
         controller.setFile1(file1);
         controller.setFile2(file2);
         controller.go();
     }
     
-    public static void merge(String baseFile, String file1, String file2) {
+    public static void merge(File baseFile, File file1, File file2) {
         MergeController controller = new MergeController();
         controller.setBaseFile(baseFile);
         controller.setLeftFile(file1);
@@ -45,7 +46,7 @@ public class SuperTmxMerge {
         controller.go();
     }
     
-    public static void mergeTo(String baseFile, String file1, String file2, String outputFile) {
+    public static void mergeTo(File baseFile, File file1, File file2, File outputFile) {
         MergeController controller = new MergeController();
         controller.setBaseFile(baseFile);
         controller.setLeftFile(file1);

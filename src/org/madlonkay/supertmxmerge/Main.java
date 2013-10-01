@@ -17,6 +17,7 @@
  */
 package org.madlonkay.supertmxmerge;
 
+import java.io.File;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.madlonkay.supertmxmerge.util.LocString;
@@ -50,13 +51,13 @@ public class Main {
         }
                 
         if (args.length == 2) {
-            SuperTmxMerge.diff(args[0], args[1]);
+            SuperTmxMerge.diff(new File(args[0]), new File(args[1]));
             return;
         } else if (args.length == 3) {
-            SuperTmxMerge.merge(args[0], args[1], args[2]);
+            SuperTmxMerge.merge(new File(args[0]), new File(args[1]), new File(args[2]));
             return;
         } else if (args.length == 4) {
-            SuperTmxMerge.mergeTo(args[0], args[1], args[2], args[3]);
+            SuperTmxMerge.mergeTo(new File(args[0]), new File(args[1]), new File(args[2]), new File(args[3]));
         }
         
         printUsage();

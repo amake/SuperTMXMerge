@@ -17,7 +17,6 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFileChooser;
@@ -257,6 +256,7 @@ public class MergeWindow extends javax.swing.JFrame {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, controller, org.jdesktop.beansbinding.ELProperty.create("${outputIsValid and hasUnsavedChanges}"), saveButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${outputFile}"), saveButton, org.jdesktop.beansbinding.BeanProperty.create("text"), "saveButton");
+        binding.setSourceNullValue(LocString.get("save_as_button")); // NOI18N
         binding.setConverter(saveButtonConverter);
         bindingGroup.addBinding(binding);
 
@@ -281,12 +281,7 @@ public class MergeWindow extends javax.swing.JFrame {
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         if (!FileUtil.validateFile(controller.getOutputFile())) {
             if (jFileChooser1.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-                try {
-                    String file = jFileChooser1.getSelectedFile().getCanonicalPath();
-                    controller.setOutputFile(file);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                controller.setOutputFile(jFileChooser1.getSelectedFile());
             } else {
                 return;
             }

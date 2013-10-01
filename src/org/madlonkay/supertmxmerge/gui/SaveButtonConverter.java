@@ -28,8 +28,7 @@ public class SaveButtonConverter extends Converter {
 
     @Override
     public Object convertForward(Object value) {
-        return value == null || ((String) value).isEmpty()
-                ? LocString.get("save_as_button")
+        return value == null ? LocString.get("save_as_button")
                 : LocString.get("save_button");
     }
 

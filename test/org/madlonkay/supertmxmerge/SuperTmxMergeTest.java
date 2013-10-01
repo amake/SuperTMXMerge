@@ -17,12 +17,12 @@
  */
 package org.madlonkay.supertmxmerge;
 
+import java.io.File;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -55,8 +55,8 @@ public class SuperTmxMergeTest {
     @Test
     public void testDiff() {
         System.out.println("diff");
-        String file1 = getFilePath("resources/base.tmx");
-        String file2 = getFilePath("resources/left.tmx");
+        File file1 = getFilePath("resources/base.tmx");
+        File file2 = getFilePath("resources/left.tmx");
         SuperTmxMerge.diff(file1, file2);
     }
 
@@ -66,9 +66,9 @@ public class SuperTmxMergeTest {
     @Test
     public void testMerge() {
         System.out.println("merge");
-        String baseFile = getFilePath("resources/base.tmx");
-        String file1 = getFilePath("resources/left.tmx");
-        String file2 = getFilePath("resources/right.tmx");
+        File baseFile = getFilePath("resources/base.tmx");
+        File file1 = getFilePath("resources/left.tmx");
+        File file2 = getFilePath("resources/right.tmx");
         SuperTmxMerge.merge(baseFile, file1, file2);
     }
 
@@ -81,7 +81,7 @@ public class SuperTmxMergeTest {
         SuperTmxMerge.promptForFiles();
     }
     
-    private String getFilePath(String identifier) {
-        return getClass().getClassLoader().getResource(identifier).getFile();
+    private File getFilePath(String identifier) {
+        return new File(getClass().getClassLoader().getResource(identifier).getFile());
     }
 }

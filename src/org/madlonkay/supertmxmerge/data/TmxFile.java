@@ -69,7 +69,7 @@ public class TmxFile {
     private PropertyChangeSupport propertySupport;
     
     private Tmx data;
-    private String filepath;
+    private File file;
     private Map<String, Tuv> anonymousTuvs;
     private Map<String, Tu> tuMap;
     private Map<String, String> tmxMetadata;
@@ -107,12 +107,11 @@ public class TmxFile {
         }
     }
 
-    public TmxFile(String filepath) throws UnmarshalException {
+    public TmxFile(File file) throws UnmarshalException {
         propertySupport = new PropertyChangeSupport(this);
-        
-        this.filepath = filepath;
+        this.file = file;
         try {
-            Source source = new SAXSource(XMLREADER, new InputSource(new FileInputStream(filepath)));
+            Source source = new SAXSource(XMLREADER, new InputSource(new FileInputStream(this.file)));
             this.data = (Tmx) UNMARSHALLER.unmarshal(source);
         } catch (JAXBException ex) {
             throw new RuntimeException(ex);
@@ -142,11 +141,11 @@ public class TmxFile {
     }
     
     public String getFilePath() {
-        return filepath;
+        return file.getAbsolutePath();
     }
     
     public String getFileName() {
-        return (new File(getFilePath())).getName();
+        return file.getName();
     }
 
     public Map<String, Tuv> getTuvMap() {
@@ -219,7 +218,7 @@ public class TmxFile {
         return (Tmx) UNMARSHALLER.unmarshal(source);
     }
     
-    public void writeTo(String outputFile) throws JAXBException {
-        MARSHALLER.marshal(getData(), new File(outputFile));
+    public void writeTo(File output) throws JAXBException {
+        MARSHALLER.marshal(getData(), output);
     }
 }

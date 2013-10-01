@@ -18,9 +18,7 @@
 package org.madlonkay.supertmxmerge.gui;
 
 import java.awt.Component;
-import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JTextField;
@@ -50,7 +48,6 @@ public class FileSelectWindow extends javax.swing.JFrame {
         leftFileField.setTransferHandler(th);
         rightFileField.setTransferHandler(th);
         baseFileField.setTransferHandler(th);
-        mergeController.setOutputFile("");
     }
 
     private void promptChooseFile(JTextField target) {
@@ -97,6 +94,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
         jFileChooser1 = new javax.swing.JFileChooser();
         mergeController = new org.madlonkay.supertmxmerge.MergeController();
         diffController = new org.madlonkay.supertmxmerge.DiffController();
+        fileStringConverter = new org.madlonkay.supertmxmerge.gui.FileStringConverter();
         diffMergeTabbedPane = new javax.swing.JTabbedPane();
         diffPanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -163,14 +161,16 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
         file1Field.setColumns(45);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, diffController, org.jdesktop.beansbinding.ELProperty.create("${file1}"), file1Field, org.jdesktop.beansbinding.BeanProperty.create("text"), "");
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, diffController, org.jdesktop.beansbinding.ELProperty.create("${file1}"), file1Field, org.jdesktop.beansbinding.BeanProperty.create("text"), "diffFile1");
+        binding.setConverter(fileStringConverter);
         bindingGroup.addBinding(binding);
 
         jPanel4.add(file1Field);
 
         file2Field.setColumns(45);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, diffController, org.jdesktop.beansbinding.ELProperty.create("${file2}"), file2Field, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, diffController, org.jdesktop.beansbinding.ELProperty.create("${file2}"), file2Field, org.jdesktop.beansbinding.BeanProperty.create("text"), "diffFile2");
+        binding.setConverter(fileStringConverter);
         bindingGroup.addBinding(binding);
 
         jPanel4.add(file2Field);
@@ -249,21 +249,24 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
         baseFileField.setColumns(20);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeController, org.jdesktop.beansbinding.ELProperty.create("${baseFile}"), baseFileField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeController, org.jdesktop.beansbinding.ELProperty.create("${baseFile}"), baseFileField, org.jdesktop.beansbinding.BeanProperty.create("text"), "mergeBaseFile");
+        binding.setConverter(fileStringConverter);
         bindingGroup.addBinding(binding);
 
         jPanel8.add(baseFileField);
 
         leftFileField.setColumns(20);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeController, org.jdesktop.beansbinding.ELProperty.create("${leftFile}"), leftFileField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeController, org.jdesktop.beansbinding.ELProperty.create("${leftFile}"), leftFileField, org.jdesktop.beansbinding.BeanProperty.create("text"), "mergeFile1");
+        binding.setConverter(fileStringConverter);
         bindingGroup.addBinding(binding);
 
         jPanel8.add(leftFileField);
 
         rightFileField.setColumns(20);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeController, org.jdesktop.beansbinding.ELProperty.create("${rightFile}"), rightFileField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeController, org.jdesktop.beansbinding.ELProperty.create("${rightFile}"), rightFileField, org.jdesktop.beansbinding.BeanProperty.create("text"), "mergeFile2");
+        binding.setConverter(fileStringConverter);
         bindingGroup.addBinding(binding);
 
         jPanel8.add(rightFileField);
@@ -358,6 +361,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
     private javax.swing.JTextField file1Field;
     private javax.swing.JButton file2Button;
     private javax.swing.JTextField file2Field;
+    private org.madlonkay.supertmxmerge.gui.FileStringConverter fileStringConverter;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;

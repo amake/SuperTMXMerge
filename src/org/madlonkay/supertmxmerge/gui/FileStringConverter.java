@@ -15,28 +15,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package org.madlonkay.supertmxmerge.util;
+package org.madlonkay.supertmxmerge.gui;
 
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.jdesktop.beansbinding.Converter;
 
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class FileUtil {
-    
-    private static final Logger LOGGER = Logger.getLogger(FileUtil.class.getName());
-    
-    public static boolean validateFile(File file) {
-        if (file == null) {
-            return false;
-        }
-        if (!file.exists() || ! file.canRead()) {
-            LOGGER.log(Level.SEVERE, LocString.getFormat("error_bad_file", file.getAbsolutePath()));
-            return false;
-        }
-        return true;
+public class FileStringConverter extends Converter {
+            
+    @Override
+    public Object convertForward(Object value) {
+        return value == null ? "" : ((File) value).getAbsolutePath();
     }
+
+    @Override
+    public Object convertReverse(Object value) {
+        return value == null ? null : new File((String) value);
+    }
+    
 }

@@ -22,7 +22,7 @@ import gen.core.tmx14.Tuv;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.*;
-import java.io.IOException;
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,10 +71,10 @@ public class MergeController implements Serializable, IController, ActionListene
 
     private PropertyChangeSupport propertySupport;
     
-    private String baseFile;
-    private String leftFile;
-    private String rightFile;
-    private String outputFile;
+    private File baseFile;
+    private File leftFile;
+    private File rightFile;
+    private File outputFile;
     
     private TmxFile baseTmx;
     private TmxFile leftTmx;
@@ -102,34 +102,34 @@ public class MergeController implements Serializable, IController, ActionListene
         propertySupport.removePropertyChangeListener(listener);
     }
     
-    public String getBaseFile() {
+    public File getBaseFile() {
         return baseFile;
     }
 
-    public void setBaseFile(String baseFile) {
-        java.lang.String oldBaseFile = this.baseFile;
+    public void setBaseFile(File baseFile) {
+        File oldBaseFile = this.baseFile;
         this.baseFile = baseFile;
         propertySupport.firePropertyChange(PROP_BASEFILE, oldBaseFile, baseFile);
         propertySupport.firePropertyChange(PROP_INPUTISVALID, null, null);
     }
 
-    public String getLeftFile() {
+    public File getLeftFile() {
         return leftFile;
     }
 
-    public void setLeftFile(String leftFile) {
-        java.lang.String oldLeftFile = this.leftFile;
+    public void setLeftFile(File leftFile) {
+        File oldLeftFile = this.leftFile;
         this.leftFile = leftFile;
         propertySupport.firePropertyChange(PROP_LEFTFILE, oldLeftFile, leftFile);
         propertySupport.firePropertyChange(PROP_INPUTISVALID, null, null);
     }
 
-    public String getRightFile() {
+    public File getRightFile() {
         return rightFile;
     }
 
-    public void setRightFile(String rightFile) {
-        java.lang.String oldRightFile = this.rightFile;
+    public void setRightFile(File rightFile) {
+        File oldRightFile = this.rightFile;
         this.rightFile = rightFile;
         propertySupport.firePropertyChange(PROP_RIGHTFILE, oldRightFile, rightFile);
         propertySupport.firePropertyChange(PROP_INPUTISVALID, null, null);
@@ -162,12 +162,7 @@ public class MergeController implements Serializable, IController, ActionListene
                 // Output location not set, files need merging.
                 JFileChooser chooser = new JFileChooser();
                 if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        String file = chooser.getSelectedFile().getCanonicalPath();
-                        setOutputFile(file);
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    setOutputFile(chooser.getSelectedFile());
                     resolve();
                 }
             }
@@ -372,15 +367,15 @@ public class MergeController implements Serializable, IController, ActionListene
     /**
      * @return the outputFile
      */
-    public String getOutputFile() {
+    public File getOutputFile() {
         return outputFile;
     }
 
     /**
      * @param outputFile the outputFile to set
      */
-    public void setOutputFile(String outputFile) {
-        java.lang.String oldOutputFile = this.outputFile;
+    public void setOutputFile(File outputFile) {
+        File oldOutputFile = this.outputFile;
         this.outputFile = outputFile;
         propertySupport.firePropertyChange(PROP_OUTPUTFILE, oldOutputFile, outputFile);
     }

@@ -19,6 +19,7 @@ package org.madlonkay.supertmxmerge;
 
 import gen.core.tmx14.Tuv;
 import java.beans.*;
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +49,8 @@ public class DiffController implements Serializable, IController {
     public static final String PROP_TMX2 = "tmx2";
     public static final String PROP_CHANGECOUNT = "changeCount";
 
-    private String file1;
-    private String file2;
+    private File file1;
+    private File file2;
     private TmxFile tmx1;
     private TmxFile tmx2;
     
@@ -69,23 +70,23 @@ public class DiffController implements Serializable, IController {
         propertySupport.removePropertyChangeListener(listener);
     }
     
-    public String getFile1() {
+    public File getFile1() {
         return file1;
     }
 
-    public void setFile1(String file1) {
-        String oldFile1 = this.file1;
+    public void setFile1(File file1) {
+        File oldFile1 = this.file1;
         this.file1 = file1;
         propertySupport.firePropertyChange(PROP_FILE1, oldFile1, file1);
         propertySupport.firePropertyChange(PROP_INPUTISVALID, null, null);
     }
     
-    public String getFile2() {
+    public File getFile2() {
         return file2;
     }
 
-    public void setFile2(String file2) {
-        String oldFile2 = this.file2;
+    public void setFile2(File file2) {
+        File oldFile2 = this.file2;
         this.file2 = file2;
         propertySupport.firePropertyChange(PROP_FILE2, oldFile2, file2);
         propertySupport.firePropertyChange(PROP_INPUTISVALID, null, null);
