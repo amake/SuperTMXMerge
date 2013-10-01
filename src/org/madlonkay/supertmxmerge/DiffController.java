@@ -113,7 +113,7 @@ public class DiffController implements Serializable, IController {
     }
     
     @Override
-    public void go() {
+    public void go(boolean block) {
         try {
             setTmx1(new TmxFile(getFile1()));
             setTmx2(new TmxFile(getFile2()));
@@ -131,6 +131,9 @@ public class DiffController implements Serializable, IController {
         } else {
             DiffWindow window = new DiffWindow(this);
             GuiUtil.displayWindow(window);
+            if (block) {
+                GuiUtil.blockOnWindow(window);
+            }
         }
     }
 

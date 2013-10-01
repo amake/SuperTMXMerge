@@ -279,7 +279,7 @@ public class MergeWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_useAllLeft
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        if (!FileUtil.validateFile(controller.getOutputFile())) {
+        if (controller.getOutputFile() == null) {
             if (jFileChooser1.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 controller.setOutputFile(jFileChooser1.getSelectedFile());
             } else {

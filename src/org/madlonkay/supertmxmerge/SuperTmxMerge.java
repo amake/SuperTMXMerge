@@ -34,7 +34,7 @@ public class SuperTmxMerge {
         DiffController controller = new DiffController();
         controller.setFile1(file1);
         controller.setFile2(file2);
-        controller.go();
+        controller.go(false);
     }
     
     public static void merge(File baseFile, File file1, File file2) {
@@ -43,7 +43,7 @@ public class SuperTmxMerge {
         controller.setLeftFile(file1);
         controller.setRightFile(file2);
         controller.setOutputFile(null);
-        controller.go();
+        controller.go(false);
     }
     
     public static void mergeTo(File baseFile, File file1, File file2, File outputFile) {
@@ -52,7 +52,7 @@ public class SuperTmxMerge {
         controller.setLeftFile(file1);
         controller.setRightFile(file2);
         controller.setOutputFile(outputFile);
-        controller.go();
+        controller.go(true);
     }
     
     public static void promptForFiles() {

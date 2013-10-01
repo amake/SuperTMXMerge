@@ -340,12 +340,12 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
     private void diffOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diffOkButtonActionPerformed
         dispose();
-        getDiffController().go();
+        getDiffController().go(false);
     }//GEN-LAST:event_diffOkButtonActionPerformed
 
     private void mergeOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mergeOkButtonActionPerformed
         dispose();
-        getMergeController().go();
+        getMergeController().go(false);
     }//GEN-LAST:event_mergeOkButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -136,7 +136,7 @@ public class MergeController implements Serializable, IController, ActionListene
     }
     
     @Override
-    public void go() {
+    public void go(boolean block) {
         try {
             setBaseTmx(new TmxFile(getBaseFile()));
             setLeftTmx(new TmxFile(getLeftFile()));
@@ -149,7 +149,7 @@ public class MergeController implements Serializable, IController, ActionListene
         
         if (conflicts.isEmpty()) {
             // No conflicts; can auto-merge.
-            if (FileUtil.validateFile(outputFile)) {
+            if (outputFile != null) {
                 // Output location is set; write output file there and finish.
                 resolve();
             } else if (toDelete.isEmpty() && toAdd.isEmpty() && toReplace.isEmpty()) {
@@ -170,6 +170,9 @@ public class MergeController implements Serializable, IController, ActionListene
             // Have conflicts; show window.
             MergeWindow window = new MergeWindow(this);
             GuiUtil.displayWindow(window);
+            if (block) {
+                GuiUtil.blockOnWindow(window);
+            }
         }
     }
     

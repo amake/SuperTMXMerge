@@ -25,5 +25,5 @@ public interface IController {
     public static final String PROP_INPUTISVALID = "inputIsValid";
     
     public boolean getInputIsValid();
-    public void go();
+    public void go(boolean block);
 }

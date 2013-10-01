@@ -20,6 +20,8 @@ package org.madlonkay.supertmxmerge.util;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
 /**
@@ -55,5 +57,43 @@ public class GuiUtil {
         }
         
         return changed;
+    }
+    
+    public static void blockOnWindow(final JFrame window) {
+        final Object lock = new Object();
+        
+        window.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        
+        window.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                synchronized (lock) {
+                    lock.notify();
+                }
+            }
+        }) ;
+        
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                synchronized (lock) {
+                    while (window.isVisible()) {
+                        try {
+                            lock.wait();
+                        } catch (InterruptedException ex) {
+
+                        }
+                    }
+                }
+            }
+        };
+        
+        t.start();
+        
+        try {
+            t.join();
+        } catch (InterruptedException ex) {
+            
+        }
     }
 }
