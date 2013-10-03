@@ -29,6 +29,8 @@ import org.madlonkay.supertmxmerge.util.LocString;
  */
 public class DiffCell extends javax.swing.JPanel {
 
+     private static MapToTextConverter CONVERTER = new MapToTextConverter();
+    
     /**
      * Creates new form TUDiffCell
      */
@@ -36,7 +38,10 @@ public class DiffCell extends javax.swing.JPanel {
         initComponents();
         
         itemNumberLabel.setText(String.valueOf(itemNumber));
-        sourceText.setText(info.sourceText);
+        sourceText.setText(info.key.sourceText);
+        if (info.key.props != null) {
+            setToolTipText((String) CONVERTER.convertForward(info.key.props));
+        }
         setSourceLanguage(info.sourceLanguage);
         setTargetLanguage(info.targetLanguage);
         setPreText(info.tuv1Text);

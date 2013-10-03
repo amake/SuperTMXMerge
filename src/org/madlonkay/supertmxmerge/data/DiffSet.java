@@ -24,11 +24,11 @@ import java.util.Set;
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
 public class DiffSet {
-    public Set<String> deleted;
-    public Set<String> added;
-    public Set<String> modified;
+    public Set<Key> deleted;
+    public Set<Key> added;
+    public Set<Key> modified;
     
-    public DiffSet(Set<String> deleted, Set<String> added, Set<String> modified) {
+    public DiffSet(Set<Key> deleted, Set<Key> added, Set<Key> modified) {
         this.deleted = deleted;
         this.added = added;
         this.modified = modified;

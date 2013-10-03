@@ -68,7 +68,7 @@ public class MergeWindow extends javax.swing.JFrame {
         for (JRadioButton button : buttons) {
             button.addActionListener(controller);
         }
-        controller.addSelection(info.sourceText, buttons);
+        controller.addSelection(info.key, buttons);
         conflictInfoPanel.add(cell);
     }
     

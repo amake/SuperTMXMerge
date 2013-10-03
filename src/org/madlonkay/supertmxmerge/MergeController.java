@@ -40,6 +40,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.UnmarshalException;
 import org.madlonkay.supertmxmerge.data.DiffSet;
 import org.madlonkay.supertmxmerge.data.ConflictInfo;
+import org.madlonkay.supertmxmerge.data.Key;
 import org.madlonkay.supertmxmerge.data.ResolutionSet;
 import org.madlonkay.supertmxmerge.data.TmxFile;
 import org.madlonkay.supertmxmerge.gui.MergeWindow;
@@ -80,11 +81,11 @@ public class MergeController implements Serializable, IController, ActionListene
     private TmxFile leftTmx;
     private TmxFile rightTmx;
         
-    private Map<String, AbstractButton[]> selections = new HashMap<String, AbstractButton[]>();
+    private Map<Key, AbstractButton[]> selections = new HashMap<Key, AbstractButton[]>();
     
-    private Set<String> toDelete;
+    private Set<Key> toDelete;
     private Set<Tu> toAdd;
-    private Map<String, Tuv> toReplace;
+    private Map<Key, Tuv> toReplace;
     
     private List<ConflictInfo> conflicts;
     
@@ -188,7 +189,7 @@ public class MergeController implements Serializable, IController, ActionListene
         if (selections.size() < 1) {
             return false;
         }
-        for (Entry<String, AbstractButton[]> e : selections.entrySet()) {
+        for (Entry<Key, AbstractButton[]> e : selections.entrySet()) {
             if (!selectionMade(e.getValue())) {
                 return false;
             }
@@ -205,7 +206,7 @@ public class MergeController implements Serializable, IController, ActionListene
         return false;
     }
     
-    public void addSelection(String key, AbstractButton[] buttons) {
+    public void addSelection(Key key, AbstractButton[] buttons) {
         selections.put(key, buttons);
     }
     
@@ -220,16 +221,16 @@ public class MergeController implements Serializable, IController, ActionListene
         
         conflicts = new ArrayList<ConflictInfo>();
         
-        toDelete = new HashSet<String>();
+        toDelete = new HashSet<Key>();
         toAdd = new HashSet<Tu>();
-        toReplace = new HashMap<String, Tuv>();
+        toReplace = new HashMap<Key, Tuv>();
         
         DiffSet baseToLeft = DiffUtil.generateDiffSet(getBaseTmx(), getLeftTmx());
         DiffSet baseToRight = DiffUtil.generateDiffSet(getBaseTmx(), getRightTmx());
         
-        Set<String> conflictKeys = new HashSet<String>();
+        Set<Key> conflictKeys = new HashSet<Key>();
         // New in left
-        for (String key : baseToLeft.added) {
+        for (Key key : baseToLeft.added) {
             Tuv leftTuv = getLeftTmx().getTuvMap().get(key);
             Tuv rightTuv = getRightTmx().getTuvMap().get(key);
             if (rightTuv == null) {
@@ -243,7 +244,7 @@ public class MergeController implements Serializable, IController, ActionListene
             }
         }
         // New in right
-        for (String key : baseToRight.added) {
+        for (Key key : baseToRight.added) {
             if (conflictKeys.contains(key)) {
                 continue;
             }
@@ -260,7 +261,7 @@ public class MergeController implements Serializable, IController, ActionListene
             }
         }
         // Deleted from left
-        for (String key : baseToLeft.deleted) {
+        for (Key key : baseToLeft.deleted) {
             Tuv rightTuv = getRightTmx().getTuvMap().get(key);
             if (rightTuv == null) {
                 toDelete.add(key);
@@ -273,7 +274,7 @@ public class MergeController implements Serializable, IController, ActionListene
             }
         }
         // Deleted from right
-        for (String key : baseToRight.deleted) {
+        for (Key key : baseToRight.deleted) {
             Tuv leftTuv = getLeftTmx().getTuvMap().get(key);
             if (leftTuv == null) {
                 toDelete.add(key);
@@ -286,7 +287,7 @@ public class MergeController implements Serializable, IController, ActionListene
             }
         }
         // Modified on left
-        for (String key : baseToLeft.modified) {
+        for (Key key : baseToLeft.modified) {
             Tuv baseTuv = getBaseTmx().getTuvMap().get(key);
             Tuv leftTuv = getLeftTmx().getTuvMap().get(key);
             Tuv rightTuv = getRightTmx().getTuvMap().get(key);
@@ -300,7 +301,7 @@ public class MergeController implements Serializable, IController, ActionListene
             }
         }
         // Modified on right
-        for (String key : baseToRight.modified) {
+        for (Key key : baseToRight.modified) {
             if (conflictKeys.contains(key)) {
                 continue;
             }
@@ -397,8 +398,8 @@ public class MergeController implements Serializable, IController, ActionListene
     }
     
     public void resolve() {
-        for (Entry<String, AbstractButton[]> e : selections.entrySet()) {
-            String key = e.getKey();
+        for (Entry<Key, AbstractButton[]> e : selections.entrySet()) {
+            Key key = e.getKey();
             switch (getSelection(e.getValue())) {
                 case 0:
                     dispatchKey(key, leftTmx);
@@ -421,7 +422,7 @@ public class MergeController implements Serializable, IController, ActionListene
         }
     }
     
-    private void dispatchKey(String key, TmxFile tmx) {
+    private void dispatchKey(Key key, TmxFile tmx) {
         if (!tmx.getTuvMap().containsKey(key)) {
             toDelete.add(key);
         } else if (baseTmx.getTuvMap().containsKey(key)) {

@@ -26,7 +26,7 @@ import org.madlonkay.supertmxmerge.util.DiffUtil;
  */
 public class DiffInfo {
     
-    public final String sourceText;
+    public final Key key;
     public final String sourceLanguage;
     
     public final String targetLanguage;
@@ -35,9 +35,9 @@ public class DiffInfo {
     
     public final Diff.change diff;
     
-    public DiffInfo(String sourceText, String sourceLanguage,
+    public DiffInfo(Key key, String sourceLanguage,
             String targetLanguage, String tuv1Text, String tuv2Text) {
-        this.sourceText = sourceText;
+        this.key = key;
         this.sourceLanguage = sourceLanguage;
         this.targetLanguage = targetLanguage;
         this.tuv1Text = tuv1Text;

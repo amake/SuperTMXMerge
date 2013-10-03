@@ -225,5 +225,27 @@
       </tuv>
     </tu>
 <!-- Alternative translations -->
+    <tu>
+      <prop type="file">TestFile.txt</prop>
+      <prop type="prev">Chemistry</prop>
+      <prop type="next">Use acid</prop>
+      <tuv lang="en-us">
+        <seg>Use base</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20121113T060507Z">
+        <seg>塩基を使用。</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <prop type="file">TestFile.txt</prop>
+      <prop type="prev">Military</prop>
+      <prop type="next">Use camp</prop>
+      <tuv lang="en-us">
+        <seg>Use base</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20121113T060507Z">
+        <seg>基地を使用。</seg>
+      </tuv>
+    </tu>
   </body>
 </tmx>

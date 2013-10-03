@@ -29,6 +29,7 @@ import javax.swing.JOptionPane;
 import javax.xml.bind.UnmarshalException;
 import org.madlonkay.supertmxmerge.data.DiffInfo;
 import org.madlonkay.supertmxmerge.data.DiffSet;
+import org.madlonkay.supertmxmerge.data.Key;
 import org.madlonkay.supertmxmerge.data.TmxFile;
 import org.madlonkay.supertmxmerge.gui.DiffWindow;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
@@ -156,17 +157,17 @@ public class DiffController implements Serializable, IController {
         
         DiffSet set = DiffUtil.generateDiffSet(getTmx1(), getTmx2());
         
-        for (String key : set.deleted) {
+        for (Key key : set.deleted) {
             Tuv tuv = getTmx1().getTuvMap().get(key);
             diffInfos.add(new DiffInfo(key, getTmx1().getSourceLanguage(),
                     TuvUtil.getLanguage(tuv), TuvUtil.getContent(tuv), null));
         }
-        for (String key : set.added) {
+        for (Key key : set.added) {
             Tuv tuv = getTmx2().getTuvMap().get(key);
             diffInfos.add(new DiffInfo(key, getTmx2().getSourceLanguage(),
                     TuvUtil.getLanguage(tuv), null, TuvUtil.getContent(tuv)));
         }
-        for (String key : set.modified) {
+        for (Key key : set.modified) {
             Tuv tuv1 = getTmx1().getTuvMap().get(key);
             Tuv tuv2 = getTmx2().getTuvMap().get(key);
             diffInfos.add(new DiffInfo(key, getTmx1().getSourceLanguage(),

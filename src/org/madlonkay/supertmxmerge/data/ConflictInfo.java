@@ -25,7 +25,7 @@ import org.madlonkay.supertmxmerge.util.DiffUtil;
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
 public class ConflictInfo {
-    public final String sourceText;
+    public final Key key;
     public final String sourceLanguage;
     
     public final String targetLanguage;
@@ -36,9 +36,9 @@ public class ConflictInfo {
     public final Diff.change leftTuvDiff;
     public final Diff.change rightTuvDiff;
     
-    public ConflictInfo(String sourceText, String sourceLanguage,
+    public ConflictInfo(Key key, String sourceLanguage,
             String targetLanguage, String baseTuvText, String leftTuvText, String rightTuvText) {
-        this.sourceText = sourceText;
+        this.key = key;
         this.sourceLanguage = sourceLanguage;
         this.targetLanguage = targetLanguage;
         this.baseTuvText = baseTuvText;

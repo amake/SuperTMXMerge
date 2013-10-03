@@ -33,11 +33,11 @@ public class MapToTextConverter extends Converter {
             throw new IllegalArgumentException();
         }
         StringBuilder sb = new StringBuilder("<html>");
-        for (Entry<String, String> e : ((Map<String,String>) value).entrySet()) {
+        for (Entry<Object, Object> e : ((Map<Object, Object>) value).entrySet()) {
             sb.append("<b>");
-            sb.append(e.getKey());
+            sb.append(e.getKey().toString());
             sb.append(":</b> ");
-            sb.append(e.getValue());
+            sb.append(e.getValue().toString());
             sb.append("<br>");
         }
         sb.append("</html>");

@@ -17,9 +17,11 @@
  */
 package org.madlonkay.supertmxmerge.util;
 
+import gen.core.tmx14.Prop;
 import gen.core.tmx14.Tu;
 import gen.core.tmx14.Tuv;
 import java.util.List;
+import org.madlonkay.supertmxmerge.data.Key;
 
 /**
  *
@@ -61,5 +63,16 @@ public class TuvUtil {
         String seg1 = TuvUtil.getContent(tuv1);
         String seg2 = TuvUtil.getContent(tuv2);
         return seg1.equals(seg2);
+    }
+    
+    public static Key getTuvKey(Tu tu, String sourceLanguage) {
+        Key key = new Key(getContent(getSourceTuv(tu, sourceLanguage)));
+        for (Object o : tu.getNoteOrProp()) {
+            if (o instanceof Prop) {
+                Prop p = (Prop) o;
+                key.addProp(p.getType(), p.getContent());
+            }
+        }
+        return key;
     }
 }

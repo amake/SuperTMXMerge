@@ -29,6 +29,7 @@ import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import org.madlonkay.supertmxmerge.data.DiffSet;
+import org.madlonkay.supertmxmerge.data.Key;
 import org.madlonkay.supertmxmerge.data.TmxFile;
 
 /**
@@ -66,16 +67,16 @@ public class DiffUtil {
     
     public static DiffSet generateDiffSet(TmxFile tmx1, TmxFile tmx2) {
         // Deleted TUs
-        Set<String> deleted = new HashSet<String>(tmx1.getTuvMap().keySet());
+        Set<Key> deleted = new HashSet<Key>(tmx1.getTuvMap().keySet());
         deleted.removeAll(tmx2.getTuvMap().keySet());
         
         // Added TUs
-        Set<String> added = new HashSet<String>(tmx2.getTuvMap().keySet());
+        Set<Key> added = new HashSet<Key>(tmx2.getTuvMap().keySet());
         added.removeAll(tmx1.getTuvMap().keySet());
         
         // Modified TUs
-        Set<String> modified = new HashSet<String>();
-        for (Map.Entry<String, Tuv> e : tmx1.getTuvMap().entrySet()) {
+        Set<Key> modified = new HashSet<Key>();
+        for (Map.Entry<Key, Tuv> e : tmx1.getTuvMap().entrySet()) {
             Tuv newTuv = tmx2.getTuvMap().get(e.getKey());
             if (newTuv == null) {
                 continue;

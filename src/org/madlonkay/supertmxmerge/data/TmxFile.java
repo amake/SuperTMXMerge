@@ -70,8 +70,8 @@ public class TmxFile {
     
     private Tmx data;
     private File file;
-    private Map<String, Tuv> anonymousTuvs;
-    private Map<String, Tu> tuMap;
+    private Map<Key, Tuv> tuvMap;
+    private Map<Key, Tu> tuMap;
     private Map<String, String> tmxMetadata;
     
     private static final String FEATURE_NAMESPACES = "http://xml.org/sax/features/namespaces";
@@ -148,14 +148,14 @@ public class TmxFile {
         return file.getName();
     }
 
-    public Map<String, Tuv> getTuvMap() {
-        if (anonymousTuvs == null) {
+    public Map<Key, Tuv> getTuvMap() {
+        if (tuvMap == null) {
             generateMaps();
         }
-        return anonymousTuvs;
+        return tuvMap;
     }
     
-    public Map<String, Tu> getTuMap() {
+    public Map<Key, Tu> getTuMap() {
         if (tuMap == null) {
             generateMaps();
         }
@@ -163,12 +163,14 @@ public class TmxFile {
     }
     
     private void generateMaps() {
-        anonymousTuvs = new HashMap<String, Tuv>();
-        tuMap = new HashMap<String, Tu>();
+        tuvMap = new HashMap<Key, Tuv>();
+        tuMap = new HashMap<Key, Tu>();
         for (Tu tu : getData().getBody().getTu()) {
-            String key = TuvUtil.getContent(TuvUtil.getSourceTuv(tu, getSourceLanguage()));
+            Key key = TuvUtil.getTuvKey(tu, getSourceLanguage());
+            assert(!tuMap.containsKey(key));
+            assert(!tuvMap.containsKey(key));
             tuMap.put(key, tu);
-            anonymousTuvs.put(key, TuvUtil.getTargetTuv(tu, getSourceLanguage()));
+            tuvMap.put(key, TuvUtil.getTargetTuv(tu, getSourceLanguage()));
         }
     }
     
@@ -193,10 +195,10 @@ public class TmxFile {
     public TmxFile applyChanges(ResolutionSet resolution) throws JAXBException {
         Tmx originalData = clone(getData());
         List<Tu> tus = getData().getBody().getTu();
-        for (String key : resolution.toDelete) {
+        for (Key key : resolution.toDelete) {
             tus.remove(getTuMap().get(key));
         }
-        for (Entry<String, Tuv> e : resolution.toReplace.entrySet()) {
+        for (Entry<Key, Tuv> e : resolution.toReplace.entrySet()) {
             Tu tu = getTuMap().get(e.getKey());
             tu.getTuv().remove(getTuvMap().get(e.getKey()));
             tu.getTuv().add(e.getValue());
@@ -204,7 +206,7 @@ public class TmxFile {
         tus.addAll(resolution.toAdd);
         Tmx modifiedData = getData();
         this.data = originalData;
-        this.anonymousTuvs = null;
+        this.tuvMap = null;
         this.tuMap = null;
         return new TmxFile(modifiedData);
     }

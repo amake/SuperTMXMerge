@@ -27,11 +27,11 @@ import java.util.Set;
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
 public class ResolutionSet {
-    public Set<String> toDelete;
+    public Set<Key> toDelete;
     public Set<Tu> toAdd;
-    public Map<String, Tuv> toReplace;
+    public Map<Key, Tuv> toReplace;
     
-    public ResolutionSet(Set<String> toDelete, Set<Tu> toAdd, Map<String, Tuv> toReplace) {
+    public ResolutionSet(Set<Key> toDelete, Set<Tu> toAdd, Map<Key, Tuv> toReplace) {
         this.toDelete = toDelete;
         this.toAdd = toAdd;
         this.toReplace = toReplace;
