@@ -73,27 +73,14 @@ public class GuiUtil {
             }
         }) ;
         
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                synchronized (lock) {
-                    while (window.isVisible()) {
-                        try {
-                            lock.wait();
-                        } catch (InterruptedException ex) {
+        synchronized (lock) {
+            while (window.isVisible()) {
+                try {
+                    lock.wait();
+                } catch (InterruptedException ex) {
 
-                        }
-                    }
                 }
             }
-        };
-        
-        t.start();
-        
-        try {
-            t.join();
-        } catch (InterruptedException ex) {
-            
         }
     }
 }
