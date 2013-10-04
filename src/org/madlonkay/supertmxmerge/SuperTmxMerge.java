@@ -50,6 +50,19 @@ public class SuperTmxMerge {
         return controller.getOutputFile();
     }
     
+    public static ProjectTMX merge(ProjectTMX baseTmx, String baseTmxName,
+            ProjectTMX tmx1, String tmx1Name,
+            ProjectTMX tmx2, String tmx2Name,
+            String sourceLanguage, String targetLanguage) {
+        
+        MergeController controller = new MergeController();
+        ITmx base = new OmTTmx(baseTmx, baseTmxName, sourceLanguage, targetLanguage);
+        ITmx one = new OmTTmx(tmx1, tmx1Name, sourceLanguage, targetLanguage);
+        ITmx two = new OmTTmx(tmx2, tmx2Name, sourceLanguage, targetLanguage);
+        ITmx merged = controller.merge(base, one, two);
+        return merged == null ? null : (ProjectTMX) merged.getUnderlyingRepresentation();
+    }
+    
     public static void mergeTo(File baseFile, File file1, File file2, File outputFile) {
         MergeIOController controller = new MergeIOController();
         controller.setBaseFile(baseFile);
