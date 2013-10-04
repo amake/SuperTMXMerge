@@ -9,15 +9,15 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="org.madlonkay.supertmxmerge.MergeController" name="mergeController">
-    </Component>
-    <Component class="org.madlonkay.supertmxmerge.DiffController" name="diffController">
-    </Component>
     <Component class="org.madlonkay.supertmxmerge.gui.FileStringConverter" name="fileStringConverter">
+    </Component>
+    <Component class="org.madlonkay.supertmxmerge.DiffIOController" name="diffIOController">
+    </Component>
+    <Component class="org.madlonkay.supertmxmerge.MergeIOController" name="mergeIOController">
     </Component>
   </NonVisualComponents>
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
       <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="file_select_window_title" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
     </Property>
@@ -133,7 +133,7 @@
                             <Property name="columns" type="int" value="45"/>
                           </Properties>
                           <BindingProperties>
-                            <BindingProperty name="text" source="diffController" sourcePath="${file1}" target="file1Field" targetPath="text" updateStrategy="0" immediately="false">
+                            <BindingProperty name="text" source="diffIOController" sourcePath="${file1}" target="file1Field" targetPath="text" updateStrategy="0" immediately="false">
                               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
                                 <ComponentRef name="fileStringConverter"/>
@@ -147,7 +147,7 @@
                             <Property name="columns" type="int" value="45"/>
                           </Properties>
                           <BindingProperties>
-                            <BindingProperty name="text" source="diffController" sourcePath="${file2}" target="file2Field" targetPath="text" updateStrategy="0" immediately="false">
+                            <BindingProperty name="text" source="diffIOController" sourcePath="${file2}" target="file2Field" targetPath="text" updateStrategy="0" immediately="false">
                               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
                                 <ComponentRef name="fileStringConverter"/>
@@ -189,8 +189,8 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="enabled" source="Form" sourcePath="${diffController.inputIsValid}" target="diffOkButton" targetPath="enabled" updateStrategy="1" immediately="false">
-                          <Property name="name" type="java.lang.String" value="okButton"/>
+                        <BindingProperty name="enabled" source="diffIOController" sourcePath="${inputIsValid}" target="diffOkButton" targetPath="enabled" updateStrategy="1" immediately="false">
+                          <Property name="name" type="java.lang.String" value="diffOkButton"/>
                         </BindingProperty>
                       </BindingProperties>
                       <Events>
@@ -301,7 +301,7 @@
                         <Property name="columns" type="int" value="20"/>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="text" source="mergeController" sourcePath="${baseFile}" target="baseFileField" targetPath="text" updateStrategy="0" immediately="false">
+                        <BindingProperty name="text" source="mergeIOController" sourcePath="${baseFile}" target="baseFileField" targetPath="text" updateStrategy="0" immediately="false">
                           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                           <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
                             <ComponentRef name="fileStringConverter"/>
@@ -315,7 +315,7 @@
                         <Property name="columns" type="int" value="20"/>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="text" source="mergeController" sourcePath="${leftFile}" target="leftFileField" targetPath="text" updateStrategy="0" immediately="false">
+                        <BindingProperty name="text" source="mergeIOController" sourcePath="${file1}" target="leftFileField" targetPath="text" updateStrategy="0" immediately="false">
                           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                           <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
                             <ComponentRef name="fileStringConverter"/>
@@ -329,7 +329,7 @@
                         <Property name="columns" type="int" value="20"/>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="text" source="mergeController" sourcePath="${rightFile}" target="rightFileField" targetPath="text" updateStrategy="0" immediately="false">
+                        <BindingProperty name="text" source="mergeIOController" sourcePath="${file2}" target="rightFileField" targetPath="text" updateStrategy="0" immediately="false">
                           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                           <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
                             <ComponentRef name="fileStringConverter"/>
@@ -369,7 +369,7 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="enabled" source="Form" sourcePath="${mergeController.inputIsValid}" target="mergeOkButton" targetPath="enabled" updateStrategy="0" immediately="false"/>
+                        <BindingProperty name="enabled" source="mergeIOController" sourcePath="${inputIsValid}" target="mergeOkButton" targetPath="enabled" updateStrategy="0" immediately="false"/>
                       </BindingProperties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mergeOkButtonActionPerformed"/>

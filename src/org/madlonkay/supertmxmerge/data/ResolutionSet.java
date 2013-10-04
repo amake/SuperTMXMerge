@@ -17,8 +17,7 @@
  */
 package org.madlonkay.supertmxmerge.data;
 
-import gen.core.tmx14.Tu;
-import gen.core.tmx14.Tuv;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,11 +26,13 @@ import java.util.Set;
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
 public class ResolutionSet {
-    public Set<Key> toDelete;
-    public Set<Tu> toAdd;
-    public Map<Key, Tuv> toReplace;
+    public final List<ConflictInfo> conflicts;
+    public final Set<Key> toDelete;
+    public final Set<ITu> toAdd;
+    public final Map<Key, ITuv> toReplace;
     
-    public ResolutionSet(Set<Key> toDelete, Set<Tu> toAdd, Map<Key, Tuv> toReplace) {
+    public ResolutionSet(List<ConflictInfo> conflicts, Set<Key> toDelete, Set<ITu> toAdd, Map<Key, ITuv> toReplace) {
+        this.conflicts = conflicts;
         this.toDelete = toDelete;
         this.toAdd = toAdd;
         this.toReplace = toReplace;

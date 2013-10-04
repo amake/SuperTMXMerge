@@ -36,7 +36,7 @@ public class DiffWindow extends javax.swing.JFrame {
         initComponents();
         int n = 1;
         for (DiffInfo info : controller.getDiffInfos()) {
-            addDiffInfo(n, info);
+            diffsPanel.add(new DiffCell(n, info));
             n++;
         }
         // Keep tooltips open. Via:
@@ -46,10 +46,6 @@ public class DiffWindow extends javax.swing.JFrame {
     
     private DiffController getController() {
         return controller;
-    }
-    
-    private void addDiffInfo(int itemNumber, DiffInfo info) {
-        diffsPanel.add(new DiffCell(itemNumber, info));
     }
     
     /**
@@ -77,7 +73,7 @@ public class DiffWindow extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         diffsPanel = new org.madlonkay.supertmxmerge.gui.ReasonablySizedPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(LocString.get("diff_window_title")); // NOI18N
         setLocationByPlatform(true);
 
@@ -88,7 +84,7 @@ public class DiffWindow extends javax.swing.JFrame {
 
         file1Label.setFont(file1Label.getFont().deriveFont(file1Label.getFont().getStyle() | java.awt.Font.BOLD, file1Label.getFont().getSize()+2));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx1.fileName}"), file1Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file1Name");
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx1.name}"), file1Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file1Name");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx1.metadata}"), file1Label, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"), "file1Metadata");
         binding.setConverter(mapToTextConverter);
@@ -99,7 +95,7 @@ public class DiffWindow extends javax.swing.JFrame {
         file2Label.setFont(file2Label.getFont().deriveFont(file2Label.getFont().getStyle() | java.awt.Font.BOLD, file2Label.getFont().getSize()+2));
         file2Label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx2.fileName}"), file2Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file2Name");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx2.name}"), file2Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file2Name");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx2.metadata}"), file2Label, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"), "tmx2Metadata");
         binding.setConverter(mapToTextConverter);

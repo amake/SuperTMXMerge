@@ -33,6 +33,7 @@ public class Main {
      */
     public static void main(String[] args) {
         
+        
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (UnsupportedLookAndFeelException ex) {
@@ -47,6 +48,7 @@ public class Main {
                 
         if (args.length == 0) {
             SuperTmxMerge.promptForFiles();
+            System.out.println("Exited Main#main");
             return;
         }
                 
@@ -58,6 +60,7 @@ public class Main {
             return;
         } else if (args.length == 4) {
             SuperTmxMerge.mergeTo(new File(args[0]), new File(args[1]), new File(args[2]), new File(args[3]));
+            return;
         }
         
         printUsage();

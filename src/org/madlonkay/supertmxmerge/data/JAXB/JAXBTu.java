@@ -15,58 +15,56 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package org.madlonkay.supertmxmerge.util;
+package org.madlonkay.supertmxmerge.data.JAXB;
 
 import gen.core.tmx14.Prop;
 import gen.core.tmx14.Tu;
 import gen.core.tmx14.Tuv;
-import java.util.List;
+import org.madlonkay.supertmxmerge.data.ITu;
+import org.madlonkay.supertmxmerge.data.ITuv;
 import org.madlonkay.supertmxmerge.data.Key;
 
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class TuvUtil {
+public class JAXBTu implements ITu {
     
-    public static Tuv getSourceTuv(Tu tu, String sourceLanguage) {
+    private final Tu tu;
+    private String sourceLanguage;
+    
+    public JAXBTu(Tu tu, String sourceLanguage) {
+        this.tu = tu;
+        this.sourceLanguage = sourceLanguage;
+    }
+    
+    public ITuv getSourceTuv() {
         for (Tuv tuv : tu.getTuv()) {
-            if (sourceLanguage.equals(getLanguage(tuv))) {
-                return tuv;
+            if (sourceLanguage.equals(JAXBTuv.getLanguage(tuv))) {
+                return new JAXBTuv(tuv);
             }
         }
         return null;
     }
     
-    public static Tuv getTargetTuv(Tu tu, String sourceLanguage) {
+    @Override
+    public Object getUnderlyingRepresentation() {
+        return tu;
+    }
+    
+    @Override
+    public ITuv getTargetTuv() {
         for (Tuv tuv : tu.getTuv()) {
-            if (!sourceLanguage.equals(getLanguage(tuv))) {
-                return tuv;
+            if (!sourceLanguage.equals(JAXBTuv.getLanguage(tuv))) {
+                return new JAXBTuv(tuv);
             }
         }
         return null;
     }
     
-    public static String getLanguage(Tuv tuv) {
-        if (tuv.getLang() != null) {
-            return tuv.getLang();
-        }
-        return tuv.getXmlLang();
-    }
-    
-    public static String getContent(Tuv tuv) {
-        List<Object> content = tuv.getSeg().getContent();
-        return content.isEmpty() ? "" : (String) content.get(0);
-    }
-    
-    public static boolean equals(Tuv tuv1, Tuv tuv2) {
-        String seg1 = TuvUtil.getContent(tuv1);
-        String seg2 = TuvUtil.getContent(tuv2);
-        return seg1.equals(seg2);
-    }
-    
-    public static Key getTuvKey(Tu tu, String sourceLanguage) {
-        Key key = new Key(getContent(getSourceTuv(tu, sourceLanguage)));
+    @Override
+    public Key getKey() {
+        Key key = new Key(getSourceTuv().getContent());
         for (Object o : tu.getNoteOrProp()) {
             if (o instanceof Prop) {
                 Prop p = (Prop) o;

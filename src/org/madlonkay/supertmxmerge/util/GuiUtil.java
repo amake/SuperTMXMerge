@@ -22,6 +22,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /**
@@ -29,8 +31,10 @@ import javax.swing.JFrame;
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
 public class GuiUtil {
+    
+    private static final Logger LOGGER = Logger.getLogger(GuiUtil.class.getName());
 
-    public static void displayWindow(JFrame window) {
+    public static void displayWindow(final JFrame window) {
         window.pack();
         if (fixSize(window)) {
             window.setLocationRelativeTo(null);
@@ -62,7 +66,7 @@ public class GuiUtil {
     public static void blockOnWindow(final JFrame window) {
         final Object lock = new Object();
         
-        window.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
         window.addWindowListener(new WindowAdapter() {
             @Override
@@ -71,16 +75,18 @@ public class GuiUtil {
                     lock.notify();
                 }
             }
-        }) ;
+        });
         
         synchronized (lock) {
             while (window.isVisible()) {
                 try {
                     lock.wait();
                 } catch (InterruptedException ex) {
-
+                    LOGGER.log(Level.SEVERE, null, ex);
                 }
             }
         }
+        
+        System.out.println("Exited GuiUtil#blockOnWindow");
     }
 }

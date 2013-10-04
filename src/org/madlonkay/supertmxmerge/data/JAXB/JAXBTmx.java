@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package org.madlonkay.supertmxmerge.data;
+package org.madlonkay.supertmxmerge.data.JAXB;
 
 import gen.core.tmx14.Tmx;
 import gen.core.tmx14.Tu;
@@ -41,8 +41,12 @@ import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.Source;
 import javax.xml.transform.sax.SAXSource;
+import org.madlonkay.supertmxmerge.data.ITmx;
+import org.madlonkay.supertmxmerge.data.ITu;
+import org.madlonkay.supertmxmerge.data.ITuv;
+import org.madlonkay.supertmxmerge.data.Key;
+import org.madlonkay.supertmxmerge.data.ResolutionSet;
 import org.madlonkay.supertmxmerge.util.ReflectionUtil;
-import org.madlonkay.supertmxmerge.util.TuvUtil;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -55,7 +59,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class TmxFile {
+public class JAXBTmx implements ITmx {
 
     private static final JAXBContext CONTEXT;
     private static final Unmarshaller UNMARSHALLER;
@@ -68,16 +72,16 @@ public class TmxFile {
     
     private PropertyChangeSupport propertySupport;
     
-    private Tmx data;
+    private Tmx tmx;
     private File file;
-    private Map<Key, Tuv> tuvMap;
-    private Map<Key, Tu> tuMap;
+    private Map<Key, ITuv> tuvMap;
+    private Map<Key, ITu> tuMap;
     private Map<String, String> tmxMetadata;
     
     private static final String FEATURE_NAMESPACES = "http://xml.org/sax/features/namespaces";
     private static final String FEATURE_NAMESPACE_PREFIXES = "http://xml.org/sax/features/namespace-prefixes";
     
-    private static final Logger LOGGER = Logger.getLogger(TmxFile.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(JAXBTmx.class.getName());
     
     static {
         try {
@@ -91,7 +95,7 @@ public class TmxFile {
                 @Override
                 public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
                     File systemFile = new File(systemId);
-                    InputSource s = new InputSource(TmxFile.class.getResourceAsStream("/schemas/" + systemFile.getName()));
+                    InputSource s = new InputSource(JAXBTmx.class.getResourceAsStream("/schemas/" + systemFile.getName()));
                     return s;
                 }
             });
@@ -107,12 +111,12 @@ public class TmxFile {
         }
     }
 
-    public TmxFile(File file) throws UnmarshalException {
+    public JAXBTmx(File file) throws UnmarshalException {
         propertySupport = new PropertyChangeSupport(this);
         this.file = file;
         try {
             Source source = new SAXSource(XMLREADER, new InputSource(new FileInputStream(this.file)));
-            this.data = (Tmx) UNMARSHALLER.unmarshal(source);
+            this.tmx = (Tmx) UNMARSHALLER.unmarshal(source);
         } catch (JAXBException ex) {
             throw new RuntimeException(ex);
         } catch (FileNotFoundException ex) {
@@ -120,8 +124,8 @@ public class TmxFile {
         }
     }
     
-    private TmxFile(Tmx data) {
-        this.data = data;
+    private JAXBTmx(Tmx tmx) {
+        this.tmx = tmx;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -132,30 +136,35 @@ public class TmxFile {
         propertySupport.removePropertyChangeListener(listener);
     }
     
+    @Override
     public String getSourceLanguage() {
-        return getData().getHeader().getSrclang();
+        return tmx.getHeader().getSrclang();
     }
 
+    @Override
     public int getSize() {
-        return getData().getBody().getTu().size();
+        return tmx.getBody().getTu().size();
     }
     
     public String getFilePath() {
         return file.getAbsolutePath();
     }
     
-    public String getFileName() {
+    @Override
+    public String getName() {
         return file.getName();
     }
 
-    public Map<Key, Tuv> getTuvMap() {
+    @Override
+    public Map<Key, ITuv> getTuvMap() {
         if (tuvMap == null) {
             generateMaps();
         }
         return tuvMap;
     }
     
-    public Map<Key, Tu> getTuMap() {
+    @Override
+    public Map<Key, ITu> getTuMap() {
         if (tuMap == null) {
             generateMaps();
         }
@@ -163,17 +172,19 @@ public class TmxFile {
     }
     
     private void generateMaps() {
-        tuvMap = new HashMap<Key, Tuv>();
-        tuMap = new HashMap<Key, Tu>();
-        for (Tu tu : getData().getBody().getTu()) {
-            Key key = TuvUtil.getTuvKey(tu, getSourceLanguage());
+        tuvMap = new HashMap<Key, ITuv>();
+        tuMap = new HashMap<Key, ITu>();
+        for (Tu rawTu : tmx.getBody().getTu()) {
+            ITu tu = new JAXBTu(rawTu, getSourceLanguage());
+            Key key = tu.getKey();
             assert(!tuMap.containsKey(key));
             assert(!tuvMap.containsKey(key));
             tuMap.put(key, tu);
-            tuvMap.put(key, TuvUtil.getTargetTuv(tu, getSourceLanguage()));
+            tuvMap.put(key, tu.getTargetTuv());
         }
     }
     
+    @Override
     public Map<String, String> getMetadata() {
         if (tmxMetadata == null) {
             generateMetadata();
@@ -182,33 +193,34 @@ public class TmxFile {
     }
     
     private void generateMetadata() {
-        tmxMetadata = ReflectionUtil.simplePropsToMap(getData().getHeader());
-    }
-
-    /**
-     * @return the doc
-     */
-    public Tmx getData() {
-        return data;
+        tmxMetadata = ReflectionUtil.simplePropsToMap(tmx.getHeader());
     }
     
-    public TmxFile applyChanges(ResolutionSet resolution) throws JAXBException {
-        Tmx originalData = clone(getData());
-        List<Tu> tus = getData().getBody().getTu();
+    @Override
+    public ITmx applyChanges(ResolutionSet resolution) {
+        Tmx originalData;
+        try {
+            originalData = clone(tmx);
+        } catch (JAXBException ex) {
+            throw new RuntimeException(ex);
+        }
+        List<Tu> tus = tmx.getBody().getTu();
         for (Key key : resolution.toDelete) {
-            tus.remove(getTuMap().get(key));
+            tus.remove((Tu) getTuMap().get(key).getUnderlyingRepresentation());
         }
-        for (Entry<Key, Tuv> e : resolution.toReplace.entrySet()) {
-            Tu tu = getTuMap().get(e.getKey());
-            tu.getTuv().remove(getTuvMap().get(e.getKey()));
-            tu.getTuv().add(e.getValue());
+        for (Entry<Key, ITuv> e : resolution.toReplace.entrySet()) {
+            Tu tu = (Tu) getTuMap().get(e.getKey()).getUnderlyingRepresentation();
+            tu.getTuv().remove((Tuv) getTuvMap().get(e.getKey()).getUnderlyingRepresentation());
+            tu.getTuv().add((Tuv) e.getValue().getUnderlyingRepresentation());
         }
-        tus.addAll(resolution.toAdd);
-        Tmx modifiedData = getData();
-        this.data = originalData;
+        for (ITu tu : resolution.toAdd) {
+            tus.add((Tu) tu.getUnderlyingRepresentation());
+        }
+        Tmx modifiedData = tmx;
+        this.tmx = originalData;
         this.tuvMap = null;
         this.tuMap = null;
-        return new TmxFile(modifiedData);
+        return new JAXBTmx(modifiedData);
     }
     
     public static Tmx clone(Tmx jaxbObject) throws JAXBException {
@@ -220,7 +232,13 @@ public class TmxFile {
         return (Tmx) UNMARSHALLER.unmarshal(source);
     }
     
+    @Override
     public void writeTo(File output) throws JAXBException {
-        MARSHALLER.marshal(getData(), output);
+        MARSHALLER.marshal(tmx, output);
+    }
+
+    @Override
+    public Object getUnderlyingRepresentation() {
+        return tmx;
     }
 }

@@ -17,47 +17,33 @@
  */
 package org.madlonkay.supertmxmerge;
 
-import gen.core.tmx14.Tuv;
 import java.beans.*;
-import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.xml.bind.UnmarshalException;
 import org.madlonkay.supertmxmerge.data.DiffInfo;
-import org.madlonkay.supertmxmerge.data.DiffSet;
-import org.madlonkay.supertmxmerge.data.Key;
-import org.madlonkay.supertmxmerge.data.TmxFile;
+import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.gui.DiffWindow;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
-import org.madlonkay.supertmxmerge.util.FileUtil;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
-import org.madlonkay.supertmxmerge.util.TuvUtil;
 
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class DiffController implements Serializable, IController {
+public class DiffController implements Serializable {
     
-    public static final String PROP_FILE1 = "file1";
-    public static final String PROP_FILE2 = "file2";
     public static final String PROP_TMX1 = "tmx1";
     public static final String PROP_TMX2 = "tmx2";
     public static final String PROP_CHANGECOUNT = "changeCount";
 
-    private File file1;
-    private File file2;
-    private TmxFile tmx1;
-    private TmxFile tmx2;
+    private ITmx tmx1;
+    private ITmx tmx2;
     
     private List<DiffInfo> diffInfos;
     
-    private PropertyChangeSupport propertySupport;
+    protected PropertyChangeSupport propertySupport;
     
     public DiffController() {
         propertySupport = new PropertyChangeSupport(this);
@@ -71,58 +57,33 @@ public class DiffController implements Serializable, IController {
         propertySupport.removePropertyChangeListener(listener);
     }
     
-    public File getFile1() {
-        return file1;
-    }
-
-    public void setFile1(File file1) {
-        File oldFile1 = this.file1;
-        this.file1 = file1;
-        propertySupport.firePropertyChange(PROP_FILE1, oldFile1, file1);
-        propertySupport.firePropertyChange(PROP_INPUTISVALID, null, null);
-    }
-    
-    public File getFile2() {
-        return file2;
-    }
-
-    public void setFile2(File file2) {
-        File oldFile2 = this.file2;
-        this.file2 = file2;
-        propertySupport.firePropertyChange(PROP_FILE2, oldFile2, file2);
-        propertySupport.firePropertyChange(PROP_INPUTISVALID, null, null);
-    }
-    
-    public TmxFile getTmx1() {
+    public ITmx getTmx1() {
         return tmx1;
     }
     
-    public void setTmx1(TmxFile tmx1) {
-        TmxFile oldTmx1 = this.tmx1;
+    public void setTmx1(ITmx tmx1) {
+        ITmx oldTmx1 = this.tmx1;
         this.tmx1 = tmx1;
         propertySupport.firePropertyChange(PROP_TMX1, oldTmx1, tmx1);
     }
     
-    public TmxFile getTmx2() {
+    public ITmx getTmx2() {
         return tmx2;
     }
     
-    public void setTmx2(TmxFile tmx2) {
-        TmxFile oldTmx2 = this.tmx2;
+    public void setTmx2(ITmx tmx2) {
+        ITmx oldTmx2 = this.tmx2;
         this.tmx2 = tmx2;
         propertySupport.firePropertyChange(PROP_TMX2, oldTmx2, tmx2);
     }
     
-    @Override
-    public void go(boolean block) {
-        try {
-            setTmx1(new TmxFile(getFile1()));
-            setTmx2(new TmxFile(getFile2()));
-        } catch (UnmarshalException ex) {
-            Logger.getLogger(MergeController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void diff(ITmx tmx1, ITmx tmx2) {
         
-        generateDiffData();
+        setTmx1(tmx1);
+        setTmx2(tmx2);
+        
+        diffInfos = DiffUtil.generateDiffData(tmx1, tmx2);
+        propertySupport.firePropertyChange(PROP_CHANGECOUNT, null, null);
         
         if (diffInfos.isEmpty()) {
             JOptionPane.showMessageDialog(null,
@@ -132,53 +93,15 @@ public class DiffController implements Serializable, IController {
         } else {
             DiffWindow window = new DiffWindow(this);
             GuiUtil.displayWindow(window);
-            if (block) {
-                GuiUtil.blockOnWindow(window);
-            }
+            GuiUtil.blockOnWindow(window);
         }
-    }
-
-    @Override
-    public boolean getInputIsValid() {
-        return FileUtil.validateFile(getFile1()) 
-                && FileUtil.validateFile(getFile2()) && !getFile1().equals(getFile2());
+        System.out.println("Exited DiffController#diff");
     }
     
     public List<DiffInfo> getDiffInfos() {
-        if (diffInfos == null) {
-            generateDiffData();
-        }
         return diffInfos;
     }
-    
-    private void generateDiffData() {
-        
-        diffInfos = new ArrayList<DiffInfo>();
-        
-        DiffSet set = DiffUtil.generateDiffSet(getTmx1(), getTmx2());
-        
-        for (Key key : set.deleted) {
-            Tuv tuv = getTmx1().getTuvMap().get(key);
-            diffInfos.add(new DiffInfo(key, getTmx1().getSourceLanguage(),
-                    TuvUtil.getLanguage(tuv), TuvUtil.getContent(tuv), null));
-        }
-        for (Key key : set.added) {
-            Tuv tuv = getTmx2().getTuvMap().get(key);
-            diffInfos.add(new DiffInfo(key, getTmx2().getSourceLanguage(),
-                    TuvUtil.getLanguage(tuv), null, TuvUtil.getContent(tuv)));
-        }
-        for (Key key : set.modified) {
-            Tuv tuv1 = getTmx1().getTuvMap().get(key);
-            Tuv tuv2 = getTmx2().getTuvMap().get(key);
-            diffInfos.add(new DiffInfo(key, getTmx1().getSourceLanguage(),
-                    TuvUtil.getLanguage(tuv1), TuvUtil.getContent(tuv1), TuvUtil.getContent(tuv2)));
-        }
-        propertySupport.firePropertyChange(PROP_CHANGECOUNT, null, null);
-    }
 
-    /**
-     * @return the changeCount
-     */
     public int getChangeCount() {
         return diffInfos.size();
     }

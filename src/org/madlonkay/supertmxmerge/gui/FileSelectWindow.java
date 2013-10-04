@@ -17,16 +17,13 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
-import java.awt.Component;
 import java.io.IOException;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import org.madlonkay.supertmxmerge.DiffController;
-import org.madlonkay.supertmxmerge.IController;
-import org.madlonkay.supertmxmerge.MergeController;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
@@ -63,24 +60,6 @@ public class FileSelectWindow extends javax.swing.JFrame {
         }
     }
     
-    public IController getActiveController() {
-        Component component = diffMergeTabbedPane.getSelectedComponent();
-        if (component == diffPanel) {
-            return diffController;
-        } else if (component == mergePanel) {
-            return mergeController;
-        }
-        return null;
-    }
-    
-    public DiffController getDiffController() {
-        return diffController;
-    }
-    
-    public MergeController getMergeController() {
-        return mergeController;
-    }
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -92,9 +71,9 @@ public class FileSelectWindow extends javax.swing.JFrame {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jFileChooser1 = new javax.swing.JFileChooser();
-        mergeController = new org.madlonkay.supertmxmerge.MergeController();
-        diffController = new org.madlonkay.supertmxmerge.DiffController();
         fileStringConverter = new org.madlonkay.supertmxmerge.gui.FileStringConverter();
+        diffIOController = new org.madlonkay.supertmxmerge.DiffIOController();
+        mergeIOController = new org.madlonkay.supertmxmerge.MergeIOController();
         diffMergeTabbedPane = new javax.swing.JTabbedPane();
         diffPanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -126,7 +105,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
         jFileChooser1.setFileFilter(new FileNameExtensionFilter(LocString.get("tmx_file_type_label"), "tmx"));
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(LocString.get("file_select_window_title")); // NOI18N
         setLocationByPlatform(true);
         setResizable(false);
@@ -161,7 +140,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
         file1Field.setColumns(45);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, diffController, org.jdesktop.beansbinding.ELProperty.create("${file1}"), file1Field, org.jdesktop.beansbinding.BeanProperty.create("text"), "diffFile1");
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, diffIOController, org.jdesktop.beansbinding.ELProperty.create("${file1}"), file1Field, org.jdesktop.beansbinding.BeanProperty.create("text"), "diffFile1");
         binding.setConverter(fileStringConverter);
         bindingGroup.addBinding(binding);
 
@@ -169,7 +148,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
         file2Field.setColumns(45);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, diffController, org.jdesktop.beansbinding.ELProperty.create("${file2}"), file2Field, org.jdesktop.beansbinding.BeanProperty.create("text"), "diffFile2");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, diffIOController, org.jdesktop.beansbinding.ELProperty.create("${file2}"), file2Field, org.jdesktop.beansbinding.BeanProperty.create("text"), "diffFile2");
         binding.setConverter(fileStringConverter);
         bindingGroup.addBinding(binding);
 
@@ -188,7 +167,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
         diffOkButton.setText(LocString.get("ok_button")); // NOI18N
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${diffController.inputIsValid}"), diffOkButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"), "okButton");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, diffIOController, org.jdesktop.beansbinding.ELProperty.create("${inputIsValid}"), diffOkButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"), "diffOkButton");
         bindingGroup.addBinding(binding);
 
         diffOkButton.addActionListener(new java.awt.event.ActionListener() {
@@ -249,7 +228,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
         baseFileField.setColumns(20);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeController, org.jdesktop.beansbinding.ELProperty.create("${baseFile}"), baseFileField, org.jdesktop.beansbinding.BeanProperty.create("text"), "mergeBaseFile");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeIOController, org.jdesktop.beansbinding.ELProperty.create("${baseFile}"), baseFileField, org.jdesktop.beansbinding.BeanProperty.create("text"), "mergeBaseFile");
         binding.setConverter(fileStringConverter);
         bindingGroup.addBinding(binding);
 
@@ -257,7 +236,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
         leftFileField.setColumns(20);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeController, org.jdesktop.beansbinding.ELProperty.create("${leftFile}"), leftFileField, org.jdesktop.beansbinding.BeanProperty.create("text"), "mergeFile1");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeIOController, org.jdesktop.beansbinding.ELProperty.create("${file1}"), leftFileField, org.jdesktop.beansbinding.BeanProperty.create("text"), "mergeFile1");
         binding.setConverter(fileStringConverter);
         bindingGroup.addBinding(binding);
 
@@ -265,7 +244,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
         rightFileField.setColumns(20);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeController, org.jdesktop.beansbinding.ELProperty.create("${rightFile}"), rightFileField, org.jdesktop.beansbinding.BeanProperty.create("text"), "mergeFile2");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeIOController, org.jdesktop.beansbinding.ELProperty.create("${file2}"), rightFileField, org.jdesktop.beansbinding.BeanProperty.create("text"), "mergeFile2");
         binding.setConverter(fileStringConverter);
         bindingGroup.addBinding(binding);
 
@@ -282,7 +261,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
         mergeOkButton.setText(LocString.get("ok_button")); // NOI18N
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${mergeController.inputIsValid}"), mergeOkButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeIOController, org.jdesktop.beansbinding.ELProperty.create("${inputIsValid}"), mergeOkButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         mergeOkButton.addActionListener(new java.awt.event.ActionListener() {
@@ -340,12 +319,24 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
     private void diffOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diffOkButtonActionPerformed
         dispose();
-        getDiffController().go(false);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                diffIOController.go();
+            }
+        }).start();
+        System.out.println("Exited FileSelectWindow#diffOkButton");
     }//GEN-LAST:event_diffOkButtonActionPerformed
 
     private void mergeOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mergeOkButtonActionPerformed
         dispose();
-        getMergeController().go(false);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mergeIOController.go();
+            }
+        }).start();
+        System.out.println("Exited FileSelectWindow#mergeOkButton");
     }//GEN-LAST:event_mergeOkButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -353,7 +344,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
     private javax.swing.JTextField baseFileField;
     private javax.swing.JPanel diffButtonPanel;
     private javax.swing.JButton diffCancelButton;
-    private org.madlonkay.supertmxmerge.DiffController diffController;
+    private org.madlonkay.supertmxmerge.DiffIOController diffIOController;
     private javax.swing.JTabbedPane diffMergeTabbedPane;
     private javax.swing.JButton diffOkButton;
     private javax.swing.JPanel diffPanel;
@@ -376,7 +367,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
     private javax.swing.JTextField leftFileField;
     private javax.swing.JPanel mergeButtonPanel;
     private javax.swing.JButton mergeCancelButton;
-    private org.madlonkay.supertmxmerge.MergeController mergeController;
+    private org.madlonkay.supertmxmerge.MergeIOController mergeIOController;
     private javax.swing.JButton mergeOkButton;
     private javax.swing.JPanel mergePanel;
     private javax.swing.JButton rightFileButton;

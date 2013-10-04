@@ -19,8 +19,11 @@ package org.madlonkay.supertmxmerge;
 
 import java.io.File;
 import java.util.logging.Logger;
+import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.gui.FileSelectWindow;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
+import org.omegat.core.data.OmTTmx;
+import org.omegat.core.data.ProjectTMX;
 
 /**
  *
@@ -28,31 +31,32 @@ import org.madlonkay.supertmxmerge.util.GuiUtil;
  */
 public class SuperTmxMerge {
     
-    public static final Logger LOGGER = Logger.getLogger(SuperTmxMerge.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SuperTmxMerge.class.getName());
     
     public static void diff(File file1, File file2) {
-        DiffController controller = new DiffController();
+        DiffIOController controller = new DiffIOController();
         controller.setFile1(file1);
         controller.setFile2(file2);
-        controller.go(true);
+        controller.go();
     }
     
-    public static void merge(File baseFile, File file1, File file2) {
-        MergeController controller = new MergeController();
+    public static File merge(File baseFile, File file1, File file2) {
+        MergeIOController controller = new MergeIOController();
         controller.setBaseFile(baseFile);
-        controller.setLeftFile(file1);
-        controller.setRightFile(file2);
+        controller.setFile1(file1);
+        controller.setFile2(file2);
         controller.setOutputFile(null);
-        controller.go(true);
+        controller.go();
+        return controller.getOutputFile();
     }
     
     public static void mergeTo(File baseFile, File file1, File file2, File outputFile) {
-        MergeController controller = new MergeController();
+        MergeIOController controller = new MergeIOController();
         controller.setBaseFile(baseFile);
-        controller.setLeftFile(file1);
-        controller.setRightFile(file2);
+        controller.setFile1(file1);
+        controller.setFile2(file2);
         controller.setOutputFile(outputFile);
-        controller.go(true);
+        controller.go();
     }
     
     public static void promptForFiles() {
