@@ -325,7 +325,6 @@ public class FileSelectWindow extends javax.swing.JFrame {
                 diffIOController.go();
             }
         });
-        System.out.println("Exited FileSelectWindow#diffOkButton");
     }//GEN-LAST:event_diffOkButtonActionPerformed
 
     private void mergeOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mergeOkButtonActionPerformed
@@ -336,7 +335,6 @@ public class FileSelectWindow extends javax.swing.JFrame {
                 mergeIOController.go();
             }
         });
-        System.out.println("Exited FileSelectWindow#mergeOkButton");
     }//GEN-LAST:event_mergeOkButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

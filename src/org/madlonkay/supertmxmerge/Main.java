@@ -53,7 +53,6 @@ public class Main {
 
                 if (theArgs.length == 0) {
                     SuperTmxMerge.promptForFiles();
-                    System.out.println("Exited Main#main");
                     return;
                 }
 

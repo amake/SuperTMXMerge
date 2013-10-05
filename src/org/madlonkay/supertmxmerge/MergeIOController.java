@@ -120,7 +120,5 @@ public class MergeIOController extends DiffIOController {
         } catch (Exception ex) {
             Logger.getLogger(MergeIOController.class.getName()).log(Level.SEVERE, null, ex);
         }
-              
-        System.out.println("Exited MergeIOController#go");
     }
 }

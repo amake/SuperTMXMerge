@@ -85,8 +85,6 @@ public class GuiUtil {
                 }
             }
         }
-        
-        System.out.println("Exited GuiUtil#blockOnWindow");
     }
     
     public static void safelyRunBlockingRoutine(Runnable runnable) {
