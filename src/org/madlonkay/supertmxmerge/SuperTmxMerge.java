@@ -19,11 +19,8 @@ package org.madlonkay.supertmxmerge;
 
 import java.io.File;
 import java.util.logging.Logger;
-import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.gui.FileSelectWindow;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
-import org.omegat.core.data.OmTTmx;
-import org.omegat.core.data.ProjectTMX;
 
 /**
  *
