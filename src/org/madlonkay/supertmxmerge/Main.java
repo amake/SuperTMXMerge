@@ -18,9 +18,9 @@
 package org.madlonkay.supertmxmerge;
 
 import java.io.File;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
@@ -72,11 +72,7 @@ public class Main {
             }
         };
         
-        if (SwingUtilities.isEventDispatchThread()) {
-            new Thread(run).start();
-        } else {
-            run.run();
-        }
+        GuiUtil.safelyRunBlockingRoutine(run);
     }
     
     private static void printUsage() {

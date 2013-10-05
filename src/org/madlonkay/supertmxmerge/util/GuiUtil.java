@@ -25,6 +25,7 @@ import java.awt.event.WindowEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -88,5 +89,13 @@ public class GuiUtil {
         }
         
         System.out.println("Exited GuiUtil#blockOnWindow");
+    }
+    
+    public static void safelyRunBlockingRoutine(Runnable runnable) {
+        if (SwingUtilities.isEventDispatchThread()) {
+            new Thread(runnable).start();
+        } else {
+            runnable.run();
+        }
     }
 }
