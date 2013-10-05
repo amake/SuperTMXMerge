@@ -18,6 +18,7 @@
 package org.madlonkay.supertmxmerge;
 
 import java.io.File;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.madlonkay.supertmxmerge.util.LocString;
@@ -29,41 +30,53 @@ import org.madlonkay.supertmxmerge.util.LocString;
 public class Main {
     
     /**
-     * @param args the command line arguments
+     * @param theArgs the command line arguments
      */
     public static void main(String[] args) {
         
+        final String[] theArgs = args;
         
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (UnsupportedLookAndFeelException ex) {
-            throw new RuntimeException(ex);
-        } catch (ClassNotFoundException ex) {
-            throw new RuntimeException(ex);
-        } catch (InstantiationException ex) {
-            throw new RuntimeException(ex);
-        } catch (IllegalAccessException ex) {
-            throw new RuntimeException(ex);
-        }
-                
-        if (args.length == 0) {
-            SuperTmxMerge.promptForFiles();
-            System.out.println("Exited Main#main");
-            return;
-        }
-                
-        if (args.length == 2) {
-            SuperTmxMerge.diff(new File(args[0]), new File(args[1]));
-            return;
-        } else if (args.length == 3) {
-            SuperTmxMerge.merge(new File(args[0]), new File(args[1]), new File(args[2]));
-            return;
-        } else if (args.length == 4) {
-            SuperTmxMerge.mergeTo(new File(args[0]), new File(args[1]), new File(args[2]), new File(args[3]));
-            return;
-        }
+        Runnable run = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } catch (UnsupportedLookAndFeelException ex) {
+                    throw new RuntimeException(ex);
+                } catch (ClassNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                } catch (InstantiationException ex) {
+                    throw new RuntimeException(ex);
+                } catch (IllegalAccessException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                if (theArgs.length == 0) {
+                    SuperTmxMerge.promptForFiles();
+                    System.out.println("Exited Main#main");
+                    return;
+                }
+
+                if (theArgs.length == 2) {
+                    SuperTmxMerge.diff(new File(theArgs[0]), new File(theArgs[1]));
+                    return;
+                } else if (theArgs.length == 3) {
+                    SuperTmxMerge.merge(new File(theArgs[0]), new File(theArgs[1]), new File(theArgs[2]));
+                    return;
+                } else if (theArgs.length == 4) {
+                    SuperTmxMerge.mergeTo(new File(theArgs[0]), new File(theArgs[1]), new File(theArgs[2]), new File(theArgs[3]));
+                    return;
+                }
+
+                printUsage();
+            }
+        };
         
-        printUsage();
+        if (SwingUtilities.isEventDispatchThread()) {
+            new Thread(run).start();
+        } else {
+            run.run();
+        }
     }
     
     private static void printUsage() {
