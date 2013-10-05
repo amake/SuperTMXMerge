@@ -66,9 +66,7 @@ public class GuiUtil {
     
     public static void blockOnWindow(final JFrame window) {
         final Object lock = new Object();
-        
-        window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
+                
         window.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {

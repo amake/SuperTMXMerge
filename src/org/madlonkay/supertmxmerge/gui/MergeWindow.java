@@ -120,7 +120,7 @@ public class MergeWindow extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         doneButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle(LocString.get("merge_window_title")); // NOI18N
         setLocationByPlatform(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
