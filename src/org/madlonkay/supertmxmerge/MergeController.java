@@ -102,7 +102,10 @@ public class MergeController implements Serializable, ActionListener {
     }
     
     public boolean isConflictsAreResolved() {
-        if (selections.size() < 1) {
+        if (resolution != null && resolution.conflicts.isEmpty()) {
+            return true;
+        }
+        if (selections.isEmpty()) {
             return false;
         }
         for (Entry<Key, AbstractButton[]> e : selections.entrySet()) {
