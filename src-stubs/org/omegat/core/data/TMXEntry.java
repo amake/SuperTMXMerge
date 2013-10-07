@@ -33,4 +33,8 @@ public class TMXEntry {
     public final String note = null;
     public final boolean defaultTranslation = false;
     public final Map<String,String> properties = null;
+    
+    public TMXEntry() {
+        throw new UnsupportedOperationException("This class is a stub.");
+    }
 }

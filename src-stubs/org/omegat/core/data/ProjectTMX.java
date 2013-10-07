@@ -26,16 +26,19 @@ import java.util.Map;
  */
 public class ProjectTMX {
     
-    
     Map<String, TMXEntry> defaults;
 
     Map<EntryKey, TMXEntry> alternatives;
     
+    public ProjectTMX() {
+        throw new UnsupportedOperationException("This class is a stub.");
+    }
+    
     public Collection<TMXEntry> getDefaults() {
-        return null;
+        throw new UnsupportedOperationException("This class is a stub.");
     }
     
     public Collection<TMXEntry> getAlternatives() {
-        return null;
+        throw new UnsupportedOperationException("This class is a stub.");
     }
 }

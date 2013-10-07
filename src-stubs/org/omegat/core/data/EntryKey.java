@@ -28,4 +28,8 @@ public class EntryKey {
     public final String prev = null;
     public final String next = null;
     public final String path = null;
+    
+    public EntryKey() {
+        throw new UnsupportedOperationException("This class is a stub.");
+    }
 }
