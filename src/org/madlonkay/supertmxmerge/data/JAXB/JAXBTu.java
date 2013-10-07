@@ -62,9 +62,8 @@ public class JAXBTu implements ITu {
         return null;
     }
     
-    @Override
     public Key getKey() {
-        Key key = new Key(getSourceTuv().getContent());
+        Key key = new Key(getSourceTuv().getContent(), null);
         for (Object o : tu.getNoteOrProp()) {
             if (o instanceof Prop) {
                 Prop p = (Prop) o;

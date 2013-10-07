@@ -46,6 +46,7 @@ import org.madlonkay.supertmxmerge.data.ITu;
 import org.madlonkay.supertmxmerge.data.ITuv;
 import org.madlonkay.supertmxmerge.data.Key;
 import org.madlonkay.supertmxmerge.data.ResolutionSet;
+import org.madlonkay.supertmxmerge.util.LocString;
 import org.madlonkay.supertmxmerge.util.ReflectionUtil;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
@@ -146,13 +147,9 @@ public class JAXBTmx implements ITmx {
         return tmx.getBody().getTu().size();
     }
     
-    public String getFilePath() {
-        return file.getAbsolutePath();
-    }
-    
     @Override
     public String getName() {
-        return file.getName();
+        return file == null ? LocString.get("file_no_name") : file.getName();
     }
 
     @Override
@@ -175,7 +172,7 @@ public class JAXBTmx implements ITmx {
         tuvMap = new HashMap<Key, ITuv>();
         tuMap = new HashMap<Key, ITu>();
         for (Tu rawTu : tmx.getBody().getTu()) {
-            ITu tu = new JAXBTu(rawTu, getSourceLanguage());
+            JAXBTu tu = new JAXBTu(rawTu, getSourceLanguage());
             Key key = tu.getKey();
             assert(!tuMap.containsKey(key));
             assert(!tuvMap.containsKey(key));

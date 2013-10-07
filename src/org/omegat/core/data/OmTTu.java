@@ -19,7 +19,6 @@ package org.omegat.core.data;
 
 import org.madlonkay.supertmxmerge.data.ITu;
 import org.madlonkay.supertmxmerge.data.ITuv;
-import org.madlonkay.supertmxmerge.data.Key;
 
 /**
  *
@@ -27,27 +26,12 @@ import org.madlonkay.supertmxmerge.data.Key;
  */
 public class OmTTu implements ITu {
 
-    private TMXEntry tmxEntry;
-    private EntryKey entryKey;
-    private String targetLanguage;
+    private final TMXEntry tmxEntry;
+    private final String targetLanguage;
     
-    public OmTTu(TMXEntry tmxEntry, EntryKey entryKey, String targetLanguage) {
+    public OmTTu(TMXEntry tmxEntry, String targetLanguage) {
         this.tmxEntry = tmxEntry;
-        this.entryKey = entryKey;
         this.targetLanguage = targetLanguage;
-    }
-    
-    @Override
-    public Key getKey() {
-        Key key = new Key(tmxEntry.source);
-        if (entryKey != null) {
-            key.addProp("file", entryKey.file);
-            key.addProp("id", entryKey.id);
-            key.addProp("next", entryKey.next);
-            key.addProp("path", entryKey.path);
-            key.addProp("prev", entryKey.prev);
-        }
-        return key;
     }
 
     @Override

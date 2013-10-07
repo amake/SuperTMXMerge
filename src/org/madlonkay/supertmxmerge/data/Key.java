@@ -28,9 +28,11 @@ public class Key {
     
     public final String sourceText;
     public Map<String, String> props;
+    public final Object foreignKey;
     
-    public Key(String sourceText) {
+    public Key(String sourceText, Object foreignKey) {
         this.sourceText = sourceText;
+        this.foreignKey = foreignKey;
     }
     
     public void addProp(String name, String value) {

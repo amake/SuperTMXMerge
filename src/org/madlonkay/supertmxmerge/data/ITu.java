@@ -23,8 +23,6 @@ package org.madlonkay.supertmxmerge.data;
  */
 public interface ITu {
     
-    public Key getKey();
-    
     public ITuv getTargetTuv();
     
     public Object getUnderlyingRepresentation();
