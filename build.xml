@@ -3,12 +3,16 @@
     <description>Builds, tests, and runs the project SuperTMXMerge.</description>
     <import file="nbproject/build-impl.xml"/>
     <target name="-post-jar">
-        <copy todir="dist">
+        <copy todir="${dist.dir}">
             <fileset dir="release" includes="*"/>
         </copy>
-        <chmod file="dist/SuperTMXMerge.sh" perm="ugo+rx"/>
+        <chmod file="${dist.dir}/SuperTMXMerge.sh" perm="ugo+rx"/>
         <copy file="README.md" tofile="dist/README.TXT" overwrite="yes"/>
         <copy file="LICENSE" todir="dist"/>
+        <jar destfile="${dist.dir}/${application.title}-for_OmegaT.jar">
+            <zipfileset src="${dist.jar}" excludes="org/omegat/**"/>
+            <zipfileset src="${dist.jar}" includes="org/omegat/core/data/OmT*"/>
+        </jar>
     </target>
     <target name="gen">
         <exec executable="xjc">
