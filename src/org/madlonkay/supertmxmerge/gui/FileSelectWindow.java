@@ -21,9 +21,9 @@ import java.io.IOException;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
@@ -319,24 +319,22 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
     private void diffOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diffOkButtonActionPerformed
         dispose();
-        new Thread(new Runnable() {
+        GuiUtil.safelyRunBlockingRoutine(new Runnable() {
             @Override
             public void run() {
                 diffIOController.go();
             }
-        }).start();
-        System.out.println("Exited FileSelectWindow#diffOkButton");
+        });
     }//GEN-LAST:event_diffOkButtonActionPerformed
 
     private void mergeOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mergeOkButtonActionPerformed
         dispose();
-        new Thread(new Runnable() {
+        GuiUtil.safelyRunBlockingRoutine(new Runnable() {
             @Override
             public void run() {
                 mergeIOController.go();
             }
-        }).start();
-        System.out.println("Exited FileSelectWindow#mergeOkButton");
+        });
     }//GEN-LAST:event_mergeOkButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

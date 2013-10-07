@@ -94,7 +94,5 @@ public class DiffIOController {
         } 
         
         differ.diff(tmx1, tmx2);
-        
-        System.out.println("Exited DiffIOController#go");
     }
 }

@@ -95,7 +95,6 @@ public class DiffController implements Serializable {
             GuiUtil.displayWindow(window);
             GuiUtil.blockOnWindow(window);
         }
-        System.out.println("Exited DiffController#diff");
     }
     
     public List<DiffInfo> getDiffInfos() {

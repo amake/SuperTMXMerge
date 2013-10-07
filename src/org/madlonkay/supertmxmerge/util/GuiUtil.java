@@ -25,6 +25,7 @@ import java.awt.event.WindowEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -65,9 +66,7 @@ public class GuiUtil {
     
     public static void blockOnWindow(final JFrame window) {
         final Object lock = new Object();
-        
-        window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
+                
         window.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
@@ -86,7 +85,13 @@ public class GuiUtil {
                 }
             }
         }
-        
-        System.out.println("Exited GuiUtil#blockOnWindow");
+    }
+    
+    public static void safelyRunBlockingRoutine(Runnable runnable) {
+        if (SwingUtilities.isEventDispatchThread()) {
+            new Thread(runnable).start();
+        } else {
+            runnable.run();
+        }
     }
 }
