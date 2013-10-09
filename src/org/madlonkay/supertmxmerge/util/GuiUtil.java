@@ -35,12 +35,23 @@ public class GuiUtil {
     
     private static final Logger LOGGER = Logger.getLogger(GuiUtil.class.getName());
 
-    public static void displayWindow(final JFrame window) {
+    public static void displayWindow(JFrame window) {
         window.pack();
         if (fixSize(window)) {
             window.setLocationRelativeTo(null);
         }
         window.setVisible(true);
+    }
+    
+    public static void displayWindowCentered(JFrame window) {
+        window.pack();
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
+    }
+    
+    public static void closeWindow(JFrame window) {
+        window.setVisible(false);
+        window.dispose();
     }
     
     public static boolean fixSize(Component component) {

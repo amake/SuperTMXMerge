@@ -20,11 +20,13 @@ package org.madlonkay.supertmxmerge.gui;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.ToolTipManager;
 import org.madlonkay.supertmxmerge.MergeController;
 import org.madlonkay.supertmxmerge.data.ConflictInfo;
+import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
     /**
@@ -44,14 +46,22 @@ public class MergeWindow extends javax.swing.JFrame {
         this.controller = controller;
         initComponents();
         
+        // Keep tooltips open. Via:
+        // http://www.rgagnon.com/javadetails/java-0528.html
+        ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
+        
+        initContent();
+    }
+    
+    private void initContent() {
+        JFrame progress = new ProgressWindow();
+        GuiUtil.displayWindowCentered(progress);
         int n = 1;
         for (ConflictInfo info : controller.getConflicts()) {
             addMergeInfo(n, info);
             n++;
         }
-        // Keep tooltips open. Via:
-        // http://www.rgagnon.com/javadetails/java-0528.html
-        ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
+        GuiUtil.closeWindow(progress);
     }
     
     private void addMergeInfo(int itemNumber, ConflictInfo info) {

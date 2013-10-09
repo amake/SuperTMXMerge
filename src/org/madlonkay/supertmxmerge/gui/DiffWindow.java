@@ -17,9 +17,11 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
+import javax.swing.JFrame;
 import javax.swing.ToolTipManager;
 import org.madlonkay.supertmxmerge.DiffController;
 import org.madlonkay.supertmxmerge.data.DiffInfo;
+import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
     /**
@@ -34,14 +36,23 @@ public class DiffWindow extends javax.swing.JFrame {
     public DiffWindow(DiffController controller) {
         this.controller = controller;
         initComponents();
+        
+        // Keep tooltips open. Via:
+        // http://www.rgagnon.com/javadetails/java-0528.html
+        ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
+        
+        initContent();
+    }
+    
+    private void initContent() {
+        JFrame progress = new ProgressWindow();
+        GuiUtil.displayWindowCentered(progress);
         int n = 1;
         for (DiffInfo info : controller.getDiffInfos()) {
             diffsPanel.add(new DiffCell(n, info));
             n++;
         }
-        // Keep tooltips open. Via:
-        // http://www.rgagnon.com/javadetails/java-0528.html
-        ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
+        GuiUtil.closeWindow(progress);
     }
     
     private DiffController getController() {
