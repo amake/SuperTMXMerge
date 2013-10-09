@@ -22,7 +22,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import javax.xml.bind.UnmarshalException;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
@@ -77,6 +76,10 @@ public class MergeIOController extends DiffIOController {
     public void go() {
         
         MergeController merger = new MergeController();
+        
+        if (outputFile != null) {
+            merger.setQuiet(true);
+        }
         
         ITmx baseTmx;
         ITmx leftTmx;

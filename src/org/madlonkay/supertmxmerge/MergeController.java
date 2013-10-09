@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractButton;
 import javax.swing.JOptionPane;
@@ -63,6 +62,7 @@ public class MergeController implements Serializable, ActionListener {
     private ResolutionSet resolution;
     
     private boolean canCancel = true;
+    private boolean quiet = false;
     
     public MergeController() {
         propertySupport = new PropertyChangeSupport(this);
@@ -85,24 +85,27 @@ public class MergeController implements Serializable, ActionListener {
         resolution = DiffUtil.generateMergeData(baseTmx, leftTmx, rightTmx);
         propertySupport.firePropertyChange(PROP_CONFLICTCOUNT, null, null);
         
-        if (resolution.conflicts.isEmpty()) {
+        if (!resolution.conflicts.isEmpty()) {
+            // Have conflicts; show window.
+            MergeWindow window = new MergeWindow(this);
+            GuiUtil.displayWindow(window);
+            GuiUtil.blockOnWindow(window);
+        } else if (!quiet) {
             // Files are identical.
             JOptionPane.showMessageDialog(null,
                     LocString.get("identical_files_message"),
                     LocString.get("merge_window_title"),
                     JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            // Have conflicts; show window.
-            MergeWindow window = new MergeWindow(this);
-            GuiUtil.displayWindow(window);
-            GuiUtil.blockOnWindow(window);
         }
         
         return resolve();
     }
     
     public boolean isConflictsAreResolved() {
-        if (selections.size() < 1) {
+        if (resolution != null && resolution.conflicts.isEmpty()) {
+            return true;
+        }
+        if (selections.isEmpty()) {
             return false;
         }
         for (Entry<Key, AbstractButton[]> e : selections.entrySet()) {
@@ -170,6 +173,14 @@ public class MergeController implements Serializable, ActionListener {
     
     public boolean isCanCancel() {
         return canCancel;
+    }
+    
+    public void setQuiet(boolean quiet) {
+        this.quiet = quiet;
+    }
+    
+    public boolean isQuiet() {
+        return quiet;
     }
 
     @Override
