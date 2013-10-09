@@ -18,7 +18,6 @@
 package org.madlonkay.supertmxmerge.util;
 
 import bmsi.util.Diff;
-import gen.core.tmx14.Tuv;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -256,8 +255,8 @@ public class DiffUtil {
         }
         
         if (styling.deleted > 0 && deleteComponent != null) {
-            deleteComponent.setSelectionStart(styling.line1);
-            deleteComponent.setSelectionEnd(styling.line1 + styling.deleted);
+            deleteComponent.setSelectionStart(styling.line0);
+            deleteComponent.setSelectionEnd(styling.line0 + styling.deleted);
             deleteComponent.setCharacterAttributes(
                     alternateColors ? STYLE_DELETED_ALT : STYLE_DELETED, false);
         }
