@@ -91,6 +91,9 @@
                   <Property name="name" type="java.lang.String" value="leftFileName"/>
                 </BindingProperty>
                 <BindingProperty name="toolTipText" source="controller" sourcePath="${leftTmx.metadata}" target="leftFilename" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                  <Property name="nullValue" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                    <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="tmx_details_unavailable" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                  </Property>
                   <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
                     <ComponentRef name="mapToTextConverter"/>
                   </Property>
@@ -112,6 +115,9 @@
                   <Property name="name" type="java.lang.String" value="baseFileName"/>
                 </BindingProperty>
                 <BindingProperty name="toolTipText" source="controller" sourcePath="${baseTmx.metadata}" target="centerFilename" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                  <Property name="nullValue" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                    <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="tmx_details_unavailable" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                  </Property>
                   <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
                     <ComponentRef name="mapToTextConverter"/>
                   </Property>
@@ -133,6 +139,9 @@
                   <Property name="name" type="java.lang.String" value="rightFileName"/>
                 </BindingProperty>
                 <BindingProperty name="toolTipText" source="controller" sourcePath="${rightTmx.metadata}" target="rightFilename" targetPath="toolTipText" updateStrategy="1" immediately="false">
+                  <Property name="nullValue" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                    <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="tmx_details_unavailable" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                  </Property>
                   <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
                     <ComponentRef name="mapToTextConverter"/>
                   </Property>

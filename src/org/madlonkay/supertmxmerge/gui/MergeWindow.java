@@ -149,6 +149,7 @@ public class MergeWindow extends javax.swing.JFrame {
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${leftTmx.name}"), leftFilename, org.jdesktop.beansbinding.BeanProperty.create("text"), "leftFileName");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${leftTmx.metadata}"), leftFilename, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"), "leftTmxMetadata");
+        binding.setSourceNullValue(LocString.get("tmx_details_unavailable")); // NOI18N
         binding.setConverter(mapToTextConverter);
         bindingGroup.addBinding(binding);
 
@@ -160,6 +161,7 @@ public class MergeWindow extends javax.swing.JFrame {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${baseTmx.name}"), centerFilename, org.jdesktop.beansbinding.BeanProperty.create("text"), "baseFileName");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${baseTmx.metadata}"), centerFilename, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"), "centerTmxMetadata");
+        binding.setSourceNullValue(LocString.get("tmx_details_unavailable")); // NOI18N
         binding.setConverter(mapToTextConverter);
         bindingGroup.addBinding(binding);
 
@@ -171,6 +173,7 @@ public class MergeWindow extends javax.swing.JFrame {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${rightTmx.name}"), rightFilename, org.jdesktop.beansbinding.BeanProperty.create("text"), "rightFileName");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${rightTmx.metadata}"), rightFilename, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"), "rightTmxMetadata");
+        binding.setSourceNullValue(LocString.get("tmx_details_unavailable")); // NOI18N
         binding.setConverter(mapToTextConverter);
         bindingGroup.addBinding(binding);
 

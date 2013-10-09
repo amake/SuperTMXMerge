@@ -98,6 +98,7 @@ public class DiffWindow extends javax.swing.JFrame {
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx1.name}"), file1Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file1Name");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx1.metadata}"), file1Label, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"), "file1Metadata");
+        binding.setSourceNullValue(LocString.get("tmx_details_unavailable")); // NOI18N
         binding.setConverter(mapToTextConverter);
         bindingGroup.addBinding(binding);
 
@@ -109,6 +110,7 @@ public class DiffWindow extends javax.swing.JFrame {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx2.name}"), file2Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file2Name");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx2.metadata}"), file2Label, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"), "tmx2Metadata");
+        binding.setSourceNullValue(LocString.get("tmx_details_unavailable")); // NOI18N
         binding.setConverter(mapToTextConverter);
         bindingGroup.addBinding(binding);
 

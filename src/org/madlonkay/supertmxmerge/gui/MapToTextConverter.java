@@ -29,11 +29,18 @@ public class MapToTextConverter extends Converter {
 
     @Override
     public Object convertForward(Object value) {
+        if (value == null) {
+            return null;
+        }
         if (!(value instanceof Map)) {
             throw new IllegalArgumentException();
         }
+        Map<Object, Object> map = (Map<Object, Object>) value;
+        if (map.isEmpty()) {
+            return "";
+        }
         StringBuilder sb = new StringBuilder("<html>");
-        for (Entry<Object, Object> e : ((Map<Object, Object>) value).entrySet()) {
+        for (Entry<Object, Object> e : map.entrySet()) {
             sb.append("<b>");
             sb.append(e.getKey().toString());
             sb.append(":</b> ");

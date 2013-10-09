@@ -116,7 +116,7 @@ public class OmTTmx implements ITmx {
 
     @Override
     public Map<String, String> getMetadata() {
-        return Collections.EMPTY_MAP;
+        return null;
     }
 
     @Override
