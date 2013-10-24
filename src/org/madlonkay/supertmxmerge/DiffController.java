@@ -44,7 +44,7 @@ public class DiffController implements Serializable {
     
     private List<DiffInfo> diffInfos;
     
-    protected PropertyChangeSupport propertySupport;
+    private final PropertyChangeSupport propertySupport;
     
     public DiffController() {
         propertySupport = new PropertyChangeSupport(this);

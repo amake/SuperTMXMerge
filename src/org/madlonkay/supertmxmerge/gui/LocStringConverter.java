@@ -27,14 +27,16 @@ import org.madlonkay.supertmxmerge.util.LocString;
  */
 public class LocStringConverter extends Converter {
 
-    private String id;
-    private String idSingular;
+    private final String id;
+    private final String idSingular;
     
     /**
      * Empty constructor to make NetBeans' design view happy.
      * Do not use.
      */
     public LocStringConverter() {
+        this.id = null;
+        this.idSingular = null;
     }
     
     public LocStringConverter(String id, String idSingular) {

@@ -30,7 +30,7 @@ import org.madlonkay.supertmxmerge.util.LocString;
  */
 public class DiffCell extends javax.swing.JPanel {
 
-     private static MapToTextConverter CONVERTER = new MapToTextConverter();
+     private final static MapToTextConverter CONVERTER = new MapToTextConverter();
     
     /**
      * Creates new form TUDiffCell

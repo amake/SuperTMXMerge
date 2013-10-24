@@ -32,7 +32,7 @@ import org.madlonkay.supertmxmerge.data.Key;
 public class JAXBTu implements ITu {
     
     private final Tu tu;
-    private String sourceLanguage;
+    private final String sourceLanguage;
     
     public JAXBTu(Tu tu, String sourceLanguage) {
         this.tu = tu;

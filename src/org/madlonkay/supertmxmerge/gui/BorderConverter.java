@@ -27,14 +27,16 @@ import org.jdesktop.beansbinding.Converter;
  */
 public class BorderConverter extends Converter {
     
-    private Border selectedBorder;
-    private Border defaultBorder;
+    private final Border selectedBorder;
+    private final Border defaultBorder;
 
     /**
      * Empty constructor to make NetBeans' design view happy.
      * Do not use.
      */
     public BorderConverter() {
+        this.selectedBorder = null;
+        this.defaultBorder = null;
     }
     
     public BorderConverter(Border selectedBorder, Border defaultBorder) {

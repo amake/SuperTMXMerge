@@ -52,13 +52,13 @@ public class MergeController implements Serializable, ActionListener {
     
     public static final String PROP_CONFLICTSARERESOLVED = "conflictsAreResolved";
 
-    private PropertyChangeSupport propertySupport;
+    private final PropertyChangeSupport propertySupport;
     
     private ITmx baseTmx;
     private ITmx leftTmx;
     private ITmx rightTmx;
         
-    private Map<Key, AbstractButton[]> selections = new HashMap<Key, AbstractButton[]>();
+    private final Map<Key, AbstractButton[]> selections = new HashMap<Key, AbstractButton[]>();
     
     private ResolutionSet resolution;
     

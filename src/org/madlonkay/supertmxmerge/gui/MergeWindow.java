@@ -35,11 +35,11 @@ import org.madlonkay.supertmxmerge.util.LocString;
  */
 public class MergeWindow extends javax.swing.JFrame {
 
-    private ProgressWindow progress;
+    private final ProgressWindow progress;
     
-    private List<JRadioButton> leftRadioButtons = new ArrayList<JRadioButton>();
-    private List<JRadioButton> rightRadioButtons = new ArrayList<JRadioButton>();
-    private List<JRadioButton> centerRadioButtons = new ArrayList<JRadioButton>();
+    private final List<JRadioButton> leftRadioButtons = new ArrayList<JRadioButton>();
+    private final List<JRadioButton> rightRadioButtons = new ArrayList<JRadioButton>();
+    private final List<JRadioButton> centerRadioButtons = new ArrayList<JRadioButton>();
         
     /**
      * Creates new form MergeWindow

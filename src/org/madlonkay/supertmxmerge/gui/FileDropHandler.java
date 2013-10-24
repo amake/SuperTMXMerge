@@ -39,10 +39,7 @@ public class FileDropHandler extends TransferHandler {
     
     @Override
     public boolean canImport(TransferHandler.TransferSupport support) {
-        if (!support.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-            return false;
-        }
-        return true;
+        return support.isDataFlavorSupported(DataFlavor.javaFileListFlavor);
     }
     
     @Override

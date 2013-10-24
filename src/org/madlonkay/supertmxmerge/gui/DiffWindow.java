@@ -31,7 +31,7 @@ import org.madlonkay.supertmxmerge.util.LocString;
  */
 public class DiffWindow extends javax.swing.JFrame {
    
-    private ProgressWindow progress;
+    private final ProgressWindow progress;
     
     /**
      * Creates new form DiffWindow

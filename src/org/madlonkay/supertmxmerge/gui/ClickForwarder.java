@@ -28,7 +28,7 @@ import javax.swing.AbstractButton;
  */
 public class ClickForwarder extends MouseAdapter {
 
-    private AbstractButton target;
+    private final AbstractButton target;
     
     public ClickForwarder(AbstractButton target) {
         this.target = target;

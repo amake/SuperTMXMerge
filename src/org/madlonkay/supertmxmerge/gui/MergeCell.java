@@ -35,10 +35,10 @@ import org.madlonkay.supertmxmerge.util.LocString;
  */
 public class MergeCell extends javax.swing.JPanel {
 
-    private static Border BORDER_DEFAULT;
-    private static Border BORDER_SELECTED;
+    private final static Border BORDER_DEFAULT;
+    private final static Border BORDER_SELECTED;
     
-    private static MapToTextConverter CONVERTER = new MapToTextConverter();
+    private final static MapToTextConverter CONVERTER = new MapToTextConverter();
     
     static {
         JScrollPane sp = new JScrollPane();
