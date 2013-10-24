@@ -90,6 +90,7 @@ public class JAXBTmx implements ITmx {
             CONTEXT = JAXBContext.newInstance(Tmx.class);
             UNMARSHALLER = CONTEXT.createUnmarshaller();
             MARSHALLER = CONTEXT.createMarshaller();
+            MARSHALLER.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             XMLReader xmlreader = XMLReaderFactory.createXMLReader();
             xmlreader.setFeature(FEATURE_NAMESPACES, true);
             xmlreader.setFeature(FEATURE_NAMESPACE_PREFIXES, true);
