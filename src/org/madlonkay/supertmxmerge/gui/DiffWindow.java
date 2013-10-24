@@ -104,7 +104,7 @@ public class DiffWindow extends javax.swing.JFrame {
         jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.PAGE_AXIS));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
-        jPanel2.setLayout(new java.awt.GridLayout(2, 2));
+        jPanel2.setLayout(new java.awt.GridLayout(2, 2, 0, 10));
 
         file1Label.setFont(file1Label.getFont().deriveFont(file1Label.getFont().getStyle() | java.awt.Font.BOLD, file1Label.getFont().getSize()+2));
 
