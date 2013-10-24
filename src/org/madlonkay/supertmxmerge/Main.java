@@ -30,9 +30,6 @@ import org.madlonkay.supertmxmerge.util.LocString;
  */
 public class Main {
     
-    /**
-     * @param theArgs the command line arguments
-     */
     public static void main(String[] args) {
         
         final String[] theArgs = args;
