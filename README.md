@@ -36,9 +36,10 @@ Command-line 3-way merge (for use with VCS tools):
 License
 =======
 
-SuperTMXmerge is distributed under the GNU General Public License v2:
+SuperTMXmerge is distributed under the GNU Lesser General Public License 
+v2.1:
 
-http://www.gnu.org/licenses/gpl-2.0.html
+http://www.gnu.org/licenses/lgpl-2.1.html
 
 
 Source
