@@ -38,7 +38,6 @@ public class DiffWindow extends javax.swing.JFrame {
      */
     public DiffWindow(DiffController controller) {
         progress = new ProgressWindow();
-        GuiUtil.displayWindowCentered(progress);
         
         this.controller = controller;
         initComponents();
@@ -52,7 +51,6 @@ public class DiffWindow extends javax.swing.JFrame {
     
     private void initContent() {
         List<DiffInfo> infos = controller.getDiffInfos();
-        progress.setIndeterminate(false);
         progress.setMaximum(infos.size());
         int n = 1;
         for (DiffInfo info : infos) {

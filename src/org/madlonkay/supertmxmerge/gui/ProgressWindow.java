@@ -18,19 +18,31 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
+import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class ProgressWindow extends javax.swing.JFrame {
+public class ProgressWindow extends javax.swing.JFrame implements ActionListener {
 
+    private final Timer timer;
+    
+    private final int millisToPopup = 2000;
+    private final int millisToDecidePopup = 500;
+    
     /**
      * Creates new form ProgressWindow
      */
     public ProgressWindow() {
         initComponents();
+        timer = new Timer(millisToDecidePopup, this);
+        timer.setRepeats(false);
+        timer.start();
     }
     
     public void setMaximum(int max) {
@@ -38,15 +50,33 @@ public class ProgressWindow extends javax.swing.JFrame {
     }
     
     public void setValue(int value) {
+        progressBar.setIndeterminate(false);
         progressBar.setValue(value);
-    }
-    
-    public void setIndeterminate(boolean indeterminate) {
-        progressBar.setIndeterminate(indeterminate);
     }
     
     public void setMessage(String text) {
         label.setText(text);
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (shouldShowPopup()) {
+            GuiUtil.displayWindowCentered(this);
+        }
+    }
+    
+    private boolean shouldShowPopup() {
+        if (progressBar.isIndeterminate()) {
+            return true;
+        }
+        if (progressBar.getValue() == progressBar.getMaximum()) {
+            return false;
+        }
+        int min = progressBar.getMinimum();
+        int max = progressBar.getMaximum();
+        int current = progressBar.getValue();
+        int required = (max - min) / (current - min) * timer.getInitialDelay();
+        return required > millisToPopup;
     }
 
     /**

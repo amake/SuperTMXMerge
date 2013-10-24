@@ -46,7 +46,6 @@ public class MergeWindow extends javax.swing.JFrame {
      */
     public MergeWindow(MergeController controller) {
         progress = new ProgressWindow();
-        GuiUtil.displayWindowCentered(progress);
         
         this.controller = controller;
         initComponents();
@@ -60,7 +59,6 @@ public class MergeWindow extends javax.swing.JFrame {
     
     private void initContent() {
         List<ConflictInfo> conflicts = controller.getConflicts();
-        progress.setIndeterminate(false);
         progress.setMaximum(conflicts.size());     
         int n = 1;
         for (ConflictInfo info : conflicts) {
