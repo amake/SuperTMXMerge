@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.ProgressMonitor;
 import javax.xml.bind.UnmarshalException;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
@@ -81,16 +82,26 @@ public class MergeIOController extends DiffIOController {
             merger.setQuiet(true);
         }
         
+        ProgressMonitor progress = new ProgressMonitor(null, "Loading files...", "", 0, 3);
+        
         ITmx baseTmx;
         ITmx leftTmx;
         ITmx rightTmx;
         try {
+            progress.setNote(getBaseFile().getName());
             baseTmx = new JAXBTmx(getBaseFile());
+            progress.setProgress(1);
+            progress.setNote(getFile1().getName());
             leftTmx = new JAXBTmx(getFile1());
+            progress.setProgress(2);
+            progress.setNote(getFile2().getName());
             rightTmx = new JAXBTmx(getFile2());
+            progress.setProgress(3);
         } catch (UnmarshalException ex) {
             throw new RuntimeException(ex);
         }
+        
+        progress.close();
         
         ITmx merged = merger.merge(baseTmx, leftTmx, rightTmx);
 

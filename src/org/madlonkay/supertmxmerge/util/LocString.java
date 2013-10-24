@@ -32,7 +32,7 @@ public class LocString {
         return bundle.getString(id);
     }
     
-    public static String getFormat(String id, Object var) {
-        return MessageFormat.format(get(id), new Object[] {var});
+    public static String getFormat(String id, Object... var) {
+        return MessageFormat.format(get(id), var);
     }
 }

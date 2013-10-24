@@ -19,8 +19,6 @@
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new LocStringConverter(&quot;number_of_conflicts&quot;, &quot;number_of_conflicts_singular&quot;)"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JFileChooser" name="jFileChooser1">
-    </Component>
     <Component class="org.madlonkay.supertmxmerge.gui.MapToTextConverter" name="mapToTextConverter">
     </Component>
   </NonVisualComponents>
@@ -37,6 +35,7 @@
   </SyntheticProperties>
   <Events>
     <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosing"/>
+    <EventHandler event="componentShown" listener="java.awt.event.ComponentListener" parameters="java.awt.event.ComponentEvent" handler="formComponentShown"/>
   </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>

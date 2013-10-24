@@ -20,7 +20,6 @@ package org.madlonkay.supertmxmerge.gui;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.ToolTipManager;
@@ -35,6 +34,8 @@ import org.madlonkay.supertmxmerge.util.LocString;
  */
 public class MergeWindow extends javax.swing.JFrame {
 
+    private ProgressWindow progress;
+    
     private List<JRadioButton> leftRadioButtons = new ArrayList<JRadioButton>();
     private List<JRadioButton> rightRadioButtons = new ArrayList<JRadioButton>();
     private List<JRadioButton> centerRadioButtons = new ArrayList<JRadioButton>();
@@ -43,6 +44,9 @@ public class MergeWindow extends javax.swing.JFrame {
      * Creates new form MergeWindow
      */
     public MergeWindow(MergeController controller) {
+        progress = new ProgressWindow();
+        GuiUtil.displayWindowCentered(progress);
+        
         this.controller = controller;
         initComponents();
         
@@ -54,14 +58,16 @@ public class MergeWindow extends javax.swing.JFrame {
     }
     
     private void initContent() {
-        JFrame progress = new ProgressWindow();
-        GuiUtil.displayWindowCentered(progress);
+        List<ConflictInfo> conflicts = controller.getConflicts();
+        progress.setIndeterminate(false);
+        progress.setMaximum(conflicts.size());     
         int n = 1;
-        for (ConflictInfo info : controller.getConflicts()) {
+        for (ConflictInfo info : conflicts) {
+            progress.setValue(n);
+            progress.setMessage(LocString.getFormat("merge_progress", n, conflicts.size()));
             addMergeInfo(n, info);
             n++;
         }
-        GuiUtil.closeWindow(progress);
     }
     
     private void addMergeInfo(int itemNumber, ConflictInfo info) {
@@ -106,7 +112,6 @@ public class MergeWindow extends javax.swing.JFrame {
         unitCountConverter = new LocStringConverter("number_of_units", "number_of_units_singular");
         saveButtonConverter = new org.madlonkay.supertmxmerge.gui.SaveButtonConverter();
         conflictCountConverter = new LocStringConverter("number_of_conflicts", "number_of_conflicts_singular");
-        jFileChooser1 = new javax.swing.JFileChooser();
         mapToTextConverter = new org.madlonkay.supertmxmerge.gui.MapToTextConverter();
         jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -136,6 +141,11 @@ public class MergeWindow extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
+            }
+        });
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
             }
         });
 
@@ -320,6 +330,10 @@ public class MergeWindow extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_formWindowClosing
 
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        GuiUtil.closeWindow(progress);
+    }//GEN-LAST:event_formComponentShown
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton allBaseButton;
     private javax.swing.JButton allLeftButton;
@@ -334,7 +348,6 @@ public class MergeWindow extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.JLabel instructionsLabel;
-    private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;

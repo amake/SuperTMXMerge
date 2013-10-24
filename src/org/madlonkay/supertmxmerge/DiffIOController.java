@@ -20,6 +20,7 @@ package org.madlonkay.supertmxmerge;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
+import javax.swing.ProgressMonitor;
 import javax.xml.bind.UnmarshalException;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
@@ -84,14 +85,21 @@ public class DiffIOController {
         
         DiffController differ = new DiffController();
         
+        ProgressMonitor progress = new ProgressMonitor(null, "Loading files...", "", 0, 2);
+        
         ITmx tmx1;
         ITmx tmx2;
         try {
+            progress.setNote(getFile1().getName());
             tmx1 = new JAXBTmx(getFile1());
+            progress.setProgress(1);
+            progress.setNote(getFile2().getName());
             tmx2 = new JAXBTmx(getFile2());
+            progress.setProgress(2);
         } catch (UnmarshalException ex) {
             throw new RuntimeException(ex);
-        } 
+        }
+        progress.close();
         
         differ.diff(tmx1, tmx2);
     }

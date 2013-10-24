@@ -17,7 +17,7 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
-import javax.swing.JFrame;
+import java.util.List;
 import javax.swing.ToolTipManager;
 import org.madlonkay.supertmxmerge.DiffController;
 import org.madlonkay.supertmxmerge.data.DiffInfo;
@@ -30,10 +30,15 @@ import org.madlonkay.supertmxmerge.util.LocString;
  */
 public class DiffWindow extends javax.swing.JFrame {
    
+    private ProgressWindow progress;
+    
     /**
      * Creates new form DiffWindow
      */
     public DiffWindow(DiffController controller) {
+        progress = new ProgressWindow();
+        GuiUtil.displayWindowCentered(progress);
+        
         this.controller = controller;
         initComponents();
         
@@ -45,14 +50,16 @@ public class DiffWindow extends javax.swing.JFrame {
     }
     
     private void initContent() {
-        JFrame progress = new ProgressWindow();
-        GuiUtil.displayWindowCentered(progress);
+        List<DiffInfo> infos = controller.getDiffInfos();
+        progress.setIndeterminate(false);
+        progress.setMaximum(infos.size());
         int n = 1;
-        for (DiffInfo info : controller.getDiffInfos()) {
+        for (DiffInfo info : infos) {
+            progress.setValue(n);
+            progress.setMessage(LocString.getFormat("diff_progress", n, infos.size()));
             diffsPanel.add(new DiffCell(n, info));
             n++;
         }
-        GuiUtil.closeWindow(progress);
     }
     
     private DiffController getController() {
@@ -87,6 +94,11 @@ public class DiffWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(LocString.get("diff_window_title")); // NOI18N
         setLocationByPlatform(true);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -155,6 +167,10 @@ public class DiffWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        GuiUtil.closeWindow(progress);
+    }//GEN-LAST:event_formComponentShown
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.madlonkay.supertmxmerge.gui.LocStringConverter changeCountConverter;

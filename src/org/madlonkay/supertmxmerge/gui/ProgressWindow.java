@@ -31,6 +31,22 @@ public class ProgressWindow extends javax.swing.JFrame {
     public ProgressWindow() {
         initComponents();
     }
+    
+    public void setMaximum(int max) {
+        progressBar.setMaximum(max);
+    }
+    
+    public void setValue(int value) {
+        progressBar.setValue(value);
+    }
+    
+    public void setIndeterminate(boolean indeterminate) {
+        progressBar.setIndeterminate(indeterminate);
+    }
+    
+    public void setMessage(String text) {
+        label.setText(text);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -43,63 +59,49 @@ public class ProgressWindow extends javax.swing.JFrame {
 
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10));
-        jProgressBar1 = new javax.swing.JProgressBar();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0));
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10));
+        jPanel1 = new javax.swing.JPanel();
+        label = new javax.swing.JLabel();
+        progressBar = new javax.swing.JProgressBar();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle(LocString.get("progress_window_title")); // NOI18N
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().add(filler1, java.awt.BorderLayout.WEST);
         getContentPane().add(filler3, java.awt.BorderLayout.NORTH);
-
-        jProgressBar1.setIndeterminate(true);
-        jProgressBar1.setPreferredSize(new java.awt.Dimension(300, 14));
-        getContentPane().add(jProgressBar1, java.awt.BorderLayout.CENTER);
         getContentPane().add(filler2, java.awt.BorderLayout.EAST);
         getContentPane().add(filler4, java.awt.BorderLayout.PAGE_END);
+
+        jPanel1.setLayout(new java.awt.GridLayout(0, 1));
+
+        label.setText(LocString.get("progress_window_label")); // NOI18N
+        jPanel1.add(label);
+
+        progressBar.setIndeterminate(true);
+        progressBar.setPreferredSize(new java.awt.Dimension(300, 14));
+        jPanel1.add(progressBar);
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProgressWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProgressWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProgressWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProgressWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // Do nothing. Don't allow user to close.
+    }//GEN-LAST:event_formWindowClosing
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ProgressWindow().setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
-    private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel label;
+    private javax.swing.JProgressBar progressBar;
     // End of variables declaration//GEN-END:variables
 }
