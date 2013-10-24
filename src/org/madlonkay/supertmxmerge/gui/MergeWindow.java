@@ -153,7 +153,7 @@ public class MergeWindow extends javax.swing.JFrame {
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.PAGE_AXIS));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
-        jPanel2.setLayout(new java.awt.GridLayout(2, 3));
+        jPanel2.setLayout(new java.awt.GridLayout(2, 3, 10, 0));
 
         leftFilename.setFont(leftFilename.getFont().deriveFont(leftFilename.getFont().getStyle() | java.awt.Font.BOLD, leftFilename.getFont().getSize()+2));
 
