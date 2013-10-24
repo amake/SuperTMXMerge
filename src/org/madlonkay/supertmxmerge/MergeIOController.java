@@ -98,7 +98,11 @@ public class MergeIOController extends DiffIOController {
             progress.setNote(getFile2().getName());
             rightTmx = new JAXBTmx(getFile2());
             progress.setProgress(3);
-        } catch (UnmarshalException ex) {
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                ex.toString(),
+                LocString.get("error"),
+                JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException(ex);
         }
         

@@ -21,11 +21,13 @@ package org.madlonkay.supertmxmerge;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
+import javax.swing.JOptionPane;
 import javax.swing.ProgressMonitor;
 import javax.xml.bind.UnmarshalException;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
 import org.madlonkay.supertmxmerge.util.FileUtil;
+import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
  *
@@ -97,7 +99,11 @@ public class DiffIOController {
             progress.setNote(getFile2().getName());
             tmx2 = new JAXBTmx(getFile2());
             progress.setProgress(2);
-        } catch (UnmarshalException ex) {
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                ex.toString(),
+                LocString.get("error"),
+                JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException(ex);
         }
         progress.close();

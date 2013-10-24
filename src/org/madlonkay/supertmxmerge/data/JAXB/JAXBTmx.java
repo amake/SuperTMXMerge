@@ -114,17 +114,11 @@ public class JAXBTmx implements ITmx {
         }
     }
 
-    public JAXBTmx(File file) throws UnmarshalException {
+    public JAXBTmx(File file) throws Exception {
         propertySupport = new PropertyChangeSupport(this);
         this.file = file;
-        try {
-            Source source = new SAXSource(XMLREADER, new InputSource(new FileInputStream(this.file)));
-            this.tmx = (Tmx) UNMARSHALLER.unmarshal(source);
-        } catch (JAXBException ex) {
-            throw new RuntimeException(ex);
-        } catch (FileNotFoundException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-        }
+        Source source = new SAXSource(XMLREADER, new InputSource(new FileInputStream(this.file)));
+        this.tmx = (Tmx) UNMARSHALLER.unmarshal(source);
     }
     
     private JAXBTmx(Tmx tmx) {
