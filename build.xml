@@ -2,9 +2,9 @@
 <project name="SuperTMXMerge" default="default" basedir=".">
     <description>Builds, tests, and runs the project SuperTMXMerge.</description>
     <import file="nbproject/build-impl.xml"/>
-    <target name="-pre-init">
-        <copy file="manifest.mf-template" tofile="manifest.mf"/>
-        <manifest file="manifest.mf" mode="update">
+    <target name="-pre-jar">
+        <copy file="${manifest.template}" tofile="${manifest.file}"/>
+        <manifest file="${manifest.file}" mode="update">
             <attribute name="Implementation-Version" value="${application.version}"/>
         </manifest>
     </target>
