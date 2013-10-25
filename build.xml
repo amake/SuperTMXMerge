@@ -2,13 +2,29 @@
 <project name="SuperTMXMerge" default="default" basedir=".">
     <description>Builds, tests, and runs the project SuperTMXMerge.</description>
     <import file="nbproject/build-impl.xml"/>
-    <target name="-pre-jar">
+    <!-- git integration from http://stackoverflow.com/a/4059546 -->
+    <available file=".git" type="dir" property="git.present"/>
+    <target name="git.revision" description="Store git revision in ${repository.version}" if="git.present">
+        <exec executable="git" outputproperty="git.revision" failifexecutionfails="false" errorproperty="">
+            <arg value="describe"/>
+            <arg value="--tags"/>
+            <arg value="--always"/>
+            <arg value="HEAD"/>
+        </exec>
+        <condition property="repository.version" value="${git.revision}" else="unknown">
+            <and>
+                <isset property="git.revision"/>
+                <length string="${git.revision}" trim="yes" length="0" when="greater"/>
+            </and>
+        </condition>
+    </target>
+    <target name="-pre-jar" depends="git.revision">
         <copy file="${manifest.template}" tofile="${manifest.file}"/>
         <manifest file="${manifest.file}" mode="update">
-            <attribute name="Implementation-Version" value="${application.version}"/>
+            <attribute name="Implementation-Version" value="${application.version}-${repository.version}"/>
         </manifest>
     </target>
-    <target name="-post-jar">
+    <target name="-post-jar" depends="git.revision">
         <copy todir="${dist.dir}">
             <fileset dir="release" includes="*"/>
         </copy>
@@ -19,7 +35,7 @@
             <zipfileset src="${dist.jar}" excludes="org/omegat/**,bmsi/**,gen/**"/>
             <zipfileset src="${dist.jar}" includes="org/omegat/core/data/OmT*"/>
         </jar>
-        <zip destfile="${dist.dir}/${application.title}-${application.version}.zip">
+        <zip destfile="${dist.dir}/${application.title}_${application.version}-${repository.version}.zip">
             <fileset dir="${dist.dir}" excludes="*-for_OmegaT.jar,*.zip"/>
         </zip>
     </target>

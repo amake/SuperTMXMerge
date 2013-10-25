@@ -49,4 +49,12 @@ Source is available at:
 https://github.com/amake/SuperTMXMerge
 
 
+Notes
+=====
+
+When building for release, git must be present on the system's
+path in order to generate the version number correctly. That means
+on Windows you will needs something like msysGit:
+http://msysgit.github.io/
+
 Copyright 2013 Aaron Madlon-Kay <aaron@madlon-kay.com>
