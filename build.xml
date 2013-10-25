@@ -2,6 +2,12 @@
 <project name="SuperTMXMerge" default="default" basedir=".">
     <description>Builds, tests, and runs the project SuperTMXMerge.</description>
     <import file="nbproject/build-impl.xml"/>
+    <target name="-pre-init">
+        <copy file="manifest.mf-template" tofile="manifest.mf"/>
+        <manifest file="manifest.mf" mode="update">
+            <attribute name="Implementation-Version" value="${application.version}"/>
+        </manifest>
+    </target>
     <target name="-post-jar">
         <copy todir="${dist.dir}">
             <fileset dir="release" includes="*"/>
@@ -13,6 +19,9 @@
             <zipfileset src="${dist.jar}" excludes="org/omegat/**,bmsi/**,gen/**"/>
             <zipfileset src="${dist.jar}" includes="org/omegat/core/data/OmT*"/>
         </jar>
+        <zip destfile="${dist.dir}/${application.title}-${application.version}.zip">
+            <fileset dir="${dist.dir}" excludes="*-for_OmegaT.jar,*.zip"/>
+        </zip>
     </target>
     <target name="gen">
         <exec executable="xjc">
