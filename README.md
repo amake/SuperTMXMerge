@@ -16,7 +16,10 @@ merges in a (relatively) intuitive way.
 Usage
 =====
 
-Graphical interface: Launch SuperTMXMerge.jar as usual:
+On Windows run `SuperTMXMerge.bat`. On Linux, OS X, etc. run
+`SuperTMXMerge.sh`. This will give you a file selection window.
+
+File selection window from command line:
 
     java -jar SuperTMXMerge.jar
 
