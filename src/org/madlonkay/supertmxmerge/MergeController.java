@@ -86,20 +86,30 @@ public class MergeController implements Serializable, ActionListener {
         resolution = DiffUtil.generateMergeData(baseTmx, leftTmx, rightTmx);
         propertySupport.firePropertyChange(PROP_CONFLICTCOUNT, null, null);
         
+        boolean showDiff = false;
+        
         if (!resolution.conflicts.isEmpty()) {
             // Have conflicts; show window.
             MergeWindow window = new MergeWindow(this);
             GuiUtil.displayWindow(window);
             GuiUtil.blockOnWindow(window);
         } else if (!quiet) {
-            // Files are identical.
-            JOptionPane.showMessageDialog(null,
-                    LocString.get("identical_files_message"),
+            // Files merged with no conflicts.
+            showDiff = JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null,
+                    LocString.get("no_conflicts_message"),
                     LocString.get("merge_window_title"),
+                    JOptionPane.YES_NO_OPTION,
                     JOptionPane.INFORMATION_MESSAGE);
         }
         
-        return resolve();
+        ITmx resolved = resolve();
+        
+        if (showDiff) {
+            DiffController differ = new DiffController();
+            differ.diff(baseTmx, resolved);
+        }
+        
+        return resolved;
     }
     
     public boolean isConflictsAreResolved() {

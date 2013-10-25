@@ -25,7 +25,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -33,12 +32,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.Source;
 import javax.xml.transform.sax.SAXSource;
@@ -72,10 +69,10 @@ public class JAXBTmx implements ITmx {
      */
     private static final XMLReader XMLREADER;
     
-    private PropertyChangeSupport propertySupport;
+    private final PropertyChangeSupport propertySupport;
     
     private Tmx tmx;
-    private File file;
+    private final String name;
     private Map<Key, ITuv> tuvMap;
     private Map<Key, ITu> tuMap;
     private Map<String, String> tmxMetadata;
@@ -116,13 +113,15 @@ public class JAXBTmx implements ITmx {
 
     public JAXBTmx(File file) throws Exception {
         propertySupport = new PropertyChangeSupport(this);
-        this.file = file;
-        Source source = new SAXSource(XMLREADER, new InputSource(new FileInputStream(this.file)));
+        this.name = file.getName();
+        Source source = new SAXSource(XMLREADER, new InputSource(new FileInputStream(file)));
         this.tmx = (Tmx) UNMARSHALLER.unmarshal(source);
     }
     
-    private JAXBTmx(Tmx tmx) {
+    private JAXBTmx(Tmx tmx, String name) {
         this.tmx = tmx;
+        this.name = name;
+        propertySupport = new PropertyChangeSupport(this);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -145,7 +144,7 @@ public class JAXBTmx implements ITmx {
     
     @Override
     public String getName() {
-        return file == null ? LocString.get("file_no_name") : file.getName();
+        return name;
     }
 
     @Override
@@ -213,7 +212,7 @@ public class JAXBTmx implements ITmx {
         this.tmx = originalData;
         this.tuvMap = null;
         this.tuMap = null;
-        return new JAXBTmx(modifiedData);
+        return new JAXBTmx(modifiedData, LocString.get("merged_tmx_name"));
     }
     
     public static Tmx clone(Tmx jaxbObject) throws JAXBException {
