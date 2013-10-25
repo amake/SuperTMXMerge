@@ -27,7 +27,9 @@ import javax.swing.ProgressMonitor;
 import javax.xml.bind.UnmarshalException;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
+import org.madlonkay.supertmxmerge.gui.ProgressWindow;
 import org.madlonkay.supertmxmerge.util.FileUtil;
+import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
@@ -83,21 +85,22 @@ public class MergeIOController extends DiffIOController {
             merger.setQuiet(true);
         }
         
-        ProgressMonitor progress = new ProgressMonitor(null, "Loading files...", "", 0, 3);
+        ProgressWindow progress = new ProgressWindow();
+        progress.setMaximum(3);
         
         ITmx baseTmx;
         ITmx leftTmx;
         ITmx rightTmx;
         try {
-            progress.setNote(getBaseFile().getName());
+            progress.setMessage(LocString.getFormat("file_progress", getBaseFile().getName(), 1, 3));
             baseTmx = new JAXBTmx(getBaseFile());
-            progress.setProgress(1);
-            progress.setNote(getFile1().getName());
+            progress.setValue(1);
+            progress.setMessage(LocString.getFormat("file_progress", getFile1().getName(), 2, 3));
             leftTmx = new JAXBTmx(getFile1());
-            progress.setProgress(2);
-            progress.setNote(getFile2().getName());
+            progress.setValue(2);
+            progress.setMessage(LocString.getFormat("file_progress", getFile2().getName(), 3, 3));
             rightTmx = new JAXBTmx(getFile2());
-            progress.setProgress(3);
+            progress.setValue(3);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                 ex.toString(),
@@ -106,7 +109,7 @@ public class MergeIOController extends DiffIOController {
             throw new RuntimeException(ex);
         }
         
-        progress.close();
+        GuiUtil.closeWindow(progress);
         
         ITmx merged = merger.merge(baseTmx, leftTmx, rightTmx);
 

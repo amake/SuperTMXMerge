@@ -23,10 +23,11 @@ import java.beans.PropertyChangeSupport;
 import java.io.File;
 import javax.swing.JOptionPane;
 import javax.swing.ProgressMonitor;
-import javax.xml.bind.UnmarshalException;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
+import org.madlonkay.supertmxmerge.gui.ProgressWindow;
 import org.madlonkay.supertmxmerge.util.FileUtil;
+import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
@@ -88,17 +89,18 @@ public class DiffIOController {
         
         DiffController differ = new DiffController();
         
-        ProgressMonitor progress = new ProgressMonitor(null, "Loading files...", "", 0, 2);
+        ProgressWindow progress = new ProgressWindow();
+        progress.setMaximum(2);
         
         ITmx tmx1;
         ITmx tmx2;
         try {
-            progress.setNote(getFile1().getName());
+            progress.setMessage(LocString.getFormat("file_progress", getFile1().getName(), 1, 2));
             tmx1 = new JAXBTmx(getFile1());
-            progress.setProgress(1);
-            progress.setNote(getFile2().getName());
+            progress.setValue(1);
+            progress.setMessage(LocString.getFormat("file_progress", getFile2().getName(), 2, 2));
             tmx2 = new JAXBTmx(getFile2());
-            progress.setProgress(2);
+            progress.setValue(2);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                 ex.toString(),
@@ -106,7 +108,8 @@ public class DiffIOController {
                 JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException(ex);
         }
-        progress.close();
+        
+        GuiUtil.closeWindow(progress);
         
         differ.diff(tmx1, tmx2);
     }

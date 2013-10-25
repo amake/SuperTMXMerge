@@ -20,6 +20,7 @@ package org.madlonkay.supertmxmerge.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JFrame;
 import javax.swing.Timer;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
@@ -35,6 +36,8 @@ public class ProgressWindow extends javax.swing.JFrame implements ActionListener
     private final int millisToPopup = 2000;
     private final int millisToDecidePopup = 500;
     
+    private boolean maxIsSet = false;
+    
     /**
      * Creates new form ProgressWindow
      */
@@ -46,10 +49,14 @@ public class ProgressWindow extends javax.swing.JFrame implements ActionListener
     }
     
     public void setMaximum(int max) {
+        maxIsSet = true;
         progressBar.setMaximum(max);
     }
     
     public void setValue(int value) {
+        if (!maxIsSet) {
+            throw new UnsupportedOperationException("Must set maximum before setting value.");
+        }
         progressBar.setIndeterminate(false);
         progressBar.setValue(value);
     }
