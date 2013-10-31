@@ -167,10 +167,12 @@ public class DiffUtil {
         }
         // Deleted from left
         for (Key key : baseToLeft.deleted) {
+            if (conflictKeys.contains(key)) {
+                continue;
+            }
             ITuv rightTuv = rightTmx.getTuvMap().get(key);
             if (rightTuv == null) {
                 toDelete.add(key);
-                continue;
             } else {
                 ITuv baseTuv = baseTmx.getTuvMap().get(key);
                 conflicts.add(new ConflictInfo(key, rightTmx.getSourceLanguage(), rightTuv.getLanguage(),
@@ -180,10 +182,12 @@ public class DiffUtil {
         }
         // Deleted from right
         for (Key key : baseToRight.deleted) {
+            if (conflictKeys.contains(key)) {
+                continue;
+            }
             ITuv leftTuv = leftTmx.getTuvMap().get(key);
             if (leftTuv == null) {
                 toDelete.add(key);
-                continue;
             } else {
                 ITuv baseTuv = baseTmx.getTuvMap().get(key);
                 conflicts.add(new ConflictInfo(key, rightTmx.getSourceLanguage(), baseTuv.getLanguage(),
@@ -193,12 +197,14 @@ public class DiffUtil {
         }
         // Modified on left
         for (Key key : baseToLeft.modified) {
+            if (conflictKeys.contains(key)) {
+                continue;
+            }
             ITuv baseTuv = baseTmx.getTuvMap().get(key);
             ITuv leftTuv = leftTmx.getTuvMap().get(key);
             ITuv rightTuv = rightTmx.getTuvMap().get(key);
             if (leftTuv.equals(rightTuv) || baseTuv.equals(rightTuv)) {
                 toReplace.put(key, leftTuv);
-                continue;
             } else {
                 conflicts.add(new ConflictInfo(key, baseTmx.getSourceLanguage(), baseTuv.getLanguage(),
                         baseTuv.getContent(), leftTuv.getContent(), rightTuv.getContent()));
@@ -215,7 +221,6 @@ public class DiffUtil {
             ITuv baseTuv = baseTmx.getTuvMap().get(key);
             if (leftTuv.equals(rightTuv) || baseTuv.equals(leftTuv)) {
                 toReplace.put(key, rightTuv);
-                continue;
             } else {
                 conflicts.add(new ConflictInfo(key, baseTmx.getSourceLanguage(), baseTuv.getLanguage(),
                         baseTuv.getContent(), leftTuv.getContent(), rightTuv.getContent()));

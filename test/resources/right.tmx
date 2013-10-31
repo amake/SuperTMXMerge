@@ -106,14 +106,6 @@
     </tu>
     <tu>
       <tuv lang="en-us">
-        <seg>OK</seg>
-      </tuv>
-      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103423Z" creationid="aaron.madlon-kay" creationdate="20130831T103423Z">
-        <seg>OK</seg>
-      </tuv>
-    </tu>
-    <tu>
-      <tuv lang="en-us">
         <seg>Right file...</seg>
       </tuv>
       <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103610Z" creationid="aaron.madlon-kay" creationdate="20130831T103610Z">
