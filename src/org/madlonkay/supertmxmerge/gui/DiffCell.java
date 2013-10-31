@@ -20,6 +20,7 @@ package org.madlonkay.supertmxmerge.gui;
 
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.JTextComponent;
 import org.madlonkay.supertmxmerge.data.DiffInfo;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
@@ -39,14 +40,14 @@ public class DiffCell extends javax.swing.JPanel {
         initComponents();
         
         itemNumberLabel.setText(String.valueOf(itemNumber));
-        sourceText.setText(info.key.sourceText);
         if (info.key.props != null) {
             setToolTipText((String) CONVERTER.convertForward(info.key.props));
         }
         setSourceLanguage(info.sourceLanguage);
         setTargetLanguage(info.targetLanguage);
-        setPreText(info.tuv1Text);
-        setPostText(info.tuv2Text);
+        setTextWithFallback(sourceText, info.key.sourceText, "tuv_not_present");
+        setTextWithFallback(tuvText1, info.tuv1Text, "tuv_not_present");
+        setTextWithFallback(tuvText2, info.tuv2Text, "tuv_deleted");
         DiffUtil.applyStyling(tuvText1, tuvText2, info.diff);
     }
     
@@ -60,20 +61,13 @@ public class DiffCell extends javax.swing.JPanel {
         targetBorder.setTitle(language);
     }
     
-    private void setPreText(String text) {
+    private void setTextWithFallback(JTextComponent field, String text,
+            String fallbackKey) {
         if (text == null) {
-            tuvText1.setBackground(getBackground());
-            text = LocString.get("tuv_not_present");
+            field.setBackground(getBackground());
+            text = LocString.get(fallbackKey);
         }
-        tuvText1.setText(text);
-    }
-    
-    private void setPostText(String text) {
-        if (text == null) {
-            tuvText2.setBackground(getBackground());
-            text = LocString.get("tuv_deleted");
-        }
-        tuvText2.setText(text);
+        field.setText(text);
     }
 
     /**

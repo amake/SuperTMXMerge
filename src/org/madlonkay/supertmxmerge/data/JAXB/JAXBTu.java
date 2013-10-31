@@ -41,7 +41,7 @@ public class JAXBTu implements ITu {
     
     public ITuv getSourceTuv() {
         for (Tuv tuv : tu.getTuv()) {
-            if (sourceLanguage.equals(JAXBTuv.getLanguage(tuv))) {
+            if (sourceLanguage.equalsIgnoreCase(JAXBTuv.getLanguage(tuv))) {
                 return new JAXBTuv(tuv);
             }
         }
@@ -56,7 +56,7 @@ public class JAXBTu implements ITu {
     @Override
     public ITuv getTargetTuv() {
         for (Tuv tuv : tu.getTuv()) {
-            if (!sourceLanguage.equals(JAXBTuv.getLanguage(tuv))) {
+            if (!sourceLanguage.equalsIgnoreCase(JAXBTuv.getLanguage(tuv))) {
                 return new JAXBTuv(tuv);
             }
         }
@@ -64,7 +64,14 @@ public class JAXBTu implements ITu {
     }
     
     public Key getKey() {
-        Key key = new Key(getSourceTuv().getContent(), null);
+        ITuv sourceTuv = getSourceTuv();
+        Key key;
+        if (sourceTuv == null) {
+            key = new Key(null, null);
+            key.addProp("tuHashCode", String.valueOf(tu.hashCode()));
+        } else {
+            key = new Key(sourceTuv.getContent(), null);
+        }
         for (Object o : tu.getNoteOrProp()) {
             if (o instanceof Prop) {
                 Prop p = (Prop) o;
