@@ -232,6 +232,11 @@
         <seg>こんにちは</seg>
       </tuv>
     </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Hello</seg>
+      </tuv>
+    </tu>
 <!-- Alternative translations -->
     <tu>
       <prop type="file">TestFile.txt</prop>

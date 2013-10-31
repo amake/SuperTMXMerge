@@ -202,8 +202,11 @@ public class JAXBTmx implements ITmx {
         }
         for (Entry<Key, ITuv> e : resolution.toReplace.entrySet()) {
             Tu tu = (Tu) getTuMap().get(e.getKey()).getUnderlyingRepresentation();
-            tu.getTuv().remove((Tuv) getTuvMap().get(e.getKey()).getUnderlyingRepresentation());
-            tu.getTuv().add((Tuv) e.getValue().getUnderlyingRepresentation());
+            ITuv tuvToRemove = getTuvMap().get(e.getKey());
+            if (tuvToRemove != null) {
+                tu.getTuv().remove((Tuv) tuvToRemove.getUnderlyingRepresentation());
+                tu.getTuv().add((Tuv) e.getValue().getUnderlyingRepresentation());
+            }
         }
         for (ITu tu : resolution.toAdd) {
             tus.add((Tu) tu.getUnderlyingRepresentation());
