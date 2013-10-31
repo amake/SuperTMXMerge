@@ -61,6 +61,11 @@ https://github.com/amake/SuperTMXMerge
 Notes
 =====
 
+When reading TMX files, SuperTMXMerge uniquely identifies each TU by the
+serialized content of its source-language &lt;seg> and the types and contents
+of its &lt;prop>s. All other TU metadata is ignored. This may cause problems
+for systems that need to distinguish otherwise-identical TUs solely by metadata.
+
 When building for release, git must be present on the system's
 path in order to generate the version number correctly. That means
 on Windows you will need something like msysGit:
