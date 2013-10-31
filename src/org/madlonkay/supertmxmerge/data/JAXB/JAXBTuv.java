@@ -19,6 +19,8 @@
 package org.madlonkay.supertmxmerge.data.JAXB;
 
 import gen.core.tmx14.Tuv;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import org.madlonkay.supertmxmerge.data.ITuv;
 
@@ -37,7 +39,37 @@ public class JAXBTuv implements ITuv {
     @Override
     public String getContent() {
         List<Object> content = tuv.getSeg().getContent();
-        return content.isEmpty() ? "" : (String) content.get(0);
+        return content.isEmpty() ? "" : extractContent(content);
+    }
+    
+    private String extractContent(List<Object> content) {
+        StringBuilder tmp = new StringBuilder();
+        for (Object o : content) {
+            if (o instanceof String) {
+                tmp.append((String) o);
+            } else {
+                try {
+                    Method m = o.getClass().getDeclaredMethod("getContent", (Class<?>[]) null);
+                    if (m == null) {
+                        throw new RuntimeException("TUV contained item that didn't respond to getContent().");
+                    }
+                    Object subContent = m.invoke(o, (Object[]) null);
+                    if (!(subContent instanceof List)) {
+                        throw new RuntimeException("TUV contained item that didn't return a List from getContent().");
+                    }
+                    tmp.append('\uE101');
+                    tmp.append(extractContent((List<Object>) subContent));
+                    tmp.append('\uE102');
+                } catch (NoSuchMethodException ex) {
+                    // Nothing
+                } catch (IllegalAccessException ex) {
+                    // Nothing
+                } catch (InvocationTargetException ex) {
+                    // Nothing
+                }
+            }
+        }
+        return tmp.toString();
     }
     
     @Override

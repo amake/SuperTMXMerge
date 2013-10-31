@@ -216,6 +216,14 @@
         <seg>私たちは、コメントを投稿してくださいになります。最大の経済、生産性が向上するが、ビジネススマンは、こちらをご覧ください。常に機能や湖純粋なパフォーマンス、写真撮影バドミントン施設に入れる。我々は、それがアザラシの過程であったと思いますが、その子が必要です。ニーズにログインリソースや意志、ターゲットを絞った産業観光の必要性。</seg>
       </tuv>
     </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg><bpt i="1" x="1">&lt;1&gt;</bpt>hello<ept i="1">&lt;/1&gt;</ept><ph x="2">&lt;2/&gt;</ph></seg>
+      </tuv>
+      <tuv lang="ja-jp">
+        <seg><bpt i="1" x="1">&lt;1&gt;</bpt>こんにちは<ept i="1">&lt;/1&gt;</ept><ph x="2">&lt;2/&gt;</ph></seg>
+      </tuv>
+    </tu>
 <!-- Alternative translations -->
     <tu>
       <prop type="file">TestFile.txt</prop>
