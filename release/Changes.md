@@ -7,3 +7,6 @@ SuperTMXMerge change history
 # 0.9.1
 - Updated Japanese localization
 - Fixed merging issue reported by Paul Muraille
+
+# 0.9.2
+- Fixed failure to extract complex JAXBTuv content, reported by Chase Tingley
