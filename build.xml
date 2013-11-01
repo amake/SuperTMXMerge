@@ -21,7 +21,7 @@
     <target name="-pre-jar" depends="git.revision">
         <copy file="${manifest.template}" tofile="${manifest.file}"/>
         <manifest file="${manifest.file}" mode="update">
-            <attribute name="Implementation-Version" value="${application.version}-${repository.version}"/>
+            <attribute name="Implementation-Version" value="${repository.version}"/>
         </manifest>
     </target>
     <target name="-post-jar" depends="git.revision">
@@ -35,7 +35,7 @@
             <zipfileset src="${dist.jar}" excludes="org/omegat/**,bmsi/**,gen/**"/>
             <zipfileset src="${dist.jar}" includes="org/omegat/core/data/OmT*"/>
         </jar>
-        <zip destfile="${dist.dir}/${application.title}_${application.version}-${repository.version}.zip">
+        <zip destfile="${dist.dir}/${application.title}_${repository.version}.zip">
             <fileset dir="${dist.dir}" excludes="*-for_OmegaT.jar,*.zip"/>
         </zip>
     </target>
