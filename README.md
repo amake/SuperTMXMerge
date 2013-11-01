@@ -1,23 +1,23 @@
 SuperTMXMerge
 =============
 
-SuperTMXMerge is a tool for diffing and merging Translation Memory 
-eXchange (TMX) files. 
+SuperTMXMerge is a tool for diffing and merging Translation Memory eXchange
+(TMX) files. 
 
-Standard text-based diff and merge tools can work with TMX files, but 
-they will operate on the raw XML text of the file, without understanding 
-the content. This can result in confusing, unreadable diffs, or in some 
-cases merges that result in malformed XML. 
+Standard text-based diff and merge tools can work with TMX files, but they will
+operate on the raw XML text of the file, without understanding the content. This
+can result in confusing, unreadable diffs, or in some cases merges that result
+in malformed XML.
 
-SuperTMXMerge understands the underlying format and presents diffs and 
-merges in a (relatively) intuitive way. 
+SuperTMXMerge understands the underlying format and presents diffs and merges in
+a (relatively) intuitive way.
 
 
 Usage
 =====
 
-On Windows run `SuperTMXMerge.bat`. On Linux, OS X, etc. run
-`SuperTMXMerge.sh`. This will give you a file selection window.
+On Windows run `SuperTMXMerge.bat`. On Linux, OS X, etc. run `SuperTMXMerge.sh`.
+This will give you a file selection window.
 
 File selection window from command line:
 
@@ -56,6 +56,15 @@ Source
 
 Source is available at:
 https://github.com/amake/SuperTMXMerge
+
+
+Hints
+=====
+
+- TMX metadata is exposed as a tooltip on the filename field in the diff and
+  merge windows.
+- TU metadata (when present) is exposed as a tooltip on the change or conflict
+  item itself (place your cursor on the item's chrome, outside of a text field).
 
 
 Caveats

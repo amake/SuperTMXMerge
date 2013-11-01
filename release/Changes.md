@@ -10,3 +10,6 @@ SuperTMXMerge change history
 
 # 0.9.2
 - Fixed failure to extract complex JAXBTuv content, reported by Chase Tingley
+- Fixed failure to handle TUs missing source/target TUVs, reported by Paul
+  Muraille
+- Added caveats, hints sections to readme
