@@ -86,7 +86,8 @@ or your workflow relies on distinguishing TUs or TUVs by their metadata,
 SuperTMXMerge may not work well for you in its current form.
 
 If you have a real-world workflow that could be improved by SuperTMXMerge but is
-hampered by the above caveats, please contact me.
+hampered by the above caveats, please raise an issue on GitHub or get in contact
+by email.
 
 
 Notes
