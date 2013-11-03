@@ -89,6 +89,8 @@ public class DiffWindow extends javax.swing.JFrame {
         changeCountLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         diffsPanel = new org.madlonkay.supertmxmerge.gui.ReasonablySizedPanel();
+        jPanel1 = new javax.swing.JPanel();
+        saveAsButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(LocString.get("diff_window_title")); // NOI18N
@@ -162,6 +164,22 @@ public class DiffWindow extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        saveAsButton.setText(LocString.get("save_as_button")); // NOI18N
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE, controller, org.jdesktop.beansbinding.ELProperty.create("${canSaveDiff}"), saveAsButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"), "canSaveDiff");
+        bindingGroup.addBinding(binding);
+
+        saveAsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAsButtonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(saveAsButton, java.awt.BorderLayout.EAST);
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.SOUTH);
+
         bindingGroup.bind();
 
         pack();
@@ -170,6 +188,10 @@ public class DiffWindow extends javax.swing.JFrame {
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         GuiUtil.closeWindow(progress);
     }//GEN-LAST:event_formComponentShown
+
+    private void saveAsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsButtonActionPerformed
+        getController().saveAs();
+    }//GEN-LAST:event_saveAsButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.madlonkay.supertmxmerge.gui.LocStringConverter changeCountConverter;
@@ -180,11 +202,13 @@ public class DiffWindow extends javax.swing.JFrame {
     private javax.swing.JLabel file1TextUnits;
     private javax.swing.JLabel file2Label;
     private javax.swing.JLabel file2TextUnits;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private org.madlonkay.supertmxmerge.gui.MapToTextConverter mapToTextConverter;
+    private javax.swing.JButton saveAsButton;
     private org.madlonkay.supertmxmerge.gui.LocStringConverter unitCountConverter;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables

@@ -18,6 +18,9 @@
  */
 package org.madlonkay.supertmxmerge.data.JAXB;
 
+import gen.core.tmx14.Body;
+import gen.core.tmx14.Header;
+import gen.core.tmx14.Prop;
 import gen.core.tmx14.Tmx;
 import gen.core.tmx14.Tu;
 import gen.core.tmx14.Tuv;
@@ -39,11 +42,13 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.Source;
 import javax.xml.transform.sax.SAXSource;
+import org.madlonkay.supertmxmerge.data.DiffSet;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.ITu;
 import org.madlonkay.supertmxmerge.data.ITuv;
 import org.madlonkay.supertmxmerge.data.Key;
 import org.madlonkay.supertmxmerge.data.ResolutionSet;
+import org.madlonkay.supertmxmerge.util.DiffUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 import org.madlonkay.supertmxmerge.util.ReflectionUtil;
 import org.xml.sax.EntityResolver;
@@ -109,6 +114,83 @@ public class JAXBTmx implements ITmx {
         } catch (SAXException ex) {
             throw new RuntimeException(ex);
         }
+    }
+    
+    public static JAXBTmx createFromDiff(JAXBTmx tmx1, JAXBTmx tmx2) {
+        try {
+            // We add properties and move stuff around; clone the TMXs
+            // so that this function can be idempotent.
+            tmx1 = tmx1.klone();
+            tmx2 = tmx2.klone();
+        } catch (JAXBException ex) {
+            throw new RuntimeException(ex);
+        }
+        
+        DiffSet set = DiffUtil.generateDiffSet(tmx1, tmx2);
+        
+        Tmx tmx = new Tmx();
+        tmx.setVersion("1.4");
+        
+        Package pkg = JAXBTmx.class.getPackage();
+        Header header = new Header();
+        tmx.setHeader(header);
+        if (pkg != null) {
+            header.setCreationtool(pkg.getImplementationTitle());
+            header.setCreationtoolversion(pkg.getImplementationVersion());
+        }
+        header.setOTmf(tmx2.tmx.getHeader().getOTmf());
+        header.setSrclang(tmx2.tmx.getHeader().getSrclang());
+        
+        Body body = new Body();
+        tmx.setBody(body);
+        
+        for (Key key : set.added) {
+            Tu tu = (Tu) tmx2.getTuMap().get(key).getUnderlyingRepresentation();
+            body.getTu().add(tu);
+            
+            Prop prop = new Prop();
+            tu.getNoteOrProp().add(prop);
+            prop.setType("x-diff-type");
+            prop.setContent("added");
+        }
+        
+        for (Key key : set.deleted) {
+            Tu tu = (Tu) tmx1.getTuMap().get(key).getUnderlyingRepresentation();
+            body.getTu().add(tu);
+            
+            Prop prop = new Prop();
+            tu.getNoteOrProp().add(prop);
+            prop.setType("x-diff-type");
+            prop.setContent("deleted");
+        }
+        
+        for (Key key : set.modified) {
+            JAXBTu tu1 = (JAXBTu) tmx1.getTuMap().get(key);
+            Tu tu = (Tu) tu1.getUnderlyingRepresentation();
+            body.getTu().add(tu);
+            
+            JAXBTu tu2 = (JAXBTu) tmx2.getTuMap().get(key);
+            tu.getTuv().add((Tuv) tu2.getTargetTuv().getUnderlyingRepresentation());
+            
+            Prop prop = new Prop();
+            tu.getNoteOrProp().add(prop);
+            prop.setType("x-diff-type");
+            prop.setContent("modified");
+            
+            Prop prop1 = new Prop();
+            Tuv tuv1 = (Tuv) tu1.getTargetTuv().getUnderlyingRepresentation();
+            tuv1.getNoteOrProp().add(prop1);
+            prop1.setType("x-diff-modified");
+            prop1.setContent("before");
+            
+            Prop prop2 = new Prop();
+            Tuv tuv2 = (Tuv) tu2.getTargetTuv().getUnderlyingRepresentation();
+            tuv2.getNoteOrProp().add(prop2);
+            prop2.setType("x-diff-modified");
+            prop2.setContent("after");
+        }
+        
+        return new JAXBTmx(tmx, "diff");
     }
 
     public JAXBTmx(File file) throws Exception {
@@ -216,6 +298,10 @@ public class JAXBTmx implements ITmx {
         this.tuvMap = null;
         this.tuMap = null;
         return new JAXBTmx(modifiedData, LocString.get("merged_tmx_name"));
+    }
+    
+    public JAXBTmx klone() throws JAXBException {
+        return new JAXBTmx(clone(tmx), name);
     }
     
     public static Tmx clone(Tmx jaxbObject) throws JAXBException {

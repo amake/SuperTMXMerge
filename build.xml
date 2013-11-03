@@ -22,6 +22,7 @@
         <copy file="${manifest.template}" tofile="${manifest.file}"/>
         <manifest file="${manifest.file}" mode="update">
             <attribute name="Implementation-Version" value="${repository.version}"/>
+            <attribute name="Implementation-Title" value="${application.title}"/>
         </manifest>
     </target>
     <target name="-post-jar" depends="git.revision">

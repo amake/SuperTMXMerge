@@ -99,7 +99,7 @@ public class DiffUtil {
         return diffInfos;
     }
     
-    private static DiffSet generateDiffSet(ITmx tmx1, ITmx tmx2) {
+    public static DiffSet generateDiffSet(ITmx tmx1, ITmx tmx2) {
         // Deleted TUs
         Set<Key> deleted = new HashSet<Key>(tmx1.getTuvMap().keySet());
         deleted.removeAll(tmx2.getTuvMap().keySet());

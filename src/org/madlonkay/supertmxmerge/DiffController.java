@@ -19,11 +19,17 @@
 package org.madlonkay.supertmxmerge;
 
 import java.beans.*;
+import java.io.File;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.madlonkay.supertmxmerge.data.DiffInfo;
 import org.madlonkay.supertmxmerge.data.ITmx;
+import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
 import org.madlonkay.supertmxmerge.gui.DiffWindow;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
@@ -38,11 +44,13 @@ public class DiffController implements Serializable {
     public static final String PROP_TMX1 = "tmx1";
     public static final String PROP_TMX2 = "tmx2";
     public static final String PROP_CHANGECOUNT = "changeCount";
+    public static final String PROP_CANSAVEDIFF = "canSaveDiff";
 
     private ITmx tmx1;
     private ITmx tmx2;
     
     private List<DiffInfo> diffInfos;
+    private JFrame diffWindow;
     
     private final PropertyChangeSupport propertySupport;
     
@@ -66,6 +74,7 @@ public class DiffController implements Serializable {
         ITmx oldTmx1 = this.tmx1;
         this.tmx1 = tmx1;
         propertySupport.firePropertyChange(PROP_TMX1, oldTmx1, tmx1);
+        propertySupport.firePropertyChange(PROP_CANSAVEDIFF, null, null);
     }
     
     public ITmx getTmx2() {
@@ -76,6 +85,7 @@ public class DiffController implements Serializable {
         ITmx oldTmx2 = this.tmx2;
         this.tmx2 = tmx2;
         propertySupport.firePropertyChange(PROP_TMX2, oldTmx2, tmx2);
+        propertySupport.firePropertyChange(PROP_CANSAVEDIFF, null, null);
     }
     
     public void diff(ITmx tmx1, ITmx tmx2) {
@@ -92,9 +102,9 @@ public class DiffController implements Serializable {
                         LocString.get("diff_window_title"),
                         JOptionPane.INFORMATION_MESSAGE);
         } else {
-            DiffWindow window = new DiffWindow(this);
-            GuiUtil.displayWindow(window);
-            GuiUtil.blockOnWindow(window);
+            diffWindow = new DiffWindow(this);
+            GuiUtil.displayWindow(diffWindow);
+            GuiUtil.blockOnWindow(diffWindow);
         }
     }
     
@@ -104,5 +114,40 @@ public class DiffController implements Serializable {
 
     public int getChangeCount() {
         return diffInfos.size();
+    }
+    
+    public boolean canSaveDiff() {
+        return tmx1 instanceof JAXBTmx && tmx2 instanceof JAXBTmx;
+    }
+    
+    public void saveAs() {
+        File outFile = null;
+        
+        while (true) {
+            if (outFile != null) {
+                break;
+            }
+            JFileChooser chooser = new JFileChooser();
+            if (chooser.showSaveDialog(diffWindow) == JFileChooser.APPROVE_OPTION) {
+                outFile = chooser.getSelectedFile();
+            } else {
+                int response = JOptionPane.showConfirmDialog(null,
+                    LocString.get("confirm_cancel_message"),
+                    LocString.get("diff_window_title"),
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+                if (response == JOptionPane.YES_OPTION) {
+                    return;
+                }
+            }
+        }
+
+        ITmx outTmx = JAXBTmx.createFromDiff((JAXBTmx) tmx1, (JAXBTmx) tmx2);
+        
+        try {
+            outTmx.writeTo(outFile);
+        } catch (Exception ex) {
+            Logger.getLogger(DiffController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
