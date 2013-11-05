@@ -30,6 +30,8 @@ import org.junit.Test;
  */
 public class SuperTmxMergeTest {
     
+    private static final boolean DO_GUI_TESTS = false;
+    
     public SuperTmxMergeTest() {
     }
     
@@ -53,32 +55,32 @@ public class SuperTmxMergeTest {
      * Test of diff method, of class SuperTmxMerge.
      */
     @Test
-    public void testDiff() {
+    public void testDiffGui() {
         System.out.println("diff");
         File file1 = getFilePath("resources/base.tmx");
         File file2 = getFilePath("resources/left.tmx");
-        SuperTmxMerge.diff(file1, file2);
+        if (DO_GUI_TESTS) SuperTmxMerge.diff(file1, file2);
     }
 
     /**
      * Test of merge method, of class SuperTmxMerge.
      */
     @Test
-    public void testMerge() {
+    public void testMergeGui() {
         System.out.println("merge");
         File baseFile = getFilePath("resources/base.tmx");
         File file1 = getFilePath("resources/left.tmx");
         File file2 = getFilePath("resources/right.tmx");
-        SuperTmxMerge.merge(baseFile, file1, file2);
+        if (DO_GUI_TESTS) SuperTmxMerge.merge(baseFile, file1, file2);
     }
 
     /**
      * Test of promptForFiles method, of class SuperTmxMerge.
      */
     @Test
-    public void testPromptForFiles() {
+    public void testPromptForFilesGui() {
         System.out.println("promptForFiles");
-        SuperTmxMerge.promptForFiles();
+        if (DO_GUI_TESTS) SuperTmxMerge.promptForFiles();
     }
     
     private File getFilePath(String identifier) {
