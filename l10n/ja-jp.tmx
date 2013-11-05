@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tmx SYSTEM "tmx11.dtd">
+<tmx version="1.1">
+  <header creationtool="OmegaT" o-tmf="OmegaT TMX" adminlang="EN-US" datatype="plaintext" creationtoolversion="3.0.5" segtype="sentence" srclang="en-us"/>
+  <body>
+<!-- Default translations -->
+    <tu>
+      <tuv lang="en-us">
+        <seg>1 change</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130902T145812Z" creationid="aaron.madlon-kay" creationdate="20130902T145812Z">
+        <seg>1点の変更</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>1 conflict</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130902T145758Z" creationid="aaron.madlon-kay" creationdate="20130902T145758Z">
+        <seg>1点の競合</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>1 unit</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130902T145739Z" creationid="aaron.madlon-kay" creationdate="20130902T145739Z">
+        <seg>1個のユニット</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>3-way merge:</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103403Z" creationid="aaron.madlon-kay" creationdate="20130831T103403Z">
+        <seg>３ウェイマージ</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Are you sure you want to exit without saving the merged file?</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130912T132425Z" creationid="aaron.madlon-kay" creationdate="20130912T132425Z">
+        <seg>マージ済みファイルを破棄して終了しますか？</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Are you sure you want to exit without saving?</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20131005T051923Z" creationid="aaron.madlon-kay" creationdate="20131005T051923Z">
+        <seg>変更を破棄して終了しますか？</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Base file...</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103602Z" creationid="aaron.madlon-kay" creationdate="20130831T103602Z">
+        <seg>親ファイル...</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103424Z" creationid="aaron.madlon-kay" creationdate="20130831T103424Z">
+        <seg>キャンセル</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Conflict {0} of {1}</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20131026T013529Z" creationid="aaron.madlon-kay" creationdate="20131026T013529Z">
+        <seg>競合（{0}／{1}）</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Deleted</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103052Z" creationid="aaron.madlon-kay" creationdate="20130831T103043Z">
+        <seg>削除済み</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Details unavailable</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20131026T013604Z" creationid="aaron.madlon-kay" creationdate="20131026T013604Z">
+        <seg>詳細不明</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Diff</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103411Z" creationid="aaron.madlon-kay" creationdate="20130831T103411Z">
+        <seg>差分</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Diff {0} of {1}</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20131026T013450Z" creationid="aaron.madlon-kay" creationdate="20131026T013450Z">
+        <seg>差分（{0}／{1}）</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Diff:</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103327Z" creationid="aaron.madlon-kay" creationdate="20130831T103327Z">
+        <seg>差分</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Discard</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130901T145238Z" creationid="aaron.madlon-kay" creationdate="20130901T145238Z">
+        <seg>破棄</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Done</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20131005T051849Z" creationid="aaron.madlon-kay" creationdate="20131005T051849Z">
+        <seg>完了</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Error</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20131026T013611Z" creationid="aaron.madlon-kay" creationdate="20131026T013611Z">
+        <seg>エラー</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Error obtaining canonical path for file:
+{0}</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103316Z" creationid="aaron.madlon-kay" creationdate="20130831T103316Z">
+        <seg>ファイルの正規パスを取得できませんでした
+{0}</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>File 1...</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103417Z" creationid="aaron.madlon-kay" creationdate="20130831T103417Z">
+        <seg>ファイル１...</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>File 2...</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103421Z" creationid="aaron.madlon-kay" creationdate="20130831T103421Z">
+        <seg>ファイル２...</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Input file does not exist or is unreadable:
+{0}</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103216Z" creationid="aaron.madlon-kay" creationdate="20130831T103216Z">
+        <seg>入力ファイルは存在しないか、読み取りできません
+{0}</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Left file...</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103606Z" creationid="aaron.madlon-kay" creationdate="20130831T103606Z">
+        <seg>左ファイル...</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Merge</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103412Z" creationid="aaron.madlon-kay" creationdate="20130831T103412Z">
+        <seg>マージ</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Merged</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20131026T013553Z" creationid="aaron.madlon-kay" creationdate="20131026T013553Z">
+        <seg>マージ済み</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>No name set</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20131026T013548Z" creationid="aaron.madlon-kay" creationdate="20131026T013548Z">
+        <seg>名称未決定</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Not all conflicts have been resolved.</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20131005T051902Z" creationid="aaron.madlon-kay" creationdate="20131005T051902Z">
+        <seg>未解決の競合が残っています。</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Not present</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103101Z" creationid="aaron.madlon-kay" creationdate="20130831T103101Z">
+        <seg>なし</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>OK</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103423Z" creationid="aaron.madlon-kay" creationdate="20130831T103423Z">
+        <seg>OK</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Please resolve the conflicts by choosing a translation for each text unit below.</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130912T132805Z" creationid="aaron.madlon-kay" creationdate="20130912T132805Z">
+        <seg>以下の各ユニットについて、使用したい翻訳を選んで競合を解決してください。</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Processing...</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20131026T013420Z" creationid="aaron.madlon-kay" creationdate="20131026T013420Z">
+        <seg>処理中…</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Right file...</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103610Z" creationid="aaron.madlon-kay" creationdate="20130831T103610Z">
+        <seg>右ファイル...</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Save</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130901T145235Z" creationid="aaron.madlon-kay" creationdate="20130901T145235Z">
+        <seg>保存</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Save as...</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130902T145820Z" creationid="aaron.madlon-kay" creationdate="20130902T145820Z">
+        <seg>名前を付けて保存...</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Select files</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130901T144036Z" creationid="aaron.madlon-kay" creationdate="20130901T144036Z">
+        <seg>ファイル選択</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>SuperTMXMerge</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20131026T013415Z" creationid="aaron.madlon-kay" creationdate="20131026T013415Z">
+        <seg>SuperTMXMerge</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>SuperTMXMerge - Select files</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103624Z" creationid="aaron.madlon-kay" creationdate="20130831T103624Z">
+        <seg>SuperTMXMerge - ファイル選択</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>TMX files</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103630Z" creationid="aaron.madlon-kay" creationdate="20130831T103630Z">
+        <seg>TMXファイル</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>The input files are identical.</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130912T132402Z" creationid="aaron.madlon-kay" creationdate="20130912T132402Z">
+        <seg>入力ファイルに差異はありません。</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>The input files were merged with no conflicts.</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20131026T013335Z" creationid="aaron.madlon-kay" creationdate="20131026T013335Z">
+        <seg>入力ファイルを問題なくマージできました。</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Usage:</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103324Z" creationid="aaron.madlon-kay" creationdate="20130831T103324Z">
+        <seg>使用方法</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Use all base</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103537Z" creationid="aaron.madlon-kay" creationdate="20130831T103147Z">
+        <seg>親をすべて使用</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Use all left</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103142Z" creationid="aaron.madlon-kay" creationdate="20130831T103142Z">
+        <seg>左をすべて使用</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Use all right</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103152Z" creationid="aaron.madlon-kay" creationdate="20130831T103152Z">
+        <seg>右をすべて使用</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Use base</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103531Z" creationid="aaron.madlon-kay" creationdate="20130831T103127Z">
+        <seg>親を使用</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Use left</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103123Z" creationid="aaron.madlon-kay" creationdate="20130831T103123Z">
+        <seg>左を使用</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Use right</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103133Z" creationid="aaron.madlon-kay" creationdate="20130831T103133Z">
+        <seg>右を使用</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>View changes from base?</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20131026T013408Z" creationid="aaron.madlon-kay" creationdate="20131026T013408Z">
+        <seg>ベースとの差分を見ますか？</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>java -jar SuperTMXMerge baseFile file1 file2</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103556Z" creationid="aaron.madlon-kay" creationdate="20130831T103408Z">
+        <seg>java -jar SuperTMXMerge 親ファイル ファイル１ ファイル２</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>java -jar SuperTMXMerge file1 file2</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103509Z" creationid="aaron.madlon-kay" creationdate="20130831T103332Z">
+        <seg>java -jar SuperTMXMerge ファイル１ ファイル２</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>{0} ({1} of {2})</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20131026T013540Z" creationid="aaron.madlon-kay" creationdate="20131026T013540Z">
+        <seg>{0}（{1}／{2}）</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>{0} changes</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130902T145807Z" creationid="aaron.madlon-kay" creationdate="20130902T145807Z">
+        <seg>{0}点の変更</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>{0} conflicts</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130902T145752Z" creationid="aaron.madlon-kay" creationdate="20130902T145752Z">
+        <seg>{0}点の競合</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>{0} units</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103036Z" creationid="aaron.madlon-kay" creationdate="20130831T103036Z">
+        <seg>{0}個のユニット</seg>
+      </tuv>
+    </tu>
+<!-- Alternative translations -->
+  </body>
+</tmx>

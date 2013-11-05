@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="SuperTMXMerge" default="default" basedir=".">
+<project name="SuperTMXMerge" default="default" basedir="." xmlns:okapi="antlib:com.spartansoftwareinc.okapi.ant">
     <description>Builds, tests, and runs the project SuperTMXMerge.</description>
     <import file="nbproject/build-impl.xml"/>
+    
+    <property name="okapi.lib" value="/Applications/Productivity/OkapiApps/lib/" />
+    <available file="${okapi.lib}" type="dir" property="okapi.present" />
+    <path id="okapi.classpath">
+        <fileset dir="${okapi.lib}" includes="**/*.jar" />
+        <fileset dir="lib" includes="okapi-ant-1.0-SNAPSHOT.jar" />
+    </path>
+    <taskdef uri="antlib:com.spartansoftwareinc.okapi.ant"
+        resource="com/spartansoftwareinc/okapi/ant/antlib.xml"
+        classpathref="okapi.classpath" />
+    
+    <target name="translate" description="Translate localizable assets" if="okapi.present">
+        <okapi:translate srcLang="en-us">
+            <filterMapping extension=".properties" filterConfig="okf_properties" />
+            <fileset dir="src" includes="**/Strings.properties" />
+        </okapi:translate> 
+    </target>
+
     <!-- git integration from http://stackoverflow.com/a/4059546 -->
     <available file=".git" type="dir" property="git.present"/>
     <target name="git.revision" description="Store git revision in ${repository.version}" if="git.present">
@@ -17,6 +35,9 @@
                 <length string="${git.revision}" trim="yes" length="0" when="greater"/>
             </and>
         </condition>
+    </target>
+    <target name="-pre-jar" depends="translate">
+        <!-- Make sure translate task happens before jar task. -->
     </target>
     <target name="-post-jar" depends="git.revision">
         <!-- Add application info to JAR maniefest. -->
