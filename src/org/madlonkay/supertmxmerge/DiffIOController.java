@@ -22,7 +22,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 import javax.swing.JOptionPane;
-import javax.swing.ProgressMonitor;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
 import org.madlonkay.supertmxmerge.gui.ProgressWindow;

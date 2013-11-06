@@ -23,8 +23,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.ProgressMonitor;
-import javax.xml.bind.UnmarshalException;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
 import org.madlonkay.supertmxmerge.gui.ProgressWindow;
