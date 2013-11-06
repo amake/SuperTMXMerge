@@ -49,6 +49,8 @@ public class Main {
                     throw new RuntimeException(ex);
                 }
 
+                // TODO: Use a proper args parsing library or something.
+                
                 if (theArgs.length == 0) {
                     SuperTmxMerge.promptForFiles();
                     return;
@@ -61,8 +63,15 @@ public class Main {
                     SuperTmxMerge.merge(new File(theArgs[0]), new File(theArgs[1]), new File(theArgs[2]));
                     return;
                 } else if (theArgs.length == 4) {
-                    SuperTmxMerge.mergeTo(new File(theArgs[0]), new File(theArgs[1]), new File(theArgs[2]), new File(theArgs[3]));
-                    return;
+                    
+                    if (theArgs[2].equals("-o")) {
+                        SuperTmxMerge.diffTo(new File(theArgs[0]), new File(theArgs[1]), new File(theArgs[3]));
+                        return;
+                    } else {
+                        SuperTmxMerge.mergeTo(new File(theArgs[0]), new File(theArgs[1]), new File(theArgs[2]),
+                                new File(theArgs[3]));
+                        return;
+                    }
                 }
 
                 printUsage();

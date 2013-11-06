@@ -21,6 +21,8 @@ package org.madlonkay.supertmxmerge;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
@@ -35,13 +37,19 @@ import org.madlonkay.supertmxmerge.util.LocString;
  */
 public class DiffIOController {
     
+    private static final Logger LOGGER = Logger.getLogger(DiffIOController.class.getName());
+    
     public static final String PROP_FILE1 = "file1";
     public static final String PROP_FILE2 = "file2";
     
     public static final String PROP_INPUTISVALID = "inputIsValid";
+    public static final String PROP_OUTPUTFILE = "outputFile";
+
     
     private File file1;
     private File file2;
+    
+    private File outputFile;
     
     protected PropertyChangeSupport propertySupport;
     
@@ -79,6 +87,16 @@ public class DiffIOController {
         propertySupport.firePropertyChange(PROP_INPUTISVALID, null, null);
     }
     
+    public File getOutputFile() {
+        return outputFile;
+    }
+
+    public void setOutputFile(File outputFile) {
+        File oldOutputFile = this.outputFile;
+        this.outputFile = outputFile;
+        propertySupport.firePropertyChange(PROP_OUTPUTFILE, oldOutputFile, outputFile);
+    }
+    
     public boolean getInputIsValid() {
         return FileUtil.validateFile(getFile1()) 
                 && FileUtil.validateFile(getFile2()) && !getFile1().equals(getFile2());
@@ -110,6 +128,15 @@ public class DiffIOController {
         
         GuiUtil.closeWindow(progress);
         
-        differ.diff(tmx1, tmx2);
+        if (outputFile != null) {
+            ITmx outTmx = JAXBTmx.createFromDiff((JAXBTmx) tmx1, (JAXBTmx) tmx2);
+            try {
+                outTmx.writeTo(outputFile);
+            } catch (Exception ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            }
+        } else {
+            differ.diff(tmx1, tmx2);
+        }
     }
 }

@@ -36,10 +36,8 @@ import org.madlonkay.supertmxmerge.util.LocString;
  */
 public class MergeIOController extends DiffIOController {
     public static final String PROP_MERGEBASEFILE = "mergeBaseFile";
-    public static final String PROP_OUTPUTFILE = "outputFile";
     
     private File baseFile;
-    private File outputFile;
     
     public MergeIOController() {
         super();
@@ -56,16 +54,6 @@ public class MergeIOController extends DiffIOController {
         propertySupport.firePropertyChange(PROP_INPUTISVALID, null, null);
     }
     
-    public File getOutputFile() {
-        return outputFile;
-    }
-
-    public void setOutputFile(File outputFile) {
-        File oldOutputFile = this.outputFile;
-        this.outputFile = outputFile;
-        propertySupport.firePropertyChange(PROP_OUTPUTFILE, oldOutputFile, outputFile);
-    }
-    
     @Override
     public boolean getInputIsValid() {
         return FileUtil.validateFile(getBaseFile()) && FileUtil.validateFile(getFile1())
@@ -79,7 +67,7 @@ public class MergeIOController extends DiffIOController {
         
         MergeController merger = new MergeController();
         
-        if (outputFile != null) {
+        if (getOutputFile() != null) {
             merger.setQuiet(true);
         }
         

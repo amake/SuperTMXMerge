@@ -41,6 +41,14 @@ public class SuperTmxMerge {
         controller.go();
     }
     
+    public static void diffTo(File file1, File file2, File outFile) {
+        DiffIOController controller = new DiffIOController();
+        controller.setFile1(file1);
+        controller.setFile2(file2);
+        controller.setOutputFile(outFile);
+        controller.go();
+    }
+    
     public static File merge(File baseFile, File file1, File file2) {
         MergeIOController controller = new MergeIOController();
         controller.setBaseFile(baseFile);
