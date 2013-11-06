@@ -164,6 +164,7 @@ public class DiffWindow extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         saveAsButton.setText(LocString.get("save_as_button")); // NOI18N
