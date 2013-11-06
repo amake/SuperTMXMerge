@@ -78,6 +78,7 @@ public class JAXBTmx implements ITmx {
     
     private Tmx tmx;
     private final String name;
+    private File file;
     private Map<Key, ITuv> tuvMap;
     private Map<Key, ITu> tuMap;
     private Map<String, String> tmxMetadata;
@@ -196,6 +197,7 @@ public class JAXBTmx implements ITmx {
     public JAXBTmx(File file) throws Exception {
         propertySupport = new PropertyChangeSupport(this);
         this.name = file.getName();
+        this.file = file;
         Source source = new SAXSource(XMLREADER, new InputSource(new FileInputStream(file)));
         this.tmx = (Tmx) UNMARSHALLER.unmarshal(source);
     }
@@ -268,6 +270,9 @@ public class JAXBTmx implements ITmx {
     
     private void generateMetadata() {
         tmxMetadata = ReflectionUtil.simplePropsToMap(tmx.getHeader());
+        if (file != null) {
+            tmxMetadata.put("Path", file.getAbsolutePath());
+        }
     }
     
     @Override
