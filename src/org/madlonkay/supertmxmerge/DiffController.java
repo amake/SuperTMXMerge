@@ -121,25 +121,13 @@ public class DiffController implements Serializable {
     }
     
     public void saveAs() {
-        File outFile = null;
+        File outFile;
         
-        while (true) {
-            if (outFile != null) {
-                break;
-            }
-            JFileChooser chooser = new JFileChooser();
-            if (chooser.showSaveDialog(diffWindow) == JFileChooser.APPROVE_OPTION) {
-                outFile = chooser.getSelectedFile();
-            } else {
-                int response = JOptionPane.showConfirmDialog(null,
-                    LocString.get("confirm_cancel_message"),
-                    LocString.get("diff_window_title"),
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE);
-                if (response == JOptionPane.YES_OPTION) {
-                    return;
-                }
-            }
+        JFileChooser chooser = new JFileChooser();
+        if (chooser.showSaveDialog(diffWindow) == JFileChooser.APPROVE_OPTION) {
+            outFile = chooser.getSelectedFile();
+        } else {
+            return;
         }
 
         ITmx outTmx = JAXBTmx.createFromDiff((JAXBTmx) tmx1, (JAXBTmx) tmx2);
