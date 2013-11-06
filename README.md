@@ -12,6 +12,10 @@ in malformed XML.
 SuperTMXMerge understands the underlying format and presents diffs and merges in
 a (relatively) intuitive way.
 
+**Note:** The "merging" implemented by this tool is known as [3-way merge]
+(http://en.wikipedia.org/wiki/Merge_%28revision_control%29#Three-way_merge).
+It is not the same as merely combining the content of three files. Before using
+this tool, please make sure it does what you think it does.
 
 Usage
 =====
@@ -27,6 +31,10 @@ Command-line diff:
 
     java -jar SuperTMXMerge.jar file1 file2
 
+Command-line diff, quietly saved to a file (no GUI):
+
+    java -jar SuperTMXMerge.jar file1 file2 -o outputFile
+
 Command-line 3-way merge:
 
     java -jar SuperTMXMerge.jar baseFile file1 file2
@@ -39,23 +47,20 @@ Command-line 3-way merge (for use with VCS tools):
 Download
 ========
 
-Binaries are available at https://github.com/amake/SuperTMXMerge/releases
+Binaries are available at <https://github.com/amake/SuperTMXMerge/releases>.
 
 
 License
 =======
 
-SuperTMXmerge is distributed under the GNU Lesser General Public License 
-v2.1:
-
-http://www.gnu.org/licenses/lgpl-2.1.html
+SuperTMXmerge is distributed under the [GNU Lesser General Public License, 
+v2.1](http://www.gnu.org/licenses/lgpl-2.1.html),
 
 
 Source
 ======
 
-Source is available at:
-https://github.com/amake/SuperTMXMerge
+Source is available at <https://github.com/amake/SuperTMXMerge>.
 
 
 Hints
@@ -95,7 +100,6 @@ Notes
 
 When building for release, git must be present on the system's
 path in order to generate the version number correctly. That means
-on Windows you will need something like msysGit:
-http://msysgit.github.io/
+on Windows you will need something like [msysGit](http://msysgit.github.io/).
 
 Copyright 2013 Aaron Madlon-Kay <aaron@madlon-kay.com>
