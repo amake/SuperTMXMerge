@@ -1,3 +1,3 @@
 @echo off
 
-start /b /wait java -jar %~dp0SuperTMXMerge.jar %*
+start "SuperTMXMerge" /b /wait java -jar %~dp0SuperTMXMerge.jar %*
