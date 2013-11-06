@@ -13,3 +13,10 @@ SuperTMXMerge change history
 - Fixed failure to handle TUs missing source/target TUVs, reported by Paul
   Muraille
 - Added caveats, hints sections to readme
+
+# 0.9.3
+- Added ability to save diffs as TMX files
+- Exposed full input TMX file path in metadata tooltip (hover cursor over
+  TMX name in diff, merge windows)
+- Fixed problem where new, identical TUs added to both file1 and file2 would
+  be left out of merged file
