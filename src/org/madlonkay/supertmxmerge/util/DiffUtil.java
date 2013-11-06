@@ -138,11 +138,9 @@ public class DiffUtil {
         for (Key key : baseToLeft.added) {
             ITuv leftTuv = leftTmx.getTuvMap().get(key);
             ITuv rightTuv = rightTmx.getTuvMap().get(key);
-            if (rightTuv == null) {
+            if (rightTuv == null || leftTuv.equals(rightTuv)) {
                 toAdd.add(leftTmx.getTuMap().get(key));
-                continue;
-            }
-            if (!leftTuv.equals(rightTuv)) {
+            } else {
                 conflicts.add(new ConflictInfo(key, leftTmx.getSourceLanguage(), leftTuv.getLanguage(),
                         null, leftTuv.getContent(), rightTuv.getContent()));
                 conflictKeys.add(key);
@@ -155,11 +153,9 @@ public class DiffUtil {
             }
             ITuv leftTuv = leftTmx.getTuvMap().get(key);
             ITuv rightTuv = rightTmx.getTuvMap().get(key);
-            if (leftTuv == null) {
+            if (leftTuv == null || rightTuv.equals(leftTuv)) {
                 toAdd.add(rightTmx.getTuMap().get(key));
-                continue;
-            }
-            if (!leftTuv.equals(rightTuv)) {
+            } else {
                 conflicts.add(new ConflictInfo(key, rightTmx.getSourceLanguage(), rightTuv.getLanguage(),
                         null, leftTuv.getContent(), rightTuv.getContent()));
                 conflictKeys.add(key);
