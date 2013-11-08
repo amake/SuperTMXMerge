@@ -3,7 +3,12 @@
     <description>Builds, tests, and runs the project SuperTMXMerge.</description>
     <import file="nbproject/build-impl.xml"/>
     
-    <property name="okapi.lib" value="/Applications/Productivity/OkapiApps/lib/" />
+    <!-- Set up Okapi -->
+    <property environment="env"/>
+    <condition property="okapi.lib" value="${env.OKAPI_HOME}"
+        else="/Applications/Productivity/OkapiApps/lib/">
+        <isset property="env.OKAPI_HOME"/>
+    </condition>
     <available file="${okapi.lib}" type="dir" property="okapi.present" />
     <path id="okapi.classpath">
         <fileset dir="${okapi.lib}" includes="**/*.jar" />
@@ -13,6 +18,7 @@
         resource="com/spartansoftwareinc/okapi/ant/antlib.xml"
         classpathref="okapi.classpath" />
     
+    <!-- Okapi Translate task -->
     <target name="translate" description="Translate localizable assets" if="okapi.present">
         <okapi:translate srcLang="en-us">
             <filterMapping extension=".properties" filterConfig="okf_properties" />
