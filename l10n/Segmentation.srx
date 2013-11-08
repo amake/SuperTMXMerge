@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<srx xmlns="http://www.lisa.org/srx20" xmlns:okpsrx="http://okapi.sf.net/srx-extensions" version="2.0">
+<header segmentsubflows="yes" cascade="no">
+<formathandle type="start" include="no"></formathandle>
+<formathandle type="end" include="yes"></formathandle>
+<formathandle type="isolated" include="no"></formathandle>
+<okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="no"></okpsrx:options>
+<okpsrx:sample language="en" useMappedRules="yes">Mr. Holmes is from the U.K. not the U.S. &lt;B>Is Dr. Watson from there too?&lt;/B> Yes: both are.&lt;BR/></okpsrx:sample>
+<okpsrx:rangeRule></okpsrx:rangeRule>
+</header>
+<body>
+<languagerules>
+<languagerule languagerulename="default">
+<rule break="no">
+<beforebreak>([A-Z]\.){2,}</beforebreak>
+<afterbreak>\s</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\.</beforebreak>
+<afterbreak>\s</afterbreak>
+</rule>
+</languagerule>
+</languagerules>
+<maprules>
+<languagemap languagepattern=".*" languagerulename="default"></languagemap>
+</maprules>
+</body>
+</srx>
