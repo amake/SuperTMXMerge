@@ -12,7 +12,7 @@
     <available file="${okapi.lib}" type="dir" property="okapi.present" />
     <path id="okapi.classpath">
         <fileset dir="${okapi.lib}" includes="**/*.jar" />
-        <fileset dir="lib" includes="okapi-ant-1.0-SNAPSHOT.jar" />
+        <fileset dir="lib" includes="okapi-ant-1.0.0.jar" />
     </path>
     <taskdef uri="antlib:com.spartansoftwareinc.okapi.ant"
         resource="com/spartansoftwareinc/okapi/ant/antlib.xml"
