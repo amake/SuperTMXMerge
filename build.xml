@@ -5,7 +5,7 @@
     
     <!-- Set up Okapi -->
     <property environment="env"/>
-    <condition property="okapi.lib" value="${env.OKAPI_HOME}"
+    <condition property="okapi.lib" value="${env.OKAPI_HOME}/lib"
         else="/Applications/Productivity/OkapiApps/lib/">
         <isset property="env.OKAPI_HOME"/>
     </condition>
