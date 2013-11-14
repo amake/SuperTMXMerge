@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.TransferHandler;
 import javax.swing.text.JTextComponent;
 
@@ -48,34 +50,46 @@ public class FileDropHandler extends TransferHandler {
             return false;
         }
         
-        Component comp = support.getComponent();
-        if (!(comp instanceof JTextComponent)) {
-            return false;
-        }
-        JTextComponent textArea = (JTextComponent) comp;
-
+        List<File> files;
         try {
             Object payload = support.getTransferable()
                     .getTransferData(DataFlavor.javaFileListFlavor);
             if (!(payload instanceof List)) {
               return false;
             }
-            List<File> files = (List<File>) payload;
-            if (files.size() > 1) {
-                return false;
-            }
-            File file = files.get(0);
-            //if (!file.getName().endsWith(".tmx")) {
-            //    return false;
-            //}
-            String filePath = file.getCanonicalPath();
-            textArea.setText(filePath);
+            files = (List<File>) payload;
         } catch (UnsupportedFlavorException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             return false;
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             return false;
+        }
+        
+        Component comp = support.getComponent();
+        if (comp instanceof JTextComponent) {
+            return handleSingleDrop(files, (JTextComponent) comp);
+        } else if (comp instanceof JList) {
+            return handleMultiDrop(files, (JList) comp);
+        }
+        return false;
+    }
+    
+    private boolean handleSingleDrop(List<File> files, JTextComponent comp) {
+        if (files.size() != 1) {
+            return false;
+        }
+        comp.setText(files.get(0).getAbsolutePath());
+        return true;
+    }
+    
+    private boolean handleMultiDrop(List<File> files, JList comp) {
+        if (!(comp.getModel() instanceof DefaultListModel)) {
+            return false;
+        }
+        DefaultListModel model = (DefaultListModel) comp.getModel();
+        for (File file : files) {
+            model.addElement(file.getAbsolutePath());
         }
         return true;
     }

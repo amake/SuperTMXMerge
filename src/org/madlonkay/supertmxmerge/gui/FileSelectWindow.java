@@ -18,10 +18,10 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
-import java.io.IOException;
+import java.io.File;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
-import javax.swing.JTextField;
 import javax.swing.TransferHandler;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
@@ -35,6 +35,9 @@ public class FileSelectWindow extends javax.swing.JFrame {
     
     private final static Logger LOGGER = Logger.getLogger(FileSelectWindow.class.getName());
     
+    private final static FileNameExtensionFilter FILTER_TMX = 
+            new FileNameExtensionFilter(LocString.get("tmx_file_type_label"), "tmx");
+    
     /**
      * Creates new form FileSelectWindow
      */
@@ -46,19 +49,7 @@ public class FileSelectWindow extends javax.swing.JFrame {
         leftFileField.setTransferHandler(th);
         rightFileField.setTransferHandler(th);
         baseFileField.setTransferHandler(th);
-    }
-
-    private void promptChooseFile(JTextField target) {
-        // Inspired by https://netbeans.org/kb/docs/java/gui-filechooser.html#config
-        int returnVal = jFileChooser1.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            try {
-                String file = jFileChooser1.getSelectedFile().getCanonicalPath();
-                target.setText(file);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        }
+        combineList.setTransferHandler(th);
     }
     
     /**
@@ -71,10 +62,12 @@ public class FileSelectWindow extends javax.swing.JFrame {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        jFileChooser1 = new javax.swing.JFileChooser();
+        singleFileChooser = new javax.swing.JFileChooser();
         fileStringConverter = new org.madlonkay.supertmxmerge.gui.FileStringConverter();
         diffIOController = new org.madlonkay.supertmxmerge.DiffIOController();
         mergeIOController = new org.madlonkay.supertmxmerge.MergeIOController();
+        combineIOController = new org.madlonkay.supertmxmerge.CombineIOController();
+        multiFileChooser = new javax.swing.JFileChooser();
         diffMergeTabbedPane = new javax.swing.JTabbedPane();
         diffPanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -103,8 +96,22 @@ public class FileSelectWindow extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         mergeOkButton = new javax.swing.JButton();
         mergeCancelButton = new javax.swing.JButton();
+        combinePanel = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        addRemoveButtonPanel = new javax.swing.JPanel();
+        addButton = new javax.swing.JButton();
+        removeButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        combineList = new javax.swing.JList();
+        combineButtonPanel = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
+        combineOkButton = new javax.swing.JButton();
+        combineCancelButton = new javax.swing.JButton();
 
-        jFileChooser1.setFileFilter(new FileNameExtensionFilter(LocString.get("tmx_file_type_label"), "tmx"));
+        singleFileChooser.setFileFilter(FILTER_TMX);
+
+        multiFileChooser.setFileFilter(FILTER_TMX);
+        multiFileChooser.setMultiSelectionEnabled(true);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(LocString.get("file_select_window_title")); // NOI18N
@@ -286,6 +293,70 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
         diffMergeTabbedPane.addTab(LocString.get("file_select_merge_tab"), mergePanel); // NOI18N
 
+        combinePanel.setLayout(new javax.swing.BoxLayout(combinePanel, javax.swing.BoxLayout.PAGE_AXIS));
+
+        jPanel9.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 0, 0, 4));
+        jPanel9.setLayout(new javax.swing.BoxLayout(jPanel9, javax.swing.BoxLayout.LINE_AXIS));
+
+        addRemoveButtonPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        addRemoveButtonPanel.setLayout(new javax.swing.BoxLayout(addRemoveButtonPanel, javax.swing.BoxLayout.PAGE_AXIS));
+
+        addButton.setText(LocString.get("add_button")); // NOI18N
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
+        addRemoveButtonPanel.add(addButton);
+
+        removeButton.setText(LocString.get("remove_button")); // NOI18N
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, combineList, org.jdesktop.beansbinding.ELProperty.create("${not empty selectedElements}"), removeButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"), "listHasSelection");
+        bindingGroup.addBinding(binding);
+
+        removeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeButtonActionPerformed(evt);
+            }
+        });
+        addRemoveButtonPanel.add(removeButton);
+
+        jPanel9.add(addRemoveButtonPanel);
+
+        combineList.setModel(new DefaultListModel());
+        combineList.setVisibleRowCount(4);
+        jScrollPane1.setViewportView(combineList);
+
+        jPanel9.add(jScrollPane1);
+
+        combinePanel.add(jPanel9);
+
+        combineButtonPanel.setLayout(new java.awt.BorderLayout());
+
+        jPanel13.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        jPanel13.setLayout(new javax.swing.BoxLayout(jPanel13, javax.swing.BoxLayout.LINE_AXIS));
+
+        combineOkButton.setText(LocString.get("ok_button")); // NOI18N
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, combineList, org.jdesktop.beansbinding.ELProperty.create("${model.size > 2}"), combineOkButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
+        jPanel13.add(combineOkButton);
+
+        combineCancelButton.setText(LocString.get("cancel_button")); // NOI18N
+        combineCancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+        jPanel13.add(combineCancelButton);
+
+        combineButtonPanel.add(jPanel13, java.awt.BorderLayout.EAST);
+
+        combinePanel.add(combineButtonPanel);
+
+        diffMergeTabbedPane.addTab(LocString.get("combine_button"), combinePanel); // NOI18N
+
         getContentPane().add(diffMergeTabbedPane);
 
         bindingGroup.bind();
@@ -294,23 +365,33 @@ public class FileSelectWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void file1ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_file1ButtonActionPerformed
-        promptChooseFile(file1Field);
+        if (singleFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            diffIOController.setFile1(singleFileChooser.getSelectedFile());
+        }
     }//GEN-LAST:event_file1ButtonActionPerformed
 
     private void file2ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_file2ButtonActionPerformed
-        promptChooseFile(file2Field);
+        if (singleFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            diffIOController.setFile2(singleFileChooser.getSelectedFile());
+        }
     }//GEN-LAST:event_file2ButtonActionPerformed
 
     private void baseFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_baseFileButtonActionPerformed
-        promptChooseFile(baseFileField);
+        if (singleFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            mergeIOController.setBaseFile(singleFileChooser.getSelectedFile());
+        }
     }//GEN-LAST:event_baseFileButtonActionPerformed
 
     private void leftFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leftFileButtonActionPerformed
-        promptChooseFile(leftFileField);
+        if (singleFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            mergeIOController.setFile1(singleFileChooser.getSelectedFile());
+        }
     }//GEN-LAST:event_leftFileButtonActionPerformed
 
     private void rightFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rightFileButtonActionPerformed
-        promptChooseFile(rightFileField);
+        if (singleFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            mergeIOController.setFile2(singleFileChooser.getSelectedFile());
+        }
     }//GEN-LAST:event_rightFileButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -337,9 +418,37 @@ public class FileSelectWindow extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_mergeOkButtonActionPerformed
 
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        DefaultListModel model = (DefaultListModel) combineList.getModel();
+        if (multiFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            for (File file : multiFileChooser.getSelectedFiles()) {
+                if (!model.contains(file)) {
+                    model.addElement(file);
+                }
+            }
+        }
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
+        DefaultListModel model = (DefaultListModel) combineList.getModel();
+        int[] toRemove = combineList.getSelectedIndices();
+        if (toRemove.length == 0) {
+            return;
+        }
+        model.removeRange(toRemove[0], toRemove[toRemove.length - 1]);
+    }//GEN-LAST:event_removeButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
+    private javax.swing.JPanel addRemoveButtonPanel;
     private javax.swing.JButton baseFileButton;
     private javax.swing.JTextField baseFileField;
+    private javax.swing.JPanel combineButtonPanel;
+    private javax.swing.JButton combineCancelButton;
+    private org.madlonkay.supertmxmerge.CombineIOController combineIOController;
+    private javax.swing.JList combineList;
+    private javax.swing.JButton combineOkButton;
+    private javax.swing.JPanel combinePanel;
     private javax.swing.JPanel diffButtonPanel;
     private javax.swing.JButton diffCancelButton;
     private org.madlonkay.supertmxmerge.DiffIOController diffIOController;
@@ -351,9 +460,9 @@ public class FileSelectWindow extends javax.swing.JFrame {
     private javax.swing.JButton file2Button;
     private javax.swing.JTextField file2Field;
     private org.madlonkay.supertmxmerge.gui.FileStringConverter fileStringConverter;
-    private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -361,6 +470,8 @@ public class FileSelectWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton leftFileButton;
     private javax.swing.JTextField leftFileField;
     private javax.swing.JPanel mergeButtonPanel;
@@ -368,8 +479,11 @@ public class FileSelectWindow extends javax.swing.JFrame {
     private org.madlonkay.supertmxmerge.MergeIOController mergeIOController;
     private javax.swing.JButton mergeOkButton;
     private javax.swing.JPanel mergePanel;
+    private javax.swing.JFileChooser multiFileChooser;
+    private javax.swing.JButton removeButton;
     private javax.swing.JButton rightFileButton;
     private javax.swing.JTextField rightFileField;
+    private javax.swing.JFileChooser singleFileChooser;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
