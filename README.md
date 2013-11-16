@@ -14,57 +14,57 @@ a (relatively) intuitive way.
 
 **Note:** The "merging" implemented by this tool is known as [3-way merge]
 (http://en.wikipedia.org/wiki/Merge_%28revision_control%29#Three-way_merge).
-It is not the same as merely combining the content of three files. Before using
-this tool, please make sure it does what you think it does.
+To simply combine the unique text units of multiple TMXs into a single TMX,
+please use the "combine" feature, not the merge feature.
+
+Requirements
+------------
+
+You must have Java 1.6 or later installed. To use the launch scripts, the Java
+executable must be available on your system PATH. Open a console or terminal
+and type `java -version` verify that Java is installed and configured correctly.
 
 Usage
-=====
+-----
 
 On Windows run `SuperTMXMerge.bat`. On Linux, OS X, etc. run `SuperTMXMerge.sh`.
-This will give you a file selection window.
+This will give you a file selection window. To invoke various features directly
+from the command line, use the following.
 
-File selection window from command line:
+Diff:
 
-    java -jar SuperTMXMerge.jar
+    SuperTMXMerge file1 file2 [-o outputFile]
 
-Command-line diff:
+3-way merge:
 
-    java -jar SuperTMXMerge.jar file1 file2
+    SuperTMXMerge baseFile file1 file2 [outputFile]
 
-Command-line diff, quietly saved to a file (no GUI):
+Multi-file combine:
 
-    java -jar SuperTMXMerge.jar file1 file2 -o outputFile
-
-Command-line 3-way merge:
-
-    java -jar SuperTMXMerge.jar baseFile file1 file2
-
-Command-line 3-way merge (for use with VCS tools):
-
-    java -jar SuperTMXMerge.jar baseFile file1 file2 outputFile
+    SuperTMXMerge --combine file1 file2 [file3...] [-o outputFile]
 
 
 Download
-========
+--------
 
 Binaries are available at <https://github.com/amake/SuperTMXMerge/releases>.
 
 
 License
-=======
+-------
 
 SuperTMXmerge is distributed under the [GNU Lesser General Public License, 
 v2.1](http://www.gnu.org/licenses/lgpl-2.1.html),
 
 
 Source
-======
+------
 
 Source is available at <https://github.com/amake/SuperTMXMerge>.
 
 
 Hints
-=====
+-----
 
 - TMX metadata is exposed as a tooltip on the filename field in the diff and
   merge windows.
@@ -73,13 +73,11 @@ Hints
 
 
 Caveats
-=======
+-------
 
 SuperTMXMerge makes some assumptions about the content of TMX files, namely:
-- Each TU has a "source" TUV such that the TUV's (xml:)lang is equalsIgnoreCase
-  to the TMX's srclang.
-- Each TU has a "target" TUV where the TUV's (xml:)lang is !equalsIgnoreCase to
-  the TMX's srclang.
+- Each TU has a "source" TUV with a language that matches the TMX's srclang.
+- Each TU has a "target" TUV with a language different from the TMX's srclang.
 
 Further, when reading TMX files, SuperTMXMerge uniquely identifies each TU by
 the serialized content of its source-language &lt;seg> and the types and
@@ -96,7 +94,7 @@ by email.
 
 
 Notes
-=====
+-----
 
 When building for release, git must be present on the system's
 path in order to generate the version number correctly. That means
