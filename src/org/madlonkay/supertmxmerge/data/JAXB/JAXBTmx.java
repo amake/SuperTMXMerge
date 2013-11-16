@@ -32,9 +32,11 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -129,21 +131,8 @@ public class JAXBTmx implements ITmx {
         
         DiffSet set = DiffUtil.generateDiffSet(tmx1, tmx2);
         
-        Tmx tmx = new Tmx();
-        tmx.setVersion("1.4");
-        
-        Package pkg = JAXBTmx.class.getPackage();
-        Header header = new Header();
-        tmx.setHeader(header);
-        if (pkg != null) {
-            header.setCreationtool(pkg.getImplementationTitle());
-            header.setCreationtoolversion(pkg.getImplementationVersion());
-        }
-        header.setOTmf(tmx2.tmx.getHeader().getOTmf());
-        header.setSrclang(tmx2.tmx.getHeader().getSrclang());
-        
-        Body body = new Body();
-        tmx.setBody(body);
+        Tmx tmx = newEmptyTmx(tmx2.tmx);
+        Body body = tmx.getBody();
         
         for (Key key : set.added) {
             Tu tu = (Tu) tmx2.getTuMap().get(key).getUnderlyingRepresentation();
@@ -326,5 +315,44 @@ public class JAXBTmx implements ITmx {
     @Override
     public Object getUnderlyingRepresentation() {
         return tmx;
+    }
+    
+    private static Tmx newEmptyTmx(Tmx orig) {
+        Tmx tmx = new Tmx();
+        tmx.setVersion("1.4");
+        
+        Package pkg = JAXBTmx.class.getPackage();
+        Header header = new Header();
+        tmx.setHeader(header);
+        if (pkg != null) {
+            header.setCreationtool(pkg.getImplementationTitle());
+            header.setCreationtoolversion(pkg.getImplementationVersion());
+        }
+        if (orig != null) {
+            header.setOTmf(orig.getHeader().getOTmf());
+            header.setSrclang(orig.getHeader().getSrclang());
+        }
+        
+        Body body = new Body();
+        tmx.setBody(body);
+        
+        return tmx;
+    }
+    
+    public static JAXBTmx newEmptyJAXBTmx(JAXBTmx orig) {
+        return new JAXBTmx(newEmptyTmx(orig.tmx), LocString.get("combined_tmx_name"));
+    }
+    
+    public void combine(JAXBTmx tmx) {
+        Set<Key> toAdd = new HashSet<Key>();
+        toAdd.addAll(tmx.getTuMap().keySet());
+        toAdd.removeAll(this.getTuMap().keySet());
+
+        List<Tu> tus = this.tmx.getBody().getTu();
+        for (Key key : toAdd) {
+            tus.add((Tu) tmx.getTuMap().get(key).getUnderlyingRepresentation());
+        }
+        tuMap = null;
+        tuvMap = null;
     }
 }

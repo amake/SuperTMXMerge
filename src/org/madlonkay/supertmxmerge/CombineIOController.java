@@ -26,6 +26,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
+import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
  *
@@ -33,11 +39,15 @@ import java.util.List;
  */
 public class CombineIOController {
     
+    private static final Logger LOGGER = Logger.getLogger(CombineIOController.class.getName());
+    
     private final PropertyChangeSupport propertySupport;
     
     public static final String PROP_INPUTISVALID = "inputIsValid";
+    public static final String PROP_OUTPUTFILE = "outputFile";
     
     private List<File> files = new ArrayList<File>();
+    private File outputFile;
     
     public CombineIOController() {
         propertySupport = new PropertyChangeSupport(this);
@@ -71,7 +81,58 @@ public class CombineIOController {
         return files.size() >= 2;
     }
     
+    public File getOutputFile() {
+        return this.outputFile;
+    }
+    
+    public void setOutputFile(File outputFile) {
+        File oldOutputFile = this.outputFile;
+        this.outputFile = outputFile;
+        propertySupport.firePropertyChange(PROP_OUTPUTFILE, oldOutputFile, outputFile);
+    }
+    
     public void go() {
+        JAXBTmx combined = null;
+        for (File file : files) {
+            try {
+                JAXBTmx tmx = new JAXBTmx(file);
+                if (combined == null) {
+                    combined = JAXBTmx.newEmptyJAXBTmx(tmx);
+                }
+                combined.combine(tmx);
+            } catch (Exception ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            }
+        }
         
+        if (combined == null) {
+            // User canceled out.
+            return;
+        }
+        while (true) {
+            if (getOutputFile() != null) {
+                break;
+            }
+            // Output location not set.
+            JFileChooser chooser = new JFileChooser();
+            if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+                setOutputFile(chooser.getSelectedFile());
+            } else {
+                int response = JOptionPane.showConfirmDialog(null,
+                    LocString.get("confirm_cancel_save_message"),
+                    LocString.get("combine_window_title"),
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+                if (response == JOptionPane.YES_OPTION) {
+                    return;
+                }
+            }
+        }
+
+        try {
+            combined.writeTo(getOutputFile());
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
     }
 }

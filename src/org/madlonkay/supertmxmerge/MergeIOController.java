@@ -35,6 +35,9 @@ import org.madlonkay.supertmxmerge.util.LocString;
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
 public class MergeIOController extends DiffIOController {
+    
+    private static final Logger LOGGER = Logger.getLogger(MergeIOController.class.getName());
+    
     public static final String PROP_MERGEBASEFILE = "mergeBaseFile";
     
     private File baseFile;
@@ -126,7 +129,7 @@ public class MergeIOController extends DiffIOController {
         try {
             merged.writeTo(getOutputFile());
         } catch (Exception ex) {
-            Logger.getLogger(MergeIOController.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 }
