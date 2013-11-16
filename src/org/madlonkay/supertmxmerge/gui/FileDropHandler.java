@@ -39,6 +39,12 @@ public class FileDropHandler extends TransferHandler {
     
     private static final Logger LOGGER = Logger.getLogger(FileDropHandler.class.getName());
     
+    private IDropCallback callback;
+    
+    public FileDropHandler(IDropCallback callback) {
+        this.callback = callback;
+    }
+    
     @Override
     public boolean canImport(TransferHandler.TransferSupport support) {
         return support.isDataFlavorSupported(DataFlavor.javaFileListFlavor);
@@ -80,6 +86,7 @@ public class FileDropHandler extends TransferHandler {
             return false;
         }
         comp.setText(files.get(0).getAbsolutePath());
+        callback.droppedToTarget(comp);
         return true;
     }
     
@@ -89,8 +96,11 @@ public class FileDropHandler extends TransferHandler {
         }
         DefaultListModel model = (DefaultListModel) comp.getModel();
         for (File file : files) {
-            model.addElement(file.getAbsolutePath());
+            if (!model.contains(file)) {
+                model.addElement(file);
+            }
         }
+        callback.droppedToTarget(comp);
         return true;
     }
 }

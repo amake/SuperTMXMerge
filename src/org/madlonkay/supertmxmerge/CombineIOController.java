@@ -23,6 +23,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 
 /**
@@ -33,7 +35,7 @@ public class CombineIOController {
     
     private final PropertyChangeSupport propertySupport;
     
-    public static final String PROP_FILES = "files";
+    public static final String PROP_INPUTISVALID = "inputIsValid";
     
     private List<File> files = new ArrayList<File>();
     
@@ -56,7 +58,20 @@ public class CombineIOController {
     public void addFile(File file) {
         if (!files.contains(file)) {
             files.add(file);
-            propertySupport.firePropertyChange(PROP_FILES, null, null);
+            propertySupport.firePropertyChange(PROP_INPUTISVALID, null, null);
         }
+    }
+    
+    public void setFiles(Enumeration<File> files) {
+        this.files = Collections.list(files);
+        propertySupport.firePropertyChange(PROP_INPUTISVALID, null, null);
+    }
+    
+    public boolean getInputIsValid() {
+        return files.size() >= 2;
+    }
+    
+    public void go() {
+        
     }
 }

@@ -134,8 +134,8 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
                         <Property name="columns" type="int" value="1"/>
-                        <Property name="rows" type="int" value="0"/>
                         <Property name="verticalGap" type="int" value="1"/>
+                        <Property name="rows" type="int" value="0"/>
                       </Layout>
                       <SubComponents>
                         <Component class="javax.swing.JTextField" name="file1Field">
@@ -302,8 +302,8 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
                     <Property name="columns" type="int" value="1"/>
-                    <Property name="rows" type="int" value="0"/>
                     <Property name="verticalGap" type="int" value="1"/>
+                    <Property name="rows" type="int" value="0"/>
                   </Layout>
                   <SubComponents>
                     <Component class="javax.swing.JTextField" name="baseFileField">
@@ -512,8 +512,11 @@
                         </Property>
                       </Properties>
                       <BindingProperties>
-                        <BindingProperty name="enabled" source="combineList" sourcePath="${model.size &gt; 2}" target="combineOkButton" targetPath="enabled" updateStrategy="0" immediately="false"/>
+                        <BindingProperty name="enabled" source="combineIOController" sourcePath="${inputIsValid}" target="combineOkButton" targetPath="enabled" updateStrategy="0" immediately="false"/>
                       </BindingProperties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="combineOkButtonActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="combineCancelButton">
                       <Properties>

@@ -18,7 +18,9 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
+import java.awt.Component;
 import java.io.File;
+import java.util.Enumeration;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
@@ -31,7 +33,7 @@ import org.madlonkay.supertmxmerge.util.LocString;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class FileSelectWindow extends javax.swing.JFrame {
+public class FileSelectWindow extends javax.swing.JFrame implements IDropCallback {
     
     private final static Logger LOGGER = Logger.getLogger(FileSelectWindow.class.getName());
     
@@ -43,13 +45,21 @@ public class FileSelectWindow extends javax.swing.JFrame {
      */
     public FileSelectWindow() {
         initComponents();
-        TransferHandler th = new FileDropHandler();
+        TransferHandler th = new FileDropHandler(this);
         file1Field.setTransferHandler(th);
         file2Field.setTransferHandler(th);
         leftFileField.setTransferHandler(th);
         rightFileField.setTransferHandler(th);
         baseFileField.setTransferHandler(th);
         combineList.setTransferHandler(th);
+    }
+    
+    @Override
+    public void droppedToTarget(Component component) {
+        if (component == combineList) {
+            DefaultListModel model = (DefaultListModel) combineList.getModel();
+            combineIOController.setFiles((Enumeration<File>)model.elements());
+        }
     }
     
     /**
@@ -338,9 +348,14 @@ public class FileSelectWindow extends javax.swing.JFrame {
 
         combineOkButton.setText(LocString.get("ok_button")); // NOI18N
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, combineList, org.jdesktop.beansbinding.ELProperty.create("${model.size > 2}"), combineOkButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, combineIOController, org.jdesktop.beansbinding.ELProperty.create("${inputIsValid}"), combineOkButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
+        combineOkButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combineOkButtonActionPerformed(evt);
+            }
+        });
         jPanel13.add(combineOkButton);
 
         combineCancelButton.setText(LocString.get("cancel_button")); // NOI18N
@@ -427,16 +442,30 @@ public class FileSelectWindow extends javax.swing.JFrame {
                 }
             }
         }
+        combineIOController.setFiles((Enumeration<File>)model.elements());
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         DefaultListModel model = (DefaultListModel) combineList.getModel();
-        int[] toRemove = combineList.getSelectedIndices();
+        Object[] toRemove = combineList.getSelectedValues();
         if (toRemove.length == 0) {
             return;
         }
-        model.removeRange(toRemove[0], toRemove[toRemove.length - 1]);
+        for (Object o : toRemove) {
+            model.removeElement(o);
+        }
+        combineIOController.setFiles((Enumeration<File>)model.elements());
     }//GEN-LAST:event_removeButtonActionPerformed
+
+    private void combineOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combineOkButtonActionPerformed
+        dispose();
+        GuiUtil.safelyRunBlockingRoutine(new Runnable() {
+            @Override
+            public void run() {
+                combineIOController.go();
+            }
+        });
+    }//GEN-LAST:event_combineOkButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
