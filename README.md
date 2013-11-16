@@ -70,6 +70,10 @@ Hints
   merge windows.
 - TU metadata (when present) is exposed as a tooltip on the change or conflict
   item itself (place your cursor on the item's chrome, outside of a text field).
+- When merging, character-level diff highlighting is shown. The differences
+  between the left and center are shown in red and green; the right and center
+  are yellow and blue. (Red and yellow are deletions; green and blue are
+  insertions.)
 
 
 Caveats
