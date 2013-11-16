@@ -19,6 +19,8 @@
 package org.madlonkay.supertmxmerge;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
@@ -55,8 +57,28 @@ public class Main {
                     SuperTmxMerge.promptForFiles();
                     return;
                 }
-
-                if (theArgs.length == 2) {
+                
+                // The order of these tests is important!
+                
+                if ("--combine".equals(theArgs[0])) {
+                    List<File> files = new ArrayList<File>();
+                    File outputFile = null;
+                    int i;
+                    for (i = 1; i < theArgs.length; i++) {
+                        if ("-o".equals(theArgs[i])) {
+                            break;
+                        }
+                        File file = new File(theArgs[i]);
+                        if (!files.contains(file)) {
+                            files.add(file);
+                        }
+                    }
+                    if (i < theArgs.length - 1) {
+                        outputFile = new File(theArgs[i + 1]);
+                    }
+                    SuperTmxMerge.combineTo(outputFile, files.toArray(new File[0]));
+                    return;
+                } else if (theArgs.length == 2) {
                     SuperTmxMerge.diff(new File(theArgs[0]), new File(theArgs[1]));
                     return;
                 } else if (theArgs.length == 3) {

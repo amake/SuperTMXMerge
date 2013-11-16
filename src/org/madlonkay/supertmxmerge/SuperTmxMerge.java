@@ -82,6 +82,17 @@ public class SuperTmxMerge {
         controller.go();
     }
     
+    public static void combine(File... files) {
+        combineTo(null, files);
+    }
+    
+    public static void combineTo(File outputFile, File... files) {
+        CombineIOController controller = new CombineIOController();
+        controller.setFiles(files);
+        controller.setOutputFile(outputFile);
+        controller.go();
+    }
+    
     public static void promptForFiles() {
         FileSelectWindow window = new FileSelectWindow();
         GuiUtil.displayWindow(window);
