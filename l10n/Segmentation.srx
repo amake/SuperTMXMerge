@@ -19,6 +19,10 @@
 <beforebreak>\.</beforebreak>
 <afterbreak>\s</afterbreak>
 </rule>
+<rule break="yes">
+<beforebreak>\n</beforebreak>
+<afterbreak>.</afterbreak>
+</rule>
 </languagerule>
 </languagerules>
 <maprules>
