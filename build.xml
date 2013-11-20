@@ -26,6 +26,10 @@
         </okapi:translate> 
     </target>
 
+    <target name="post-translate" description="Post-process translation kit" if="okapi.present">
+        <okapi:post-translate srcLang="en-us" />
+    </target>
+
     <!-- git integration from http://stackoverflow.com/a/4059546 -->
     <available file=".git" type="dir" property="git.present"/>
     <target name="git.revision" description="Store git revision in ${repository.version}" if="git.present">
