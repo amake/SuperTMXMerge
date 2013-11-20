@@ -12,7 +12,7 @@
     <available file="${okapi.lib}" type="dir" property="okapi.present" />
     <path id="okapi.classpath">
         <fileset dir="${okapi.lib}" includes="**/*.jar" />
-        <fileset dir="lib" includes="okapi-ant-1.0.0.jar" />
+        <fileset dir="lib" includes="okapi-ant-1.1-SNAPSHOT.jar" />
     </path>
     <taskdef uri="antlib:com.spartansoftwareinc.okapi.ant"
         resource="com/spartansoftwareinc/okapi/ant/antlib.xml"
@@ -21,7 +21,7 @@
     <!-- Okapi Translate task -->
     <target name="translate" description="Translate localizable assets" if="okapi.present">
         <okapi:translate srcLang="en-us" srx="l10n/Segmentation.srx">
-            <filterMapping extension=".properties" filterConfig="okf_properties" />
+            <filterMapping extension=".properties" filterConfig="okf_properties@noInlineCodes" />
             <fileset dir="src" includes="**/Strings.properties" />
         </okapi:translate> 
     </target>
