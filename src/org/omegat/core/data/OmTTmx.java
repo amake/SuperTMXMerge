@@ -18,7 +18,6 @@
 package org.omegat.core.data;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -27,6 +26,7 @@ import org.madlonkay.supertmxmerge.data.ITu;
 import org.madlonkay.supertmxmerge.data.ITuv;
 import org.madlonkay.supertmxmerge.data.Key;
 import org.madlonkay.supertmxmerge.data.ResolutionSet;
+import org.madlonkay.supertmxmerge.data.WriteFailedException;
 
 /**
  *
@@ -174,7 +174,7 @@ public class OmTTmx implements ITmx {
     }
 
     @Override
-    public void writeTo(File outputFile) throws Exception {
+    public void writeTo(File outputFile) throws WriteFailedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

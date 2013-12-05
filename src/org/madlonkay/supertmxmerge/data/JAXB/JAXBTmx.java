@@ -56,6 +56,7 @@ import org.madlonkay.supertmxmerge.data.ITu;
 import org.madlonkay.supertmxmerge.data.ITuv;
 import org.madlonkay.supertmxmerge.data.Key;
 import org.madlonkay.supertmxmerge.data.ResolutionSet;
+import org.madlonkay.supertmxmerge.data.WriteFailedException;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 import org.madlonkay.supertmxmerge.util.ReflectionUtil;
@@ -317,10 +318,18 @@ public class JAXBTmx implements ITmx {
     }
     
     @Override
-    public void writeTo(File output) throws JAXBException, FileNotFoundException, XMLStreamException {
-        OutputStream stream = new FileOutputStream(output);
-        XMLStreamWriter writer = XMLOutputFactory.newInstance().createXMLStreamWriter(stream);
-        MARSHALLER.marshal(tmx, new TmxWriter(writer));
+    public void writeTo(File output) throws WriteFailedException {
+        try {
+            OutputStream stream = new FileOutputStream(output);
+            XMLStreamWriter writer = XMLOutputFactory.newInstance().createXMLStreamWriter(stream);
+            MARSHALLER.marshal(tmx, new TmxWriter(writer));
+        } catch (FileNotFoundException ex) {
+            throw new WriteFailedException(ex);
+        } catch (JAXBException ex) {
+            throw new WriteFailedException(ex);
+        } catch (XMLStreamException ex) {
+            throw new WriteFailedException(ex);
+        }
     }
 
     @Override

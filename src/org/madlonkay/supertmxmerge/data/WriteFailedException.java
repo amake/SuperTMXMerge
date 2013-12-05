@@ -16,32 +16,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package org.madlonkay.supertmxmerge.data;
 
-import java.io.File;
-import java.util.Map;
+package org.madlonkay.supertmxmerge.data;
 
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public interface ITmx {
+public class WriteFailedException extends Exception {
     
-    public Map<Key, ITuv> getTuvMap();
+    public WriteFailedException() {
+    }
     
-    public Map<Key, ITu> getTuMap();
+    public WriteFailedException(String message) {
+        super(message);
+    }
     
-    public String getSourceLanguage();
+    public WriteFailedException(Throwable cause) {
+        super(cause);
+    }
     
-    public String getName();
-    
-    public int getSize();
-    
-    public Map<String, String> getMetadata();
-    
-    public ITmx applyChanges(ResolutionSet resolution);
-    
-    public void writeTo(File outputFile) throws WriteFailedException;
-    
-    public Object getUnderlyingRepresentation();
+    public WriteFailedException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
