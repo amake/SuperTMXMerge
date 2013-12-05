@@ -66,9 +66,13 @@ public class JAXBTu implements ITu {
     public Key getKey() {
         ITuv sourceTuv = getSourceTuv();
         Key key;
+        // If there is no relevant source TUV, make a null key with
+        // all the TUV contents as properties.
         if (sourceTuv == null) {
             key = new Key(null, null);
-            key.addProp("tuHashCode", String.valueOf(tu.hashCode()));
+            for (Tuv tuv : tu.getTuv()) {
+                key.addProp(JAXBTuv.getLanguage(tuv), new JAXBTuv(tuv).getContent());
+            }
         } else {
             key = new Key(sourceTuv.getContent(), null);
         }
