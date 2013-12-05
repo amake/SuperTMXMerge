@@ -102,6 +102,7 @@ public class JAXBTmx implements ITmx {
             CONTEXT = JAXBContext.newInstance(Tmx.class);
             UNMARSHALLER = CONTEXT.createUnmarshaller();
             MARSHALLER = CONTEXT.createMarshaller();
+            MARSHALLER.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
             // We can't simply use JAXB_FORMATTED_OUTPUT because it will add unwanted
             // whitespace to <seg>s that have complex content; use a custom
             // TmxWriter instead (see `writeTo(File)`).
@@ -321,7 +322,7 @@ public class JAXBTmx implements ITmx {
     public void writeTo(File output) throws WriteFailedException {
         try {
             OutputStream stream = new FileOutputStream(output);
-            XMLStreamWriter writer = XMLOutputFactory.newInstance().createXMLStreamWriter(stream);
+            XMLStreamWriter writer = XMLOutputFactory.newInstance().createXMLStreamWriter(stream, "UTF-8");
             MARSHALLER.marshal(tmx, new TmxWriter(writer));
         } catch (FileNotFoundException ex) {
             throw new WriteFailedException(ex);
