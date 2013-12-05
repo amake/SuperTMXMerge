@@ -30,6 +30,8 @@ import org.madlonkay.supertmxmerge.data.ITuv;
  */
 public class JAXBTuv implements ITuv {
     
+    public static final JAXBTuv EMPTY_TUV = new JAXBTuv(null);
+    
     private final Tuv tuv;
     
     public JAXBTuv(Tuv tuv) {
@@ -38,6 +40,9 @@ public class JAXBTuv implements ITuv {
     
     @Override
     public String getContent() {
+        if (tuv == null) {
+            return null;
+        }
         List<Object> content = tuv.getSeg().getContent();
         return content.isEmpty() ? "" : extractContent(content);
     }
@@ -74,6 +79,9 @@ public class JAXBTuv implements ITuv {
     
     @Override
     public boolean equals(ITuv tuv) {
+        if (this.tuv == null) {
+            return tuv.getContent() == null;
+        }
         return getContent().equals(tuv.getContent());
     }
     
@@ -84,6 +92,9 @@ public class JAXBTuv implements ITuv {
     
     @Override
     public String getLanguage() {
+        if (tuv == null) {
+            return null;
+        }
         return getLanguage(this.tuv);
     }
     

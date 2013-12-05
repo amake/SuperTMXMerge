@@ -256,7 +256,8 @@ public class JAXBTmx implements ITmx {
             assert(!tuMap.containsKey(key));
             assert(!tuvMap.containsKey(key));
             tuMap.put(key, tu);
-            tuvMap.put(key, tu.getTargetTuv());
+            ITuv tuv = tu.getTargetTuv();
+            tuvMap.put(key, tuv == null ? JAXBTuv.EMPTY_TUV : tuv);
         }
     }
     
