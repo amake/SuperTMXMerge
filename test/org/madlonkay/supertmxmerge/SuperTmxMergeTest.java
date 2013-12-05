@@ -18,11 +18,18 @@
 package org.madlonkay.supertmxmerge;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.madlonkay.supertmxmerge.data.DiffSet;
+import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
+import org.madlonkay.supertmxmerge.util.DiffUtil;
 
 /**
  *
@@ -51,39 +58,95 @@ public class SuperTmxMergeTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of diff method, of class SuperTmxMerge.
-     */
     @Test
     public void testDiffGui() {
-        System.out.println("diff");
         File file1 = getFilePath("resources/base.tmx");
         File file2 = getFilePath("resources/left.tmx");
         if (DO_GUI_TESTS) SuperTmxMerge.diff(file1, file2);
     }
 
-    /**
-     * Test of merge method, of class SuperTmxMerge.
-     */
     @Test
     public void testMergeGui() {
-        System.out.println("merge");
         File baseFile = getFilePath("resources/base.tmx");
         File file1 = getFilePath("resources/left.tmx");
         File file2 = getFilePath("resources/right.tmx");
         if (DO_GUI_TESTS) SuperTmxMerge.merge(baseFile, file1, file2);
     }
 
-    /**
-     * Test of promptForFiles method, of class SuperTmxMerge.
-     */
     @Test
     public void testPromptForFilesGui() {
-        System.out.println("promptForFiles");
         if (DO_GUI_TESTS) SuperTmxMerge.promptForFiles();
+    }
+    
+    @Test
+    public void testDiffTo() throws Exception {
+        File baseFile = getFilePath("resources/base.tmx");
+        File file1 = getFilePath("resources/left.tmx");
+        File outFile = new File(file1.getParentFile(), "output.tmx");
+        SuperTmxMerge.diffTo(baseFile, file1, outFile);
+        
+        File goldFile = new File(file1.getParentFile(), "gold/diffToGold.tmx");
+        
+        ensureEmptyDiff(outFile, goldFile);
+        
+        outFile.delete();
+    }
+    
+    @Test
+    public void testMergeTo() throws Exception {
+        File baseFile = getFilePath("resources/base.tmx");
+        File file1 = getFilePath("resources/left-no-conflict.tmx");
+        File file2 = getFilePath("resources/right-no-conflict.tmx");
+        File outFile = new File(file1.getParentFile(), "output.tmx");
+        SuperTmxMerge.mergeTo(baseFile, file1, file2, outFile);
+        
+        File goldFile = new File(file1.getParentFile(), "gold/mergeToGold.tmx");
+        
+        ensureEmptyDiff(outFile, goldFile);
+        
+        outFile.delete();
+    }
+    
+    @Test
+    public void testMergeBidirectional() throws Exception {
+        File baseFile = getFilePath("resources/base.tmx");
+        File file1 = getFilePath("resources/left-no-conflict.tmx");
+        File file2 = getFilePath("resources/right-no-conflict.tmx");
+        File outFile1 = new File(file1.getParentFile(), "output1.tmx");
+        SuperTmxMerge.mergeTo(baseFile, file1, file2, outFile1);
+        
+        File outFile2 = new File(file1.getParentFile(), "output2.tmx");
+        SuperTmxMerge.mergeTo(baseFile, file2, file1, outFile2);
+                
+        ensureEmptyDiff(outFile1, outFile2);
+        
+        outFile1.delete();
+        outFile2.delete();
     }
     
     private File getFilePath(String identifier) {
         return new File(getClass().getClassLoader().getResource(identifier).getFile());
+    }
+    
+    private void ensureEmptyDiff(File file1, File file2) throws Exception {
+        DiffSet diff = DiffUtil.generateDiffSet(new JAXBTmx(file1), new JAXBTmx(file2));
+        assertTrue(diff.added.isEmpty());
+        assertTrue(diff.deleted.isEmpty());
+        assertTrue(diff.modified.isEmpty());
+    }
+    
+    private boolean compareFileTextContent(File file1, File file2) throws IOException {
+        String content1 = normalize(getFileTextContent(file1));
+        String content2 = normalize(getFileTextContent(file2));
+        
+        return content1.equals(content2);
+    }
+    
+    private String getFileTextContent(File file) throws IOException {
+        return new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+    }
+    
+    private String normalize(String string) {
+        return string.replace("\r\n", "\n");
     }
 }
