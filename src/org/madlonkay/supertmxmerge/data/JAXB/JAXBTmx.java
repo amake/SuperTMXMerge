@@ -151,8 +151,8 @@ public class JAXBTmx implements ITmx {
             
             Prop prop = new Prop();
             tu.getNoteOrProp().add(prop);
-            prop.setType("x-diff-type");
-            prop.setContent("added");
+            prop.setType(DiffUtil.DIFF_PROP_TYPE);
+            prop.setContent(DiffUtil.DIFF_PROP_VALUE_ADDED);
         }
         
         for (Key key : set.deleted) {
@@ -161,8 +161,8 @@ public class JAXBTmx implements ITmx {
             
             Prop prop = new Prop();
             tu.getNoteOrProp().add(prop);
-            prop.setType("x-diff-type");
-            prop.setContent("deleted");
+            prop.setType(DiffUtil.DIFF_PROP_TYPE);
+            prop.setContent(DiffUtil.DIFF_PROP_VALUE_DELETED);
         }
         
         for (Key key : set.modified) {
@@ -175,20 +175,20 @@ public class JAXBTmx implements ITmx {
             
             Prop prop = new Prop();
             tu.getNoteOrProp().add(prop);
-            prop.setType("x-diff-type");
-            prop.setContent("modified");
+            prop.setType(DiffUtil.DIFF_PROP_TYPE);
+            prop.setContent(DiffUtil.DIFF_PROP_VALUE_MODIFIED);
             
             Prop prop1 = new Prop();
             Tuv tuv1 = (Tuv) tu1.getTargetTuv().getUnderlyingRepresentation();
             tuv1.getNoteOrProp().add(prop1);
-            prop1.setType("x-diff-modified");
-            prop1.setContent("before");
+            prop1.setType(DiffUtil.DIFF_PROP_MODIFIED_TYPE);
+            prop1.setContent(DiffUtil.DIFF_PROP_MODIFIED_VALUE_BEFORE);
             
             Prop prop2 = new Prop();
             Tuv tuv2 = (Tuv) tu2.getTargetTuv().getUnderlyingRepresentation();
             tuv2.getNoteOrProp().add(prop2);
-            prop2.setType("x-diff-modified");
-            prop2.setContent("after");
+            prop2.setType(DiffUtil.DIFF_PROP_MODIFIED_TYPE);
+            prop2.setContent(DiffUtil.DIFF_PROP_MODIFIED_VALUE_AFTER);
         }
         
         return new JAXBTmx(tmx, "diff");

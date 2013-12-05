@@ -46,6 +46,15 @@ import org.madlonkay.supertmxmerge.data.ResolutionSet;
  */
 public class DiffUtil {
     
+    public static final String DIFF_PROP_TYPE = "x-diff-type";
+    public static final String DIFF_PROP_VALUE_ADDED = "added";
+    public static final String DIFF_PROP_VALUE_DELETED = "deleted";
+    public static final String DIFF_PROP_VALUE_MODIFIED = "modified";
+    
+    public static final String DIFF_PROP_MODIFIED_TYPE = "x-diff-modified";
+    public static final String DIFF_PROP_MODIFIED_VALUE_BEFORE = "before";
+    public static final String DIFF_PROP_MODIFIED_VALUE_AFTER = "after";
+    
     private static final AttributeSet STYLE_INSERTED;
     private static final AttributeSet STYLE_INSERTED_ALT;
     private static final AttributeSet STYLE_DELETED;
