@@ -162,8 +162,11 @@ public class DiffUtil {
             }
             ITuv leftTuv = leftTmx.getTuvMap().get(key);
             ITuv rightTuv = rightTmx.getTuvMap().get(key);
-            if (leftTuv == null || rightTuv.equals(leftTuv)) {
+            if (leftTuv == null) {
                 toAdd.add(rightTmx.getTuMap().get(key));
+            } else if (rightTuv.equals(leftTuv)) {
+                // We don't add in this case because it would duplicate when we added
+                // in the similar case above.
             } else {
                 conflicts.add(new ConflictInfo(key, rightTmx.getSourceLanguage(), rightTuv.getLanguage(),
                         null, leftTuv.getContent(), rightTuv.getContent()));
