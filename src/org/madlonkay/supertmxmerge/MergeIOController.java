@@ -25,6 +25,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
+import org.madlonkay.supertmxmerge.data.WriteFailedException;
 import org.madlonkay.supertmxmerge.gui.ProgressWindow;
 import org.madlonkay.supertmxmerge.util.FileUtil;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
@@ -128,7 +129,7 @@ public class MergeIOController extends DiffIOController {
 
         try {
             merged.writeTo(getOutputFile());
-        } catch (Exception ex) {
+        } catch (WriteFailedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }

@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
+import org.madlonkay.supertmxmerge.data.WriteFailedException;
 import org.madlonkay.supertmxmerge.gui.ProgressWindow;
 import org.madlonkay.supertmxmerge.util.FileUtil;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
@@ -132,7 +133,7 @@ public class DiffIOController {
             ITmx outTmx = JAXBTmx.createFromDiff((JAXBTmx) tmx1, (JAXBTmx) tmx2);
             try {
                 outTmx.writeTo(outputFile);
-            } catch (Exception ex) {
+            } catch (WriteFailedException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
         } else {

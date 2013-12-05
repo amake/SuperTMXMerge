@@ -30,6 +30,7 @@ import javax.swing.JOptionPane;
 import org.madlonkay.supertmxmerge.data.DiffInfo;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
+import org.madlonkay.supertmxmerge.data.WriteFailedException;
 import org.madlonkay.supertmxmerge.gui.DiffWindow;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
@@ -134,7 +135,7 @@ public class DiffController implements Serializable {
         
         try {
             outTmx.writeTo(outFile);
-        } catch (Exception ex) {
+        } catch (WriteFailedException ex) {
             Logger.getLogger(DiffController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

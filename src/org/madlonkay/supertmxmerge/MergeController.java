@@ -58,7 +58,7 @@ public class MergeController implements Serializable, ActionListener {
     private ITmx leftTmx;
     private ITmx rightTmx;
         
-    private final Map<Key, AbstractButton[]> selections = new HashMap<Key, AbstractButton[]>();
+    private final Map<Key, AbstractButton[]> selections = new HashMap<>();
     
     private ResolutionSet resolution;
     
