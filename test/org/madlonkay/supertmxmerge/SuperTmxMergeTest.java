@@ -85,7 +85,7 @@ public class SuperTmxMergeTest {
         File outFile = new File(file1.getParentFile(), "output.tmx");
         SuperTmxMerge.diffTo(baseFile, file1, outFile);
         
-        File goldFile = new File(file1.getParentFile(), "gold/diffToGold.tmx");
+        File goldFile = getFilePath("resources/gold/diffToGold.tmx");
         
         ensureEmptyDiff(outFile, goldFile);
         
@@ -100,7 +100,7 @@ public class SuperTmxMergeTest {
         File outFile = new File(file1.getParentFile(), "output.tmx");
         SuperTmxMerge.mergeTo(baseFile, file1, file2, outFile);
         
-        File goldFile = new File(file1.getParentFile(), "gold/mergeToGold.tmx");
+        File goldFile = getFilePath("resources/gold/mergeToGold.tmx");
         
         ensureEmptyDiff(outFile, goldFile);
         
@@ -122,6 +122,35 @@ public class SuperTmxMergeTest {
         
         outFile1.delete();
         outFile2.delete();
+    }
+    
+    @Test
+    public void testMergeBaseless() throws Exception {
+        File baseFile = null;
+        File file1 = getFilePath("resources/left-no-conflict.tmx");
+        File file2 = getFilePath("resources/right-no-conflict-baseless.tmx");
+        File outFile = new File(file1.getParentFile(), "output.tmx");
+        SuperTmxMerge.mergeTo(baseFile, file1, file2, outFile);
+        
+        File goldFile = getFilePath("resources/gold/baselessMergeToGold.tmx");
+                
+        ensureEmptyDiff(outFile, goldFile);
+        
+        outFile.delete();
+    }
+    
+    @Test
+    public void testCombineTo() throws Exception {
+        File file1 = getFilePath("resources/base-part1.tmx");
+        File file2 = getFilePath("resources/base-part2.tmx");
+        File file3 = getFilePath("resources/base-part3.tmx");
+        File outFile = new File(file1.getParentFile(), "output.tmx");
+        SuperTmxMerge.combineTo(outFile, file1, file2, file3);
+        
+        File goldFile = getFilePath("resources/base.tmx");
+        ensureEmptyDiff(outFile, goldFile);
+        
+        outFile.delete();
     }
     
     private File getFilePath(String identifier) {

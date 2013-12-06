@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tmx SYSTEM "tmx11.dtd">
+<tmx version="1.1">
+  <header creationtool="OmegaT" o-tmf="OmegaT TMX" adminlang="EN-US" datatype="plaintext" creationtoolversion="3.0.4_3" segtype="sentence" srclang="en-us"/>
+  <body>
+<!-- Default translations -->
+    <tu>
+      <tuv lang="en-us">
+        <seg>Not present</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103101Z" creationid="aaron.madlon-kay" creationdate="20130831T103101Z">
+        <seg>なし</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>OK</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103423Z" creationid="aaron.madlon-kay" creationdate="20130831T103423Z">
+        <seg>OK</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Right file...</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103610Z" creationid="aaron.madlon-kay" creationdate="20130831T103610Z">
+        <seg>右ファイル...</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>SuperTMXMerge - Select files</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103624Z" creationid="aaron.madlon-kay" creationdate="20130831T103624Z">
+        <seg>SuperTMXMerge - ファイル選択</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>TMX files</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103630Z" creationid="aaron.madlon-kay" creationdate="20130831T103630Z">
+        <seg>TMXファイル</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Usage:</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103324Z" creationid="aaron.madlon-kay" creationdate="20130831T103324Z">
+        <seg>使用方法</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Use all base</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103537Z" creationid="aaron.madlon-kay" creationdate="20130831T103147Z">
+        <seg>親をすべて使用</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Use all left</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103142Z" creationid="aaron.madlon-kay" creationdate="20130831T103142Z">
+        <seg>左をすべて使用</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Use all right</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103152Z" creationid="aaron.madlon-kay" creationdate="20130831T103152Z">
+        <seg>右をすべて使用</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Use base</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103531Z" creationid="aaron.madlon-kay" creationdate="20130831T103127Z">
+        <seg>親を使用</seg>
+      </tuv>
+    </tu>
+  </body>
+</tmx>

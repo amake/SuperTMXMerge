@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tmx SYSTEM "tmx11.dtd">
+<tmx version="1.1">
+  <header creationtool="OmegaT" o-tmf="OmegaT TMX" adminlang="EN-US" datatype="plaintext" creationtoolversion="3.0.4_3" segtype="sentence" srclang="en-us"/>
+  <body>
+<!-- Default translations -->
+    <tu>
+      <tuv lang="en-us">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103424Z" creationid="aaron.madlon-kay" creationdate="20130831T103424Z">
+        <seg>キャンセル</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Deleted</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103052Z" creationid="aaron.madlon-kay" creationdate="20130831T103043Z">
+        <seg>削除済み</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Diff</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103411Z" creationid="aaron.madlon-kay" creationdate="20130831T103411Z">
+        <seg>差分</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Diff:</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103327Z" creationid="aaron.madlon-kay" creationdate="20130831T103327Z">
+        <seg>差分</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Error obtaining canonical path for file:
+{0}</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103316Z" creationid="aaron.madlon-kay" creationdate="20130831T103316Z">
+        <seg>ファイルの正規パスを取得できませんでした
+{0}</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>File 1...</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103417Z" creationid="aaron.madlon-kay" creationdate="20130831T103417Z">
+        <seg>ファイル１...</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>File 2...</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103421Z" creationid="aaron.madlon-kay" creationdate="20130831T103421Z">
+        <seg>ファイル２...</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Input file does not exist or is unreadable:
+{0}</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103216Z" creationid="aaron.madlon-kay" creationdate="20130831T103216Z">
+        <seg>入力ファイルは存在しないか、読み取りできません
+{0}</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Left file...</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103606Z" creationid="aaron.madlon-kay" creationdate="20130831T103606Z">
+        <seg>左ファイル...</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en-us">
+        <seg>Merge</seg>
+      </tuv>
+      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103412Z" creationid="aaron.madlon-kay" creationdate="20130831T103412Z">
+        <seg>マージ</seg>
+      </tuv>
+    </tu>
+  </body>
+</tmx>
