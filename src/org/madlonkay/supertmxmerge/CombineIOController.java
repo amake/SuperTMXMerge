@@ -31,6 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
 import org.madlonkay.supertmxmerge.data.WriteFailedException;
 import org.madlonkay.supertmxmerge.util.LocString;
@@ -99,23 +100,30 @@ public class CombineIOController {
     }
     
     public void go() {
-        JAXBTmx combined = null;
-        for (File file : files) {
+        JAXBTmx combined;
+        try {
+            combined = new JAXBTmx(files.get(0));
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+        ITmx empty = JAXBTmx.newEmptyJAXBTmx(combined);
+        
+        MergeController merger = new MergeController();
+        merger.setIsTwoWayMerge(true);
+        
+        for (int i = 1; i < files.size(); i++) {
             try {
-                JAXBTmx tmx = new JAXBTmx(file);
+                JAXBTmx next = new JAXBTmx(files.get(i));
+                combined = (JAXBTmx) merger.merge(empty, combined, next);
                 if (combined == null) {
-                    combined = JAXBTmx.newEmptyJAXBTmx(tmx);
+                    // User canceled out.
+                    return;
                 }
-                combined.combine(tmx);
             } catch (Exception ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
         }
         
-        if (combined == null) {
-            // User canceled out.
-            return;
-        }
         while (true) {
             if (getOutputFile() != null) {
                 break;
