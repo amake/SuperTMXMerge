@@ -37,17 +37,22 @@ public class MergeWindow extends javax.swing.JFrame {
 
     private final ProgressWindow progress;
     
-    private final List<JRadioButton> leftRadioButtons = new ArrayList<JRadioButton>();
-    private final List<JRadioButton> rightRadioButtons = new ArrayList<JRadioButton>();
-    private final List<JRadioButton> centerRadioButtons = new ArrayList<JRadioButton>();
+    private final List<JRadioButton> leftRadioButtons = new ArrayList<>();
+    private final List<JRadioButton> rightRadioButtons = new ArrayList<>();
+    private final List<JRadioButton> centerRadioButtons = new ArrayList<>();
+    
+    private boolean isTwoWayMerge = false;
         
     /**
      * Creates new form MergeWindow
+     * @param controller
+     * @param isTwoWayMerge
      */
-    public MergeWindow(MergeController controller) {
+    public MergeWindow(MergeController controller, boolean isTwoWayMerge) {
         progress = new ProgressWindow();
         
         this.controller = controller;
+        this.isTwoWayMerge = isTwoWayMerge;
         initComponents();
         
         // Keep tooltips open. Via:
@@ -55,6 +60,10 @@ public class MergeWindow extends javax.swing.JFrame {
         ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
         
         initContent();
+        
+        allBaseButton.setVisible(!isTwoWayMerge);
+        centerFilename.setVisible(!isTwoWayMerge);
+        centerTextUnits.setVisible(!isTwoWayMerge);
     }
     
     private void initContent() {
@@ -71,6 +80,7 @@ public class MergeWindow extends javax.swing.JFrame {
     
     private void addMergeInfo(int itemNumber, ConflictInfo info) {
         MergeCell cell = new MergeCell(itemNumber, info);
+        cell.setIsTwoWayMerge(isTwoWayMerge);
         JRadioButton[] buttons = {
                 cell.getLeftButton(),
                 cell.getCenterButton(),

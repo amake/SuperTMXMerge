@@ -64,6 +64,7 @@ public class MergeController implements Serializable, ActionListener {
     
     private boolean canCancel = true;
     private boolean quiet = false;
+    private boolean isTwoWayMerge = false;
     
     public MergeController() {
         propertySupport = new PropertyChangeSupport(this);
@@ -90,10 +91,10 @@ public class MergeController implements Serializable, ActionListener {
         
         if (!resolution.conflicts.isEmpty()) {
             // Have conflicts; show window.
-            MergeWindow window = new MergeWindow(this);
+            MergeWindow window = new MergeWindow(this, isTwoWayMerge);
             GuiUtil.displayWindow(window);
             GuiUtil.blockOnWindow(window);
-        } else if (!quiet) {
+        } else if (!quiet && !isTwoWayMerge) {
             // Files merged with no conflicts.
             showDiff = JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null,
                     LocString.get("no_conflicts_message"),
@@ -192,6 +193,14 @@ public class MergeController implements Serializable, ActionListener {
     
     public boolean isQuiet() {
         return quiet;
+    }
+    
+    public void setIsTwoWayMerge(boolean isTwoWayMerge) {
+        this.isTwoWayMerge = isTwoWayMerge;
+    }
+    
+    public boolean isTwoWayMerge() {
+        return isTwoWayMerge;
     }
 
     @Override

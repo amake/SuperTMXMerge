@@ -60,9 +60,9 @@ public class MergeIOController extends DiffIOController {
     
     @Override
     public boolean getInputIsValid() {
-        return FileUtil.validateFile(getBaseFile()) && FileUtil.validateFile(getFile1())
-                && FileUtil.validateFile(getFile2())
-                && !getBaseFile().equals(getFile1()) && !getBaseFile().equals(getFile2())
+        return FileUtil.validateFile(getFile1()) && FileUtil.validateFile(getFile2())
+                && (getBaseFile() == null || !getBaseFile().equals(getFile1()))
+                && (getBaseFile() == null || !getBaseFile().equals(getFile2()))
                 && !getFile1().equals(getFile2());
     }
     
@@ -83,14 +83,20 @@ public class MergeIOController extends DiffIOController {
         ITmx rightTmx;
         try {
             progress.setValue(0);
-            progress.setMessage(LocString.getFormat("file_progress", getBaseFile().getName(), 1, 3));
-            baseTmx = new JAXBTmx(getBaseFile());
-            progress.setValue(1);
             progress.setMessage(LocString.getFormat("file_progress", getFile1().getName(), 2, 3));
             leftTmx = new JAXBTmx(getFile1());
-            progress.setValue(2);
+            progress.setValue(1);
             progress.setMessage(LocString.getFormat("file_progress", getFile2().getName(), 3, 3));
             rightTmx = new JAXBTmx(getFile2());
+            progress.setValue(2);
+            progress.setMessage(LocString.getFormat("file_progress",
+                    getBaseFile() == null ? LocString.get("empty_tmx_name") : getBaseFile().getName(), 1, 3));
+            if (getBaseFile() == null) {
+                baseTmx = JAXBTmx.newEmptyJAXBTmx((JAXBTmx) leftTmx);
+                merger.setIsTwoWayMerge(true);
+            } else {
+                baseTmx = new JAXBTmx(getBaseFile());
+            }
             progress.setValue(3);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,

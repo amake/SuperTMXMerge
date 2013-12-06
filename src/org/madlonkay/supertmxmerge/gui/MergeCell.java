@@ -48,6 +48,8 @@ public class MergeCell extends javax.swing.JPanel {
     
     /**
      * Creates new form TUDiffCell
+     * @param itemNumber
+     * @param info
      */
     public MergeCell(int itemNumber, ConflictInfo info) {
         initComponents();
@@ -113,6 +115,14 @@ public class MergeCell extends javax.swing.JPanel {
     
     public JRadioButton getCenterButton() {
         return centerButton;
+    }
+    
+    public void setIsTwoWayMerge(boolean isTwoWayMerge) {
+        if (isTwoWayMerge) {
+            jPanel1.remove(jScrollPane2);
+        } else {
+            jPanel1.add(jScrollPane2, 1);
+        }
     }
 
     /**
