@@ -20,3 +20,10 @@ SuperTMXMerge change history
   TMX name in diff, merge windows)
 - Fixed problem where new, identical TUs added to both file1 and file2 would
   be left out of merged file
+
+# 0.9.4
+- Added ability to do "baseless" two-way merges
+- Added ability to batch-combine many TMX files
+- Fixed output of TUs with complex content
+- Fixed duplicated TUs in merge output in some situations
+- Other small fixes and improvements
