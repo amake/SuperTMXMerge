@@ -84,7 +84,7 @@ public class DiffUtil {
     
     public static List<DiffInfo> generateDiffData(ITmx tmx1, ITmx tmx2) {
         
-        List<DiffInfo> diffInfos = new ArrayList<DiffInfo>();
+        List<DiffInfo> diffInfos = new ArrayList<>();
         
         DiffSet set = generateDiffSet(tmx1, tmx2);
         
@@ -110,15 +110,15 @@ public class DiffUtil {
     
     public static DiffSet generateDiffSet(ITmx tmx1, ITmx tmx2) {
         // Deleted TUs
-        Set<Key> deleted = new HashSet<Key>(tmx1.getTuvMap().keySet());
+        Set<Key> deleted = new HashSet<>(tmx1.getTuvMap().keySet());
         deleted.removeAll(tmx2.getTuvMap().keySet());
         
         // Added TUs
-        Set<Key> added = new HashSet<Key>(tmx2.getTuvMap().keySet());
+        Set<Key> added = new HashSet<>(tmx2.getTuvMap().keySet());
         added.removeAll(tmx1.getTuvMap().keySet());
         
         // Modified TUs
-        Set<Key> modified = new HashSet<Key>();
+        Set<Key> modified = new HashSet<>();
         for (Map.Entry<Key, ITuv> e : tmx1.getTuvMap().entrySet()) {
             ITuv newTuv = tmx2.getTuvMap().get(e.getKey());
             if (newTuv == null) {
@@ -133,16 +133,16 @@ public class DiffUtil {
     
     public static ResolutionSet generateMergeData(ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
         
-        List<ConflictInfo> conflicts = new ArrayList<ConflictInfo>();
+        List<ConflictInfo> conflicts = new ArrayList<>();
         
-        HashSet<Key> toDelete = new HashSet<Key>();
-        HashSet<ITu> toAdd = new HashSet<ITu>();
-        HashMap<Key, ITuv> toReplace = new HashMap<Key, ITuv>();
+        HashSet<Key> toDelete = new HashSet<>();
+        HashSet<ITu> toAdd = new HashSet<>();
+        HashMap<Key, ITuv> toReplace = new HashMap<>();
         
         DiffSet baseToLeft = generateDiffSet(baseTmx, leftTmx);
         DiffSet baseToRight = generateDiffSet(baseTmx, rightTmx);
         
-        Set<Key> conflictKeys = new HashSet<Key>();
+        Set<Key> conflictKeys = new HashSet<>();
         // New in left
         for (Key key : baseToLeft.added) {
             ITuv leftTuv = leftTmx.getTuvMap().get(key);
