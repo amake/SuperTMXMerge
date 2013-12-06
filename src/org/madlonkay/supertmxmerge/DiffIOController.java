@@ -113,6 +113,7 @@ public class DiffIOController {
         ITmx tmx1;
         ITmx tmx2;
         try {
+            progress.setValue(0);
             progress.setMessage(LocString.getFormat("file_progress", getFile1().getName(), 1, 2));
             tmx1 = new JAXBTmx(getFile1());
             progress.setValue(1);

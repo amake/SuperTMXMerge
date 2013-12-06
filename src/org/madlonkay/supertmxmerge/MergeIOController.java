@@ -82,6 +82,7 @@ public class MergeIOController extends DiffIOController {
         ITmx leftTmx;
         ITmx rightTmx;
         try {
+            progress.setValue(0);
             progress.setMessage(LocString.getFormat("file_progress", getBaseFile().getName(), 1, 3));
             baseTmx = new JAXBTmx(getBaseFile());
             progress.setValue(1);

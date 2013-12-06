@@ -82,7 +82,7 @@ public class ProgressWindow extends javax.swing.JFrame implements ActionListener
     }
     
     private boolean shouldShowPopup() {
-        if (progressBar.isIndeterminate()) {
+        if (progressBar.isIndeterminate() || progressBar.getValue() == 0) {
             return true;
         }
         if (progressBar.getValue() == progressBar.getMaximum()) {
