@@ -347,6 +347,7 @@ public class JAXBTmx implements ITmx {
             header.setCreationtoolversion(pkg.getImplementationVersion());
         }
         if (orig != null) {
+            tmx.setVersion(orig.getVersion());
             header.setOTmf(orig.getHeader().getOTmf());
             header.setSrclang(orig.getHeader().getSrclang());
         }
@@ -358,7 +359,7 @@ public class JAXBTmx implements ITmx {
     }
     
     public static JAXBTmx newEmptyJAXBTmx(JAXBTmx orig) {
-        return new JAXBTmx(newEmptyTmx(orig.tmx), LocString.get("combined_tmx_name"));
+        return new JAXBTmx(newEmptyTmx(orig == null ? null : orig.tmx), LocString.get("new_tmx_name"));
     }
     
     public void combine(JAXBTmx tmx) {
