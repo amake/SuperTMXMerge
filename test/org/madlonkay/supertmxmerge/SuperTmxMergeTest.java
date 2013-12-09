@@ -79,6 +79,17 @@ public class SuperTmxMergeTest {
     }
     
     @Test
+    public void testDiff() throws Exception {
+        File baseFile = getFilePath("resources/base.tmx");
+        File file1 = getFilePath("resources/left.tmx");
+        
+        DiffSet diff = DiffUtil.generateDiffSet(new JAXBTmx(baseFile), new JAXBTmx(file1));
+        assertEquals(diff.added.size(), 2);
+        assertEquals(diff.deleted.size(), 2);
+        assertEquals(diff.modified.size(), 5);
+    }
+    
+    @Test
     public void testDiffTo() throws Exception {
         File baseFile = getFilePath("resources/base.tmx");
         File file1 = getFilePath("resources/left.tmx");
