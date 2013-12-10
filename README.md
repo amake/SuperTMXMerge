@@ -20,7 +20,7 @@ please use the "combine" feature, not the merge feature.
 Requirements
 ------------
 
-You must have Java 1.6 or later installed. To use the launch scripts, the Java
+You must have Java 1.7 or later installed. To use the launch scripts, the Java
 executable must be available on your system PATH. Open a console or terminal
 and type `java -version` verify that Java is installed and configured correctly.
 
