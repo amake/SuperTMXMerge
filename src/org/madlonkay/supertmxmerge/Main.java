@@ -41,13 +41,8 @@ public class Main {
             public void run() {
                 try {
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch (UnsupportedLookAndFeelException ex) {
-                    throw new RuntimeException(ex);
-                } catch (ClassNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                } catch (InstantiationException ex) {
-                    throw new RuntimeException(ex);
-                } catch (IllegalAccessException ex) {
+                } catch ( UnsupportedLookAndFeelException | ClassNotFoundException
+                        | InstantiationException | IllegalAccessException ex) {
                     throw new RuntimeException(ex);
                 }
 
@@ -61,7 +56,7 @@ public class Main {
                 // The order of these tests is important!
                 
                 if ("--combine".equals(theArgs[0])) {
-                    List<File> files = new ArrayList<File>();
+                    List<File> files = new ArrayList<>();
                     File outputFile = null;
                     int i;
                     for (i = 1; i < theArgs.length; i++) {
