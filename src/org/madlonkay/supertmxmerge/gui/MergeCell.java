@@ -198,6 +198,7 @@ public class MergeCell extends javax.swing.JPanel {
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, leftButton, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jScrollPane1, org.jdesktop.beansbinding.BeanProperty.create("border"), "tuvTextLeftBorder");
         binding.setConverter(borderConverter1);
@@ -211,6 +212,7 @@ public class MergeCell extends javax.swing.JPanel {
         jPanel1.add(jScrollPane1);
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, centerButton, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jScrollPane2, org.jdesktop.beansbinding.BeanProperty.create("border"), "tuvTextCenterBorder");
         binding.setConverter(borderConverter1);
@@ -222,6 +224,9 @@ public class MergeCell extends javax.swing.JPanel {
         jScrollPane2.setViewportView(tuvTextCenter);
 
         jPanel1.add(jScrollPane2);
+
+        jScrollPane5.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane5.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, rightButton, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jScrollPane5, org.jdesktop.beansbinding.BeanProperty.create("border"), "tuvTextRightBorder");
         binding.setConverter(borderConverter1);
