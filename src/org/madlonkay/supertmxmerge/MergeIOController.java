@@ -83,14 +83,14 @@ public class MergeIOController extends DiffIOController {
         ITmx rightTmx;
         try {
             progress.setValue(0);
-            progress.setMessage(LocString.getFormat("file_progress", getFile1().getName(), 2, 3));
+            progress.setMessage(LocString.getFormat("file_progress", getFile1().getName(), 1, 3));
             leftTmx = new JAXBTmx(getFile1());
             progress.setValue(1);
-            progress.setMessage(LocString.getFormat("file_progress", getFile2().getName(), 3, 3));
+            progress.setMessage(LocString.getFormat("file_progress", getFile2().getName(), 2, 3));
             rightTmx = new JAXBTmx(getFile2());
             progress.setValue(2);
             progress.setMessage(LocString.getFormat("file_progress",
-                    getBaseFile() == null ? LocString.get("empty_tmx_name") : getBaseFile().getName(), 1, 3));
+                    getBaseFile() == null ? LocString.get("empty_tmx_name") : getBaseFile().getName(), 3, 3));
             if (getBaseFile() == null) {
                 baseTmx = JAXBTmx.newEmptyJAXBTmx((JAXBTmx) leftTmx);
                 merger.setIsTwoWayMerge(true);
@@ -104,9 +104,9 @@ public class MergeIOController extends DiffIOController {
                 LocString.get("error"),
                 JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException(ex);
+        } finally {
+            GuiUtil.closeWindow(progress);
         }
-        
-        GuiUtil.closeWindow(progress);
         
         ITmx merged = merger.merge(baseTmx, leftTmx, rightTmx);
 

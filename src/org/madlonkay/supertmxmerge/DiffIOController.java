@@ -126,9 +126,9 @@ public class DiffIOController {
                 LocString.get("error"),
                 JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException(ex);
+        } finally {
+            GuiUtil.closeWindow(progress);
         }
-        
-        GuiUtil.closeWindow(progress);
         
         if (outputFile != null) {
             ITmx outTmx = JAXBTmx.createFromDiff((JAXBTmx) tmx1, (JAXBTmx) tmx2);
