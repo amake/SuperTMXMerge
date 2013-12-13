@@ -34,6 +34,8 @@ import javax.swing.JOptionPane;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
 import org.madlonkay.supertmxmerge.data.WriteFailedException;
+import org.madlonkay.supertmxmerge.gui.ProgressWindow;
+import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
@@ -49,7 +51,7 @@ public class CombineIOController {
     public static final String PROP_INPUTISVALID = "inputIsValid";
     public static final String PROP_OUTPUTFILE = "outputFile";
     
-    private List<File> files = new ArrayList<File>();
+    private List<File> files = new ArrayList<>();
     private File outputFile;
     
     public CombineIOController() {
@@ -100,54 +102,72 @@ public class CombineIOController {
     }
     
     public void go() {
-        JAXBTmx combined;
+        
+        ProgressWindow progress = new ProgressWindow();
+        progress.setMustPopup(true);
+        progress.setMaximum(files.size());
+        
         try {
-            combined = new JAXBTmx(files.get(0));
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-        ITmx empty = JAXBTmx.newEmptyJAXBTmx(combined);
-        
-        MergeController merger = new MergeController();
-        merger.setIsTwoWayMerge(true);
-        
-        for (int i = 1; i < files.size(); i++) {
+            JAXBTmx combined;
             try {
-                JAXBTmx next = new JAXBTmx(files.get(i));
-                combined = (JAXBTmx) merger.merge(empty, combined, next);
-                if (combined == null) {
-                    // User canceled out.
-                    return;
-                }
+                File firstFile = files.get(0);
+                progress.setValue(0);
+                progress.setMessage(LocString.getFormat("file_progress", firstFile.getName(), 1, files.size()));
+                combined = new JAXBTmx(firstFile);
             } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+            ITmx empty = JAXBTmx.newEmptyJAXBTmx(combined);
+
+            MergeController merger = new MergeController();
+            merger.setIsTwoWayMerge(true);
+
+            for (int i = 1; i < files.size(); i++) {
+                try {
+                    File thisFile = files.get(i);
+                    progress.setValue(i);
+                    progress.setMessage(LocString.getFormat("file_progress", thisFile.getName(), i + 1, files.size()));
+                    JAXBTmx next = new JAXBTmx(thisFile);
+                    combined = (JAXBTmx) merger.merge(empty, combined, next);
+                    if (combined == null) {
+                        // User canceled out.
+                        return;
+                    }
+                } catch (Exception ex) {
+                    LOGGER.log(Level.SEVERE, null, ex);
+                }
+            }
+
+            progress.setValue(files.size());
+            progress.setMessage(LocString.get("combine_complete"));
+
+            while (true) {
+                if (getOutputFile() != null) {
+                    break;
+                }
+                // Output location not set.
+                JFileChooser chooser = new JFileChooser();
+                if (chooser.showSaveDialog(progress) == JFileChooser.APPROVE_OPTION) {
+                    setOutputFile(chooser.getSelectedFile());
+                } else {
+                    int response = JOptionPane.showConfirmDialog(progress,
+                        LocString.get("confirm_cancel_save_message"),
+                        LocString.get("combine_window_title"),
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE);
+                    if (response == JOptionPane.YES_OPTION) {
+                        return;
+                    }
+                }
+            }
+
+            try {
+                combined.writeTo(getOutputFile());
+            } catch (WriteFailedException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
-        }
-        
-        while (true) {
-            if (getOutputFile() != null) {
-                break;
-            }
-            // Output location not set.
-            JFileChooser chooser = new JFileChooser();
-            if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-                setOutputFile(chooser.getSelectedFile());
-            } else {
-                int response = JOptionPane.showConfirmDialog(null,
-                    LocString.get("confirm_cancel_save_message"),
-                    LocString.get("combine_window_title"),
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE);
-                if (response == JOptionPane.YES_OPTION) {
-                    return;
-                }
-            }
-        }
-
-        try {
-            combined.writeTo(getOutputFile());
-        } catch (WriteFailedException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
+        } finally {
+            GuiUtil.closeWindow(progress);
         }
     }
 }

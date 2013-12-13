@@ -37,6 +37,7 @@ public class ProgressWindow extends javax.swing.JFrame implements ActionListener
     private final int millisToPopup = 2000;
     private final int millisToDecidePopup = 500;
     
+    private  boolean mustPopUp = false;
     private boolean maxIsSet = false;
     
     /**
@@ -62,6 +63,10 @@ public class ProgressWindow extends javax.swing.JFrame implements ActionListener
         progressBar.setValue(value);
     }
     
+    public void setMustPopup(boolean mustPopUp) {
+        this.mustPopUp = mustPopUp;
+    }
+    
     public void setMessage(String text) {
         label.setText(text);
     }
@@ -82,7 +87,7 @@ public class ProgressWindow extends javax.swing.JFrame implements ActionListener
     }
     
     private boolean shouldShowPopup() {
-        if (progressBar.isIndeterminate() || progressBar.getValue() == 0) {
+        if (mustPopUp || progressBar.isIndeterminate() || progressBar.getValue() == 0) {
             return true;
         }
         if (progressBar.getValue() == progressBar.getMaximum()) {
