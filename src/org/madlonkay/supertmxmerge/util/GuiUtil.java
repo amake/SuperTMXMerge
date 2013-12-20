@@ -26,6 +26,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 /**
@@ -36,40 +37,23 @@ public class GuiUtil {
     
     private static final Logger LOGGER = Logger.getLogger(GuiUtil.class.getName());
 
-    public static void displayWindow(final Window window) {
-        runOnEventDispatchThread(new Runnable() {
-            @Override
-            public void run() {
-                window.pack();
-                if (fixSize(window)) {
-                    window.setLocationRelativeTo(null);
-                }
-                window.setVisible(true);
-            }
-        });
+    public static void displayWindow(Window window) {
+        window.pack();
+        if (fixSize(window)) {
+            window.setLocationRelativeTo(null);
+        }
+        window.setVisible(true);
     }
     
-    public static void displayWindowCentered(final Window window) {
-        runOnEventDispatchThread(new Runnable() {
-            @Override
-            public void run() {
-                if (!window.isVisible()) {
-                    window.pack();
-                    window.setLocationRelativeTo(null);
-                    window.setVisible(true);
-                }
-            }
-         });
+    public static void displayWindowCentered(Window window) {
+        window.pack();
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
     }
     
-    public static void closeWindow(final Window window) {
-        runOnEventDispatchThread(new Runnable() {
-            @Override
-            public void run() {
-                window.setVisible(false);
-                window.dispose();
-            }
-        });
+    public static void closeWindow(Window window) {
+        window.setVisible(false);
+        window.dispose();
     }
     
     public static boolean fixSize(Component component) {
@@ -113,14 +97,6 @@ public class GuiUtil {
                     LOGGER.log(Level.SEVERE, null, ex);
                 }
             }
-        }
-    }
-    
-    public static void runOnEventDispatchThread(Runnable runnable) {
-        if (SwingUtilities.isEventDispatchThread()) {
-            runnable.run();
-        } else {
-            SwingUtilities.invokeLater(runnable);
         }
     }
     

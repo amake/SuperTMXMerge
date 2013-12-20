@@ -73,9 +73,17 @@ public class ProgressWindow extends javax.swing.JFrame implements ActionListener
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (shouldShowPopup()) {
-            GuiUtil.displayWindowCentered(this);
-        }
+        // Returning from the timer will be on a different thread,
+        // so queue this up so as to prevent spurious exceptions.
+        final JFrame popup = this;
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                if (shouldShowPopup()) {
+                    GuiUtil.displayWindowCentered(popup);
+                }
+            }
+        });
     }
     
     private boolean shouldShowPopup() {
