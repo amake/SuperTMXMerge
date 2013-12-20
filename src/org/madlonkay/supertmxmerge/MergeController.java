@@ -18,6 +18,8 @@
  */
 package org.madlonkay.supertmxmerge;
 
+import java.awt.Dialog;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.*;
@@ -28,7 +30,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 import javax.swing.AbstractButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.madlonkay.supertmxmerge.data.ConflictInfo;
 import org.madlonkay.supertmxmerge.data.ITmx;
@@ -66,6 +67,7 @@ public class MergeController implements Serializable, ActionListener {
     private boolean canCancel = true;
     private boolean quiet = false;
     private boolean isTwoWayMerge = false;
+    private boolean isModal = false;
     
     public MergeController() {
         propertySupport = new PropertyChangeSupport(this);
@@ -92,7 +94,13 @@ public class MergeController implements Serializable, ActionListener {
         
         if (!resolution.conflicts.isEmpty()) {
             // Have conflicts; show window.
-            JFrame window = MergeWindow.newAsFrame(this, isTwoWayMerge);
+            Window window;
+            if (isModal) {
+                window = MergeWindow.newAsDialog(this, isTwoWayMerge);
+                window.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
+            } else {
+                window = MergeWindow.newAsFrame(this, isTwoWayMerge);
+            }
             GuiUtil.displayWindow(window);
             GuiUtil.blockOnWindow(window);
         } else if (!quiet && !isTwoWayMerge) {
@@ -202,6 +210,14 @@ public class MergeController implements Serializable, ActionListener {
     
     public boolean isTwoWayMerge() {
         return isTwoWayMerge;
+    }
+    
+    public void setIsModal(boolean isModal) {
+        this.isModal = isModal;
+    }
+    
+    public boolean isModal() {
+        return isModal;
     }
 
     @Override
