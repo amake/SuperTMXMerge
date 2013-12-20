@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 import javax.swing.AbstractButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.madlonkay.supertmxmerge.data.ConflictInfo;
 import org.madlonkay.supertmxmerge.data.ITmx;
@@ -91,7 +92,7 @@ public class MergeController implements Serializable, ActionListener {
         
         if (!resolution.conflicts.isEmpty()) {
             // Have conflicts; show window.
-            MergeWindow window = new MergeWindow(this, isTwoWayMerge);
+            JFrame window = MergeWindow.newAsFrame(this, isTwoWayMerge);
             GuiUtil.displayWindow(window);
             GuiUtil.blockOnWindow(window);
         } else if (!quiet && !isTwoWayMerge) {

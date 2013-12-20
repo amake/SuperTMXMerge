@@ -19,7 +19,10 @@
 package org.madlonkay.supertmxmerge.gui;
 
 import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
+import javax.swing.WindowConstants;
 import org.madlonkay.supertmxmerge.DiffController;
 import org.madlonkay.supertmxmerge.data.DiffInfo;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
@@ -29,12 +32,21 @@ import org.madlonkay.supertmxmerge.util.LocString;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class DiffWindow extends javax.swing.JFrame {
+public class DiffWindow extends javax.swing.JPanel {
    
+    public static JFrame newAsFrame(DiffController controller) {
+        JFrame frame = new JFrame(LocString.get("diff_window_title"));
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        frame.setLocationByPlatform(true);
+        frame.add(new DiffWindow(controller));
+        return frame;
+    }
+    
     private final ProgressWindow progress;
     
     /**
      * Creates new form DiffWindow
+     * @param controller
      */
     public DiffWindow(DiffController controller) {
         progress = new ProgressWindow();
@@ -47,6 +59,13 @@ public class DiffWindow extends javax.swing.JFrame {
         ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
         
         initContent();
+        
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                GuiUtil.closeWindow(progress);
+            }
+        });
     }
     
     private void initContent() {
@@ -92,14 +111,7 @@ public class DiffWindow extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         saveAsButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(LocString.get("diff_window_title")); // NOI18N
-        setLocationByPlatform(true);
-        addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                formComponentShown(evt);
-            }
-        });
+        setLayout(new java.awt.BorderLayout());
 
         jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -155,14 +167,14 @@ public class DiffWindow extends javax.swing.JFrame {
 
         jPanel3.add(jPanel4);
 
-        getContentPane().add(jPanel3, java.awt.BorderLayout.NORTH);
+        add(jPanel3, java.awt.BorderLayout.NORTH);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         diffsPanel.setLayout(new javax.swing.BoxLayout(diffsPanel, javax.swing.BoxLayout.PAGE_AXIS));
         jScrollPane1.setViewportView(diffsPanel);
 
-        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -179,16 +191,10 @@ public class DiffWindow extends javax.swing.JFrame {
         });
         jPanel1.add(saveAsButton, java.awt.BorderLayout.EAST);
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.SOUTH);
+        add(jPanel1, java.awt.BorderLayout.SOUTH);
 
         bindingGroup.bind();
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        GuiUtil.closeWindow(progress);
-    }//GEN-LAST:event_formComponentShown
 
     private void saveAsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsButtonActionPerformed
         getController().saveAs();

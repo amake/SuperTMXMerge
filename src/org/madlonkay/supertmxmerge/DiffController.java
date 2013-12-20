@@ -103,7 +103,7 @@ public class DiffController implements Serializable {
                         LocString.get("diff_window_title"),
                         JOptionPane.INFORMATION_MESSAGE);
         } else {
-            diffWindow = new DiffWindow(this);
+            diffWindow = DiffWindow.newAsFrame(this);
             GuiUtil.displayWindow(diffWindow);
             GuiUtil.blockOnWindow(diffWindow);
         }

@@ -18,11 +18,15 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
+import java.awt.Window;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import org.madlonkay.supertmxmerge.MergeController;
 import org.madlonkay.supertmxmerge.data.ConflictInfo;
@@ -33,7 +37,63 @@ import org.madlonkay.supertmxmerge.util.LocString;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class MergeWindow extends javax.swing.JFrame {
+public class MergeWindow extends javax.swing.JPanel {
+    
+    public static JFrame newAsFrame(final MergeController controller, boolean isTwoWayMerge) {
+        final JFrame frame = new JFrame(LocString.get("merge_window_title"));
+        frame.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        frame.setLocationByPlatform(true);
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                if (!controller.isConflictsAreResolved()) {
+                    if (!controller.isCanCancel()) {
+                        // Don't let user exit without resolving.
+                        return;
+                    }
+                    int response = JOptionPane.showConfirmDialog(frame,
+                        LocString.get("confirm_close_message"),
+                        LocString.get("merge_window_title"),
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE);
+                    if (response != JOptionPane.YES_OPTION) {
+                        return;
+                    }
+                }
+                frame.dispose();
+            }
+        });
+        frame.add(new MergeWindow(controller, isTwoWayMerge));
+        return frame;
+    }
+    
+    public static JDialog newAsDialog(final MergeController controller, boolean isTwoWayMerge) {
+        final JDialog dialog = new JDialog((JFrame)null, LocString.get("merge_window_title"));
+        dialog.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        dialog.setLocationByPlatform(true);
+        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                if (!controller.isConflictsAreResolved()) {
+                    if (!controller.isCanCancel()) {
+                        // Don't let user exit without resolving.
+                        return;
+                    }
+                    int response = JOptionPane.showConfirmDialog(dialog,
+                        LocString.get("confirm_close_message"),
+                        LocString.get("merge_window_title"),
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE);
+                    if (response != JOptionPane.YES_OPTION) {
+                        return;
+                    }
+                }
+                dialog.dispose();
+            }
+        });
+        dialog.add(new MergeWindow(controller, isTwoWayMerge));
+        return dialog;
+    }
 
     private final ProgressWindow progress;
     
@@ -64,6 +124,13 @@ public class MergeWindow extends javax.swing.JFrame {
         allBaseButton.setVisible(!isTwoWayMerge);
         centerFilename.setVisible(!isTwoWayMerge);
         centerTextUnits.setVisible(!isTwoWayMerge);
+        
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                GuiUtil.closeWindow(progress);
+            }
+        });
     }
     
     private void initContent() {
@@ -144,19 +211,7 @@ public class MergeWindow extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         doneButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle(LocString.get("merge_window_title")); // NOI18N
-        setLocationByPlatform(true);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
-        addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                formComponentShown(evt);
-            }
-        });
+        setLayout(new java.awt.BorderLayout());
 
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -272,14 +327,14 @@ public class MergeWindow extends javax.swing.JFrame {
 
         jPanel4.add(jPanel5);
 
-        getContentPane().add(jPanel4, java.awt.BorderLayout.NORTH);
+        add(jPanel4, java.awt.BorderLayout.NORTH);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         conflictInfoPanel.setLayout(new javax.swing.BoxLayout(conflictInfoPanel, javax.swing.BoxLayout.PAGE_AXIS));
         jScrollPane1.setViewportView(conflictInfoPanel);
 
-        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         jPanel3.setLayout(new java.awt.BorderLayout());
@@ -296,11 +351,9 @@ public class MergeWindow extends javax.swing.JFrame {
         });
         jPanel3.add(doneButton, java.awt.BorderLayout.EAST);
 
-        getContentPane().add(jPanel3, java.awt.BorderLayout.SOUTH);
+        add(jPanel3, java.awt.BorderLayout.SOUTH);
 
         bindingGroup.bind();
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void useAllLeft(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useAllLeft
@@ -308,7 +361,7 @@ public class MergeWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_useAllLeft
 
     private void doneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneButtonActionPerformed
-        getToolkit().getSystemEventQueue().postEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        getToolkit().getSystemEventQueue().postEvent(new WindowEvent((Window) evt.getSource(), WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_doneButtonActionPerformed
 
     private void useAllBase(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useAllBase
@@ -318,30 +371,6 @@ public class MergeWindow extends javax.swing.JFrame {
     private void useAllRight(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useAllRight
         activateAllButtons(rightRadioButtons);
     }//GEN-LAST:event_useAllRight
-
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        if (!controller.isConflictsAreResolved()) {
-            
-            if (!controller.isCanCancel()) {
-                // Don't let user exit without resolving.
-                return;
-            }
-            
-            int response = JOptionPane.showConfirmDialog(this,
-                LocString.get("confirm_close_message"),
-                LocString.get("merge_window_title"),
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE);
-            if (response != JOptionPane.YES_OPTION) {
-                return;
-            }
-        }
-        dispose();
-    }//GEN-LAST:event_formWindowClosing
-
-    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        GuiUtil.closeWindow(progress);
-    }//GEN-LAST:event_formComponentShown
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton allBaseButton;
