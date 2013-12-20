@@ -32,14 +32,14 @@
         <chmod file="${dist.dir}/SuperTMXMerge.sh" perm="ugo+rx"/>
         <copy file="README.md" tofile="dist/README.TXT" overwrite="yes"/>
         <copy file="LICENSE" todir="dist"/>
-        <!-- Copy dependencies into main JAR. -->
-        <jar destfile="${dist.jar}" update="true">
-            <zipgroupfileset dir="${dist.dir}/lib" includes="*.jar"/>
-        </jar>
         <!-- Make separate JAR for embedding in OmegaT. -->
         <jar destfile="${dist.dir}/${application.title}-for_OmegaT.jar">
             <zipfileset src="${dist.jar}" excludes="org/omegat/**,bmsi/**,gen/**"/>
             <zipfileset src="${dist.jar}" includes="org/omegat/core/data/OmT*"/>
+        </jar>
+        <!-- Copy dependencies into main JAR. -->
+        <jar destfile="${dist.jar}" update="true">
+            <zipgroupfileset dir="${dist.dir}/lib" includes="*.jar"/>
         </jar>
         <zip destfile="${dist.dir}/${application.title}_${repository.version}.zip">
             <fileset dir="${dist.dir}" excludes="*-for_OmegaT.jar,*.zip,lib/*,lib"/>
