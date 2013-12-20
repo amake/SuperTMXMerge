@@ -97,7 +97,6 @@ public class MergeController implements Serializable, ActionListener {
             Window window;
             if (isModal) {
                 window = MergeWindow.newAsDialog(this, isTwoWayMerge);
-                window.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
             } else {
                 window = MergeWindow.newAsFrame(this, isTwoWayMerge);
             }

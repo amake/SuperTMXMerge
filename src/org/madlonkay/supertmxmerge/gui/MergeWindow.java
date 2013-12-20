@@ -18,6 +18,7 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
+import java.awt.Dialog;
 import java.awt.Window;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -50,7 +51,8 @@ public class MergeWindow extends javax.swing.JPanel {
     }
     
     public static JDialog newAsDialog(final MergeController controller, boolean isTwoWayMerge) {
-        final JDialog dialog = new JDialog((JFrame)null, LocString.get("merge_window_title"));
+        final JDialog dialog = new JDialog((JFrame)null, LocString.get("merge_window_title"),
+                Dialog.ModalityType.APPLICATION_MODAL);
         dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         dialog.add(new MergeWindow(dialog, controller, isTwoWayMerge));
         return dialog;
