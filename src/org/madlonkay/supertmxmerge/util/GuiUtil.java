@@ -21,11 +21,11 @@ package org.madlonkay.supertmxmerge.util;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 /**
@@ -36,23 +36,40 @@ public class GuiUtil {
     
     private static final Logger LOGGER = Logger.getLogger(GuiUtil.class.getName());
 
-    public static void displayWindow(JFrame window) {
-        window.pack();
-        if (fixSize(window)) {
-            window.setLocationRelativeTo(null);
-        }
-        window.setVisible(true);
+    public static void displayWindow(final Window window) {
+        runOnEventDispatchThread(new Runnable() {
+            @Override
+            public void run() {
+                window.pack();
+                if (fixSize(window)) {
+                    window.setLocationRelativeTo(null);
+                }
+                window.setVisible(true);
+            }
+        });
     }
     
-    public static void displayWindowCentered(JFrame window) {
-        window.pack();
-        window.setLocationRelativeTo(null);
-        window.setVisible(true);
+    public static void displayWindowCentered(final Window window) {
+        runOnEventDispatchThread(new Runnable() {
+            @Override
+            public void run() {
+                if (!window.isVisible()) {
+                    window.pack();
+                    window.setLocationRelativeTo(null);
+                    window.setVisible(true);
+                }
+            }
+         });
     }
     
-    public static void closeWindow(JFrame window) {
-        window.setVisible(false);
-        window.dispose();
+    public static void closeWindow(final Window window) {
+        runOnEventDispatchThread(new Runnable() {
+            @Override
+            public void run() {
+                window.setVisible(false);
+                window.dispose();
+            }
+        });
     }
     
     public static boolean fixSize(Component component) {
@@ -76,7 +93,7 @@ public class GuiUtil {
         return changed;
     }
     
-    public static void blockOnWindow(final JFrame window) {
+    public static void blockOnWindow(final Window window) {
         final Object lock = new Object();
                 
         window.addWindowListener(new WindowAdapter() {
@@ -96,6 +113,14 @@ public class GuiUtil {
                     LOGGER.log(Level.SEVERE, null, ex);
                 }
             }
+        }
+    }
+    
+    public static void runOnEventDispatchThread(Runnable runnable) {
+        if (SwingUtilities.isEventDispatchThread()) {
+            runnable.run();
+        } else {
+            SwingUtilities.invokeLater(runnable);
         }
     }
     

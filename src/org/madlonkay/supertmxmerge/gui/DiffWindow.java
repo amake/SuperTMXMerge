@@ -18,6 +18,9 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
+import java.awt.Window;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -37,19 +40,34 @@ public class DiffWindow extends javax.swing.JPanel {
     public static JFrame newAsFrame(DiffController controller) {
         JFrame frame = new JFrame(LocString.get("diff_window_title"));
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.setLocationByPlatform(true);
-        frame.add(new DiffWindow(controller));
+        frame.add(new DiffWindow(frame, controller));
         return frame;
     }
     
+    private final Window window;
     private final ProgressWindow progress;
     
     /**
      * Creates new form DiffWindow
+     * @param window
      * @param controller
      */
-    public DiffWindow(DiffController controller) {
+    public DiffWindow(Window window, DiffController controller) {
         progress = new ProgressWindow();
+        
+        this.window = window;
+        window.setLocationByPlatform(true);
+        window.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent evt) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GuiUtil.closeWindow(progress);
+                    }
+                });
+            }
+        });
         
         this.controller = controller;
         initComponents();
@@ -59,13 +77,6 @@ public class DiffWindow extends javax.swing.JPanel {
         ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
         
         initContent();
-        
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                GuiUtil.closeWindow(progress);
-            }
-        });
     }
     
     private void initContent() {
