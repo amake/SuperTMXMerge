@@ -26,8 +26,9 @@
         </manifest>
     </target>
     <target name="-post-jar" depends="git.revision">
+        <filter token="STM_VERSION" value="${repository.version}"/>
         <copy todir="${dist.dir}">
-            <fileset dir="release" includes="*"/>
+            <fileset dir="release" includes="**"/>
         </copy>
         <chmod file="${dist.dir}/SuperTMXMerge.sh" perm="ugo+rx"/>
         <copy file="README.md" tofile="dist/README.TXT" overwrite="yes"/>
@@ -43,7 +44,16 @@
             <zipgroupfileset dir="${dist.dir}/lib" includes="*.jar"/>
         </jar>
         <zip destfile="${dist.dir}/${application.title}_${repository.version}.zip">
-            <fileset dir="${dist.dir}" excludes="*-for_OmegaT.jar,*.zip,lib/*,lib"/>
+            <fileset dir="${dist.dir}" excludes="*-for_OmegaT.jar,*.zip,lib/*,lib,*.app/**,*.app"/>
+        </zip>
+        <!-- Make Mac OS X app. -->
+        <chmod file="${dist.dir}/SuperTMXMerge.app/Contents/MacOS/SuperTMXMerge.sh" perm="ugo+rx"/>
+        <copy file="${dist.jar}" todir="${dist.dir}/SuperTMXMerge.app/Contents/MacOS/"/>
+        <zip destfile="${dist.dir}/${application.title}_MacOSX_${repository.version}.zip">
+            <zipfileset dir="${dist.dir}/SuperTMXMerge.app" prefix="SuperTMXMerge.app"
+                        excludes="**/SuperTMXMerge.sh"/>
+            <zipfileset file="${dist.dir}/SuperTMXMerge.app/Contents/MacOS/SuperTMXMerge.sh"
+                        prefix="SuperTMXMerge.app/Contents/MacOS" filemode="755"/>
         </zip>
     </target>
     <target name="gen">
