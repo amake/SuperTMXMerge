@@ -33,7 +33,8 @@
         <copy file="README.md" tofile="dist/README.TXT" overwrite="yes"/>
         <copy file="LICENSE" todir="dist"/>
         <!-- Make separate JAR for embedding in OmegaT. -->
-        <jar destfile="${dist.dir}/${application.title}-for_OmegaT.jar">
+        <jar destfile="${dist.dir}/${application.title}-for_OmegaT.jar"
+            manifest="${manifest.file}">
             <zipfileset src="${dist.jar}" excludes="org/omegat/**,bmsi/**,gen/**"/>
             <zipfileset src="${dist.jar}" includes="org/omegat/core/data/OmT*"/>
         </jar>
