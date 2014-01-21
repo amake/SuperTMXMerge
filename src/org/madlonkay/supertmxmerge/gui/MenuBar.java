@@ -19,9 +19,9 @@
 
 package org.madlonkay.supertmxmerge.gui;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -43,7 +43,8 @@ public class MenuBar extends JMenuBar {
         
         fileMenu.setText(LocString.get("file_menu")); // NOI18N
 
-        fileMenuNewItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
+        fileMenuNewItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         fileMenuNewItem.setText(LocString.get("file_menu_new")); // NOI18N
         fileMenuNewItem.addActionListener(new ActionListener() {
             @Override

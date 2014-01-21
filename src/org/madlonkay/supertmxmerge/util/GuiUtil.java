@@ -26,7 +26,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 /**
@@ -106,5 +105,9 @@ public class GuiUtil {
         } else {
             runnable.run();
         }
+    }
+    
+    public static boolean isOSX() {
+        return System.getProperty("os.name").contains("OS X");
     }
 }

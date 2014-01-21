@@ -4,4 +4,4 @@
 if [[ "$*" == -psn* ]]; then
     shift
 fi
-java -jar "$(dirname "$0")/SuperTMXMerge.jar" "$@"
+java -Xdock:name=SuperTMXMerge -jar "$(dirname "$0")/SuperTMXMerge.jar" "$@"

@@ -34,18 +34,22 @@ public class Main {
     
     public static void main(String[] args) {
         
+        // Set up look-and-feel stuff.
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            System.setProperty("apple.laf.useScreenMenuBar", "true");
+            System.setProperty(
+                "com.apple.mrj.application.apple.menu.about.name", "SuperTMXMerge");
+        } catch ( UnsupportedLookAndFeelException | ClassNotFoundException
+                | InstantiationException | IllegalAccessException ex) {
+            throw new RuntimeException(ex);
+        }
+        
         final String[] theArgs = args;
         
         Runnable run = new Runnable() {
             @Override
             public void run() {
-                try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch ( UnsupportedLookAndFeelException | ClassNotFoundException
-                        | InstantiationException | IllegalAccessException ex) {
-                    throw new RuntimeException(ex);
-                }
-
                 // TODO: Use a proper args parsing library or something.
                 
                 if (theArgs.length == 0) {
