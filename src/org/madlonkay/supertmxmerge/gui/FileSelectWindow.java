@@ -53,7 +53,9 @@ public class FileSelectWindow extends javax.swing.JFrame implements IDropCallbac
         baseFileField.setTransferHandler(th);
         combineList.setTransferHandler(th);
         
-        setJMenuBar(new MenuBar());
+        if (GuiUtil.isOSX()) {
+            setJMenuBar(new MenuBar());
+        }
     }
     
     @Override
