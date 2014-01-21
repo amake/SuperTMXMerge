@@ -31,8 +31,8 @@
             <fileset dir="release" includes="**"/>
         </copy>
         <chmod file="${dist.dir}/SuperTMXMerge.sh" perm="ugo+rx"/>
-        <copy file="README.md" tofile="dist/README.TXT" overwrite="yes"/>
-        <copy file="LICENSE" todir="dist"/>
+        <copy file="README.md" tofile="${dist.dir}/README.TXT" overwrite="yes"/>
+        <copy file="LICENSE" todir="${dist.dir}"/>
         <!-- Make separate JAR for embedding in OmegaT. -->
         <jar destfile="${dist.dir}/${application.title}-for_OmegaT.jar"
             manifest="${manifest.file}">
@@ -44,7 +44,8 @@
             <zipgroupfileset dir="${dist.dir}/lib" includes="*.jar"/>
         </jar>
         <zip destfile="${dist.dir}/${application.title}_${repository.version}.zip">
-            <fileset dir="${dist.dir}" excludes="*-for_OmegaT.jar,*.zip,lib/*,lib,*.app/**,*.app"/>
+            <fileset dir="${dist.dir}" excludes="*-for_OmegaT.jar,*.zip,lib/**,lib,*.app/**,*.app,SuperTMXMerge.sh"/>
+            <zipfileset file="${dist.dir}/SuperTMXMerge.sh" filemode="755"/>
         </zip>
         <!-- Make Mac OS X app. -->
         <chmod file="${dist.dir}/SuperTMXMerge.app/Contents/MacOS/SuperTMXMerge.sh" perm="ugo+rx"/>
@@ -52,6 +53,7 @@
         <zip destfile="${dist.dir}/${application.title}_MacOSX_${repository.version}.zip">
             <zipfileset dir="${dist.dir}/SuperTMXMerge.app" prefix="SuperTMXMerge.app"
                         excludes="**/SuperTMXMerge.sh"/>
+            <zipfileset dir="${dist.dir}" excludes="*.jar,*.zip,lib/**,lib,*.app/**,*.bat,*.sh"/>
             <zipfileset file="${dist.dir}/SuperTMXMerge.app/Contents/MacOS/SuperTMXMerge.sh"
                         prefix="SuperTMXMerge.app/Contents/MacOS" filemode="755"/>
         </zip>
