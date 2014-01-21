@@ -22,10 +22,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Window;
+import java.awt.event.MouseWheelEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -109,5 +111,13 @@ public class GuiUtil {
     
     public static boolean isOSX() {
         return System.getProperty("os.name").contains("OS X");
+    }
+    
+    public static void forwardMouseWheelEvent(JScrollPane target, MouseWheelEvent evt) {
+        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(
+                new MouseWheelEvent(target, evt.getID(), evt.getWhen(),
+                        evt.getModifiers(), evt.getX(), evt.getY(),
+                        evt.getClickCount(), evt.isPopupTrigger(),
+                        evt.getScrollType(), evt.getScrollAmount(), evt.getWheelRotation()));
     }
 }

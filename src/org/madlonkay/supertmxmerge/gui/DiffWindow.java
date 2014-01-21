@@ -87,7 +87,7 @@ public class DiffWindow extends javax.swing.JPanel {
         for (DiffInfo info : infos) {
             progress.setValue(n);
             progress.setMessage(LocString.getFormat("diff_progress", n, infos.size()));
-            diffsPanel.add(new DiffCell(n, info));
+            diffsPanel.add(new DiffCell(n, info, jScrollPane1));
             n++;
         }
     }

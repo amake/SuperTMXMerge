@@ -18,11 +18,13 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
+import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.JTextComponent;
 import org.madlonkay.supertmxmerge.data.DiffInfo;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
+import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
@@ -33,11 +35,18 @@ public class DiffCell extends javax.swing.JPanel {
 
      private final static MapToTextConverter CONVERTER = new MapToTextConverter();
     
+     private final JScrollPane scrollTarget;
+     
     /**
      * Creates new form TUDiffCell
+     * @param itemNumber
+     * @param info
+     * @param scrollTarget
      */
-    public DiffCell(int itemNumber, DiffInfo info) {
+    public DiffCell(int itemNumber, DiffInfo info, JScrollPane scrollTarget) {
         initComponents();
+        
+        this.scrollTarget = scrollTarget;
         
         itemNumberLabel.setText(String.valueOf(itemNumber));
         if (info.key.props != null) {
@@ -103,6 +112,11 @@ public class DiffCell extends javax.swing.JPanel {
         sourceTextPanel.setLayout(new java.awt.GridLayout(1, 0));
 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane3.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                forwardScrollEvent(evt);
+            }
+        });
 
         sourceText.setEditable(false);
         sourceText.setColumns(72);
@@ -120,6 +134,11 @@ public class DiffCell extends javax.swing.JPanel {
         targetTextsPanel.setLayout(new java.awt.GridLayout(1, 0));
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                forwardScrollEvent(evt);
+            }
+        });
 
         tuvText1.setEditable(false);
         tuvText1.setFont(UIManager.getDefaults().getFont("Label.font"));
@@ -129,6 +148,11 @@ public class DiffCell extends javax.swing.JPanel {
         targetTextsPanel.add(jScrollPane1);
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                forwardScrollEvent(evt);
+            }
+        });
 
         tuvText2.setEditable(false);
         tuvText2.setFont(UIManager.getDefaults().getFont("Label.font"));
@@ -141,6 +165,11 @@ public class DiffCell extends javax.swing.JPanel {
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void forwardScrollEvent(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_forwardScrollEvent
+        GuiUtil.forwardMouseWheelEvent(scrollTarget, evt);
+    }//GEN-LAST:event_forwardScrollEvent
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel itemNumberLabel;
     private javax.swing.JPanel jPanel2;

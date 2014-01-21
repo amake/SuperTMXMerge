@@ -27,6 +27,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import org.madlonkay.supertmxmerge.data.ConflictInfo;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
+import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
@@ -40,6 +41,8 @@ public class MergeCell extends javax.swing.JPanel {
     
     private final static MapToTextConverter CONVERTER = new MapToTextConverter();
     
+    private final JScrollPane scrollTarget;
+    
     static {
         JScrollPane sp = new JScrollPane();
         BORDER_DEFAULT = sp.getBorder();
@@ -50,9 +53,12 @@ public class MergeCell extends javax.swing.JPanel {
      * Creates new form TUDiffCell
      * @param itemNumber
      * @param info
+     * @param scrollTarget
      */
-    public MergeCell(int itemNumber, ConflictInfo info) {
+    public MergeCell(int itemNumber, ConflictInfo info, JScrollPane scrollTarget) {
         initComponents();
+        
+        this.scrollTarget = scrollTarget;
         
         itemNumberLabel.setText(String.valueOf(itemNumber));
         sourceText.setText(info.key.sourceText);
@@ -181,6 +187,11 @@ public class MergeCell extends javax.swing.JPanel {
         jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
         sourceScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        sourceScrollPane.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                forwardScrollEvent(evt);
+            }
+        });
 
         sourceText.setEditable(false);
         sourceText.setColumns(72);
@@ -204,6 +215,12 @@ public class MergeCell extends javax.swing.JPanel {
         binding.setConverter(borderConverter1);
         bindingGroup.addBinding(binding);
 
+        jScrollPane1.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                forwardScrollEvent(evt);
+            }
+        });
+
         tuvTextLeft.setEditable(false);
         tuvTextLeft.setFont(UIManager.getDefaults().getFont("Label.font"));
         tuvTextLeft.setText("Target text 1");
@@ -218,6 +235,12 @@ public class MergeCell extends javax.swing.JPanel {
         binding.setConverter(borderConverter1);
         bindingGroup.addBinding(binding);
 
+        jScrollPane2.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                forwardScrollEvent(evt);
+            }
+        });
+
         tuvTextCenter.setEditable(false);
         tuvTextCenter.setFont(UIManager.getDefaults().getFont("Label.font"));
         tuvTextCenter.setText("Target text 2");
@@ -231,6 +254,12 @@ public class MergeCell extends javax.swing.JPanel {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, rightButton, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jScrollPane5, org.jdesktop.beansbinding.BeanProperty.create("border"), "tuvTextRightBorder");
         binding.setConverter(borderConverter1);
         bindingGroup.addBinding(binding);
+
+        jScrollPane5.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                forwardScrollEvent(evt);
+            }
+        });
 
         tuvTextRight.setEditable(false);
         tuvTextRight.setFont(UIManager.getDefaults().getFont("Label.font"));
@@ -249,6 +278,10 @@ public class MergeCell extends javax.swing.JPanel {
     private void leftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leftButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_leftButtonActionPerformed
+
+    private void forwardScrollEvent(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_forwardScrollEvent
+        GuiUtil.forwardMouseWheelEvent(scrollTarget, evt);
+    }//GEN-LAST:event_forwardScrollEvent
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.madlonkay.supertmxmerge.gui.BorderConverter borderConverter1;

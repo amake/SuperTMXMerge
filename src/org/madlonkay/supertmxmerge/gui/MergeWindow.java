@@ -139,7 +139,7 @@ public class MergeWindow extends javax.swing.JPanel {
     }
     
     private void addMergeInfo(int itemNumber, ConflictInfo info) {
-        MergeCell cell = new MergeCell(itemNumber, info);
+        MergeCell cell = new MergeCell(itemNumber, info, jScrollPane1);
         cell.setIsTwoWayMerge(isTwoWayMerge);
         JRadioButton[] buttons = {
                 cell.getLeftButton(),
