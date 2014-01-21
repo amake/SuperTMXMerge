@@ -18,14 +18,16 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
+import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
-import javax.swing.WindowConstants;
 import org.madlonkay.supertmxmerge.DiffController;
 import org.madlonkay.supertmxmerge.data.DiffInfo;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
@@ -38,10 +40,9 @@ import org.madlonkay.supertmxmerge.util.LocString;
 public class DiffWindow extends javax.swing.JPanel {
    
     public static JFrame newAsFrame(DiffController controller) {
-        JFrame frame = new JFrame(LocString.get("diff_window_title"));
-        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.add(new DiffWindow(frame, controller));
-        frame.setJMenuBar(new MenuBar());
+        JFrame frame = new MenuFrame(LocString.get("diff_window_title"));
+        frame.setContentPane(new DiffWindow(frame, controller));
+        frame.pack();
         return frame;
     }
     
@@ -72,6 +73,11 @@ public class DiffWindow extends javax.swing.JPanel {
         
         this.controller = controller;
         initComponents();
+        
+        if (window instanceof MenuFrame) {
+            buttonPanel.setVisible(false);
+            ((MenuFrame) window).addFileMenuItem(saveAsMenuItem);
+        }
         
         // Keep tooltips open. Via:
         // http://www.rgagnon.com/javadetails/java-0528.html
@@ -110,6 +116,7 @@ public class DiffWindow extends javax.swing.JPanel {
         unitCountConverter = new LocStringConverter("number_of_units", "number_of_units_singular");
         changeCountConverter = new LocStringConverter("number_of_changes", "number_of_changes_singular");
         mapToTextConverter = new org.madlonkay.supertmxmerge.gui.MapToTextConverter();
+        saveAsMenuItem = new javax.swing.JMenuItem();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         file1Label = new javax.swing.JLabel();
@@ -120,8 +127,17 @@ public class DiffWindow extends javax.swing.JPanel {
         changeCountLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         diffsPanel = new org.madlonkay.supertmxmerge.gui.ReasonablySizedPanel();
-        jPanel1 = new javax.swing.JPanel();
+        buttonPanel = new javax.swing.JPanel();
         saveAsButton = new javax.swing.JButton();
+
+        saveAsMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        saveAsMenuItem.setMnemonic('a');
+        saveAsMenuItem.setText(LocString.get("file_menu_saveas")); // NOI18N
+        saveAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAsActionPerformed(evt);
+            }
+        });
 
         setLayout(new java.awt.BorderLayout());
 
@@ -188,8 +204,8 @@ public class DiffWindow extends javax.swing.JPanel {
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
-        jPanel1.setLayout(new java.awt.BorderLayout());
+        buttonPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        buttonPanel.setLayout(new java.awt.BorderLayout());
 
         saveAsButton.setText(LocString.get("save_as_button")); // NOI18N
 
@@ -198,21 +214,22 @@ public class DiffWindow extends javax.swing.JPanel {
 
         saveAsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveAsButtonActionPerformed(evt);
+                saveAsActionPerformed(evt);
             }
         });
-        jPanel1.add(saveAsButton, java.awt.BorderLayout.EAST);
+        buttonPanel.add(saveAsButton, java.awt.BorderLayout.EAST);
 
-        add(jPanel1, java.awt.BorderLayout.SOUTH);
+        add(buttonPanel, java.awt.BorderLayout.SOUTH);
 
         bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void saveAsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsButtonActionPerformed
+    private void saveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsActionPerformed
         getController().saveAs();
-    }//GEN-LAST:event_saveAsButtonActionPerformed
+    }//GEN-LAST:event_saveAsActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel buttonPanel;
     private org.madlonkay.supertmxmerge.gui.LocStringConverter changeCountConverter;
     private javax.swing.JLabel changeCountLabel;
     private org.madlonkay.supertmxmerge.DiffController controller;
@@ -221,13 +238,13 @@ public class DiffWindow extends javax.swing.JPanel {
     private javax.swing.JLabel file1TextUnits;
     private javax.swing.JLabel file2Label;
     private javax.swing.JLabel file2TextUnits;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private org.madlonkay.supertmxmerge.gui.MapToTextConverter mapToTextConverter;
     private javax.swing.JButton saveAsButton;
+    private javax.swing.JMenuItem saveAsMenuItem;
     private org.madlonkay.supertmxmerge.gui.LocStringConverter unitCountConverter;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables

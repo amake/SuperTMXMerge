@@ -19,11 +19,13 @@
 package org.madlonkay.supertmxmerge.gui;
 
 import java.awt.Component;
+import java.awt.Window;
 import java.io.File;
 import java.util.Enumeration;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.TransferHandler;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
@@ -33,18 +35,36 @@ import org.madlonkay.supertmxmerge.util.LocString;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class FileSelectWindow extends javax.swing.JFrame implements IDropCallback {
+public class FileSelectWindow extends javax.swing.JPanel implements IDropCallback {
+    
+    public static JFrame newAsFrame() {
+        JFrame frame = new MenuFrame(LocString.get("diff_window_title"));
+        if (!GuiUtil.isOSX()) {
+            frame.setJMenuBar(null);
+        }
+        frame.setContentPane(new FileSelectWindow(frame));
+        frame.setLocationByPlatform(true);
+        frame.setResizable(false);
+        frame.pack();
+        return frame;
+    }
     
     private final static Logger LOGGER = Logger.getLogger(FileSelectWindow.class.getName());
     
     private final static FileNameExtensionFilter FILTER_TMX = 
             new FileNameExtensionFilter(LocString.get("tmx_file_type_label"), "tmx");
     
+    private final Window window;
+    
     /**
      * Creates new form FileSelectWindow
+     * @param window
      */
-    public FileSelectWindow() {
+    public FileSelectWindow(Window window) {
+        this.window = window;
+        
         initComponents();
+        
         TransferHandler th = new FileDropHandler(this);
         file1Field.setTransferHandler(th);
         file2Field.setTransferHandler(th);
@@ -52,10 +72,6 @@ public class FileSelectWindow extends javax.swing.JFrame implements IDropCallbac
         rightFileField.setTransferHandler(th);
         baseFileField.setTransferHandler(th);
         combineList.setTransferHandler(th);
-        
-        if (GuiUtil.isOSX()) {
-            setJMenuBar(new MenuBar());
-        }
     }
     
     @Override
@@ -126,12 +142,6 @@ public class FileSelectWindow extends javax.swing.JFrame implements IDropCallbac
 
         multiFileChooser.setFileFilter(FILTER_TMX);
         multiFileChooser.setMultiSelectionEnabled(true);
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(LocString.get("file_select_window_title")); // NOI18N
-        setLocationByPlatform(true);
-        setResizable(false);
-        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.PAGE_AXIS));
 
         diffPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         diffPanel.setLayout(new javax.swing.BoxLayout(diffPanel, javax.swing.BoxLayout.PAGE_AXIS));
@@ -376,11 +386,9 @@ public class FileSelectWindow extends javax.swing.JFrame implements IDropCallbac
 
         diffMergeTabbedPane.addTab(LocString.get("combine_button"), combinePanel); // NOI18N
 
-        getContentPane().add(diffMergeTabbedPane);
+        add(diffMergeTabbedPane);
 
         bindingGroup.bind();
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void file1ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_file1ButtonActionPerformed
@@ -414,11 +422,11 @@ public class FileSelectWindow extends javax.swing.JFrame implements IDropCallbac
     }//GEN-LAST:event_rightFileButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        dispose();
+        window.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void diffOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diffOkButtonActionPerformed
-        dispose();
+        window.dispose();
         GuiUtil.safelyRunBlockingRoutine(new Runnable() {
             @Override
             public void run() {
@@ -428,7 +436,7 @@ public class FileSelectWindow extends javax.swing.JFrame implements IDropCallbac
     }//GEN-LAST:event_diffOkButtonActionPerformed
 
     private void mergeOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mergeOkButtonActionPerformed
-        dispose();
+        window.dispose();
         GuiUtil.safelyRunBlockingRoutine(new Runnable() {
             @Override
             public void run() {
@@ -462,7 +470,7 @@ public class FileSelectWindow extends javax.swing.JFrame implements IDropCallbac
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void combineOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combineOkButtonActionPerformed
-        dispose();
+        window.dispose();
         GuiUtil.safelyRunBlockingRoutine(new Runnable() {
             @Override
             public void run() {

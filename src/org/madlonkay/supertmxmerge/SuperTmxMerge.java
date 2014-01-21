@@ -18,6 +18,7 @@
  */
 package org.madlonkay.supertmxmerge;
 
+import java.awt.Window;
 import java.io.File;
 import java.util.logging.Logger;
 import org.madlonkay.supertmxmerge.data.ITmx;
@@ -95,7 +96,7 @@ public class SuperTmxMerge {
     }
     
     public static void promptForFiles() {
-        FileSelectWindow window = new FileSelectWindow();
+        Window window = FileSelectWindow.newAsFrame();
         GuiUtil.displayWindow(window);
     }
     
