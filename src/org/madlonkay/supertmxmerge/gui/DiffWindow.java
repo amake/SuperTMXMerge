@@ -41,6 +41,7 @@ public class DiffWindow extends javax.swing.JPanel {
         JFrame frame = new JFrame(LocString.get("diff_window_title"));
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.add(new DiffWindow(frame, controller));
+        frame.setJMenuBar(new MenuBar());
         return frame;
     }
     
