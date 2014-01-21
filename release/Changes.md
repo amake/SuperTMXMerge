@@ -27,3 +27,9 @@ SuperTMXMerge change history
 - Fixed output of TUs with complex content
 - Fixed duplicated TUs in merge output in some situations
 - Other small fixes and improvements
+
+# 0.9.5
+- Added Mac-specific package
+- Added menu bar
+- Fixed mouse wheel scrolling
+- Made diff, merge windows modal for embedded use
