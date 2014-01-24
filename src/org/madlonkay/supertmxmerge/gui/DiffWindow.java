@@ -58,7 +58,6 @@ public class DiffWindow extends javax.swing.JPanel {
         progress = new ProgressWindow();
         
         this.window = window;
-        window.setLocationByPlatform(true);
         window.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent evt) {

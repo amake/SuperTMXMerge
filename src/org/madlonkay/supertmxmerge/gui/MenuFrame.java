@@ -63,6 +63,7 @@ public class MenuFrame extends javax.swing.JFrame {
         newMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setLocationByPlatform(true);
         getContentPane().setLayout(null);
 
         fileMenu.setMnemonic('f');

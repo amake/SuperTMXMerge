@@ -22,6 +22,7 @@ import java.awt.Dialog;
 import java.awt.Window;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,10 +78,9 @@ public class MergeWindow extends javax.swing.JPanel {
         progress = new ProgressWindow();
 
         this.window = window;
-        window.setLocationByPlatform(true);
-        window.addWindowListener(new java.awt.event.WindowAdapter() {
+        window.addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(java.awt.event.WindowEvent evt) {
+            public void windowClosing(WindowEvent evt) {
                 if (!controller.isConflictsAreResolved()) {
                     if (!controller.isCanCancel()) {
                         // Don't let user exit without resolving.
