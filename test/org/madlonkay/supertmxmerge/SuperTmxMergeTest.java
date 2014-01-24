@@ -18,9 +18,6 @@
 package org.madlonkay.supertmxmerge;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -173,20 +170,5 @@ public class SuperTmxMergeTest {
         assertTrue(diff.added.isEmpty());
         assertTrue(diff.deleted.isEmpty());
         assertTrue(diff.modified.isEmpty());
-    }
-    
-    private boolean compareFileTextContent(File file1, File file2) throws IOException {
-        String content1 = normalize(getFileTextContent(file1));
-        String content2 = normalize(getFileTextContent(file2));
-        
-        return content1.equals(content2);
-    }
-    
-    private String getFileTextContent(File file) throws IOException {
-        return new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
-    }
-    
-    private String normalize(String string) {
-        return string.replace("\r\n", "\n");
     }
 }

@@ -18,7 +18,6 @@
  */
 package org.madlonkay.supertmxmerge;
 
-import java.awt.Dialog;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -60,7 +59,7 @@ public class MergeController implements Serializable, ActionListener {
     private ITmx leftTmx;
     private ITmx rightTmx;
         
-    private final Map<Key, AbstractButton[]> selections = new HashMap<>();
+    private final Map<Key, AbstractButton[]> selections = new HashMap<Key, AbstractButton[]>();
     
     private ResolutionSet resolution;
     

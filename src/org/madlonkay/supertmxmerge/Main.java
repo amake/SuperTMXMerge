@@ -40,8 +40,13 @@ public class Main {
             System.setProperty("apple.laf.useScreenMenuBar", "true");
             System.setProperty(
                 "com.apple.mrj.application.apple.menu.about.name", "SuperTMXMerge");
-        } catch ( UnsupportedLookAndFeelException | ClassNotFoundException
-                | InstantiationException | IllegalAccessException ex) {
+        } catch (UnsupportedLookAndFeelException ex) {
+            throw new RuntimeException(ex);
+        } catch (ClassNotFoundException ex) {
+            throw new RuntimeException(ex);
+        } catch (InstantiationException ex) {
+            throw new RuntimeException(ex);
+        } catch (IllegalAccessException ex) {
             throw new RuntimeException(ex);
         }
         
@@ -60,7 +65,7 @@ public class Main {
                 // The order of these tests is important!
                 
                 if ("--combine".equals(theArgs[0])) {
-                    List<File> files = new ArrayList<>();
+                    List<File> files = new ArrayList<File>();
                     File outputFile = null;
                     int i;
                     for (i = 1; i < theArgs.length; i++) {

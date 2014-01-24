@@ -61,9 +61,9 @@ public class MergeWindow extends javax.swing.JPanel {
     private final Window window;
     private final ProgressWindow progress;
     
-    private final List<JRadioButton> leftRadioButtons = new ArrayList<>();
-    private final List<JRadioButton> rightRadioButtons = new ArrayList<>();
-    private final List<JRadioButton> centerRadioButtons = new ArrayList<>();
+    private final List<JRadioButton> leftRadioButtons = new ArrayList<JRadioButton>();
+    private final List<JRadioButton> rightRadioButtons = new ArrayList<JRadioButton>();
+    private final List<JRadioButton> centerRadioButtons = new ArrayList<JRadioButton>();
     
     private boolean isTwoWayMerge = false;
         

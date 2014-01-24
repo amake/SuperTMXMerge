@@ -248,8 +248,8 @@ public class JAXBTmx implements ITmx {
     }
     
     private void generateMaps() {
-        tuvMap = new HashMap<>();
-        tuMap = new HashMap<>();
+        tuvMap = new HashMap<Key, ITuv>();
+        tuMap = new HashMap<Key, ITu>();
         for (Tu rawTu : tmx.getBody().getTu()) {
             JAXBTu tu = new JAXBTu(rawTu, getSourceLanguage());
             Key key = tu.getKey();
@@ -325,7 +325,11 @@ public class JAXBTmx implements ITmx {
             OutputStream stream = new FileOutputStream(output);
             XMLStreamWriter writer = XMLOutputFactory.newInstance().createXMLStreamWriter(stream, "UTF-8");
             MARSHALLER.marshal(tmx, new TmxWriter(writer));
-        } catch (FileNotFoundException | JAXBException | XMLStreamException ex) {
+        } catch (FileNotFoundException ex) {
+            throw new WriteFailedException(ex);
+        } catch (JAXBException ex) {
+            throw new WriteFailedException(ex);
+        } catch (XMLStreamException ex) {
             throw new WriteFailedException(ex);
         }
     }
@@ -363,7 +367,7 @@ public class JAXBTmx implements ITmx {
     }
     
     public void combine(JAXBTmx tmx) {
-        Set<Key> toAdd = new HashSet<>();
+        Set<Key> toAdd = new HashSet<Key>();
         toAdd.addAll(tmx.getTuMap().keySet());
         toAdd.removeAll(this.getTuMap().keySet());
 

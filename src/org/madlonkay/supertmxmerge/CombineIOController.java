@@ -51,7 +51,7 @@ public class CombineIOController {
     public static final String PROP_INPUTISVALID = "inputIsValid";
     public static final String PROP_OUTPUTFILE = "outputFile";
     
-    private List<File> files = new ArrayList<>();
+    private List<File> files = new ArrayList<File>();
     private File outputFile;
     
     public CombineIOController() {
