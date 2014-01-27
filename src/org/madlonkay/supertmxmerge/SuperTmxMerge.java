@@ -68,6 +68,7 @@ public class SuperTmxMerge {
         MergeController controller = new MergeController();
         controller.setQuiet(true);
         controller.setIsModal(true);
+        controller.setCanCancel(false);
         ITmx base = new OmTTmx(baseTmx, baseTmxName, sourceLanguage, targetLanguage);
         ITmx one = new OmTTmx(tmx1, tmx1Name, sourceLanguage, targetLanguage);
         ITmx two = new OmTTmx(tmx2, tmx2Name, sourceLanguage, targetLanguage);
