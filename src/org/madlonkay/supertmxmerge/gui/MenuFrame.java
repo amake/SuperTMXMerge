@@ -21,6 +21,7 @@ package org.madlonkay.supertmxmerge.gui;
 
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import org.madlonkay.supertmxmerge.SuperTmxMerge;
@@ -61,6 +62,7 @@ public class MenuFrame extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         newMenuItem = new javax.swing.JMenuItem();
+        closeMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationByPlatform(true);
@@ -79,6 +81,16 @@ public class MenuFrame extends javax.swing.JFrame {
         });
         fileMenu.add(newMenuItem);
 
+        closeMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        closeMenuItem.setMnemonic('c');
+        closeMenuItem.setText(LocString.get("file_menu_close")); // NOI18N
+        closeMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(closeMenuItem);
+
         menuBar.add(fileMenu);
         fileMenu.getAccessibleContext().setAccessibleName(LocString.get("file_menu")); // NOI18N
 
@@ -96,7 +108,12 @@ public class MenuFrame extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_newMenuItemActionPerformed
 
+    private void closeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeMenuItemActionPerformed
+        getToolkit().getSystemEventQueue().postEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+    }//GEN-LAST:event_closeMenuItemActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem closeMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem newMenuItem;

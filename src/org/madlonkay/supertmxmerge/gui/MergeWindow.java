@@ -47,6 +47,7 @@ public class MergeWindow extends javax.swing.JPanel {
     public static JFrame newAsFrame(final MergeController controller, boolean isTwoWayMerge) {
         MenuFrame frame = new MenuFrame(LocString.get("merge_window_title"));
         frame.setContentPane(new MergeWindow(frame, controller, isTwoWayMerge));
+        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         frame.pack();
         return frame;
     }
