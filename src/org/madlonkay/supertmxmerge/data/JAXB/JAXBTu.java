@@ -22,14 +22,13 @@ import gen.core.tmx14.Prop;
 import gen.core.tmx14.Tu;
 import gen.core.tmx14.Tuv;
 import org.madlonkay.supertmxmerge.data.ITu;
-import org.madlonkay.supertmxmerge.data.ITuv;
 import org.madlonkay.supertmxmerge.data.Key;
 
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class JAXBTu implements ITu {
+public class JAXBTu implements ITu<Tu,Tuv> {
     
     private final Tu tu;
     private final String sourceLanguage;
@@ -39,7 +38,7 @@ public class JAXBTu implements ITu {
         this.sourceLanguage = sourceLanguage;
     }
     
-    public ITuv getSourceTuv() {
+    public JAXBTuv getSourceTuv() {
         for (Tuv tuv : tu.getTuv()) {
             if (sourceLanguage.equalsIgnoreCase(JAXBTuv.getLanguage(tuv))) {
                 return new JAXBTuv(tuv);
@@ -49,12 +48,12 @@ public class JAXBTu implements ITu {
     }
     
     @Override
-    public Object getUnderlyingRepresentation() {
+    public Tu getUnderlyingRepresentation() {
         return tu;
     }
     
     @Override
-    public ITuv getTargetTuv() {
+    public JAXBTuv getTargetTuv() {
         for (Tuv tuv : tu.getTuv()) {
             if (!sourceLanguage.equalsIgnoreCase(JAXBTuv.getLanguage(tuv))) {
                 return new JAXBTuv(tuv);
@@ -64,7 +63,7 @@ public class JAXBTu implements ITu {
     }
     
     public Key getKey() {
-        ITuv sourceTuv = getSourceTuv();
+        JAXBTuv sourceTuv = getSourceTuv();
         Key key;
         // If there is no relevant source TUV, make a null key with
         // all the TUV contents as properties.

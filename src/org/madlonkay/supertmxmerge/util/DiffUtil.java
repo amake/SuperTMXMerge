@@ -82,7 +82,7 @@ public class DiffUtil {
         STYLE_DELETED_ALT = deletedAlt;
     }
     
-    public static List<DiffInfo> generateDiffData(ITmx tmx1, ITmx tmx2) {
+    public static <T extends ITmx<?,T2,T3>,T2,T3> List<DiffInfo> generateDiffData(T tmx1, T tmx2) {
         
         List<DiffInfo> diffInfos = new ArrayList<DiffInfo>();
         
@@ -108,7 +108,7 @@ public class DiffUtil {
         return diffInfos;
     }
     
-    public static DiffSet generateDiffSet(ITmx tmx1, ITmx tmx2) {
+    public static <T extends ITmx<?,T2,T3>,T2,T3> DiffSet generateDiffSet(T tmx1, T tmx2) {
         // Deleted TUs
         Set<Key> deleted = new HashSet<Key>(tmx1.getTuvMap().keySet());
         deleted.removeAll(tmx2.getTuvMap().keySet());
@@ -119,8 +119,8 @@ public class DiffUtil {
         
         // Modified TUs
         Set<Key> modified = new HashSet<Key>();
-        for (Map.Entry<Key, ITuv> e : tmx1.getTuvMap().entrySet()) {
-            ITuv newTuv = tmx2.getTuvMap().get(e.getKey());
+        for (Map.Entry<Key, ? extends ITuv<T3>> e : tmx1.getTuvMap().entrySet()) {
+            ITuv<T3> newTuv = tmx2.getTuvMap().get(e.getKey());
             if (newTuv == null) {
                 continue;
             }
@@ -131,13 +131,13 @@ public class DiffUtil {
         return new DiffSet(deleted, added, modified);
     }
     
-    public static ResolutionSet generateMergeData(ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
+    public static <T1,T2> ResolutionSet<ITu<T1,T2>,ITuv<T2>,T2> generateMergeData(ITmx<?,T1,T2> baseTmx, ITmx<?,T1,T2> leftTmx, ITmx<?,T1,T2> rightTmx) {
         
         List<ConflictInfo> conflicts = new ArrayList<ConflictInfo>();
         
         HashSet<Key> toDelete = new HashSet<Key>();
-        HashSet<ITu> toAdd = new HashSet<ITu>();
-        HashMap<Key, ITuv> toReplace = new HashMap<Key, ITuv>();
+        HashSet<ITu<T1,T2>> toAdd = new HashSet<ITu<T1,T2>>();
+        HashMap<Key, ITuv<T2>> toReplace = new HashMap<Key, ITuv<T2>>();
         
         DiffSet baseToLeft = generateDiffSet(baseTmx, leftTmx);
         DiffSet baseToRight = generateDiffSet(baseTmx, rightTmx);
@@ -236,7 +236,7 @@ public class DiffUtil {
             }
         }
         
-        return new ResolutionSet(conflicts, toDelete, toAdd, toReplace);
+        return new ResolutionSet<ITu<T1,T2>,ITuv<T2>,T2>(conflicts, toDelete, toAdd, toReplace);
     }
     
     public static Diff.change getCharacterDiff(String from, String to) {

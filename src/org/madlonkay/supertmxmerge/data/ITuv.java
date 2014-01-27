@@ -21,14 +21,15 @@ package org.madlonkay.supertmxmerge.data;
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
+ * @param <T>
  */
-public interface ITuv {
+public interface ITuv<T> {
     
     public String getContent();
     
     public String getLanguage();
     
-    public Object getUnderlyingRepresentation();
+    public T getUnderlyingRepresentation();
     
     public boolean equals(ITuv o);
 }

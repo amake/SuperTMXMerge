@@ -24,12 +24,13 @@ import java.util.Map;
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
+ * @param <T1>
  */
-public interface ITmx {
+public interface ITmx<T1,T2,T3> {
     
-    public Map<Key, ITuv> getTuvMap();
+    public Map<Key, ? extends ITuv<T3>> getTuvMap();
     
-    public Map<Key, ITu> getTuMap();
+    public Map<Key, ? extends ITu<T2,T3>> getTuMap();
     
     public String getSourceLanguage();
     
@@ -39,9 +40,9 @@ public interface ITmx {
     
     public Map<String, String> getMetadata();
     
-    public ITmx applyChanges(ResolutionSet resolution);
+    public ITmx<T1,T2,T3> applyChanges(ResolutionSet<? extends ITu<T2,T3>,? extends ITuv<T3>,T3> resolution);
     
     public void writeTo(File outputFile) throws WriteFailedException;
     
-    public Object getUnderlyingRepresentation();
+    public T1 getUnderlyingRepresentation();
 }

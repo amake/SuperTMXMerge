@@ -32,15 +32,15 @@ import org.madlonkay.supertmxmerge.data.WriteFailedException;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class OmTTmx implements ITmx {
+public class OmTTmx implements ITmx<ProjectTMX,TMXEntry,TMXEntry> {
 
     private ProjectTMX tmx;
     private final String name;
     private final String sourceLanguage;
     private final String targetLanguage;
     
-    private Map<Key, ITu> tuMap;
-    private Map<Key, ITuv> tuvMap;
+    private Map<Key, OmTTu> tuMap;
+    private Map<Key, OmTTuv> tuvMap;
     
     public OmTTmx(ProjectTMX tmx, String name, String sourceLanguage, String targetLanguage) {
         this.tmx = tmx;
@@ -50,7 +50,7 @@ public class OmTTmx implements ITmx {
     }
     
     @Override
-    public Map<Key, ITuv> getTuvMap() {
+    public Map<Key, OmTTuv> getTuvMap() {
         if (tuvMap == null) {
             generateMaps();
         }
@@ -58,7 +58,7 @@ public class OmTTmx implements ITmx {
     }
     
     @Override
-    public Map<Key, ITu> getTuMap() {
+    public Map<Key, OmTTu> getTuMap() {
         if (tuMap == null) {
             generateMaps();
         }
@@ -66,10 +66,10 @@ public class OmTTmx implements ITmx {
     }
     
     private void generateMaps() {
-        tuvMap = new HashMap<Key, ITuv>();
-        tuMap = new HashMap<Key, ITu>();
+        tuvMap = new HashMap<Key, OmTTuv>();
+        tuMap = new HashMap<Key, OmTTu>();
         for (Entry<String, TMXEntry> e : tmx.defaults.entrySet()) {
-            ITu tu = new OmTTu(e.getValue(), targetLanguage);
+            OmTTu tu = new OmTTu(e.getValue(), targetLanguage);
             Key key = makeKey(e.getKey(), e.getValue());
             assert(!tuMap.containsKey(key));
             assert(!tuvMap.containsKey(key));
@@ -77,7 +77,7 @@ public class OmTTmx implements ITmx {
             tuvMap.put(key, tu.getTargetTuv());
         }
         for (Entry<EntryKey, TMXEntry> e : tmx.alternatives.entrySet()) {
-            ITu tu = new OmTTu(e.getValue(), targetLanguage);
+            OmTTu tu = new OmTTu(e.getValue(), targetLanguage);
             Key key = makeKey(e.getKey(), e.getValue());
             assert(!tuMap.containsKey(key));
             assert(!tuvMap.containsKey(key));
@@ -120,17 +120,17 @@ public class OmTTmx implements ITmx {
     }
 
     @Override
-    public ITmx applyChanges(ResolutionSet resolution) {
+    public OmTTmx applyChanges(ResolutionSet<? extends ITu<TMXEntry,TMXEntry>,? extends ITuv<TMXEntry>,TMXEntry> resolution) {
         ProjectTMX originalData = clone(tmx);
         for (Key key : resolution.toDelete) {
             remove(key);
         }
-        for (Entry<Key, ITuv> e : resolution.toReplace.entrySet()) {
+        for (Entry<Key, ? extends ITuv<TMXEntry>> e : resolution.toReplace.entrySet()) {
             remove(e.getKey());
-            add(e.getKey(), (TMXEntry) e.getValue().getUnderlyingRepresentation());
+            add(e.getKey(), e.getValue().getUnderlyingRepresentation());
         }
-        for (ITu tu : resolution.toAdd) {
-            TMXEntry entry = (TMXEntry) tu.getUnderlyingRepresentation();
+        for (ITu<TMXEntry,TMXEntry> tu : resolution.toAdd) {
+            TMXEntry entry = tu.getUnderlyingRepresentation();
             tmx.defaults.put(entry.source, entry);
         }
         ProjectTMX modifiedData = tmx;
@@ -179,7 +179,7 @@ public class OmTTmx implements ITmx {
     }
 
     @Override
-    public Object getUnderlyingRepresentation() {
+    public ProjectTMX getUnderlyingRepresentation() {
         return tmx;
     }
     

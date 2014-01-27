@@ -26,13 +26,13 @@ import java.util.Set;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class ResolutionSet {
+public class ResolutionSet<T1 extends ITu<?,T3>, T2 extends ITuv<T3>,T3> {
     public final List<ConflictInfo> conflicts;
     public final Set<Key> toDelete;
-    public final Set<ITu> toAdd;
-    public final Map<Key, ITuv> toReplace;
+    public final Set<T1> toAdd;
+    public final Map<Key, T2> toReplace;
     
-    public ResolutionSet(List<ConflictInfo> conflicts, Set<Key> toDelete, Set<ITu> toAdd, Map<Key, ITuv> toReplace) {
+    public ResolutionSet(List<ConflictInfo> conflicts, Set<Key> toDelete, Set<T1> toAdd, Map<Key, T2> toReplace) {
         this.conflicts = conflicts;
         this.toDelete = toDelete;
         this.toAdd = toAdd;

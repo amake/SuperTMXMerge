@@ -28,7 +28,7 @@ import org.madlonkay.supertmxmerge.data.ITuv;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class JAXBTuv implements ITuv {
+public class JAXBTuv implements ITuv<Tuv> {
     
     public static final JAXBTuv EMPTY_TUV = new JAXBTuv(null);
     
@@ -89,7 +89,7 @@ public class JAXBTuv implements ITuv {
     }
     
     @Override
-    public Object getUnderlyingRepresentation() {
+    public Tuv getUnderlyingRepresentation() {
         return tuv;
     }
     

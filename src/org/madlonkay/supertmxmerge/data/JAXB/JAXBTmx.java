@@ -72,7 +72,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class JAXBTmx implements ITmx {
+public class JAXBTmx implements ITmx<Tmx,Tu,Tuv> {
 
     private static final JAXBContext CONTEXT;
     private static final Unmarshaller UNMARSHALLER;
@@ -88,8 +88,8 @@ public class JAXBTmx implements ITmx {
     private Tmx tmx;
     private final String name;
     private File file;
-    private Map<Key, ITuv> tuvMap;
-    private Map<Key, ITu> tuMap;
+    private Map<Key, JAXBTuv> tuvMap;
+    private Map<Key, JAXBTu> tuMap;
     private Map<String, String> tmxMetadata;
     
     private static final String FEATURE_NAMESPACES = "http://xml.org/sax/features/namespaces";
@@ -146,7 +146,7 @@ public class JAXBTmx implements ITmx {
         Body body = tmx.getBody();
         
         for (Key key : set.added) {
-            Tu tu = (Tu) tmx2.getTuMap().get(key).getUnderlyingRepresentation();
+            Tu tu = tmx2.getTuMap().get(key).getUnderlyingRepresentation();
             body.getTu().add(tu);
             
             Prop prop = new Prop();
@@ -156,7 +156,7 @@ public class JAXBTmx implements ITmx {
         }
         
         for (Key key : set.deleted) {
-            Tu tu = (Tu) tmx1.getTuMap().get(key).getUnderlyingRepresentation();
+            Tu tu = tmx1.getTuMap().get(key).getUnderlyingRepresentation();
             body.getTu().add(tu);
             
             Prop prop = new Prop();
@@ -166,12 +166,12 @@ public class JAXBTmx implements ITmx {
         }
         
         for (Key key : set.modified) {
-            JAXBTu tu1 = (JAXBTu) tmx1.getTuMap().get(key);
-            Tu tu = (Tu) tu1.getUnderlyingRepresentation();
+            JAXBTu tu1 = tmx1.getTuMap().get(key);
+            Tu tu = tu1.getUnderlyingRepresentation();
             body.getTu().add(tu);
             
-            JAXBTu tu2 = (JAXBTu) tmx2.getTuMap().get(key);
-            tu.getTuv().add((Tuv) tu2.getTargetTuv().getUnderlyingRepresentation());
+            JAXBTu tu2 = tmx2.getTuMap().get(key);
+            tu.getTuv().add(tu2.getTargetTuv().getUnderlyingRepresentation());
             
             Prop prop = new Prop();
             tu.getNoteOrProp().add(prop);
@@ -179,13 +179,13 @@ public class JAXBTmx implements ITmx {
             prop.setContent(DiffUtil.DIFF_PROP_VALUE_MODIFIED);
             
             Prop prop1 = new Prop();
-            Tuv tuv1 = (Tuv) tu1.getTargetTuv().getUnderlyingRepresentation();
+            Tuv tuv1 = tu1.getTargetTuv().getUnderlyingRepresentation();
             tuv1.getNoteOrProp().add(prop1);
             prop1.setType(DiffUtil.DIFF_PROP_MODIFIED_TYPE);
             prop1.setContent(DiffUtil.DIFF_PROP_MODIFIED_VALUE_BEFORE);
             
             Prop prop2 = new Prop();
-            Tuv tuv2 = (Tuv) tu2.getTargetTuv().getUnderlyingRepresentation();
+            Tuv tuv2 = tu2.getTargetTuv().getUnderlyingRepresentation();
             tuv2.getNoteOrProp().add(prop2);
             prop2.setType(DiffUtil.DIFF_PROP_MODIFIED_TYPE);
             prop2.setContent(DiffUtil.DIFF_PROP_MODIFIED_VALUE_AFTER);
@@ -232,7 +232,7 @@ public class JAXBTmx implements ITmx {
     }
 
     @Override
-    public Map<Key, ITuv> getTuvMap() {
+    public Map<Key, JAXBTuv> getTuvMap() {
         if (tuvMap == null) {
             generateMaps();
         }
@@ -240,7 +240,7 @@ public class JAXBTmx implements ITmx {
     }
     
     @Override
-    public Map<Key, ITu> getTuMap() {
+    public Map<Key, JAXBTu> getTuMap() {
         if (tuMap == null) {
             generateMaps();
         }
@@ -248,15 +248,15 @@ public class JAXBTmx implements ITmx {
     }
     
     private void generateMaps() {
-        tuvMap = new HashMap<Key, ITuv>();
-        tuMap = new HashMap<Key, ITu>();
+        tuvMap = new HashMap<Key, JAXBTuv>();
+        tuMap = new HashMap<Key, JAXBTu>();
         for (Tu rawTu : tmx.getBody().getTu()) {
             JAXBTu tu = new JAXBTu(rawTu, getSourceLanguage());
             Key key = tu.getKey();
             assert(!tuMap.containsKey(key));
             assert(!tuvMap.containsKey(key));
             tuMap.put(key, tu);
-            ITuv tuv = tu.getTargetTuv();
+            JAXBTuv tuv = tu.getTargetTuv();
             tuvMap.put(key, tuv == null ? JAXBTuv.EMPTY_TUV : tuv);
         }
     }
@@ -277,7 +277,7 @@ public class JAXBTmx implements ITmx {
     }
     
     @Override
-    public ITmx applyChanges(ResolutionSet resolution) {
+    public JAXBTmx applyChanges(ResolutionSet<? extends ITu<Tu,Tuv>,? extends ITuv<Tuv>,Tuv> resolution) {
         Tmx originalData;
         try {
             originalData = clone(tmx);
@@ -286,18 +286,18 @@ public class JAXBTmx implements ITmx {
         }
         List<Tu> tus = tmx.getBody().getTu();
         for (Key key : resolution.toDelete) {
-            tus.remove((Tu) getTuMap().get(key).getUnderlyingRepresentation());
+            tus.remove(getTuMap().get(key).getUnderlyingRepresentation());
         }
-        for (Entry<Key, ITuv> e : resolution.toReplace.entrySet()) {
-            Tu tu = (Tu) getTuMap().get(e.getKey()).getUnderlyingRepresentation();
-            ITuv tuvToRemove = getTuvMap().get(e.getKey());
+        for (Entry<Key, ? extends ITuv<Tuv>> e : resolution.toReplace.entrySet()) {
+            Tu tu = getTuMap().get(e.getKey()).getUnderlyingRepresentation();
+            JAXBTuv tuvToRemove = getTuvMap().get(e.getKey());
             if (tuvToRemove != null) {
-                tu.getTuv().remove((Tuv) tuvToRemove.getUnderlyingRepresentation());
-                tu.getTuv().add((Tuv) e.getValue().getUnderlyingRepresentation());
+                tu.getTuv().remove(tuvToRemove.getUnderlyingRepresentation());
+                tu.getTuv().add(e.getValue().getUnderlyingRepresentation());
             }
         }
-        for (ITu tu : resolution.toAdd) {
-            tus.add((Tu) tu.getUnderlyingRepresentation());
+        for (ITu<Tu,Tuv> tu : resolution.toAdd) {
+            tus.add(tu.getUnderlyingRepresentation());
         }
         Tmx modifiedData = tmx;
         this.tmx = originalData;
@@ -335,7 +335,7 @@ public class JAXBTmx implements ITmx {
     }
 
     @Override
-    public Object getUnderlyingRepresentation() {
+    public Tmx getUnderlyingRepresentation() {
         return tmx;
     }
     
@@ -373,7 +373,7 @@ public class JAXBTmx implements ITmx {
 
         List<Tu> tus = this.tmx.getBody().getTu();
         for (Key key : toAdd) {
-            tus.add((Tu) tmx.getTuMap().get(key).getUnderlyingRepresentation());
+            tus.add(tmx.getTuMap().get(key).getUnderlyingRepresentation());
         }
         tuMap = null;
         tuvMap = null;

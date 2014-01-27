@@ -21,10 +21,11 @@ package org.madlonkay.supertmxmerge.data;
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
+ * @param <T>
  */
-public interface ITu {
+public interface ITu<T,T2> {
     
-    public ITuv getTargetTuv();
+    public ITuv<T2> getTargetTuv();
     
-    public Object getUnderlyingRepresentation();
+    public T getUnderlyingRepresentation();
 }
