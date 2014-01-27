@@ -32,6 +32,9 @@ public class JAXBTuv implements ITuv {
     
     public static final JAXBTuv EMPTY_TUV = new JAXBTuv(null);
     
+    private static final char TAG_START_CHAR = '\uE101';
+    private static final char TAG_END_CHAR = '\uE102';
+    
     private final Tuv tuv;
     
     public JAXBTuv(Tuv tuv) {
@@ -62,9 +65,9 @@ public class JAXBTuv implements ITuv {
                     if (!(subContent instanceof List)) {
                         throw new RuntimeException("TUV contained item that didn't return a List from getContent().");
                     }
-                    tmp.append('\uE101');
+                    tmp.append(TAG_START_CHAR);
                     tmp.append(extractContent((List<Object>) subContent));
-                    tmp.append('\uE102');
+                    tmp.append(TAG_END_CHAR);
                 } catch (NoSuchMethodException ex) {
                     // Nothing
                 } catch (IllegalAccessException ex) {
