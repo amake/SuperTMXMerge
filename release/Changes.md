@@ -33,3 +33,4 @@ SuperTMXMerge change history
 - Added menu bar
 - Fixed mouse wheel scrolling
 - Made diff, merge windows modal for embedded use
+- Removed build dependency on NetBeans
