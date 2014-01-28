@@ -56,6 +56,12 @@ License
 SuperTMXmerge is distributed under the [GNU Lesser General Public License, 
 v2.1](http://www.gnu.org/licenses/lgpl-2.1.html).
 
+SuperTMXMerge uses the following libraries with the noted licenses:
+
+- Beans Binding 1.2.1 (LGPL-2.1)
+- Swing Layout 1.0.4 (LGPL-2.1)
+- JUnit 4.10 (Eclipse License 1.0)
+
 
 Source
 ------
