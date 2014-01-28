@@ -24,6 +24,10 @@
             <attribute name="Implementation-Version" value="${repository.version}"/>
             <attribute name="Implementation-Title" value="${application.title}"/>
         </manifest>
+        <mkdir dir="${dist.lib.dir}"/>
+        <copy todir="${dist.lib.dir}">
+            <fileset dir="${lib.dir}" excludes="junit*"/>
+        </copy>
     </target>
     <target name="-post-jar" depends="git.revision">
         <filter token="STM_VERSION" value="${repository.version}"/>
