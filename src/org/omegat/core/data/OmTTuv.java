@@ -25,8 +25,8 @@ import org.madlonkay.supertmxmerge.data.ITuv;
  */
 public class OmTTuv implements ITuv {
 
-    private TMXEntry tmxEntry;
-    private String language;
+    private final TMXEntry tmxEntry;
+    private final String language;
     
     public OmTTuv(TMXEntry tmxEntry, String language) {
         this.tmxEntry = tmxEntry;
