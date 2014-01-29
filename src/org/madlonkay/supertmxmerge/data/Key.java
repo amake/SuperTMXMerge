@@ -45,6 +45,9 @@ public class Key {
 
     @Override
     public int hashCode() {
+        if (foreignKey != null) {
+            return foreignKey.hashCode();
+        }
         final int prime = 31;
         int result = 1;
         result = prime * result + ((props == null) ? 0 : props.hashCode());
@@ -62,6 +65,9 @@ public class Key {
         if (getClass() != obj.getClass())
             return false;
         Key other = (Key) obj;
+        if (foreignKey != null && other.foreignKey != null) {
+            return foreignKey.equals(other.foreignKey);
+        }
         if (props == null) {
             if (other.props != null)
                 return false;
