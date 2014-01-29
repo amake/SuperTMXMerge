@@ -43,9 +43,9 @@ public class MapToTextConverter extends Converter {
         StringBuilder sb = new StringBuilder("<html>");
         for (Entry<Object, Object> e : map.entrySet()) {
             sb.append("<b>");
-            sb.append(e.getKey().toString());
+            sb.append(toString(e.getKey()));
             sb.append(":</b> ");
-            sb.append(e.getValue().toString());
+            sb.append(toString(e.getValue()));
             sb.append("<br>");
         }
         sb.append("</html>");
@@ -55,5 +55,9 @@ public class MapToTextConverter extends Converter {
     @Override
     public Object convertReverse(Object value) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    private String toString(Object o) {
+        return o == null ? "null" : o.toString();
     }
 }
