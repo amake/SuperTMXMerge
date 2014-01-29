@@ -27,9 +27,10 @@ and type `java -version` verify that Java is installed and configured correctly.
 Usage
 -----
 
-On Windows run `SuperTMXMerge.bat`. On Linux, OS X, etc. run `SuperTMXMerge.sh`.
-This will give you a file selection window. To invoke various features directly
-from the command line, use the following.
+On Windows run `SuperTMXMerge.bat`. On Linux, etc., run `SuperTMXMerge.sh`.
+On Mac, double-click the SuperTMXMerge application. This will give you a file
+selection window. To invoke various features directly from the command line,
+use the following.
 
 Diff:
 
