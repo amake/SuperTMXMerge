@@ -26,7 +26,7 @@ import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import org.madlonkay.supertmxmerge.data.ConflictInfo;
-import org.madlonkay.supertmxmerge.util.DiffUtil;
+import org.madlonkay.supertmxmerge.util.CharDiff;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
@@ -73,8 +73,8 @@ public class MergeCell extends javax.swing.JPanel {
         tuvTextLeft.addMouseListener(new ClickForwarder(leftButton));
         tuvTextRight.addMouseListener(new ClickForwarder(rightButton));
         tuvTextCenter.addMouseListener(new ClickForwarder(centerButton));
-        DiffUtil.applyStyling(tuvTextCenter, tuvTextLeft, info.leftTuvDiff);
-        DiffUtil.applyStyling(tuvTextCenter, tuvTextRight, info.rightTuvDiff, true);
+        info.leftTuvDiff.applyStyling(tuvTextCenter, tuvTextLeft);
+        info.rightTuvDiff.applyStyling(tuvTextCenter, tuvTextRight, true);
     }
     
     private void setSourceLanguage(String language) {

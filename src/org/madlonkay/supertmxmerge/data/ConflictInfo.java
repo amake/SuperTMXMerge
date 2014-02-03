@@ -18,8 +18,7 @@
  */
 package org.madlonkay.supertmxmerge.data;
 
-import bmsi.util.Diff;
-import org.madlonkay.supertmxmerge.util.DiffUtil;
+import org.madlonkay.supertmxmerge.util.CharDiff;
 
 /**
  *
@@ -34,8 +33,8 @@ public class ConflictInfo {
     public final String leftTuvText;
     public final String rightTuvText;
     
-    public final Diff.change leftTuvDiff;
-    public final Diff.change rightTuvDiff;
+    public final CharDiff leftTuvDiff;
+    public final CharDiff rightTuvDiff;
     
     public ConflictInfo(Key key, String sourceLanguage,
             String targetLanguage, String baseTuvText, String leftTuvText, String rightTuvText) {
@@ -45,7 +44,7 @@ public class ConflictInfo {
         this.baseTuvText = baseTuvText;
         this.leftTuvText = leftTuvText;
         this.rightTuvText = rightTuvText;
-        this.leftTuvDiff = DiffUtil.getCharacterDiff(baseTuvText, leftTuvText);
-        this.rightTuvDiff = DiffUtil.getCharacterDiff(baseTuvText, rightTuvText);
+        this.leftTuvDiff = new CharDiff(baseTuvText, leftTuvText);
+        this.rightTuvDiff = new CharDiff(baseTuvText, rightTuvText);
     }
 }
