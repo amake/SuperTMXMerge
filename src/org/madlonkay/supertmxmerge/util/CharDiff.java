@@ -74,7 +74,7 @@ public class CharDiff {
 
     public CharDiff(String from, String to) {
         // Don't compute diff if entire strings were added/removed.
-        if (from == null || to == null) {
+        if (from == null || to == null || from.equals(to)) {
             patch = null;
             return;
         }
