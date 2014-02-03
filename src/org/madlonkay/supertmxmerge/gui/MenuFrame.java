@@ -73,7 +73,7 @@ public class MenuFrame extends javax.swing.JFrame {
 
         newMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         newMenuItem.setMnemonic('n');
-        newMenuItem.setText(LocString.get("file_menu_new")); // NOI18N
+        newMenuItem.setText(LocString.get("FILE_MENU_NEW")); // NOI18N
         newMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newMenuItemActionPerformed(evt);
@@ -83,7 +83,7 @@ public class MenuFrame extends javax.swing.JFrame {
 
         closeMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         closeMenuItem.setMnemonic('c');
-        closeMenuItem.setText(LocString.get("file_menu_close")); // NOI18N
+        closeMenuItem.setText(LocString.get("FILE_MENU_CLOSE")); // NOI18N
         closeMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 closeMenuItemActionPerformed(evt);
@@ -92,7 +92,7 @@ public class MenuFrame extends javax.swing.JFrame {
         fileMenu.add(closeMenuItem);
 
         menuBar.add(fileMenu);
-        fileMenu.getAccessibleContext().setAccessibleName(LocString.get("file_menu")); // NOI18N
+        fileMenu.getAccessibleContext().setAccessibleName(LocString.get("FILE_MENU")); // NOI18N
 
         setJMenuBar(menuBar);
 

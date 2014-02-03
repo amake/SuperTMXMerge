@@ -35,7 +35,7 @@ public class FileUtil {
             return false;
         }
         if (!file.exists() || !file.canRead()) {
-            LOGGER.log(Level.SEVERE, LocString.getFormat("error_bad_file", file.getAbsolutePath()));
+            LOGGER.log(Level.SEVERE, LocString.getFormat("ERROR_BAD_FILE", file.getAbsolutePath()));
             return false;
         }
         return true;

@@ -108,6 +108,6 @@ public class Main {
     }
     
     private static void printUsage() {
-        System.out.print(LocString.get("usage_directions"));
+        System.out.print(LocString.get("USAGE_DIRECTIONS"));
     }
 }

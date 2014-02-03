@@ -54,9 +54,9 @@ public class DiffCell extends javax.swing.JPanel {
         }
         setSourceLanguage(info.sourceLanguage);
         setTargetLanguage(info.targetLanguage);
-        setTextWithFallback(sourceText, info.key.sourceText, "tuv_not_present");
-        setTextWithFallback(tuvText1, info.tuv1Text, "tuv_not_present");
-        setTextWithFallback(tuvText2, info.tuv2Text, "tuv_deleted");
+        setTextWithFallback(sourceText, info.key.sourceText, "TUV_NOT_PRESENT");
+        setTextWithFallback(tuvText1, info.tuv1Text, "TUV_NOT_PRESENT");
+        setTextWithFallback(tuvText2, info.tuv2Text, "TUV_DELETED");
         info.diff.applyStyling(tuvText1, tuvText2);
     }
     

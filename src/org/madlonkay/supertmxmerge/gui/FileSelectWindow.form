@@ -59,7 +59,7 @@
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Diff">
                 <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="file_select_diff_tab" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="FILE_SELECT_DIFF_TAB" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                 </Property>
               </JTabbedPaneConstraints>
             </Constraint>
@@ -94,7 +94,7 @@
                         <Component class="javax.swing.JButton" name="file1Button">
                           <Properties>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="select_button_file1" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="SELECT_BUTTON_FILE1" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                             </Property>
                           </Properties>
                           <Events>
@@ -104,7 +104,7 @@
                         <Component class="javax.swing.JButton" name="file2Button">
                           <Properties>
                             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                              <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="select_button_file2" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                              <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="SELECT_BUTTON_FILE2" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                             </Property>
                           </Properties>
                           <Events>
@@ -183,7 +183,7 @@
                     <Component class="javax.swing.JButton" name="diffOkButton">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="ok_button" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="OK_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                         </Property>
                       </Properties>
                       <BindingProperties>
@@ -198,7 +198,7 @@
                     <Component class="javax.swing.JButton" name="diffCancelButton">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="cancel_button" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="CANCEL_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -223,7 +223,7 @@
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Merge">
                 <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="file_select_merge_tab" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="FILE_SELECT_MERGE_TAB" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                 </Property>
               </JTabbedPaneConstraints>
             </Constraint>
@@ -252,7 +252,7 @@
                     <Component class="javax.swing.JButton" name="baseFileButton">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="select_button_base_file" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="SELECT_BUTTON_BASE_FILE" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -262,7 +262,7 @@
                     <Component class="javax.swing.JButton" name="leftFileButton">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="select_button_left_file" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="SELECT_BUTTON_LEFT_FILE" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -272,7 +272,7 @@
                     <Component class="javax.swing.JButton" name="rightFileButton">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="select_button_right_file" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="SELECT_BUTTON_RIGHT_FILE" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -362,7 +362,7 @@
                     <Component class="javax.swing.JButton" name="mergeOkButton">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="ok_button" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="OK_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                         </Property>
                       </Properties>
                       <BindingProperties>
@@ -375,7 +375,7 @@
                     <Component class="javax.swing.JButton" name="mergeCancelButton">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="cancel_button" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="CANCEL_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -393,7 +393,7 @@
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Combine">
                 <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="combine_button" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="COMBINE_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                 </Property>
               </JTabbedPaneConstraints>
             </Constraint>
@@ -430,7 +430,7 @@
                     <Component class="javax.swing.JButton" name="addButton">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="add_button" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="ADD_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -440,7 +440,7 @@
                     <Component class="javax.swing.JButton" name="removeButton">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="remove_button" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="REMOVE_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                         </Property>
                       </Properties>
                       <BindingProperties>
@@ -496,7 +496,7 @@
                     <Component class="javax.swing.JButton" name="combineOkButton">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="ok_button" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="OK_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                         </Property>
                       </Properties>
                       <BindingProperties>
@@ -509,7 +509,7 @@
                     <Component class="javax.swing.JButton" name="combineCancelButton">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="cancel_button" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                          <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="CANCEL_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                         </Property>
                       </Properties>
                       <Events>

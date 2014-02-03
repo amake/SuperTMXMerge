@@ -40,7 +40,7 @@ import org.madlonkay.supertmxmerge.util.LocString;
 public class DiffWindow extends javax.swing.JPanel {
    
     public static JFrame newAsFrame(DiffController controller) {
-        JFrame frame = new MenuFrame(LocString.get("diff_window_title"));
+        JFrame frame = new MenuFrame(LocString.get("DIFF_WINDOW_TITLE"));
         frame.setContentPane(new DiffWindow(frame, controller));
         frame.pack();
         return frame;
@@ -91,7 +91,7 @@ public class DiffWindow extends javax.swing.JPanel {
         int n = 1;
         for (DiffInfo info : infos) {
             progress.setValue(n);
-            progress.setMessage(LocString.getFormat("diff_progress", n, infos.size()));
+            progress.setMessage(LocString.getFormat("DIFF_PROGRESS", n, infos.size()));
             diffsPanel.add(new DiffCell(n, info, jScrollPane1));
             n++;
         }
@@ -112,8 +112,8 @@ public class DiffWindow extends javax.swing.JPanel {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         controller = getController();
-        unitCountConverter = new LocStringConverter("number_of_units", "number_of_units_singular");
-        changeCountConverter = new LocStringConverter("number_of_changes", "number_of_changes_singular");
+        unitCountConverter = new LocStringConverter("NUMBER_OF_UNITS", "NUMBER_OF_UNITS_SINGULAR");
+        changeCountConverter = new LocStringConverter("NUMBER_OF_CHANGES", "NUMBER_OF_CHANGES_SINGULAR");
         mapToTextConverter = new org.madlonkay.supertmxmerge.gui.MapToTextConverter();
         saveAsMenuItem = new javax.swing.JMenuItem();
         jPanel3 = new javax.swing.JPanel();
@@ -131,7 +131,7 @@ public class DiffWindow extends javax.swing.JPanel {
 
         saveAsMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         saveAsMenuItem.setMnemonic('a');
-        saveAsMenuItem.setText(LocString.get("file_menu_saveas")); // NOI18N
+        saveAsMenuItem.setText(LocString.get("FILE_MENU_SAVEAS")); // NOI18N
         saveAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveAsActionPerformed(evt);
@@ -150,7 +150,7 @@ public class DiffWindow extends javax.swing.JPanel {
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx1.name}"), file1Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file1Name");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx1.metadata}"), file1Label, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"), "file1Metadata");
-        binding.setSourceNullValue(LocString.get("tmx_details_unavailable")); // NOI18N
+        binding.setSourceNullValue(LocString.get("TMX_DETAILS_UNAVAILABLE")); // NOI18N
         binding.setConverter(mapToTextConverter);
         bindingGroup.addBinding(binding);
 
@@ -162,7 +162,7 @@ public class DiffWindow extends javax.swing.JPanel {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx2.name}"), file2Label, org.jdesktop.beansbinding.BeanProperty.create("text"), "file2Name");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${tmx2.metadata}"), file2Label, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"), "tmx2Metadata");
-        binding.setSourceNullValue(LocString.get("tmx_details_unavailable")); // NOI18N
+        binding.setSourceNullValue(LocString.get("TMX_DETAILS_UNAVAILABLE")); // NOI18N
         binding.setConverter(mapToTextConverter);
         bindingGroup.addBinding(binding);
 
@@ -206,7 +206,7 @@ public class DiffWindow extends javax.swing.JPanel {
         buttonPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         buttonPanel.setLayout(new java.awt.BorderLayout());
 
-        saveAsButton.setText(LocString.get("save_as_button")); // NOI18N
+        saveAsButton.setText(LocString.get("SAVE_AS_BUTTON")); // NOI18N
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE, controller, org.jdesktop.beansbinding.ELProperty.create("${canSaveDiff}"), saveAsButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"), "canSaveDiff");
         bindingGroup.addBinding(binding);

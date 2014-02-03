@@ -303,7 +303,7 @@ public class JAXBTmx implements ITmx {
         this.tmx = originalData;
         this.tuvMap = null;
         this.tuMap = null;
-        return new JAXBTmx(modifiedData, LocString.get("merged_tmx_name"));
+        return new JAXBTmx(modifiedData, LocString.get("MERGED_TMX_NAME"));
     }
     
     public JAXBTmx klone() throws JAXBException {
@@ -363,7 +363,7 @@ public class JAXBTmx implements ITmx {
     }
     
     public static JAXBTmx newEmptyJAXBTmx(JAXBTmx orig) {
-        return new JAXBTmx(newEmptyTmx(orig == null ? null : orig.tmx), LocString.get("new_tmx_name"));
+        return new JAXBTmx(newEmptyTmx(orig == null ? null : orig.tmx), LocString.get("NEW_TMX_NAME"));
     }
     
     public void combine(JAXBTmx tmx) {

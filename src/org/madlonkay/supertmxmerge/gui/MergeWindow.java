@@ -45,7 +45,7 @@ import org.madlonkay.supertmxmerge.util.LocString;
 public class MergeWindow extends javax.swing.JPanel {
     
     public static JFrame newAsFrame(final MergeController controller, boolean isTwoWayMerge) {
-        MenuFrame frame = new MenuFrame(LocString.get("merge_window_title"));
+        MenuFrame frame = new MenuFrame(LocString.get("MERGE_WINDOW_TITLE"));
         frame.setContentPane(new MergeWindow(frame, controller, isTwoWayMerge));
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         frame.pack();
@@ -53,7 +53,7 @@ public class MergeWindow extends javax.swing.JPanel {
     }
     
     public static JDialog newAsDialog(final MergeController controller, boolean isTwoWayMerge) {
-        final JDialog dialog = new JDialog((JFrame)null, LocString.get("merge_window_title"),
+        final JDialog dialog = new JDialog((JFrame)null, LocString.get("MERGE_WINDOW_TITLE"),
                 Dialog.ModalityType.APPLICATION_MODAL);
         dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         dialog.add(new MergeWindow(dialog, controller, isTwoWayMerge));
@@ -88,8 +88,8 @@ public class MergeWindow extends javax.swing.JPanel {
                         return;
                     }
                     int response = JOptionPane.showConfirmDialog(window,
-                        LocString.get("confirm_close_message"),
-                        LocString.get("merge_window_title"),
+                        LocString.get("CONFIRM_CLOSE_MESSAGE"),
+                        LocString.get("MERGE_WINDOW_TITLE"),
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE);
                     if (response != JOptionPane.YES_OPTION) {
@@ -132,7 +132,7 @@ public class MergeWindow extends javax.swing.JPanel {
         int n = 1;
         for (ConflictInfo info : conflicts) {
             progress.setValue(n);
-            progress.setMessage(LocString.getFormat("merge_progress", n, conflicts.size()));
+            progress.setMessage(LocString.getFormat("MERGE_PROGRESS", n, conflicts.size()));
             addMergeInfo(n, info);
             n++;
         }
@@ -178,9 +178,9 @@ public class MergeWindow extends javax.swing.JPanel {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         controller = getController();
-        unitCountConverter = new LocStringConverter("number_of_units", "number_of_units_singular");
+        unitCountConverter = new LocStringConverter("NUMBER_OF_UNITS", "NUMBER_OF_UNITS_SINGULAR");
         saveButtonConverter = new org.madlonkay.supertmxmerge.gui.SaveButtonConverter();
-        conflictCountConverter = new LocStringConverter("number_of_conflicts", "number_of_conflicts_singular");
+        conflictCountConverter = new LocStringConverter("NUMBER_OF_CONFLICTS", "NUMBER_OF_CONFLICTS_SINGULAR");
         mapToTextConverter = new org.madlonkay.supertmxmerge.gui.MapToTextConverter();
         jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -216,7 +216,7 @@ public class MergeWindow extends javax.swing.JPanel {
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${leftTmx.name}"), leftFilename, org.jdesktop.beansbinding.BeanProperty.create("text"), "leftFileName");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${leftTmx.metadata}"), leftFilename, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"), "leftTmxMetadata");
-        binding.setSourceNullValue(LocString.get("tmx_details_unavailable")); // NOI18N
+        binding.setSourceNullValue(LocString.get("TMX_DETAILS_UNAVAILABLE")); // NOI18N
         binding.setConverter(mapToTextConverter);
         bindingGroup.addBinding(binding);
 
@@ -228,7 +228,7 @@ public class MergeWindow extends javax.swing.JPanel {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${baseTmx.name}"), centerFilename, org.jdesktop.beansbinding.BeanProperty.create("text"), "baseFileName");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${baseTmx.metadata}"), centerFilename, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"), "centerTmxMetadata");
-        binding.setSourceNullValue(LocString.get("tmx_details_unavailable")); // NOI18N
+        binding.setSourceNullValue(LocString.get("TMX_DETAILS_UNAVAILABLE")); // NOI18N
         binding.setConverter(mapToTextConverter);
         bindingGroup.addBinding(binding);
 
@@ -240,7 +240,7 @@ public class MergeWindow extends javax.swing.JPanel {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${rightTmx.name}"), rightFilename, org.jdesktop.beansbinding.BeanProperty.create("text"), "rightFileName");
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${rightTmx.metadata}"), rightFilename, org.jdesktop.beansbinding.BeanProperty.create("toolTipText"), "rightTmxMetadata");
-        binding.setSourceNullValue(LocString.get("tmx_details_unavailable")); // NOI18N
+        binding.setSourceNullValue(LocString.get("TMX_DETAILS_UNAVAILABLE")); // NOI18N
         binding.setConverter(mapToTextConverter);
         bindingGroup.addBinding(binding);
 
@@ -284,7 +284,7 @@ public class MergeWindow extends javax.swing.JPanel {
         jPanel6.add(conflictCountLabel);
 
         instructionsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        instructionsLabel.setText(LocString.get("merge_window_directions")); // NOI18N
+        instructionsLabel.setText(LocString.get("MERGE_WINDOW_DIRECTIONS")); // NOI18N
         jPanel6.add(instructionsLabel);
 
         jPanel4.add(jPanel6);
@@ -292,7 +292,7 @@ public class MergeWindow extends javax.swing.JPanel {
         jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.LINE_AXIS));
 
-        allLeftButton.setText(LocString.get("choose_all_left")); // NOI18N
+        allLeftButton.setText(LocString.get("CHOOSE_ALL_LEFT")); // NOI18N
         allLeftButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 useAllLeft(evt);
@@ -301,7 +301,7 @@ public class MergeWindow extends javax.swing.JPanel {
         jPanel5.add(allLeftButton);
         jPanel5.add(filler1);
 
-        allBaseButton.setText(LocString.get("choose_all_center")); // NOI18N
+        allBaseButton.setText(LocString.get("CHOOSE_ALL_CENTER")); // NOI18N
         allBaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 useAllBase(evt);
@@ -310,7 +310,7 @@ public class MergeWindow extends javax.swing.JPanel {
         jPanel5.add(allBaseButton);
         jPanel5.add(filler2);
 
-        allRightButton.setText(LocString.get("choose_all_right")); // NOI18N
+        allRightButton.setText(LocString.get("CHOOSE_ALL_RIGHT")); // NOI18N
         allRightButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 useAllRight(evt);
@@ -332,7 +332,7 @@ public class MergeWindow extends javax.swing.JPanel {
         jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         jPanel3.setLayout(new java.awt.BorderLayout());
 
-        doneButton.setText(LocString.get("done_button")); // NOI18N
+        doneButton.setText(LocString.get("DONE_BUTTON")); // NOI18N
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, controller, org.jdesktop.beansbinding.ELProperty.create("${conflictsAreResolved}"), doneButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"), "conflictsResolved");
         bindingGroup.addBinding(binding);
