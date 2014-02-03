@@ -19,6 +19,9 @@
 package org.madlonkay.supertmxmerge.util;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
@@ -27,13 +30,24 @@ import java.util.ResourceBundle;
  */
 public class LocString {
     
-    public static final ResourceBundle bundle = ResourceBundle.getBundle("org/madlonkay/supertmxmerge/Strings");
+    private static final ResourceBundle bundle = ResourceBundle.getBundle("org/madlonkay/supertmxmerge/Strings");
+    
+    private static final List<ResourceBundle> moreBundles = new ArrayList<ResourceBundle>();
     
     public static String get(String id) {
+        for (int i = moreBundles.size() - 1; i >= 0; i--) {
+            try {
+                return moreBundles.get(i).getString(id);
+            } catch (MissingResourceException ex) {}
+        }
         return bundle.getString(id);
     }
     
     public static String getFormat(String id, Object... var) {
         return MessageFormat.format(get(id), var);
+    }
+    
+    public static void addBundle(ResourceBundle bundle) {
+        moreBundles.add(bundle);
     }
 }

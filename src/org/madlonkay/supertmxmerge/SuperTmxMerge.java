@@ -20,10 +20,12 @@ package org.madlonkay.supertmxmerge;
 
 import java.awt.Window;
 import java.io.File;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.gui.FileSelectWindow;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
+import org.madlonkay.supertmxmerge.util.LocString;
 import org.omegat.core.data.OmTTmx;
 import org.omegat.core.data.ProjectTMX;
 
@@ -63,8 +65,10 @@ public class SuperTmxMerge {
     public static ProjectTMX merge(ProjectTMX baseTmx, String baseTmxName,
             ProjectTMX tmx1, String tmx1Name,
             ProjectTMX tmx2, String tmx2Name,
-            String sourceLanguage, String targetLanguage) {
+            String sourceLanguage, String targetLanguage,
+            ResourceBundle resources) {
         
+        LocString.addBundle(resources); 
         MergeController controller = new MergeController();
         controller.setQuiet(true);
         controller.setIsModal(true);
