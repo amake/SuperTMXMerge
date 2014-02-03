@@ -55,7 +55,7 @@ License
 -------
 
 SuperTMXmerge is distributed under the [GNU Lesser General Public License, 
-v2.1](http://www.gnu.org/licenses/lgpl-3.0.html).
+v2.1](http://www.gnu.org/licenses/lgpl-2.1.html).
 
 SuperTMXMerge uses the following libraries with the noted licenses:
 
