@@ -228,7 +228,7 @@
             <Component class="javax.swing.JButton" name="allLeftButton">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="CHOOSE_ALL_LEFT" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="USE_ALL_MINE_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -248,7 +248,7 @@
             <Component class="javax.swing.JButton" name="allBaseButton">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="CHOOSE_ALL_CENTER" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="USE_ALL_BASE_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -268,7 +268,7 @@
             <Component class="javax.swing.JButton" name="allRightButton">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="CHOOSE_ALL_RIGHT" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="USE_ALL_THEIRS_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>

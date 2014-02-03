@@ -292,7 +292,7 @@ public class MergeWindow extends javax.swing.JPanel {
         jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.LINE_AXIS));
 
-        allLeftButton.setText(LocString.get("CHOOSE_ALL_LEFT")); // NOI18N
+        allLeftButton.setText(LocString.get("USE_ALL_MINE_BUTTON")); // NOI18N
         allLeftButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 useAllLeft(evt);
@@ -301,7 +301,7 @@ public class MergeWindow extends javax.swing.JPanel {
         jPanel5.add(allLeftButton);
         jPanel5.add(filler1);
 
-        allBaseButton.setText(LocString.get("CHOOSE_ALL_CENTER")); // NOI18N
+        allBaseButton.setText(LocString.get("USE_ALL_BASE_BUTTON")); // NOI18N
         allBaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 useAllBase(evt);
@@ -310,7 +310,7 @@ public class MergeWindow extends javax.swing.JPanel {
         jPanel5.add(allBaseButton);
         jPanel5.add(filler2);
 
-        allRightButton.setText(LocString.get("CHOOSE_ALL_RIGHT")); // NOI18N
+        allRightButton.setText(LocString.get("USE_ALL_THEIRS_BUTTON")); // NOI18N
         allRightButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 useAllRight(evt);
