@@ -42,6 +42,7 @@
             manifest="${manifest.file}">
             <zipfileset src="${dist.jar}" excludes="org/omegat/**,bmsi/**,gen/**"/>
             <zipfileset src="${dist.jar}" includes="org/omegat/core/data/OmT*"/>
+            <zipgroupfileset dir="${dist.lib.dir}" includes="diffutils*"/>
         </jar>
         <!-- Copy dependencies into main JAR. -->
         <jar destfile="${dist.jar}" update="true">
