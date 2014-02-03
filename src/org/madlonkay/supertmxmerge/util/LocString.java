@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -34,11 +36,15 @@ public class LocString {
     
     private static final List<ResourceBundle> moreBundles = new ArrayList<ResourceBundle>();
     
+    private static final Logger LOGGER = Logger.getLogger(LocString.class.getName());
+    
     public static String get(String id) {
         for (int i = moreBundles.size() - 1; i >= 0; i--) {
             try {
                 return moreBundles.get(i).getString(id);
-            } catch (MissingResourceException ex) {}
+            } catch (MissingResourceException ex) {
+                LOGGER.log(Level.WARNING, null, ex);
+            }
         }
         return bundle.getString(id);
     }
