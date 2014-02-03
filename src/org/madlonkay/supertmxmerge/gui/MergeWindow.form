@@ -77,7 +77,7 @@
                 </BindingProperty>
                 <BindingProperty name="toolTipText" source="controller" sourcePath="${leftTmx.metadata}" target="leftFilename" targetPath="toolTipText" updateStrategy="1" immediately="false">
                   <Property name="nullValue" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                    <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="TMX_DETAILS_UNAVAILABLE" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                    <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="STM_TMX_DETAILS_UNAVAILABLE" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                   </Property>
                   <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
                     <ComponentRef name="mapToTextConverter"/>
@@ -101,7 +101,7 @@
                 </BindingProperty>
                 <BindingProperty name="toolTipText" source="controller" sourcePath="${baseTmx.metadata}" target="centerFilename" targetPath="toolTipText" updateStrategy="1" immediately="false">
                   <Property name="nullValue" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                    <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="TMX_DETAILS_UNAVAILABLE" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                    <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="STM_TMX_DETAILS_UNAVAILABLE" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                   </Property>
                   <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
                     <ComponentRef name="mapToTextConverter"/>
@@ -125,7 +125,7 @@
                 </BindingProperty>
                 <BindingProperty name="toolTipText" source="controller" sourcePath="${rightTmx.metadata}" target="rightFilename" targetPath="toolTipText" updateStrategy="1" immediately="false">
                   <Property name="nullValue" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                    <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="TMX_DETAILS_UNAVAILABLE" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                    <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="STM_TMX_DETAILS_UNAVAILABLE" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                   </Property>
                   <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
                     <ComponentRef name="mapToTextConverter"/>
@@ -208,7 +208,7 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="MERGE_WINDOW_DIRECTIONS" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="STM_MERGE_WINDOW_DIRECTIONS" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
@@ -228,7 +228,7 @@
             <Component class="javax.swing.JButton" name="allLeftButton">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="USE_ALL_MINE_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="STM_USE_ALL_MINE_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -248,7 +248,7 @@
             <Component class="javax.swing.JButton" name="allBaseButton">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="USE_ALL_BASE_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="STM_USE_ALL_BASE_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -268,7 +268,7 @@
             <Component class="javax.swing.JButton" name="allRightButton">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="USE_ALL_THEIRS_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="STM_USE_ALL_THEIRS_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -318,7 +318,7 @@
         <Component class="javax.swing.JButton" name="doneButton">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="DONE_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="STM_DONE_BUTTON" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <BindingProperties>

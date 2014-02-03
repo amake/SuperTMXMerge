@@ -29,8 +29,8 @@ public class SaveButtonConverter extends Converter {
 
     @Override
     public Object convertForward(Object value) {
-        return value == null ? LocString.get("SAVE_AS_BUTTON")
-                : LocString.get("SAVE_BUTTON");
+        return value == null ? LocString.get("STM_SAVE_AS_BUTTON")
+                : LocString.get("STM_SAVE_BUTTON");
     }
 
     @Override

@@ -11,7 +11,7 @@
           </Properties>
           <AccessibilityProperties>
             <Property name="AccessibleContext.accessibleName" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="FILE_MENU" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+              <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="STM_FILE_MENU" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
             </Property>
           </AccessibilityProperties>
           <SubComponents>
@@ -22,7 +22,7 @@
                 </Property>
                 <Property name="mnemonic" type="int" value="110"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="FILE_MENU_NEW" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="STM_FILE_MENU_NEW" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>
@@ -36,7 +36,7 @@
                 </Property>
                 <Property name="mnemonic" type="int" value="99"/>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="FILE_MENU_CLOSE" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
+                  <ResourceString bundle="org/madlonkay/supertmxmerge/Strings.properties" key="STM_FILE_MENU_CLOSE" replaceFormat="LocString.get(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Events>

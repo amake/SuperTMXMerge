@@ -90,7 +90,7 @@ public class MergeCell extends javax.swing.JPanel {
     private void setBaseText(String text) {
         if (text == null) {
             tuvTextCenter.setBackground(getBackground());
-            text = LocString.get("TUV_NOT_PRESENT");
+            text = LocString.get("STM_TUV_NOT_PRESENT");
         }
         tuvTextCenter.setText(text);
     }
@@ -98,7 +98,7 @@ public class MergeCell extends javax.swing.JPanel {
     private void setLeftText(String text, boolean presentInBase) {
         if (text == null) {
             tuvTextLeft.setBackground(getBackground());
-            text = presentInBase? LocString.get("TUV_DELETED") : LocString.get("TUV_NOT_PRESENT");
+            text = presentInBase? LocString.get("STM_TUV_DELETED") : LocString.get("STM_TUV_NOT_PRESENT");
         }
         tuvTextLeft.setText(text);
     }
@@ -106,7 +106,7 @@ public class MergeCell extends javax.swing.JPanel {
     private void setRightText(String text, boolean presentInBase) {
         if (text == null) {
             tuvTextRight.setBackground(getBackground());
-            text = presentInBase? LocString.get("TUV_DELETED") : LocString.get("TUV_NOT_PRESENT");
+            text = presentInBase? LocString.get("STM_TUV_DELETED") : LocString.get("STM_TUV_NOT_PRESENT");
         }
         tuvTextRight.setText(text);
     }

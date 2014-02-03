@@ -114,16 +114,16 @@ public class DiffIOController {
         ITmx tmx2;
         try {
             progress.setValue(0);
-            progress.setMessage(LocString.getFormat("FILE_PROGRESS", getFile1().getName(), 1, 2));
+            progress.setMessage(LocString.getFormat("STM_FILE_PROGRESS", getFile1().getName(), 1, 2));
             tmx1 = new JAXBTmx(getFile1());
             progress.setValue(1);
-            progress.setMessage(LocString.getFormat("FILE_PROGRESS", getFile2().getName(), 2, 2));
+            progress.setMessage(LocString.getFormat("STM_FILE_PROGRESS", getFile2().getName(), 2, 2));
             tmx2 = new JAXBTmx(getFile2());
             progress.setValue(2);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                 ex.toString(),
-                LocString.get("ERROR_DIALOG_TITLE"),
+                LocString.get("STM_ERROR_DIALOG_TITLE"),
                 JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException(ex);
         } finally {

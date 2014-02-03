@@ -99,8 +99,8 @@ public class DiffController implements Serializable {
         
         if (diffInfos.isEmpty()) {
             JOptionPane.showMessageDialog(null,
-                        LocString.get("IDENTICAL_FILES_MESSAGE"),
-                        LocString.get("DIFF_WINDOW_TITLE"),
+                        LocString.get("STM_IDENTICAL_FILES_MESSAGE"),
+                        LocString.get("STM_DIFF_WINDOW_TITLE"),
                         JOptionPane.INFORMATION_MESSAGE);
         } else {
             diffWindow = DiffWindow.newAsFrame(this);

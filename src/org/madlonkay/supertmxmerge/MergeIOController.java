@@ -83,14 +83,14 @@ public class MergeIOController extends DiffIOController {
         ITmx rightTmx;
         try {
             progress.setValue(0);
-            progress.setMessage(LocString.getFormat("FILE_PROGRESS", getFile1().getName(), 1, 3));
+            progress.setMessage(LocString.getFormat("STM_FILE_PROGRESS", getFile1().getName(), 1, 3));
             leftTmx = new JAXBTmx(getFile1());
             progress.setValue(1);
-            progress.setMessage(LocString.getFormat("FILE_PROGRESS", getFile2().getName(), 2, 3));
+            progress.setMessage(LocString.getFormat("STM_FILE_PROGRESS", getFile2().getName(), 2, 3));
             rightTmx = new JAXBTmx(getFile2());
             progress.setValue(2);
-            progress.setMessage(LocString.getFormat("FILE_PROGRESS",
-                    getBaseFile() == null ? LocString.get("EMPTY_TMX_NAME") : getBaseFile().getName(), 3, 3));
+            progress.setMessage(LocString.getFormat("STM_FILE_PROGRESS",
+                    getBaseFile() == null ? LocString.get("STM_EMPTY_TMX_NAME") : getBaseFile().getName(), 3, 3));
             if (getBaseFile() == null) {
                 baseTmx = JAXBTmx.newEmptyJAXBTmx((JAXBTmx) leftTmx);
                 merger.setIsTwoWayMerge(true);
@@ -101,7 +101,7 @@ public class MergeIOController extends DiffIOController {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                 ex.toString(),
-                LocString.get("ERROR_DIALOG_TITLE"),
+                LocString.get("STM_ERROR_DIALOG_TITLE"),
                 JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException(ex);
         } finally {
@@ -124,8 +124,8 @@ public class MergeIOController extends DiffIOController {
                 setOutputFile(chooser.getSelectedFile());
             } else {
                 int response = JOptionPane.showConfirmDialog(null,
-                    LocString.get("CONFIRM_CANCEL_SAVE_MESSAGE"),
-                    LocString.get("MERGE_WINDOW_TITLE"),
+                    LocString.get("STM_CONFIRM_CANCEL_SAVE_MESSAGE"),
+                    LocString.get("STM_MERGE_WINDOW_TITLE"),
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.WARNING_MESSAGE);
                 if (response == JOptionPane.YES_OPTION) {

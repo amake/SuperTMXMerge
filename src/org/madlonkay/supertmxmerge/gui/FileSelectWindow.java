@@ -38,7 +38,7 @@ import org.madlonkay.supertmxmerge.util.LocString;
 public class FileSelectWindow extends javax.swing.JPanel implements IDropCallback {
     
     public static JFrame newAsFrame() {
-        JFrame frame = new MenuFrame(LocString.get("DIFF_WINDOW_TITLE"));
+        JFrame frame = new MenuFrame(LocString.get("STM_DIFF_WINDOW_TITLE"));
         if (!GuiUtil.isOSX()) {
             frame.setJMenuBar(null);
         }
@@ -52,7 +52,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
     private final static Logger LOGGER = Logger.getLogger(FileSelectWindow.class.getName());
     
     private final static FileNameExtensionFilter FILTER_TMX = 
-            new FileNameExtensionFilter(LocString.get("TMX_FILE_TYPE_LABEL"), "tmx");
+            new FileNameExtensionFilter(LocString.get("STM_TMX_FILE_TYPE_LABEL"), "tmx");
     
     private final Window window;
     
@@ -150,7 +150,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
 
         jPanel3.setLayout(new java.awt.GridLayout(0, 1));
 
-        file1Button.setText(LocString.get("SELECT_BUTTON_FILE1")); // NOI18N
+        file1Button.setText(LocString.get("STM_SELECT_BUTTON_FILE1")); // NOI18N
         file1Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 file1ButtonActionPerformed(evt);
@@ -158,7 +158,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
         });
         jPanel3.add(file1Button);
 
-        file2Button.setText(LocString.get("SELECT_BUTTON_FILE2")); // NOI18N
+        file2Button.setText(LocString.get("STM_SELECT_BUTTON_FILE2")); // NOI18N
         file2Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 file2ButtonActionPerformed(evt);
@@ -197,7 +197,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
 
         jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.LINE_AXIS));
 
-        diffOkButton.setText(LocString.get("OK_BUTTON")); // NOI18N
+        diffOkButton.setText(LocString.get("STM_OK_BUTTON")); // NOI18N
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, diffIOController, org.jdesktop.beansbinding.ELProperty.create("${inputIsValid}"), diffOkButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"), "diffOkButton");
         bindingGroup.addBinding(binding);
@@ -209,7 +209,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
         });
         jPanel5.add(diffOkButton);
 
-        diffCancelButton.setText(LocString.get("CANCEL_BUTTON")); // NOI18N
+        diffCancelButton.setText(LocString.get("STM_CANCEL_BUTTON")); // NOI18N
         diffCancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
@@ -221,7 +221,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
 
         diffPanel.add(diffButtonPanel);
 
-        diffMergeTabbedPane.addTab(LocString.get("FILE_SELECT_DIFF_TAB"), diffPanel); // NOI18N
+        diffMergeTabbedPane.addTab(LocString.get("STM_FILE_SELECT_DIFF_TAB"), diffPanel); // NOI18N
 
         mergePanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         mergePanel.setLayout(new javax.swing.BoxLayout(mergePanel, javax.swing.BoxLayout.PAGE_AXIS));
@@ -230,7 +230,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
 
         jPanel7.setLayout(new java.awt.GridLayout(0, 1));
 
-        baseFileButton.setText(LocString.get("SELECT_BUTTON_BASE_FILE")); // NOI18N
+        baseFileButton.setText(LocString.get("STM_SELECT_BUTTON_BASE_FILE")); // NOI18N
         baseFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 baseFileButtonActionPerformed(evt);
@@ -238,7 +238,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
         });
         jPanel7.add(baseFileButton);
 
-        leftFileButton.setText(LocString.get("SELECT_BUTTON_LEFT_FILE")); // NOI18N
+        leftFileButton.setText(LocString.get("STM_SELECT_BUTTON_LEFT_FILE")); // NOI18N
         leftFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 leftFileButtonActionPerformed(evt);
@@ -246,7 +246,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
         });
         jPanel7.add(leftFileButton);
 
-        rightFileButton.setText(LocString.get("SELECT_BUTTON_RIGHT_FILE")); // NOI18N
+        rightFileButton.setText(LocString.get("STM_SELECT_BUTTON_RIGHT_FILE")); // NOI18N
         rightFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rightFileButtonActionPerformed(evt);
@@ -291,7 +291,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
 
         jPanel10.setLayout(new javax.swing.BoxLayout(jPanel10, javax.swing.BoxLayout.LINE_AXIS));
 
-        mergeOkButton.setText(LocString.get("OK_BUTTON")); // NOI18N
+        mergeOkButton.setText(LocString.get("STM_OK_BUTTON")); // NOI18N
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mergeIOController, org.jdesktop.beansbinding.ELProperty.create("${inputIsValid}"), mergeOkButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
@@ -303,7 +303,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
         });
         jPanel10.add(mergeOkButton);
 
-        mergeCancelButton.setText(LocString.get("CANCEL_BUTTON")); // NOI18N
+        mergeCancelButton.setText(LocString.get("STM_CANCEL_BUTTON")); // NOI18N
         mergeCancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
@@ -315,7 +315,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
 
         mergePanel.add(mergeButtonPanel);
 
-        diffMergeTabbedPane.addTab(LocString.get("FILE_SELECT_MERGE_TAB"), mergePanel); // NOI18N
+        diffMergeTabbedPane.addTab(LocString.get("STM_FILE_SELECT_MERGE_TAB"), mergePanel); // NOI18N
 
         combinePanel.setLayout(new javax.swing.BoxLayout(combinePanel, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -325,7 +325,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
         addRemoveButtonPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         addRemoveButtonPanel.setLayout(new javax.swing.BoxLayout(addRemoveButtonPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
-        addButton.setText(LocString.get("ADD_BUTTON")); // NOI18N
+        addButton.setText(LocString.get("STM_ADD_BUTTON")); // NOI18N
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addButtonActionPerformed(evt);
@@ -333,7 +333,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
         });
         addRemoveButtonPanel.add(addButton);
 
-        removeButton.setText(LocString.get("REMOVE_BUTTON")); // NOI18N
+        removeButton.setText(LocString.get("STM_REMOVE_BUTTON")); // NOI18N
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, combineList, org.jdesktop.beansbinding.ELProperty.create("${not empty selectedElements}"), removeButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"), "listHasSelection");
         bindingGroup.addBinding(binding);
@@ -360,7 +360,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
         jPanel13.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         jPanel13.setLayout(new javax.swing.BoxLayout(jPanel13, javax.swing.BoxLayout.LINE_AXIS));
 
-        combineOkButton.setText(LocString.get("OK_BUTTON")); // NOI18N
+        combineOkButton.setText(LocString.get("STM_OK_BUTTON")); // NOI18N
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, combineIOController, org.jdesktop.beansbinding.ELProperty.create("${inputIsValid}"), combineOkButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
@@ -372,7 +372,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
         });
         jPanel13.add(combineOkButton);
 
-        combineCancelButton.setText(LocString.get("CANCEL_BUTTON")); // NOI18N
+        combineCancelButton.setText(LocString.get("STM_CANCEL_BUTTON")); // NOI18N
         combineCancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
@@ -384,7 +384,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
 
         combinePanel.add(combineButtonPanel);
 
-        diffMergeTabbedPane.addTab(LocString.get("COMBINE_BUTTON"), combinePanel); // NOI18N
+        diffMergeTabbedPane.addTab(LocString.get("STM_COMBINE_BUTTON"), combinePanel); // NOI18N
 
         add(diffMergeTabbedPane);
 

@@ -118,7 +118,7 @@ public class ProgressWindow extends javax.swing.JFrame implements ActionListener
         progressBar = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle(LocString.get("PROGRESS_WINDOW_TITLE")); // NOI18N
+        setTitle(LocString.get("STM_PROGRESS_WINDOW_TITLE")); // NOI18N
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -131,7 +131,7 @@ public class ProgressWindow extends javax.swing.JFrame implements ActionListener
 
         jPanel1.setLayout(new java.awt.GridLayout(0, 1));
 
-        label.setText(LocString.get("PROGRESS_WINDOW_LABEL")); // NOI18N
+        label.setText(LocString.get("STM_PROGRESS_WINDOW_LABEL")); // NOI18N
         jPanel1.add(label);
 
         progressBar.setIndeterminate(true);

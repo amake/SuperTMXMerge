@@ -112,7 +112,7 @@ public class CombineIOController {
             try {
                 File firstFile = files.get(0);
                 progress.setValue(0);
-                progress.setMessage(LocString.getFormat("FILE_PROGRESS", firstFile.getName(), 1, files.size()));
+                progress.setMessage(LocString.getFormat("STM_FILE_PROGRESS", firstFile.getName(), 1, files.size()));
                 combined = new JAXBTmx(firstFile);
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
@@ -126,7 +126,7 @@ public class CombineIOController {
                 try {
                     File thisFile = files.get(i);
                     progress.setValue(i);
-                    progress.setMessage(LocString.getFormat("FILE_PROGRESS", thisFile.getName(), i + 1, files.size()));
+                    progress.setMessage(LocString.getFormat("STM_FILE_PROGRESS", thisFile.getName(), i + 1, files.size()));
                     JAXBTmx next = new JAXBTmx(thisFile);
                     combined = (JAXBTmx) merger.merge(empty, combined, next);
                     if (combined == null) {
@@ -139,7 +139,7 @@ public class CombineIOController {
             }
 
             progress.setValue(files.size());
-            progress.setMessage(LocString.get("COMBINE_COMPLETE"));
+            progress.setMessage(LocString.get("STM_COMBINE_COMPLETE"));
 
             while (true) {
                 if (getOutputFile() != null) {
@@ -151,8 +151,8 @@ public class CombineIOController {
                     setOutputFile(chooser.getSelectedFile());
                 } else {
                     int response = JOptionPane.showConfirmDialog(progress,
-                        LocString.get("CONFIRM_CANCEL_SAVE_MESSAGE"),
-                        LocString.get("COMBINE_WINDOW_TITLE"),
+                        LocString.get("STM_CONFIRM_CANCEL_SAVE_MESSAGE"),
+                        LocString.get("STM_COMBINE_WINDOW_TITLE"),
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE);
                     if (response == JOptionPane.YES_OPTION) {

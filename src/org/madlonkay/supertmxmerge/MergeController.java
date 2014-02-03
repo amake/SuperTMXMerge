@@ -104,8 +104,8 @@ public class MergeController implements Serializable, ActionListener {
         } else if (!quiet && !isTwoWayMerge) {
             // Files merged with no conflicts.
             showDiff = JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null,
-                    LocString.get("NO_CONFLICTS_MESSAGE"),
-                    LocString.get("MERGE_WINDOW_TITLE"),
+                    LocString.get("STM_NO_CONFLICTS_MESSAGE"),
+                    LocString.get("STM_MERGE_WINDOW_TITLE"),
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.INFORMATION_MESSAGE);
         }
