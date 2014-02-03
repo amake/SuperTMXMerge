@@ -45,7 +45,7 @@
         </jar>
         <!-- Copy dependencies into main JAR. -->
         <jar destfile="${dist.jar}" update="true">
-            <zipgroupfileset dir="${dist.dir}/lib" includes="*.jar"/>
+            <zipgroupfileset dir="${dist.lib.dir}" includes="*.jar"/>
         </jar>
         <zip destfile="${dist.dir}/${application.title}_${repository.version}.zip">
             <fileset dir="${dist.dir}" excludes="*-for_OmegaT.jar,*.zip,lib/**,lib,*.app/**,*.app,SuperTMXMerge.sh"/>
