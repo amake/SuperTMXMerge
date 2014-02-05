@@ -20,8 +20,8 @@
     
     <!-- Okapi Translate task -->
     <target name="translate" description="Translate localizable assets" if="okapi.present">
-        <okapi:translate srcLang="en-us" srx="l10n/Segmentation.srx" outEnc="utf-8">
-            <filterMapping extension=".properties" filterConfig="okf_properties-outputNotEscaped" />
+        <okapi:translate srcLang="en-us" srx="l10n/Segmentation.srx">
+            <filterMapping extension=".properties" filterConfig="okf_properties" />
             <fileset dir="src" includes="**/Strings.properties" />
         </okapi:translate> 
     </target>
