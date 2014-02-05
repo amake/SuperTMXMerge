@@ -18,43 +18,42 @@
             </and>
         </condition>
     </target>
-    <target name="-pre-jar" depends="git.revision">
-        <copy file="${manifest.template}" tofile="${manifest.file}"/>
-        <manifest file="${manifest.file}" mode="update">
-            <attribute name="Implementation-Version" value="${repository.version}"/>
-            <attribute name="Implementation-Title" value="${application.title}"/>
-        </manifest>
-        <mkdir dir="${dist.lib.dir}"/>
-        <copy todir="${dist.lib.dir}">
-            <fileset dir="${lib.dir}" excludes="junit*"/>
-        </copy>
-    </target>
     <target name="-post-jar" depends="git.revision">
+        <!-- Add application info to JAR maniefest. -->
+        <jar update="true" file="${dist.jar}">
+            <manifest>
+                <attribute name="Implementation-Version" value="${repository.version}"/>
+                <attribute name="Implementation-Title" value="${application.title}"/>
+            </manifest>
+        </jar>
         <filter token="STM_VERSION" value="${repository.version}"/>
         <copy todir="${dist.dir}">
             <fileset dir="release" includes="**"/>
         </copy>
         <chmod file="${dist.dir}/SuperTMXMerge.sh" perm="ugo+rx"/>
         <copy file="README.md" tofile="${dist.dir}/README.TXT" overwrite="yes"/>
-        <copy file="LICENSE" todir="${dist.dir}"/>
+        <copy file="LICENSE" todir="${dist.dir}" overwrite="yes"/>
         <!-- Make separate JAR for embedding in OmegaT. -->
-        <jar destfile="${dist.dir}/${application.title}-for_OmegaT.jar"
-            manifest="${manifest.file}">
+        <jar destfile="${dist.dir}/${application.title}-for_OmegaT.jar">
             <zipfileset src="${dist.jar}" excludes="org/omegat/**,bmsi/**,gen/**"/>
             <zipfileset src="${dist.jar}" includes="org/omegat/core/data/OmT*"/>
             <zipgroupfileset dir="${dist.lib.dir}" includes="diffutils*"/>
+            <manifest>
+                <attribute name="Implementation-Version" value="${repository.version}"/>
+                <attribute name="Implementation-Title" value="${application.title}"/>
+            </manifest>
         </jar>
-        <!-- Copy dependencies into main JAR. -->
-        <jar destfile="${dist.jar}" update="true">
-            <zipgroupfileset dir="${dist.lib.dir}" includes="*.jar"/>
-        </jar>
+        <!-- Make main ZIP. -->
         <zip destfile="${dist.dir}/${application.title}_${repository.version}.zip">
-            <fileset dir="${dist.dir}" excludes="*-for_OmegaT.jar,*.zip,lib/**,lib,*.app/**,*.app,SuperTMXMerge.sh"/>
+            <fileset dir="${dist.dir}" excludes="*-for_OmegaT.jar,*.zip,*.app/**,*.app,SuperTMXMerge.sh"/>
             <zipfileset file="${dist.dir}/SuperTMXMerge.sh" filemode="755"/>
         </zip>
         <!-- Make Mac OS X app. -->
         <chmod file="${dist.dir}/SuperTMXMerge.app/Contents/MacOS/SuperTMXMerge.sh" perm="ugo+rx"/>
-        <copy file="${dist.jar}" todir="${dist.dir}/SuperTMXMerge.app/Contents/MacOS/"/>
+        <copy todir="${dist.dir}/SuperTMXMerge.app/Contents/MacOS/">
+            <fileset file="${dist.jar}"/>
+            <fileset dir="${dist.dir}" includes="${lib.dir}/**"/>
+        </copy>
         <zip destfile="${dist.dir}/${application.title}_MacOSX_${repository.version}.zip">
             <zipfileset dir="${dist.dir}/SuperTMXMerge.app" prefix="SuperTMXMerge.app"
                         excludes="**/SuperTMXMerge.sh"/>
