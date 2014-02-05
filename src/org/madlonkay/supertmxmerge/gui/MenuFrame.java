@@ -69,7 +69,7 @@ public class MenuFrame extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
         fileMenu.setMnemonic('f');
-        fileMenu.setText("File");
+        fileMenu.setText(LocString.get("STM_FILE_MENU")); // NOI18N
 
         newMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         newMenuItem.setMnemonic('n');
