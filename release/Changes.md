@@ -34,3 +34,9 @@ SuperTMXMerge change history
 - Fixed mouse wheel scrolling
 - Made diff, merge windows modal for embedded use
 - Removed build dependency on NetBeans
+
+# 1.0
+- Updated Japanese localization
+- Fixed licensing issues
+- Under-the-hood changes for embedded use
+- Build system fixes
