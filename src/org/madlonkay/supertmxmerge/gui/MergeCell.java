@@ -26,7 +26,6 @@ import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import org.madlonkay.supertmxmerge.data.ConflictInfo;
-import org.madlonkay.supertmxmerge.util.CharDiff;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
