@@ -18,18 +18,12 @@
  */
 package org.madlonkay.supertmxmerge.util;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.swing.JTextPane;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.MutableAttributeSet;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 import org.madlonkay.supertmxmerge.data.ConflictInfo;
 import org.madlonkay.supertmxmerge.data.DiffInfo;
 import org.madlonkay.supertmxmerge.data.DiffSet;
@@ -151,10 +145,10 @@ public class DiffUtil {
                 continue;
             }
             ITuv rightTuv = rightTmx.getTuvMap().get(key);
-            if (rightTuv == null) {
+            ITuv baseTuv = baseTmx.getTuvMap().get(key);
+            if (rightTuv == null || baseTuv.equals(rightTuv)) {
                 toDelete.add(key);
             } else {
-                ITuv baseTuv = baseTmx.getTuvMap().get(key);
                 conflicts.add(new ConflictInfo(key, rightTmx.getSourceLanguage(), rightTuv.getLanguage(),
                         baseTuv.getContent(), null, rightTuv.getContent()));
                 conflictKeys.add(key);
@@ -166,10 +160,13 @@ public class DiffUtil {
                 continue;
             }
             ITuv leftTuv = leftTmx.getTuvMap().get(key);
+            ITuv baseTuv = baseTmx.getTuvMap().get(key);
             if (leftTuv == null) {
+                // We don't delete in this case because it would duplicate when we deleted
+                // in the similar case above.
+            } else if (baseTuv.equals(leftTuv)) {
                 toDelete.add(key);
             } else {
-                ITuv baseTuv = baseTmx.getTuvMap().get(key);
                 conflicts.add(new ConflictInfo(key, rightTmx.getSourceLanguage(), baseTuv.getLanguage(),
                         baseTuv.getContent(), leftTuv.getContent(), null));
                 conflictKeys.add(key);

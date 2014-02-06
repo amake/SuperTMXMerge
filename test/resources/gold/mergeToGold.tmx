@@ -160,22 +160,6 @@
         </tu>
         <tu>
             <tuv lang="en-us">
-                <seg>Use left</seg>
-            </tuv>
-            <tuv creationdate="20130831T103123Z" creationid="aaron.madlon-kay" changedate="20130831T103123Z" changeid="aaron.madlon-kay" lang="ja-jp">
-                <seg>左を使用</seg>
-            </tuv>
-        </tu>
-        <tu>
-            <tuv lang="en-us">
-                <seg>Use right</seg>
-            </tuv>
-            <tuv creationdate="20130831T103133Z" creationid="aaron.madlon-kay" changedate="20130831T103133Z" changeid="aaron.madlon-kay" lang="ja-jp">
-                <seg>右を使用</seg>
-            </tuv>
-        </tu>
-        <tu>
-            <tuv lang="en-us">
                 <seg>java -jar SuperTMXMerge baseFile file1 file2</seg>
             </tuv>
             <tuv creationdate="20130831T103408Z" creationid="aaron.madlon-kay" changedate="20130831T103556Z" changeid="aaron.madlon-kay" lang="ja-jp">

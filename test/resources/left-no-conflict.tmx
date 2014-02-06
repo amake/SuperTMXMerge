@@ -170,14 +170,6 @@
     </tu>
     <tu>
       <tuv lang="en-us">
-        <seg>Use left</seg>
-      </tuv>
-      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103123Z" creationid="aaron.madlon-kay" creationdate="20130831T103123Z">
-        <seg>左を使用</seg>
-      </tuv>
-    </tu>
-    <tu>
-      <tuv lang="en-us">
         <seg>Use right</seg>
       </tuv>
       <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103133Z" creationid="aaron.madlon-kay" creationdate="20130831T103133Z">
