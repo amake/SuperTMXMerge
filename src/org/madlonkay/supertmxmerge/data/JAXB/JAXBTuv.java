@@ -81,11 +81,25 @@ public class JAXBTuv implements ITuv {
     }
     
     @Override
-    public boolean equals(ITuv tuv) {
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        JAXBTuv other = (JAXBTuv) obj;
         if (this.tuv == null) {
-            return tuv.getContent() == null;
+            return other.getContent() == null;
         }
-        return getContent().equals(tuv.getContent());
+        return getContent().equals(other.getContent());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 19 * hash + (this.tuv != null ? this.tuv.hashCode() : 0);
+        return hash;
     }
     
     @Override

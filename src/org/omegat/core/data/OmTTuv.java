@@ -19,6 +19,7 @@
 package org.omegat.core.data;
 
 import org.madlonkay.supertmxmerge.data.ITuv;
+import org.madlonkay.supertmxmerge.data.JAXB.JAXBTuv;
 
 /**
  *
@@ -48,10 +49,24 @@ public class OmTTuv implements ITuv {
     public Object getUnderlyingRepresentation() {
         return tmxEntry;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OmTTuv other = (OmTTuv) obj;
+        return getContent().equals(other.getContent());
+    }
 
     @Override
-    public boolean equals(ITuv o) {
-        return getContent().equals(o.getContent());
+    public int hashCode() {
+        int hash = 5;
+        hash = 89 * hash + (this.tmxEntry != null ? this.tmxEntry.hashCode() : 0);
+        hash = 89 * hash + (this.language != null ? this.language.hashCode() : 0);
+        return hash;
     }
-    
 }

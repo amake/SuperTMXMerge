@@ -29,7 +29,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import org.madlonkay.supertmxmerge.DiffController;
-import org.madlonkay.supertmxmerge.data.DiffInfo;
+import org.madlonkay.supertmxmerge.DiffController.DiffInfo;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 

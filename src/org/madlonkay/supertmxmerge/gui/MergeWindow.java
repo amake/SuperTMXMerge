@@ -34,7 +34,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.WindowConstants;
 import org.madlonkay.supertmxmerge.MergeController;
-import org.madlonkay.supertmxmerge.data.ConflictInfo;
+import org.madlonkay.supertmxmerge.MergeController.ConflictInfo;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 

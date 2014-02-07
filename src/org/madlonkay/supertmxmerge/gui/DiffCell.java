@@ -22,8 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.JTextComponent;
-import org.madlonkay.supertmxmerge.data.DiffInfo;
-import org.madlonkay.supertmxmerge.util.CharDiff;
+import org.madlonkay.supertmxmerge.DiffController.DiffInfo;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 

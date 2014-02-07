@@ -21,17 +21,21 @@ package org.madlonkay.supertmxmerge;
 import java.beans.*;
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import org.madlonkay.supertmxmerge.data.DiffInfo;
+import org.madlonkay.supertmxmerge.data.DiffAnalysis;
 import org.madlonkay.supertmxmerge.data.ITmx;
+import org.madlonkay.supertmxmerge.data.ITuv;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
+import org.madlonkay.supertmxmerge.data.Key;
 import org.madlonkay.supertmxmerge.data.WriteFailedException;
 import org.madlonkay.supertmxmerge.gui.DiffWindow;
+import org.madlonkay.supertmxmerge.util.CharDiff;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
@@ -94,7 +98,7 @@ public class DiffController implements Serializable {
         setTmx1(tmx1);
         setTmx2(tmx2);
         
-        diffInfos = DiffUtil.generateDiffData(tmx1, tmx2);
+        diffInfos = generateDiffData(tmx1, tmx2);
         propertySupport.firePropertyChange(PROP_CHANGECOUNT, null, null);
         
         if (diffInfos.isEmpty()) {
@@ -137,6 +141,51 @@ public class DiffController implements Serializable {
             outTmx.writeTo(outFile);
         } catch (WriteFailedException ex) {
             Logger.getLogger(DiffController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private static List<DiffInfo> generateDiffData(ITmx tmx1, ITmx tmx2) {
+        
+        List<DiffInfo> diffInfos = new ArrayList<DiffInfo>();
+        
+        DiffAnalysis<Key> set = DiffUtil.mapDiff(tmx1, tmx2);
+        
+        for (Key key : set.deleted) {
+            ITuv tuv = tmx1.get(key);
+            diffInfos.add(new DiffInfo(key, tmx1.getSourceLanguage(),
+                    tuv.getLanguage(), tuv.getContent(), null));
+        }
+        for (Key key : set.added) {
+            ITuv tuv = tmx2.get(key);
+            diffInfos.add(new DiffInfo(key, tmx2.getSourceLanguage(),
+                    tuv.getLanguage(), null, tuv.getContent()));
+        }
+        for (Key key : set.modified) {
+            ITuv tuv1 = tmx1.get(key);
+            ITuv tuv2 = tmx2.get(key);
+            diffInfos.add(new DiffInfo(key, tmx1.getSourceLanguage(),
+                    tuv1.getLanguage(), tuv1.getContent(), tuv2.getContent()));
+        }
+        
+        return diffInfos;
+    }
+    
+    public static class DiffInfo {
+        public final Key key;
+        public final String sourceLanguage;
+        public final String targetLanguage;
+        public final String tuv1Text;
+        public final String tuv2Text;
+        public final CharDiff diff;
+
+        public DiffInfo(Key key, String sourceLanguage,
+                String targetLanguage, String tuv1Text, String tuv2Text) {
+            this.key = key;
+            this.sourceLanguage = sourceLanguage;
+            this.targetLanguage = targetLanguage;
+            this.tuv1Text = tuv1Text;
+            this.tuv2Text = tuv2Text;
+            this.diff = new CharDiff(tuv1Text, tuv2Text);
         }
     }
 }

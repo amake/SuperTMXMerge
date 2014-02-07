@@ -30,5 +30,6 @@ public interface ITuv {
     
     public Object getUnderlyingRepresentation();
     
-    public boolean equals(ITuv o);
+    @Override
+    public boolean equals(Object o);
 }

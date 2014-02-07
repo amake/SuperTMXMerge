@@ -34,8 +34,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -50,7 +50,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.Source;
 import javax.xml.transform.sax.SAXSource;
-import org.madlonkay.supertmxmerge.data.DiffSet;
+import org.madlonkay.supertmxmerge.data.DiffAnalysis;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.ITu;
 import org.madlonkay.supertmxmerge.data.ITuv;
@@ -74,6 +74,15 @@ import org.xml.sax.helpers.XMLReaderFactory;
  */
 public class JAXBTmx implements ITmx {
 
+    public static final String DIFF_PROP_TYPE = "x-diff-type";
+    public static final String DIFF_PROP_VALUE_ADDED = "added";
+    public static final String DIFF_PROP_VALUE_DELETED = "deleted";
+    public static final String DIFF_PROP_VALUE_MODIFIED = "modified";
+    
+    public static final String DIFF_PROP_MODIFIED_TYPE = "x-diff-modified";
+    public static final String DIFF_PROP_MODIFIED_VALUE_BEFORE = "before";
+    public static final String DIFF_PROP_MODIFIED_VALUE_AFTER = "after";
+    
     private static final JAXBContext CONTEXT;
     private static final Unmarshaller UNMARSHALLER;
     private static final Marshaller MARSHALLER;
@@ -140,55 +149,55 @@ public class JAXBTmx implements ITmx {
             throw new RuntimeException(ex);
         }
         
-        DiffSet set = DiffUtil.generateDiffSet(tmx1, tmx2);
+        DiffAnalysis<Key> set = DiffUtil.mapDiff(tmx1, tmx2);
         
         Tmx tmx = newEmptyTmx(tmx2.tmx);
         Body body = tmx.getBody();
         
         for (Key key : set.added) {
-            Tu tu = (Tu) tmx2.getTuMap().get(key).getUnderlyingRepresentation();
+            Tu tu = (Tu) tmx2.tuMap.get(key).getUnderlyingRepresentation();
             body.getTu().add(tu);
             
             Prop prop = new Prop();
             tu.getNoteOrProp().add(prop);
-            prop.setType(DiffUtil.DIFF_PROP_TYPE);
-            prop.setContent(DiffUtil.DIFF_PROP_VALUE_ADDED);
+            prop.setType(DIFF_PROP_TYPE);
+            prop.setContent(DIFF_PROP_VALUE_ADDED);
         }
         
         for (Key key : set.deleted) {
-            Tu tu = (Tu) tmx1.getTuMap().get(key).getUnderlyingRepresentation();
+            Tu tu = (Tu) tmx1.tuMap.get(key).getUnderlyingRepresentation();
             body.getTu().add(tu);
             
             Prop prop = new Prop();
             tu.getNoteOrProp().add(prop);
-            prop.setType(DiffUtil.DIFF_PROP_TYPE);
-            prop.setContent(DiffUtil.DIFF_PROP_VALUE_DELETED);
+            prop.setType(DIFF_PROP_TYPE);
+            prop.setContent(DIFF_PROP_VALUE_DELETED);
         }
         
         for (Key key : set.modified) {
-            JAXBTu tu1 = (JAXBTu) tmx1.getTuMap().get(key);
+            JAXBTu tu1 = (JAXBTu) tmx1.tuMap.get(key);
             Tu tu = (Tu) tu1.getUnderlyingRepresentation();
             body.getTu().add(tu);
             
-            JAXBTu tu2 = (JAXBTu) tmx2.getTuMap().get(key);
+            JAXBTu tu2 = (JAXBTu) tmx2.tuMap.get(key);
             tu.getTuv().add((Tuv) tu2.getTargetTuv().getUnderlyingRepresentation());
             
             Prop prop = new Prop();
             tu.getNoteOrProp().add(prop);
-            prop.setType(DiffUtil.DIFF_PROP_TYPE);
-            prop.setContent(DiffUtil.DIFF_PROP_VALUE_MODIFIED);
+            prop.setType(DIFF_PROP_TYPE);
+            prop.setContent(DIFF_PROP_VALUE_MODIFIED);
             
             Prop prop1 = new Prop();
             Tuv tuv1 = (Tuv) tu1.getTargetTuv().getUnderlyingRepresentation();
             tuv1.getNoteOrProp().add(prop1);
-            prop1.setType(DiffUtil.DIFF_PROP_MODIFIED_TYPE);
-            prop1.setContent(DiffUtil.DIFF_PROP_MODIFIED_VALUE_BEFORE);
+            prop1.setType(DIFF_PROP_MODIFIED_TYPE);
+            prop1.setContent(DIFF_PROP_MODIFIED_VALUE_BEFORE);
             
             Prop prop2 = new Prop();
             Tuv tuv2 = (Tuv) tu2.getTargetTuv().getUnderlyingRepresentation();
             tuv2.getNoteOrProp().add(prop2);
-            prop2.setType(DiffUtil.DIFF_PROP_MODIFIED_TYPE);
-            prop2.setContent(DiffUtil.DIFF_PROP_MODIFIED_VALUE_AFTER);
+            prop2.setType(DIFF_PROP_MODIFIED_TYPE);
+            prop2.setContent(DIFF_PROP_MODIFIED_VALUE_AFTER);
         }
         
         return new JAXBTmx(tmx, "diff");
@@ -200,12 +209,14 @@ public class JAXBTmx implements ITmx {
         this.file = file;
         Source source = new SAXSource(XMLREADER, new InputSource(new FileInputStream(file)));
         this.tmx = (Tmx) UNMARSHALLER.unmarshal(source);
+        generateMaps();
     }
     
     private JAXBTmx(Tmx tmx, String name) {
         this.tmx = tmx;
         this.name = name;
         propertySupport = new PropertyChangeSupport(this);
+        generateMaps();
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -229,22 +240,6 @@ public class JAXBTmx implements ITmx {
     @Override
     public String getName() {
         return name;
-    }
-
-    @Override
-    public Map<Key, ITuv> getTuvMap() {
-        if (tuvMap == null) {
-            generateMaps();
-        }
-        return tuvMap;
-    }
-    
-    @Override
-    public Map<Key, ITu> getTuMap() {
-        if (tuMap == null) {
-            generateMaps();
-        }
-        return tuMap;
     }
     
     private void generateMaps() {
@@ -286,11 +281,11 @@ public class JAXBTmx implements ITmx {
         }
         List<Tu> tus = tmx.getBody().getTu();
         for (Key key : resolution.toDelete) {
-            tus.remove((Tu) getTuMap().get(key).getUnderlyingRepresentation());
+            tus.remove((Tu) tuMap.get(key).getUnderlyingRepresentation());
         }
         for (Entry<Key, ITuv> e : resolution.toReplace.entrySet()) {
-            Tu tu = (Tu) getTuMap().get(e.getKey()).getUnderlyingRepresentation();
-            ITuv tuvToRemove = getTuvMap().get(e.getKey());
+            Tu tu = (Tu) tuMap.get(e.getKey()).getUnderlyingRepresentation();
+            ITuv tuvToRemove = tuvMap.get(e.getKey());
             if (tuvToRemove != null) {
                 tu.getTuv().remove((Tuv) tuvToRemove.getUnderlyingRepresentation());
                 tu.getTuv().add((Tuv) e.getValue().getUnderlyingRepresentation());
@@ -301,8 +296,7 @@ public class JAXBTmx implements ITmx {
         }
         Tmx modifiedData = tmx;
         this.tmx = originalData;
-        this.tuvMap = null;
-        this.tuMap = null;
+        generateMaps();
         return new JAXBTmx(modifiedData, LocString.get("STM_MERGED_TMX_NAME"));
     }
     
@@ -365,17 +359,69 @@ public class JAXBTmx implements ITmx {
     public static JAXBTmx newEmptyJAXBTmx(JAXBTmx orig) {
         return new JAXBTmx(newEmptyTmx(orig == null ? null : orig.tmx), LocString.get("STM_NEW_TMX_NAME"));
     }
-    
-    public void combine(JAXBTmx tmx) {
-        Set<Key> toAdd = new HashSet<Key>();
-        toAdd.addAll(tmx.getTuMap().keySet());
-        toAdd.removeAll(this.getTuMap().keySet());
 
-        List<Tu> tus = this.tmx.getBody().getTu();
-        for (Key key : toAdd) {
-            tus.add((Tu) tmx.getTuMap().get(key).getUnderlyingRepresentation());
-        }
-        tuMap = null;
-        tuvMap = null;
+    @Override
+    public ITu getTu(Key key) {
+        return tuMap.get(key);
+    }
+
+    @Override
+    public int size() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean isEmpty() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean containsKey(Object key) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean containsValue(Object value) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ITuv get(Object key) {
+        return tuvMap.get(key);
+    }
+
+    @Override
+    public ITuv put(Key key, ITuv value) {
+        return tuvMap.put(key, value);
+    }
+
+    @Override
+    public ITuv remove(Object key) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void putAll(Map<? extends Key, ? extends ITuv> m) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void clear() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Set<Key> keySet() {
+        return tuvMap.keySet();
+    }
+
+    @Override
+    public Collection<ITuv> values() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Set<Entry<Key, ITuv>> entrySet() {
+        return tuvMap.entrySet();
     }
 }

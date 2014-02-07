@@ -18,7 +18,6 @@
  */
 package org.madlonkay.supertmxmerge.data;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,13 +26,11 @@ import java.util.Set;
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
 public class ResolutionSet {
-    public final List<ConflictInfo> conflicts;
     public final Set<Key> toDelete;
     public final Set<ITu> toAdd;
     public final Map<Key, ITuv> toReplace;
     
-    public ResolutionSet(List<ConflictInfo> conflicts, Set<Key> toDelete, Set<ITu> toAdd, Map<Key, ITuv> toReplace) {
-        this.conflicts = conflicts;
+    public ResolutionSet(Set<Key> toDelete, Set<ITu> toAdd, Map<Key, ITuv> toReplace) {
         this.toDelete = toDelete;
         this.toAdd = toAdd;
         this.toReplace = toReplace;

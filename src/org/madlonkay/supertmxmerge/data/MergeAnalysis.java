@@ -18,33 +18,25 @@
  */
 package org.madlonkay.supertmxmerge.data;
 
-import org.madlonkay.supertmxmerge.util.CharDiff;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
+ * @param <K>
+ * @param <V>
  */
-public class ConflictInfo {
-    public final Key key;
-    public final String sourceLanguage;
+public class MergeAnalysis<K,V> {
+    public final Set<K> toDelete;
+    public final Set<K> toAdd;
+    public final Map<K, V> toReplace;
+    public final Set<K> conflicts;
     
-    public final String targetLanguage;
-    public final String baseTuvText;
-    public final String leftTuvText;
-    public final String rightTuvText;
-    
-    public final CharDiff leftTuvDiff;
-    public final CharDiff rightTuvDiff;
-    
-    public ConflictInfo(Key key, String sourceLanguage,
-            String targetLanguage, String baseTuvText, String leftTuvText, String rightTuvText) {
-        this.key = key;
-        this.sourceLanguage = sourceLanguage;
-        this.targetLanguage = targetLanguage;
-        this.baseTuvText = baseTuvText;
-        this.leftTuvText = leftTuvText;
-        this.rightTuvText = rightTuvText;
-        this.leftTuvDiff = new CharDiff(baseTuvText, leftTuvText);
-        this.rightTuvDiff = new CharDiff(baseTuvText, rightTuvText);
+    public MergeAnalysis(Set<K> toDelete, Set<K> toAdd, Map<K,V> toReplace, Set<K> conflicts) {
+        this.toDelete = toDelete;
+        this.toAdd = toAdd;
+        this.toReplace = toReplace;
+        this.conflicts = conflicts;
     }
 }
