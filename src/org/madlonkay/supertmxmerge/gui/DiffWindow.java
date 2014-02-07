@@ -95,6 +95,13 @@ public class DiffWindow extends javax.swing.JPanel {
             diffsPanel.add(new DiffCell(n, info, jScrollPane1));
             n++;
         }
+        
+        // Beansbinding is broken now for some reason, so set this manually.
+        file1Label.setText(controller.getTmx1().getName());
+        file2Label.setText(controller.getTmx2().getName());
+        file1TextUnits.setText((String) changeCountConverter.convertForward(controller.getTmx1().getSize()));
+        file2TextUnits.setText((String) changeCountConverter.convertForward(controller.getTmx2().getSize()));
+        saveAsButton.setEnabled(controller.canSaveDiff());
     }
     
     private DiffController getController() {

@@ -136,6 +136,14 @@ public class MergeWindow extends javax.swing.JPanel {
             addMergeInfo(n, info);
             n++;
         }
+        
+        // Beansbinding is broken now for some reason, so set this manually.
+        leftFilename.setText(controller.getLeftTmx().getName());
+        centerFilename.setText(controller.getBaseTmx().getName());
+        rightFilename.setText(controller.getRightTmx().getName());
+        leftTextUnits.setText((String) unitCountConverter.convertForward(controller.getLeftTmx().getSize()));
+        centerTextUnits.setText((String) unitCountConverter.convertForward(controller.getBaseTmx().getSize()));
+        rightTextUnits.setText((String) unitCountConverter.convertForward(controller.getRightTmx().getSize()));
     }
     
     private void addMergeInfo(int itemNumber, ConflictInfo info) {
