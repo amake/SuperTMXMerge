@@ -287,7 +287,7 @@ public class MergeController implements Serializable, ActionListener {
         Map<Key,ITuv> toReplace = new HashMap<Key,ITuv>();
         
         // Add
-        for (Key key : analysis.toAdd) {
+        for (Key key : analysis.added) {
             ITu leftTuv = leftTmx.getTu(key);
             if (leftTuv != null) {
                 toAdd.add(leftTuv);
@@ -299,10 +299,10 @@ public class MergeController implements Serializable, ActionListener {
         }
         
         // Delete
-        toDelete.addAll(analysis.toDelete);
+        toDelete.addAll(analysis.deleted);
         
         // Replace
-        toReplace.putAll(analysis.toReplace);
+        toReplace.putAll(analysis.modified);
         
         return new ResolutionSet(toDelete, toAdd, toReplace);
     }

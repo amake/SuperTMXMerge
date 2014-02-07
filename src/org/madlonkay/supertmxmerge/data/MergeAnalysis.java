@@ -28,15 +28,15 @@ import java.util.Set;
  * @param <V>
  */
 public class MergeAnalysis<K,V> {
-    public final Set<K> toDelete;
-    public final Set<K> toAdd;
-    public final Map<K, V> toReplace;
+    public final Set<K> deleted;
+    public final Set<K> added;
+    public final Map<K, V> modified;
     public final Set<K> conflicts;
     
     public MergeAnalysis(Set<K> toDelete, Set<K> toAdd, Map<K,V> toReplace, Set<K> conflicts) {
-        this.toDelete = toDelete;
-        this.toAdd = toAdd;
-        this.toReplace = toReplace;
+        this.deleted = toDelete;
+        this.added = toAdd;
+        this.modified = toReplace;
         this.conflicts = conflicts;
     }
 }
