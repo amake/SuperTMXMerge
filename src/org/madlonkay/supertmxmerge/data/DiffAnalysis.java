@@ -18,6 +18,7 @@
  */
 package org.madlonkay.supertmxmerge.data;
 
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -30,8 +31,8 @@ public class DiffAnalysis<T> {
     public Set<T> modified;
     
     public DiffAnalysis(Set<T> deleted, Set<T> added, Set<T> modified) {
-        this.deleted = deleted;
-        this.added = added;
-        this.modified = modified;
+        this.deleted = Collections.unmodifiableSet(deleted);
+        this.added = Collections.unmodifiableSet(added);
+        this.modified = Collections.unmodifiableSet(modified);
     }
 }

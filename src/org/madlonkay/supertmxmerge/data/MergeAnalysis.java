@@ -18,6 +18,7 @@
  */
 package org.madlonkay.supertmxmerge.data;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,9 +35,9 @@ public class MergeAnalysis<K,V> {
     public final Set<K> conflicts;
     
     public MergeAnalysis(Set<K> toDelete, Set<K> toAdd, Map<K,V> toReplace, Set<K> conflicts) {
-        this.deleted = toDelete;
-        this.added = toAdd;
-        this.modified = toReplace;
-        this.conflicts = conflicts;
+        this.deleted = Collections.unmodifiableSet(toDelete);
+        this.added = Collections.unmodifiableSet(toAdd);
+        this.modified = Collections.unmodifiableMap(toReplace);
+        this.conflicts = Collections.unmodifiableSet(conflicts);
     }
 }
