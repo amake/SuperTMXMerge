@@ -335,7 +335,7 @@ public class JAXBTmx implements ITmx {
     
     private static Tmx newEmptyTmx(Tmx orig) {
         Tmx tmx = new Tmx();
-        tmx.setVersion("1.4");
+        tmx.setVersion("1.1");
         
         Package pkg = JAXBTmx.class.getPackage();
         Header header = new Header();
