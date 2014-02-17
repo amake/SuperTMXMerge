@@ -188,7 +188,7 @@ public class OmTTmx implements ITmx {
 
     @Override
     public boolean containsKey(Object key) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return tuvMap.containsKey(key);
     }
 
     @Override
