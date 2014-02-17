@@ -91,7 +91,7 @@ public class MergeIOController extends DiffIOController {
             progress.setValue(2);
             progress.setMessage(LocString.getFormat("STM_FILE_PROGRESS",
                     getBaseFile() == null ? LocString.get("STM_EMPTY_TMX_NAME") : getBaseFile().getName(), 3, 3));
-            if (getBaseFile() == null) {
+            if (getBaseFile() == null || getBaseFile().length() == 0) {
                 baseTmx = JAXBTmx.newEmptyJAXBTmx((JAXBTmx) leftTmx);
                 merger.setIsTwoWayMerge(true);
             } else {
