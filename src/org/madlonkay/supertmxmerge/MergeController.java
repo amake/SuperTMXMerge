@@ -310,6 +310,7 @@ public class MergeController implements Serializable, ActionListener {
         public final String rightTuvText;
         public final CharDiff leftTuvDiff;
         public final CharDiff rightTuvDiff;
+        public final CharDiff twoWayDiff;
     
         public ConflictInfo(Key key, String sourceLanguage, ITuv baseTuv, ITuv leftTuv, ITuv rightTuv) {
             this.key = key;
@@ -323,6 +324,8 @@ public class MergeController implements Serializable, ActionListener {
             this.rightTuvText = rightTuv == null ? null : rightTuv.getContent();
             this.leftTuvDiff = new CharDiff(baseTuvText, leftTuvText);
             this.rightTuvDiff = new CharDiff(baseTuvText, rightTuvText);
+            this.twoWayDiff = baseTuv == null ? new CharDiff(leftTuvText, rightTuvText)
+                    : null;
         }
     }
 }

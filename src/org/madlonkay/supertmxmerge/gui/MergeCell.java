@@ -74,6 +74,9 @@ public class MergeCell extends javax.swing.JPanel {
         tuvTextCenter.addMouseListener(new ClickForwarder(centerButton));
         info.leftTuvDiff.applyStyling(tuvTextCenter, tuvTextLeft);
         info.rightTuvDiff.applyStyling(tuvTextCenter, tuvTextRight, true);
+        if (info.twoWayDiff != null) {
+            info.twoWayDiff.applyStyling(tuvTextLeft, tuvTextRight);
+        }
     }
     
     private void setSourceLanguage(String language) {
