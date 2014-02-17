@@ -24,7 +24,6 @@ import java.awt.event.ActionListener;
 import java.beans.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -283,11 +282,11 @@ public class MergeController implements Serializable, ActionListener {
     
     private ResolutionSet generateResolutionSet(MergeAnalysis<Key,ITuv> analysis) {
          
-        Set<Key> toDelete = analysis.deleted;
-        Map<Key,ITuv> toReplace = analysis.modified;
+        Set<Key> toDelete = new HashSet<Key>(analysis.deleted);
+        Set<ITu> toAdd = new HashSet<ITu>();
+        Map<Key,ITuv> toReplace = new HashMap<Key,ITuv>(analysis.modified);
         
         // Add
-        Set<ITu> toAdd = new HashSet<ITu>();
         for (Key key : analysis.added) {
             ITu leftTuv = leftTmx.getTu(key);
             if (leftTuv != null) {
@@ -299,7 +298,7 @@ public class MergeController implements Serializable, ActionListener {
             toAdd.add(rightTuv);
         }
         
-        return new ResolutionSet(toDelete, Collections.unmodifiableSet(toAdd), toReplace);
+        return new ResolutionSet(toDelete, toAdd, toReplace);
     }
     
     public static class ConflictInfo {
