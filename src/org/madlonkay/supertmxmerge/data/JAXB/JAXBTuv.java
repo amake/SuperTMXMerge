@@ -21,8 +21,12 @@ package org.madlonkay.supertmxmerge.data.JAXB;
 import gen.core.tmx14.Tuv;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.madlonkay.supertmxmerge.data.ITuv;
+import org.madlonkay.supertmxmerge.util.ReflectionUtil;
 
 /**
  *
@@ -36,6 +40,7 @@ public class JAXBTuv implements ITuv {
     private static final char TAG_END_CHAR = '\uE102';
     
     private final Tuv tuv;
+    private Map<String, String> props;
     
     public JAXBTuv(Tuv tuv) {
         this.tuv = tuv;
@@ -78,6 +83,14 @@ public class JAXBTuv implements ITuv {
             }
         }
         return tmp.toString();
+    }
+
+    @Override
+    public Map<String, String> getMetadata() {
+        if (props == null) {
+            props = Collections.unmodifiableMap(ReflectionUtil.simplePropsToMap(tuv));
+        }
+        return props;
     }
     
     @Override

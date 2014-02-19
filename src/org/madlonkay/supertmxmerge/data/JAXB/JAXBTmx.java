@@ -35,6 +35,7 @@ import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -259,16 +260,13 @@ public class JAXBTmx implements ITmx {
     @Override
     public Map<String, String> getMetadata() {
         if (tmxMetadata == null) {
-            generateMetadata();
+            tmxMetadata = ReflectionUtil.simplePropsToMap(tmx.getHeader());
+            if (file != null) {
+                tmxMetadata.put("Path", file.getAbsolutePath());
+            }
+            tmxMetadata = Collections.unmodifiableMap(tmxMetadata);
         }
         return tmxMetadata;
-    }
-    
-    private void generateMetadata() {
-        tmxMetadata = ReflectionUtil.simplePropsToMap(tmx.getHeader());
-        if (file != null) {
-            tmxMetadata.put("Path", file.getAbsolutePath());
-        }
     }
     
     @Override

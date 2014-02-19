@@ -18,6 +18,7 @@
  */
 package org.madlonkay.supertmxmerge.util;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +42,23 @@ public class ReflectionUtil {
                 try {
                     Object value = m.invoke(object, (Object[])null);
                     result.put(m.getName().substring("get".length()),
+                            value == null ? "null" : value.toString());
+                } catch (Exception ex) {
+                    LOGGER.log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return result;
+    }
+    
+    public static Map<String, String> simpleMembersToMap(Object object) {
+        Map<String, String> result = new HashMap<String, String>();
+        
+        for (Field f : object.getClass().getDeclaredFields()) {
+            if (f.getType().isPrimitive() || f.getType().equals(String.class)) {
+                try {
+                    Object value = f.get(object);
+                    result.put(f.getName(),
                             value == null ? "null" : value.toString());
                 } catch (Exception ex) {
                     LOGGER.log(Level.SEVERE, null, ex);

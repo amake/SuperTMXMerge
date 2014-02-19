@@ -18,8 +18,10 @@
  */
 package org.omegat.core.data;
 
+import java.util.Collections;
+import java.util.Map;
 import org.madlonkay.supertmxmerge.data.ITuv;
-import org.madlonkay.supertmxmerge.data.JAXB.JAXBTuv;
+import org.madlonkay.supertmxmerge.util.ReflectionUtil;
 
 /**
  *
@@ -29,6 +31,7 @@ public class OmTTuv implements ITuv {
 
     private final TMXEntry tmxEntry;
     private final String language;
+    private Map<String, String> props;
     
     public OmTTuv(TMXEntry tmxEntry, String language) {
         this.tmxEntry = tmxEntry;
@@ -38,6 +41,14 @@ public class OmTTuv implements ITuv {
     @Override
     public String getContent() {
         return tmxEntry.translation;
+    }
+
+    @Override
+    public Map<String, String> getMetadata() {
+        if (props == null) {
+            props = Collections.unmodifiableMap(ReflectionUtil.simpleMembersToMap(tmxEntry));
+        }
+        return props;
     }
 
     @Override

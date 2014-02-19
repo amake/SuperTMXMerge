@@ -18,6 +18,7 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
+import java.util.Map;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
@@ -53,9 +54,9 @@ public class DiffCell extends javax.swing.JPanel {
         }
         setSourceLanguage(info.sourceLanguage);
         setTargetLanguage(info.targetLanguage);
-        setTextWithFallback(sourceText, info.key.sourceText, "STM_TUV_NOT_PRESENT");
-        setTextWithFallback(tuvText1, info.tuv1Text, "STM_TUV_NOT_PRESENT");
-        setTextWithFallback(tuvText2, info.tuv2Text, "STM_TUV_DELETED");
+        setTextWithFallback(sourceText, info.key.sourceText, "STM_TUV_NOT_PRESENT", null);
+        setTextWithFallback(tuvText1, info.tuv1Text, "STM_TUV_NOT_PRESENT", info.tuv1Props);
+        setTextWithFallback(tuvText2, info.tuv2Text, "STM_TUV_DELETED", info.tuv2Props);
         info.diff.applyStyling(tuvText1, tuvText2);
     }
     
@@ -70,10 +71,13 @@ public class DiffCell extends javax.swing.JPanel {
     }
     
     private void setTextWithFallback(JTextComponent field, String text,
-            String fallbackKey) {
+            String fallbackKey, Map<String, String> props) {
         if (text == null) {
             field.setBackground(getBackground());
             text = LocString.get(fallbackKey);
+        }
+        if (props != null) {
+            field.setToolTipText((String) CONVERTER.convertForward(props));
         }
         field.setText(text);
     }

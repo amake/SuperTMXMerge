@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -152,19 +153,16 @@ public class DiffController implements Serializable {
         
         for (Key key : set.deleted) {
             ITuv tuv = tmx1.get(key);
-            diffInfos.add(new DiffInfo(key, tmx1.getSourceLanguage(),
-                    tuv.getLanguage(), tuv.getContent(), null));
+            diffInfos.add(new DiffInfo(key, tmx1.getSourceLanguage(), tuv, null));
         }
         for (Key key : set.added) {
             ITuv tuv = tmx2.get(key);
-            diffInfos.add(new DiffInfo(key, tmx2.getSourceLanguage(),
-                    tuv.getLanguage(), null, tuv.getContent()));
+            diffInfos.add(new DiffInfo(key, tmx2.getSourceLanguage(), null, tuv));
         }
         for (Key key : set.modified) {
             ITuv tuv1 = tmx1.get(key);
             ITuv tuv2 = tmx2.get(key);
-            diffInfos.add(new DiffInfo(key, tmx1.getSourceLanguage(),
-                    tuv1.getLanguage(), tuv1.getContent(), tuv2.getContent()));
+            diffInfos.add(new DiffInfo(key, tmx1.getSourceLanguage(), tuv1, tuv2));
         }
         
         return diffInfos;
@@ -176,15 +174,20 @@ public class DiffController implements Serializable {
         public final String targetLanguage;
         public final String tuv1Text;
         public final String tuv2Text;
+        public final Map<String, String> tuv1Props;
+        public final Map<String, String> tuv2Props;
         public final CharDiff diff;
 
-        public DiffInfo(Key key, String sourceLanguage,
-                String targetLanguage, String tuv1Text, String tuv2Text) {
+        public DiffInfo(Key key, String sourceLanguage, ITuv tuv1, ITuv tuv2) {
             this.key = key;
             this.sourceLanguage = sourceLanguage;
-            this.targetLanguage = targetLanguage;
-            this.tuv1Text = tuv1Text;
-            this.tuv2Text = tuv2Text;
+            this.targetLanguage = tuv1 != null ? tuv1.getLanguage()
+                    : tuv2 != null ? tuv2.getLanguage()
+                    : null;
+            this.tuv1Text = tuv1 == null ? null : tuv1.getContent();
+            this.tuv2Text = tuv2 == null ? null : tuv2.getContent();
+            this.tuv1Props = tuv1 == null ? null : tuv1.getMetadata();
+            this.tuv2Props = tuv2 == null ? null : tuv2.getMetadata();
             this.diff = new CharDiff(tuv1Text, tuv2Text);
         }
     }

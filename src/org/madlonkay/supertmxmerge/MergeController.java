@@ -322,6 +322,9 @@ public class MergeController implements Serializable, ActionListener {
         public final String baseTuvText;
         public final String leftTuvText;
         public final String rightTuvText;
+        public final Map<String, String> baseTuvProps;
+        public final Map<String, String> leftTuvProps;
+        public final Map<String, String> rightTuvProps;
         public final CharDiff leftTuvDiff;
         public final CharDiff rightTuvDiff;
         public final CharDiff twoWayDiff;
@@ -336,6 +339,9 @@ public class MergeController implements Serializable, ActionListener {
             this.baseTuvText = baseTuv == null ? null : baseTuv.getContent();
             this.leftTuvText = leftTuv == null ? null : leftTuv.getContent();
             this.rightTuvText = rightTuv == null ? null : rightTuv.getContent();
+            this.baseTuvProps = baseTuv == null ? null : baseTuv.getMetadata();
+            this.leftTuvProps = leftTuv == null ? null : leftTuv.getMetadata();
+            this.rightTuvProps = rightTuv == null ? null : rightTuv.getMetadata();
             this.leftTuvDiff = new CharDiff(baseTuvText, leftTuvText);
             this.rightTuvDiff = new CharDiff(baseTuvText, rightTuvText);
             this.twoWayDiff = baseTuv == null ? new CharDiff(leftTuvText, rightTuvText)

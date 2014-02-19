@@ -144,6 +144,9 @@ public class MergeWindow extends javax.swing.JPanel {
         leftTextUnits.setText((String) unitCountConverter.convertForward(controller.getLeftTmx().getSize()));
         centerTextUnits.setText((String) unitCountConverter.convertForward(controller.getBaseTmx().getSize()));
         rightTextUnits.setText((String) unitCountConverter.convertForward(controller.getRightTmx().getSize()));
+        leftFilename.setToolTipText((String) mapToTextConverter.convertForward(controller.getLeftTmx().getMetadata()));
+        centerFilename.setToolTipText((String) mapToTextConverter.convertForward(controller.getBaseTmx().getMetadata()));
+        rightFilename.setToolTipText((String) mapToTextConverter.convertForward(controller.getRightTmx().getMetadata()));
     }
     
     private void addMergeInfo(int itemNumber, ConflictInfo info) {

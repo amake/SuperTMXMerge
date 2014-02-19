@@ -101,6 +101,8 @@ public class DiffWindow extends javax.swing.JPanel {
         file2Label.setText(controller.getTmx2().getName());
         file1TextUnits.setText((String) changeCountConverter.convertForward(controller.getTmx1().getSize()));
         file2TextUnits.setText((String) changeCountConverter.convertForward(controller.getTmx2().getSize()));
+        file1Label.setToolTipText((String) mapToTextConverter.convertForward(controller.getTmx1().getMetadata()));
+        file2Label.setToolTipText((String) mapToTextConverter.convertForward(controller.getTmx2().getMetadata()));
         saveAsButton.setEnabled(controller.canSaveDiff());
     }
     
