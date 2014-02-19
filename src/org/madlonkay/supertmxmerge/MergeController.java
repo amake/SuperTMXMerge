@@ -25,16 +25,13 @@ import java.beans.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.logging.Logger;
 import javax.swing.AbstractButton;
 import javax.swing.JOptionPane;
 import org.madlonkay.supertmxmerge.data.ITmx;
-import org.madlonkay.supertmxmerge.data.ITu;
 import org.madlonkay.supertmxmerge.data.ITuv;
 import org.madlonkay.supertmxmerge.data.Key;
 import org.madlonkay.supertmxmerge.data.MergeAnalysis;
@@ -50,6 +47,11 @@ import org.madlonkay.supertmxmerge.util.LocString;
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
 public class MergeController implements Serializable, ActionListener {
+    
+    public enum BatchResolution {
+        BASE, LEFT, RIGHT
+    }
+    
     public static final Logger LOGGER = Logger.getLogger(MergeController.class.getName());
     
     public static final String PROP_BASETMX = "baseTmx";
@@ -87,13 +89,8 @@ public class MergeController implements Serializable, ActionListener {
     }
     
     public ITmx merge(ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
-        
-        setBaseTmx(baseTmx);
-        setLeftTmx(leftTmx);
-        setRightTmx(rightTmx);
-        
-        analysis = DiffUtil.mapMerge(baseTmx, leftTmx, rightTmx);
-        propertySupport.firePropertyChange(PROP_CONFLICTCOUNT, null, null);
+
+        analyze(baseTmx, leftTmx, rightTmx);
         
         boolean showDiff = false;
         
@@ -116,7 +113,12 @@ public class MergeController implements Serializable, ActionListener {
                     JOptionPane.INFORMATION_MESSAGE);
         }
         
-        ITmx resolved = resolve();
+        ResolutionSet resolution = getResolution();
+        if (resolution == null) {
+            return null;
+        }
+        
+        ITmx resolved = resolve(resolution);
         
         if (showDiff) {
             DiffController differ = new DiffController();
@@ -124,6 +126,39 @@ public class MergeController implements Serializable, ActionListener {
         }
         
         return resolved;
+    }
+    
+    public MergeAnalysis analyze(ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
+        setBaseTmx(baseTmx);
+        setLeftTmx(leftTmx);
+        setRightTmx(rightTmx);
+        
+        analysis = DiffUtil.mapMerge(baseTmx, leftTmx, rightTmx);
+        propertySupport.firePropertyChange(PROP_CONFLICTCOUNT, null, null);
+        
+        return analysis;
+    }
+    
+    public ITmx resolve(ResolutionSet resolution) {
+        return baseTmx.applyChanges(resolution);
+    }
+    
+    public ITmx resolve(BatchResolution res) {
+        ResolutionSet resolution = ResolutionSet.fromAnalysis(analysis, leftTmx, rightTmx);
+        for (Key key : analysis.conflicts) {
+            switch (res) {
+                case LEFT:
+                    dispatchKey(key, baseTmx, leftTmx, resolution);
+                    break;
+                case BASE:
+                    // No change
+                    break;
+                case RIGHT:
+                    dispatchKey(key, baseTmx, rightTmx, resolution);
+                    break;
+            }
+        }
+        return resolve(resolution);
     }
     
     public boolean isConflictsAreResolved() {
@@ -234,12 +269,12 @@ public class MergeController implements Serializable, ActionListener {
         propertySupport.firePropertyChange(PROP_CONFLICTSARERESOLVED, null, null);
     }
     
-    private ITmx resolve() {
+    private ResolutionSet getResolution() {
         if (!isConflictsAreResolved()) {
             return null;
         }
         
-        ResolutionSet resolution = generateResolutionSet(analysis);
+        ResolutionSet resolution = ResolutionSet.fromAnalysis(analysis, leftTmx, rightTmx);
         
         for (Entry<Key, AbstractButton[]> e : selections.entrySet()) {
             Key key = e.getKey();
@@ -256,7 +291,7 @@ public class MergeController implements Serializable, ActionListener {
             }
         }
         
-        return baseTmx.applyChanges(resolution);
+        return resolution;
     }
     
     private static void dispatchKey(Key key, ITmx baseTmx, ITmx thisTmx, ResolutionSet resolution) {
@@ -278,27 +313,6 @@ public class MergeController implements Serializable, ActionListener {
             n++;
         }
         return -1;
-    }
-    
-    private ResolutionSet generateResolutionSet(MergeAnalysis<Key,ITuv> analysis) {
-         
-        Set<Key> toDelete = new HashSet<Key>(analysis.deleted);
-        Set<ITu> toAdd = new HashSet<ITu>();
-        Map<Key,ITuv> toReplace = new HashMap<Key,ITuv>(analysis.modified);
-        
-        // Add
-        for (Key key : analysis.added) {
-            ITu leftTuv = leftTmx.getTu(key);
-            if (leftTuv != null) {
-                toAdd.add(leftTuv);
-                continue;
-            }
-            ITu rightTuv = rightTmx.getTu(key);
-            assert(rightTuv != null);
-            toAdd.add(rightTuv);
-        }
-        
-        return new ResolutionSet(toDelete, toAdd, toReplace);
     }
     
     public static class ConflictInfo {
