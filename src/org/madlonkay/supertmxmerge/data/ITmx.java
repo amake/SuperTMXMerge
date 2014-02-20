@@ -25,11 +25,9 @@ import java.util.Map;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public interface ITmx {
-    
-    public Map<Key, ITuv> getTuvMap();
-    
-    public Map<Key, ITu> getTuMap();
+public interface ITmx extends Map<Key,ITuv> {
+        
+    public ITu getTu(Key key);
     
     public String getSourceLanguage();
     

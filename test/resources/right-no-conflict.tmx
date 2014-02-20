@@ -178,14 +178,6 @@
     </tu>
     <tu>
       <tuv lang="en-us">
-        <seg>Use right</seg>
-      </tuv>
-      <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103133Z" creationid="aaron.madlon-kay" creationdate="20130831T103133Z">
-        <seg>右を使用</seg>
-      </tuv>
-    </tu>
-    <tu>
-      <tuv lang="en-us">
         <seg>java -jar SuperTMXMerge baseFile file1 file2</seg>
       </tuv>
       <tuv lang="ja-jp" changeid="aaron.madlon-kay" changedate="20130831T103556Z" creationid="aaron.madlon-kay" creationdate="20130831T103408Z">

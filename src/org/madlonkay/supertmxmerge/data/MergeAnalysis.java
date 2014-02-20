@@ -18,20 +18,26 @@
  */
 package org.madlonkay.supertmxmerge.data;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
+ * @param <K>
+ * @param <V>
  */
-public class DiffSet {
-    public Set<Key> deleted;
-    public Set<Key> added;
-    public Set<Key> modified;
+public class MergeAnalysis<K,V> {
+    public final Set<K> deleted;
+    public final Set<K> added;
+    public final Map<K, V> modified;
+    public final Set<K> conflicts;
     
-    public DiffSet(Set<Key> deleted, Set<Key> added, Set<Key> modified) {
-        this.deleted = deleted;
-        this.added = added;
-        this.modified = modified;
+    public MergeAnalysis(Set<K> toDelete, Set<K> toAdd, Map<K,V> toReplace, Set<K> conflicts) {
+        this.deleted = Collections.unmodifiableSet(toDelete);
+        this.added = Collections.unmodifiableSet(toAdd);
+        this.modified = Collections.unmodifiableMap(toReplace);
+        this.conflicts = Collections.unmodifiableSet(conflicts);
     }
 }

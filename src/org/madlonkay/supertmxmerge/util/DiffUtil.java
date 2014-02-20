@@ -18,26 +18,12 @@
  */
 package org.madlonkay.supertmxmerge.util;
 
-import java.awt.Color;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.swing.JTextPane;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.MutableAttributeSet;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import org.madlonkay.supertmxmerge.data.ConflictInfo;
-import org.madlonkay.supertmxmerge.data.DiffInfo;
-import org.madlonkay.supertmxmerge.data.DiffSet;
-import org.madlonkay.supertmxmerge.data.ITmx;
-import org.madlonkay.supertmxmerge.data.ITu;
-import org.madlonkay.supertmxmerge.data.ITuv;
-import org.madlonkay.supertmxmerge.data.Key;
-import org.madlonkay.supertmxmerge.data.ResolutionSet;
+import org.madlonkay.supertmxmerge.data.DiffAnalysis;
+import org.madlonkay.supertmxmerge.data.MergeAnalysis;
 
 /**
  *
@@ -45,169 +31,123 @@ import org.madlonkay.supertmxmerge.data.ResolutionSet;
  */
 public class DiffUtil {
     
-    public static final String DIFF_PROP_TYPE = "x-diff-type";
-    public static final String DIFF_PROP_VALUE_ADDED = "added";
-    public static final String DIFF_PROP_VALUE_DELETED = "deleted";
-    public static final String DIFF_PROP_VALUE_MODIFIED = "modified";
-    
-    public static final String DIFF_PROP_MODIFIED_TYPE = "x-diff-modified";
-    public static final String DIFF_PROP_MODIFIED_VALUE_BEFORE = "before";
-    public static final String DIFF_PROP_MODIFIED_VALUE_AFTER = "after";
-    
-    public static List<DiffInfo> generateDiffData(ITmx tmx1, ITmx tmx2) {
+    public static <K,V> DiffAnalysis mapDiff(Map<K,V> before, Map<K,V> after) {
+        // Deleted items
+        Set<K> deleted = new HashSet<K>(before.keySet());
+        deleted.removeAll(after.keySet());
         
-        List<DiffInfo> diffInfos = new ArrayList<DiffInfo>();
+        // Added items
+        Set<K> added = new HashSet<K>(after.keySet());
+        added.removeAll(before.keySet());
         
-        DiffSet set = generateDiffSet(tmx1, tmx2);
-        
-        for (Key key : set.deleted) {
-            ITuv tuv = tmx1.getTuvMap().get(key);
-            diffInfos.add(new DiffInfo(key, tmx1.getSourceLanguage(),
-                    tuv.getLanguage(), tuv.getContent(), null));
-        }
-        for (Key key : set.added) {
-            ITuv tuv = tmx2.getTuvMap().get(key);
-            diffInfos.add(new DiffInfo(key, tmx2.getSourceLanguage(),
-                    tuv.getLanguage(), null, tuv.getContent()));
-        }
-        for (Key key : set.modified) {
-            ITuv tuv1 = tmx1.getTuvMap().get(key);
-            ITuv tuv2 = tmx2.getTuvMap().get(key);
-            diffInfos.add(new DiffInfo(key, tmx1.getSourceLanguage(),
-                    tuv1.getLanguage(), tuv1.getContent(), tuv2.getContent()));
-        }
-        
-        return diffInfos;
-    }
-    
-    public static DiffSet generateDiffSet(ITmx tmx1, ITmx tmx2) {
-        // Deleted TUs
-        Set<Key> deleted = new HashSet<Key>(tmx1.getTuvMap().keySet());
-        deleted.removeAll(tmx2.getTuvMap().keySet());
-        
-        // Added TUs
-        Set<Key> added = new HashSet<Key>(tmx2.getTuvMap().keySet());
-        added.removeAll(tmx1.getTuvMap().keySet());
-        
-        // Modified TUs
-        Set<Key> modified = new HashSet<Key>();
-        for (Map.Entry<Key, ITuv> e : tmx1.getTuvMap().entrySet()) {
-            ITuv newTuv = tmx2.getTuvMap().get(e.getKey());
-            if (newTuv == null) {
+        // Modified items
+        Set<K> modified = new HashSet<K>();
+        for (Map.Entry<K,V> e : before.entrySet()) {
+            V newItem = after.get(e.getKey());
+            if (newItem == null) {
                 continue;
             }
-            if (!e.getValue().equals(newTuv)) {
+            if (!e.getValue().equals(newItem)) {
                 modified.add(e.getKey());
             }
         }
-        return new DiffSet(deleted, added, modified);
+        return new DiffAnalysis<K>(deleted, added, modified);
     }
     
-    public static ResolutionSet generateMergeData(ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
+    public static <K,V> MergeAnalysis<K,V> mapMerge(Map<K,V> base, Map<K,V> left, Map<K,V> right) {
+         
+        Set<K> toDelete = new HashSet<K>();
+        Set<K> toAdd = new HashSet<K>();
+        Map<K,V> toReplace = new HashMap<K,V>();
+        Set<K> conflicts = new HashSet<K>();
         
-        List<ConflictInfo> conflicts = new ArrayList<ConflictInfo>();
+        DiffAnalysis<K> baseToLeft = mapDiff(base, left);
+        DiffAnalysis<K> baseToRight = mapDiff(base, right);
         
-        HashSet<Key> toDelete = new HashSet<Key>();
-        HashSet<ITu> toAdd = new HashSet<ITu>();
-        HashMap<Key, ITuv> toReplace = new HashMap<Key, ITuv>();
-        
-        DiffSet baseToLeft = generateDiffSet(baseTmx, leftTmx);
-        DiffSet baseToRight = generateDiffSet(baseTmx, rightTmx);
-        
-        Set<Key> conflictKeys = new HashSet<Key>();
         // New in left
-        for (Key key : baseToLeft.added) {
-            ITuv leftTuv = leftTmx.getTuvMap().get(key);
-            ITuv rightTuv = rightTmx.getTuvMap().get(key);
-            if (rightTuv == null || leftTuv.equals(rightTuv)) {
-                toAdd.add(leftTmx.getTuMap().get(key));
+        for (K key : baseToLeft.added) {
+            V leftItem = left.get(key);
+            V rightItem = right.get(key);
+            if (rightItem == null || leftItem.equals(rightItem)) {
+                toAdd.add(key);
             } else {
-                conflicts.add(new ConflictInfo(key, leftTmx.getSourceLanguage(), leftTuv.getLanguage(),
-                        null, leftTuv.getContent(), rightTuv.getContent()));
-                conflictKeys.add(key);
+                conflicts.add(key);
             }
         }
         // New in right
-        for (Key key : baseToRight.added) {
-            if (conflictKeys.contains(key)) {
+        for (K key : baseToRight.added) {
+            if (conflicts.contains(key)) {
                 continue;
             }
-            ITuv leftTuv = leftTmx.getTuvMap().get(key);
-            ITuv rightTuv = rightTmx.getTuvMap().get(key);
-            if (leftTuv == null) {
-                toAdd.add(rightTmx.getTuMap().get(key));
-            } else if (rightTuv.equals(leftTuv)) {
+            V leftItem = left.get(key);
+            V rightItem = right.get(key);
+            if (leftItem == null) {
+                toAdd.add(key);
+            } else if (rightItem.equals(leftItem)) {
                 // We don't add in this case because it would duplicate when we added
                 // in the similar case above.
             } else {
-                conflicts.add(new ConflictInfo(key, rightTmx.getSourceLanguage(), rightTuv.getLanguage(),
-                        null, leftTuv.getContent(), rightTuv.getContent()));
-                conflictKeys.add(key);
+                conflicts.add(key);
             }
         }
         // Deleted from left
-        for (Key key : baseToLeft.deleted) {
-            if (conflictKeys.contains(key)) {
+        for (K key : baseToLeft.deleted) {
+            if (conflicts.contains(key)) {
                 continue;
             }
-            ITuv rightTuv = rightTmx.getTuvMap().get(key);
-            if (rightTuv == null) {
+            V rightItem = right.get(key);
+            V baseItem = base.get(key);
+            if (rightItem == null || baseItem.equals(rightItem)) {
                 toDelete.add(key);
             } else {
-                ITuv baseTuv = baseTmx.getTuvMap().get(key);
-                conflicts.add(new ConflictInfo(key, rightTmx.getSourceLanguage(), rightTuv.getLanguage(),
-                        baseTuv.getContent(), null, rightTuv.getContent()));
-                conflictKeys.add(key);
+                conflicts.add(key);
             }
         }
         // Deleted from right
-        for (Key key : baseToRight.deleted) {
-            if (conflictKeys.contains(key)) {
+        for (K key : baseToRight.deleted) {
+            if (conflicts.contains(key)) {
                 continue;
             }
-            ITuv leftTuv = leftTmx.getTuvMap().get(key);
-            if (leftTuv == null) {
+            V leftItem = left.get(key);
+            V baseItem = base.get(key);
+            if (leftItem == null) {
+                // We don't delete in this case because it would duplicate when we deleted
+                // in the similar case above.
+            } else if (baseItem.equals(leftItem)) {
                 toDelete.add(key);
             } else {
-                ITuv baseTuv = baseTmx.getTuvMap().get(key);
-                conflicts.add(new ConflictInfo(key, rightTmx.getSourceLanguage(), baseTuv.getLanguage(),
-                        baseTuv.getContent(), leftTuv.getContent(), null));
-                conflictKeys.add(key);
+                conflicts.add(key);
             }
         }
         // Modified on left
-        for (Key key : baseToLeft.modified) {
-            if (conflictKeys.contains(key)) {
+        for (K key : baseToLeft.modified) {
+            if (conflicts.contains(key)) {
                 continue;
             }
-            ITuv baseTuv = baseTmx.getTuvMap().get(key);
-            ITuv leftTuv = leftTmx.getTuvMap().get(key);
-            ITuv rightTuv = rightTmx.getTuvMap().get(key);
-            if (leftTuv.equals(rightTuv) || baseTuv.equals(rightTuv)) {
-                toReplace.put(key, leftTuv);
+            V baseItem = base.get(key);
+            V leftItem = left.get(key);
+            V rightItem = right.get(key);
+            if (leftItem.equals(rightItem) || baseItem.equals(rightItem)) {
+                toReplace.put(key, leftItem);
             } else {
-                conflicts.add(new ConflictInfo(key, baseTmx.getSourceLanguage(), baseTuv.getLanguage(),
-                        baseTuv.getContent(), leftTuv.getContent(), rightTuv.getContent()));
-                conflictKeys.add(key);
+                conflicts.add(key);
             }
         }
         // Modified on right
-        for (Key key : baseToRight.modified) {
-            if (conflictKeys.contains(key)) {
+        for (K key : baseToRight.modified) {
+            if (conflicts.contains(key)) {
                 continue;
             }
-            ITuv leftTuv = leftTmx.getTuvMap().get(key);
-            ITuv rightTuv = rightTmx.getTuvMap().get(key);
-            ITuv baseTuv = baseTmx.getTuvMap().get(key);
-            if (leftTuv.equals(rightTuv) || baseTuv.equals(leftTuv)) {
-                toReplace.put(key, rightTuv);
+            V leftItem = left.get(key);
+            V rightItem = right.get(key);
+            V baseItem = base.get(key);
+            if (leftItem.equals(rightItem) || baseItem.equals(leftItem)) {
+                toReplace.put(key, rightItem);
             } else {
-                conflicts.add(new ConflictInfo(key, baseTmx.getSourceLanguage(), baseTuv.getLanguage(),
-                        baseTuv.getContent(), leftTuv.getContent(), rightTuv.getContent()));
-                conflictKeys.add(key);
+                conflicts.add(key);
             }
         }
         
-        return new ResolutionSet(conflicts, toDelete, toAdd, toReplace);
+        return new MergeAnalysis(toDelete, toAdd, toReplace, conflicts);
     }
 }

@@ -18,6 +18,8 @@
  */
 package org.madlonkay.supertmxmerge.data;
 
+import java.util.Map;
+
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
@@ -28,7 +30,10 @@ public interface ITuv {
     
     public String getLanguage();
     
+    public Map<String, String> getMetadata();
+    
     public Object getUnderlyingRepresentation();
     
-    public boolean equals(ITuv o);
+    @Override
+    public boolean equals(Object o);
 }

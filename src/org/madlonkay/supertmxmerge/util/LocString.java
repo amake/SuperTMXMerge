@@ -54,6 +54,8 @@ public class LocString {
     }
     
     public static void addBundle(ResourceBundle bundle) {
-        moreBundles.add(bundle);
+        if (!moreBundles.contains(bundle)) {
+            moreBundles.add(bundle);
+        }
     }
 }

@@ -18,7 +18,8 @@
  */
 package org.madlonkay.supertmxmerge.data;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,13 +28,31 @@ import java.util.Set;
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
 public class ResolutionSet {
-    public final List<ConflictInfo> conflicts;
     public final Set<Key> toDelete;
     public final Set<ITu> toAdd;
     public final Map<Key, ITuv> toReplace;
     
-    public ResolutionSet(List<ConflictInfo> conflicts, Set<Key> toDelete, Set<ITu> toAdd, Map<Key, ITuv> toReplace) {
-        this.conflicts = conflicts;
+    public static ResolutionSet fromAnalysis(MergeAnalysis<Key,ITuv> analysis, ITmx leftTmx, ITmx rightTmx) {
+        Set<Key> toDelete = new HashSet<Key>(analysis.deleted);
+        Set<ITu> toAdd = new HashSet<ITu>();
+        Map<Key,ITuv> toReplace = new HashMap<Key,ITuv>(analysis.modified);
+        
+        // Add
+        for (Key key : analysis.added) {
+            ITu leftTuv = leftTmx.getTu(key);
+            if (leftTuv != null) {
+                toAdd.add(leftTuv);
+                continue;
+            }
+            ITu rightTuv = rightTmx.getTu(key);
+            assert(rightTuv != null);
+            toAdd.add(rightTuv);
+        }
+        
+        return new ResolutionSet(toDelete, toAdd, toReplace);
+    }
+    
+    private ResolutionSet(Set<Key> toDelete, Set<ITu> toAdd, Map<Key, ITuv> toReplace) {
         this.toDelete = toDelete;
         this.toAdd = toAdd;
         this.toReplace = toReplace;

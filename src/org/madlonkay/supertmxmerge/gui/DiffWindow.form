@@ -9,12 +9,12 @@
     </Component>
     <Component class="org.madlonkay.supertmxmerge.gui.LocStringConverter" name="unitCountConverter">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new LocStringConverter(&quot;number_of_units&quot;, &quot;number_of_units_singular&quot;)"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new LocStringConverter(&quot;STM_NUMBER_OF_UNITS&quot;, &quot;STM_NUMBER_OF_UNITS_SINGULAR&quot;)"/>
       </AuxValues>
     </Component>
     <Component class="org.madlonkay.supertmxmerge.gui.LocStringConverter" name="changeCountConverter">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new LocStringConverter(&quot;number_of_changes&quot;, &quot;number_of_changes_singular&quot;)"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new LocStringConverter(&quot;STM_NUMBER_OF_CHANGES&quot;, &quot;STM_NUMBER_OF_CHANGES_SINGULAR&quot;)"/>
       </AuxValues>
     </Component>
     <Component class="org.madlonkay.supertmxmerge.gui.MapToTextConverter" name="mapToTextConverter">

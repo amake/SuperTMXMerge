@@ -25,7 +25,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.madlonkay.supertmxmerge.data.DiffSet;
+import org.madlonkay.supertmxmerge.data.DiffAnalysis;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
 
@@ -58,16 +58,16 @@ public class SuperTmxMergeTest {
 
     @Test
     public void testDiffGui() {
-        File file1 = getFilePath("resources/base.tmx");
-        File file2 = getFilePath("resources/left.tmx");
+        File file1 = TestUtils.getFilePath("resources/base.tmx");
+        File file2 = TestUtils.getFilePath("resources/left.tmx");
         if (DO_GUI_TESTS) SuperTmxMerge.diff(file1, file2);
     }
 
     @Test
     public void testMergeGui() {
-        File baseFile = getFilePath("resources/base.tmx");
-        File file1 = getFilePath("resources/left.tmx");
-        File file2 = getFilePath("resources/right.tmx");
+        File baseFile = TestUtils.getFilePath("resources/base.tmx");
+        File file1 = TestUtils.getFilePath("resources/left.tmx");
+        File file2 = TestUtils.getFilePath("resources/right.tmx");
         if (DO_GUI_TESTS) SuperTmxMerge.merge(baseFile, file1, file2);
     }
 
@@ -78,10 +78,10 @@ public class SuperTmxMergeTest {
     
     @Test
     public void testDiff() throws Exception {
-        File baseFile = getFilePath("resources/base.tmx");
-        File file1 = getFilePath("resources/left.tmx");
+        File baseFile = TestUtils.getFilePath("resources/base.tmx");
+        File file1 = TestUtils.getFilePath("resources/left.tmx");
         
-        DiffSet diff = DiffUtil.generateDiffSet(new JAXBTmx(baseFile), new JAXBTmx(file1));
+        DiffAnalysis diff = DiffUtil.mapDiff(new JAXBTmx(baseFile), new JAXBTmx(file1));
         assertEquals(diff.added.size(), 2);
         assertEquals(diff.deleted.size(), 2);
         assertEquals(diff.modified.size(), 5);
@@ -89,45 +89,45 @@ public class SuperTmxMergeTest {
     
     @Test
     public void testDiffTo() throws Exception {
-        File baseFile = getFilePath("resources/base.tmx");
-        File file1 = getFilePath("resources/left.tmx");
+        File baseFile = TestUtils.getFilePath("resources/base.tmx");
+        File file1 = TestUtils.getFilePath("resources/left.tmx");
         File outFile = new File(file1.getParentFile(), "output.tmx");
         SuperTmxMerge.diffTo(baseFile, file1, outFile);
         
-        File goldFile = getFilePath("resources/gold/diffToGold.tmx");
+        File goldFile = TestUtils.getFilePath("resources/gold/diffToGold.tmx");
         
-        ensureEmptyDiff(outFile, goldFile);
+        TestUtils.ensureEmptyDiff(outFile, goldFile);
         
         outFile.delete();
     }
     
     @Test
     public void testMergeTo() throws Exception {
-        File baseFile = getFilePath("resources/base.tmx");
-        File file1 = getFilePath("resources/left-no-conflict.tmx");
-        File file2 = getFilePath("resources/right-no-conflict.tmx");
+        File baseFile = TestUtils.getFilePath("resources/base.tmx");
+        File file1 = TestUtils.getFilePath("resources/left-no-conflict.tmx");
+        File file2 = TestUtils.getFilePath("resources/right-no-conflict.tmx");
         File outFile = new File(file1.getParentFile(), "output.tmx");
         SuperTmxMerge.mergeTo(baseFile, file1, file2, outFile);
         
-        File goldFile = getFilePath("resources/gold/mergeToGold.tmx");
+        File goldFile = TestUtils.getFilePath("resources/gold/mergeToGold.tmx");
         
-        ensureEmptyDiff(outFile, goldFile);
+        TestUtils.ensureEmptyDiff(outFile, goldFile);
         
         outFile.delete();
     }
     
     @Test
     public void testMergeBidirectional() throws Exception {
-        File baseFile = getFilePath("resources/base.tmx");
-        File file1 = getFilePath("resources/left-no-conflict.tmx");
-        File file2 = getFilePath("resources/right-no-conflict.tmx");
+        File baseFile = TestUtils.getFilePath("resources/base.tmx");
+        File file1 = TestUtils.getFilePath("resources/left-no-conflict.tmx");
+        File file2 = TestUtils.getFilePath("resources/right-no-conflict.tmx");
         File outFile1 = new File(file1.getParentFile(), "output1.tmx");
         SuperTmxMerge.mergeTo(baseFile, file1, file2, outFile1);
         
         File outFile2 = new File(file1.getParentFile(), "output2.tmx");
         SuperTmxMerge.mergeTo(baseFile, file2, file1, outFile2);
                 
-        ensureEmptyDiff(outFile1, outFile2);
+        TestUtils.ensureEmptyDiff(outFile1, outFile2);
         
         outFile1.delete();
         outFile2.delete();
@@ -136,40 +136,29 @@ public class SuperTmxMergeTest {
     @Test
     public void testMergeBaseless() throws Exception {
         File baseFile = null;
-        File file1 = getFilePath("resources/left-no-conflict.tmx");
-        File file2 = getFilePath("resources/right-no-conflict-baseless.tmx");
+        File file1 = TestUtils.getFilePath("resources/left-no-conflict.tmx");
+        File file2 = TestUtils.getFilePath("resources/right-no-conflict-baseless.tmx");
         File outFile = new File(file1.getParentFile(), "output.tmx");
         SuperTmxMerge.mergeTo(baseFile, file1, file2, outFile);
         
-        File goldFile = getFilePath("resources/gold/baselessMergeToGold.tmx");
+        File goldFile = TestUtils.getFilePath("resources/gold/baselessMergeToGold.tmx");
                 
-        ensureEmptyDiff(outFile, goldFile);
+        TestUtils.ensureEmptyDiff(outFile, goldFile);
         
         outFile.delete();
     }
     
     @Test
     public void testCombineTo() throws Exception {
-        File file1 = getFilePath("resources/base-part1.tmx");
-        File file2 = getFilePath("resources/base-part2.tmx");
-        File file3 = getFilePath("resources/base-part3.tmx");
+        File file1 = TestUtils.getFilePath("resources/base-part1.tmx");
+        File file2 = TestUtils.getFilePath("resources/base-part2.tmx");
+        File file3 = TestUtils.getFilePath("resources/base-part3.tmx");
         File outFile = new File(file1.getParentFile(), "output.tmx");
         SuperTmxMerge.combineTo(outFile, file1, file2, file3);
         
-        File goldFile = getFilePath("resources/base.tmx");
-        ensureEmptyDiff(outFile, goldFile);
+        File goldFile = TestUtils.getFilePath("resources/base.tmx");
+        TestUtils.ensureEmptyDiff(outFile, goldFile);
         
         outFile.delete();
-    }
-    
-    private File getFilePath(String identifier) {
-        return new File(getClass().getClassLoader().getResource(identifier).getFile());
-    }
-    
-    private void ensureEmptyDiff(File file1, File file2) throws Exception {
-        DiffSet diff = DiffUtil.generateDiffSet(new JAXBTmx(file1), new JAXBTmx(file2));
-        assertTrue(diff.added.isEmpty());
-        assertTrue(diff.deleted.isEmpty());
-        assertTrue(diff.modified.isEmpty());
     }
 }

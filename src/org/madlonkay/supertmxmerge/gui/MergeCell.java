@@ -19,14 +19,14 @@
 package org.madlonkay.supertmxmerge.gui;
 
 import java.awt.Color;
+import java.util.Map;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
-import org.madlonkay.supertmxmerge.data.ConflictInfo;
-import org.madlonkay.supertmxmerge.util.CharDiff;
+import org.madlonkay.supertmxmerge.MergeController.ConflictInfo;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
@@ -67,14 +67,17 @@ public class MergeCell extends javax.swing.JPanel {
         }
         setSourceLanguage(info.sourceLanguage);
         setTargetLanguage(info.targetLanguage);
-        setBaseText(info.baseTuvText);
-        setLeftText(info.leftTuvText, info.baseTuvText != null);
-        setRightText(info.rightTuvText, info.baseTuvText != null);
+        setBaseText(info.baseTuvText, info.baseTuvProps);
+        setLeftText(info.leftTuvText, info.leftTuvProps, info.baseTuvText != null);
+        setRightText(info.rightTuvText, info.rightTuvProps, info.baseTuvText != null);
         tuvTextLeft.addMouseListener(new ClickForwarder(leftButton));
         tuvTextRight.addMouseListener(new ClickForwarder(rightButton));
         tuvTextCenter.addMouseListener(new ClickForwarder(centerButton));
         info.leftTuvDiff.applyStyling(tuvTextCenter, tuvTextLeft);
         info.rightTuvDiff.applyStyling(tuvTextCenter, tuvTextRight, true);
+        if (info.twoWayDiff != null) {
+            info.twoWayDiff.applyStyling(tuvTextLeft, tuvTextRight);
+        }
     }
     
     private void setSourceLanguage(String language) {
@@ -87,26 +90,35 @@ public class MergeCell extends javax.swing.JPanel {
         targetBorder.setTitle(language);
     }
     
-    private void setBaseText(String text) {
+    private void setBaseText(String text, Map<String, String> props) {
         if (text == null) {
             tuvTextCenter.setBackground(getBackground());
             text = LocString.get("STM_TUV_NOT_PRESENT");
         }
+        if (props != null) {
+            tuvTextCenter.setToolTipText((String) CONVERTER.convertForward(props));
+        }
         tuvTextCenter.setText(text);
     }
     
-    private void setLeftText(String text, boolean presentInBase) {
+    private void setLeftText(String text, Map<String, String> props, boolean presentInBase) {
         if (text == null) {
             tuvTextLeft.setBackground(getBackground());
             text = presentInBase? LocString.get("STM_TUV_DELETED") : LocString.get("STM_TUV_NOT_PRESENT");
         }
+        if (props != null) {
+            tuvTextLeft.setToolTipText((String) CONVERTER.convertForward(props));
+        }
         tuvTextLeft.setText(text);
     }
     
-    private void setRightText(String text, boolean presentInBase) {
+    private void setRightText(String text, Map<String, String> props, boolean presentInBase) {
         if (text == null) {
             tuvTextRight.setBackground(getBackground());
             text = presentInBase? LocString.get("STM_TUV_DELETED") : LocString.get("STM_TUV_NOT_PRESENT");
+        }
+        if (props != null) {
+            tuvTextRight.setToolTipText((String) CONVERTER.convertForward(props));
         }
         tuvTextRight.setText(text);
     }

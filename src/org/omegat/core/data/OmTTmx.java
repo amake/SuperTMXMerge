@@ -19,9 +19,11 @@
 package org.omegat.core.data;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.ITu;
 import org.madlonkay.supertmxmerge.data.ITuv;
@@ -48,22 +50,7 @@ public class OmTTmx implements ITmx {
         this.name = name;
         this.sourceLanguage = sourceLanguage;
         this.targetLanguage = targetLanguage;
-    }
-    
-    @Override
-    public Map<Key, ITuv> getTuvMap() {
-        if (tuvMap == null) {
-            generateMaps();
-        }
-        return tuvMap;
-    }
-    
-    @Override
-    public Map<Key, ITu> getTuMap() {
-        if (tuMap == null) {
-            generateMaps();
-        }
-        return tuMap;
+        generateMaps();
     }
     
     private void generateMaps() {
@@ -182,6 +169,71 @@ public class OmTTmx implements ITmx {
     @Override
     public Object getUnderlyingRepresentation() {
         return tmx;
+    }
+
+    @Override
+    public ITu getTu(Key key) {
+        return tuMap.get(key);
+    }
+
+    @Override
+    public int size() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean isEmpty() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean containsKey(Object key) {
+        return tuvMap.containsKey(key);
+    }
+
+    @Override
+    public boolean containsValue(Object value) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ITuv get(Object key) {
+        return tuvMap.get(key);
+    }
+
+    @Override
+    public ITuv put(Key key, ITuv value) {
+        return tuvMap.put(key, value);
+    }
+
+    @Override
+    public ITuv remove(Object key) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void putAll(Map<? extends Key, ? extends ITuv> m) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void clear() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Set<Key> keySet() {
+        return tuvMap.keySet();
+    }
+
+    @Override
+    public Collection<ITuv> values() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Set<Entry<Key, ITuv>> entrySet() {
+        return tuvMap.entrySet();
     }
     
 }

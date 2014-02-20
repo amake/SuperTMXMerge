@@ -4,18 +4,10 @@
     <body>
         <tu>
             <tuv lang="en-us">
-                <seg>Cancel</seg>
-            </tuv>
-            <tuv creationdate="20130831T103424Z" creationid="aaron.madlon-kay" changedate="20130831T103424Z" changeid="aaron.madlon-kay" lang="ja-jp">
-                <seg>キャンセル！</seg>
-            </tuv>
-        </tu>
-        <tu>
-            <tuv lang="en-us">
                 <seg>Deleted</seg>
             </tuv>
             <tuv creationdate="20130831T103043Z" creationid="aaron.madlon-kay" changedate="20130831T103052Z" changeid="aaron.madlon-kay" lang="ja-jp">
-                <seg>削除済み！</seg>
+                <seg>削除ずみ？</seg>
             </tuv>
         </tu>
         <tu>
@@ -88,14 +80,6 @@
         </tu>
         <tu>
             <tuv lang="en-us">
-                <seg>OK</seg>
-            </tuv>
-            <tuv creationdate="20130831T103423Z" creationid="aaron.madlon-kay" changedate="20130831T103423Z" changeid="aaron.madlon-kay" lang="ja-jp">
-                <seg>OK</seg>
-            </tuv>
-        </tu>
-        <tu>
-            <tuv lang="en-us">
                 <seg>Right file...</seg>
             </tuv>
             <tuv creationdate="20130831T103610Z" creationid="aaron.madlon-kay" changedate="20130831T103610Z" changeid="aaron.madlon-kay" lang="ja-jp">
@@ -160,6 +144,22 @@
         </tu>
         <tu>
             <tuv lang="en-us">
+                <seg>Use left</seg>
+            </tuv>
+            <tuv creationdate="20130831T103123Z" creationid="aaron.madlon-kay" changedate="20130831T103123Z" changeid="aaron.madlon-kay" lang="ja-jp">
+                <seg>左を使用</seg>
+            </tuv>
+        </tu>
+        <tu>
+            <tuv lang="en-us">
+                <seg>Use right</seg>
+            </tuv>
+            <tuv creationdate="20130831T103133Z" creationid="aaron.madlon-kay" changedate="20130831T103133Z" changeid="aaron.madlon-kay" lang="ja-jp">
+                <seg>右を使用</seg>
+            </tuv>
+        </tu>
+        <tu>
+            <tuv lang="en-us">
                 <seg>java -jar SuperTMXMerge baseFile file1 file2</seg>
             </tuv>
             <tuv creationdate="20130831T103408Z" creationid="aaron.madlon-kay" changedate="20130831T103556Z" changeid="aaron.madlon-kay" lang="ja-jp">
@@ -180,6 +180,44 @@
             </tuv>
             <tuv creationdate="20130831T103036Z" creationid="aaron.madlon-kay" changedate="20130831T103036Z" changeid="aaron.madlon-kay" lang="ja-jp">
                 <seg>{0}個のユニット</seg>
+            </tuv>
+        </tu>
+        <tu>
+            <tuv lang="en-us">
+                <seg>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dignissim pretium eros, eget consectetur est fringilla sed. Proin purus dui, semper et lacus eget, consequat pulvinar lectus. Maecenas elementum erat in leo cursus, id gravida nisi malesuada. Mauris mattis lacus vel velit egestas, eget iaculis odio faucibus.</seg>
+            </tuv>
+            <tuv creationdate="20130831T103036Z" creationid="aaron.madlon-kay" changedate="20130831T103036Z" changeid="aaron.madlon-kay" lang="ja-jp">
+                <seg>私たちは、コメントを投稿してくださいになります。最大の経済、生産性が向上するが、ビジネススマンは、こちらをご覧ください。常に機能や湖純粋なパフォーマンス、写真撮影バドミントン施設に入れる。我々は、それがアザラシの過程であったと思いますが、その子が必要です。ニーズにログインリソースや意志、ターゲットを絞った産業観光の必要性。</seg>
+            </tuv>
+        </tu>
+        <tu>
+            <prop type="file">TestFile.txt</prop>
+            <prop type="prev">Chemistry</prop>
+            <prop type="next">Use acid</prop>
+            <tuv lang="en-us">
+                <seg>Use base</seg>
+            </tuv>
+            <tuv changedate="20121113T060507Z" changeid="aaron.madlon-kay" lang="ja-jp">
+                <seg>塩基を使用。</seg>
+            </tuv>
+        </tu>
+        <tu>
+            <prop type="file">TestFile.txt</prop>
+            <prop type="prev">Military</prop>
+            <prop type="next">Use camp</prop>
+            <tuv lang="en-us">
+                <seg>Use base</seg>
+            </tuv>
+            <tuv changedate="20121113T060507Z" changeid="aaron.madlon-kay" lang="ja-jp">
+                <seg>基地を使用。</seg>
+            </tuv>
+        </tu>
+        <tu>
+            <tuv lang="en-us">
+                <seg>Base file...</seg>
+            </tuv>
+            <tuv creationdate="20130831T103602Z" creationid="aaron.madlon-kay" changedate="20130831T103602Z" changeid="aaron.madlon-kay" lang="ja-jp">
+                <seg>親ファイル...</seg>
             </tuv>
         </tu>
         <tu>

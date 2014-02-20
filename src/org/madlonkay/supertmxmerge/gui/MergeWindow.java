@@ -34,7 +34,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.WindowConstants;
 import org.madlonkay.supertmxmerge.MergeController;
-import org.madlonkay.supertmxmerge.data.ConflictInfo;
+import org.madlonkay.supertmxmerge.MergeController.ConflictInfo;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
@@ -136,6 +136,17 @@ public class MergeWindow extends javax.swing.JPanel {
             addMergeInfo(n, info);
             n++;
         }
+        
+        // Beansbinding is broken now for some reason, so set this manually.
+        leftFilename.setText(controller.getLeftTmx().getName());
+        centerFilename.setText(controller.getBaseTmx().getName());
+        rightFilename.setText(controller.getRightTmx().getName());
+        leftTextUnits.setText((String) unitCountConverter.convertForward(controller.getLeftTmx().getSize()));
+        centerTextUnits.setText((String) unitCountConverter.convertForward(controller.getBaseTmx().getSize()));
+        rightTextUnits.setText((String) unitCountConverter.convertForward(controller.getRightTmx().getSize()));
+        leftFilename.setToolTipText((String) mapToTextConverter.convertForward(controller.getLeftTmx().getMetadata()));
+        centerFilename.setToolTipText((String) mapToTextConverter.convertForward(controller.getBaseTmx().getMetadata()));
+        rightFilename.setToolTipText((String) mapToTextConverter.convertForward(controller.getRightTmx().getMetadata()));
     }
     
     private void addMergeInfo(int itemNumber, ConflictInfo info) {

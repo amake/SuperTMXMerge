@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,11 +31,13 @@ import java.util.Map.Entry;
 import java.util.logging.Logger;
 import javax.swing.AbstractButton;
 import javax.swing.JOptionPane;
-import org.madlonkay.supertmxmerge.data.ConflictInfo;
 import org.madlonkay.supertmxmerge.data.ITmx;
+import org.madlonkay.supertmxmerge.data.ITuv;
 import org.madlonkay.supertmxmerge.data.Key;
+import org.madlonkay.supertmxmerge.data.MergeAnalysis;
 import org.madlonkay.supertmxmerge.data.ResolutionSet;
 import org.madlonkay.supertmxmerge.gui.MergeWindow;
+import org.madlonkay.supertmxmerge.util.CharDiff;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
@@ -44,6 +47,11 @@ import org.madlonkay.supertmxmerge.util.LocString;
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
 public class MergeController implements Serializable, ActionListener {
+    
+    public enum BatchResolution {
+        BASE, LEFT, RIGHT
+    }
+    
     public static final Logger LOGGER = Logger.getLogger(MergeController.class.getName());
     
     public static final String PROP_BASETMX = "baseTmx";
@@ -61,7 +69,7 @@ public class MergeController implements Serializable, ActionListener {
         
     private final Map<Key, AbstractButton[]> selections = new HashMap<Key, AbstractButton[]>();
     
-    private ResolutionSet resolution;
+    private MergeAnalysis<Key,ITuv> analysis;
     
     private boolean canCancel = true;
     private boolean quiet = false;
@@ -81,17 +89,12 @@ public class MergeController implements Serializable, ActionListener {
     }
     
     public ITmx merge(ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
-        
-        setBaseTmx(baseTmx);
-        setLeftTmx(leftTmx);
-        setRightTmx(rightTmx);
-        
-        resolution = DiffUtil.generateMergeData(baseTmx, leftTmx, rightTmx);
-        propertySupport.firePropertyChange(PROP_CONFLICTCOUNT, null, null);
+
+        analyze(baseTmx, leftTmx, rightTmx);
         
         boolean showDiff = false;
         
-        if (!resolution.conflicts.isEmpty()) {
+        if (!analysis.conflicts.isEmpty()) {
             // Have conflicts; show window.
             Window window;
             if (isModal) {
@@ -110,7 +113,12 @@ public class MergeController implements Serializable, ActionListener {
                     JOptionPane.INFORMATION_MESSAGE);
         }
         
-        ITmx resolved = resolve();
+        ResolutionSet resolution = getResolution();
+        if (resolution == null) {
+            return null;
+        }
+        
+        ITmx resolved = resolve(resolution);
         
         if (showDiff) {
             DiffController differ = new DiffController();
@@ -120,8 +128,41 @@ public class MergeController implements Serializable, ActionListener {
         return resolved;
     }
     
+    public MergeAnalysis analyze(ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
+        setBaseTmx(baseTmx);
+        setLeftTmx(leftTmx);
+        setRightTmx(rightTmx);
+        
+        analysis = DiffUtil.mapMerge(baseTmx, leftTmx, rightTmx);
+        propertySupport.firePropertyChange(PROP_CONFLICTCOUNT, null, null);
+        
+        return analysis;
+    }
+    
+    public ITmx resolve(ResolutionSet resolution) {
+        return baseTmx.applyChanges(resolution);
+    }
+    
+    public ITmx resolve(BatchResolution res) {
+        ResolutionSet resolution = ResolutionSet.fromAnalysis(analysis, leftTmx, rightTmx);
+        for (Key key : analysis.conflicts) {
+            switch (res) {
+                case LEFT:
+                    dispatchKey(key, baseTmx, leftTmx, resolution);
+                    break;
+                case BASE:
+                    // No change
+                    break;
+                case RIGHT:
+                    dispatchKey(key, baseTmx, rightTmx, resolution);
+                    break;
+            }
+        }
+        return resolve(resolution);
+    }
+    
     public boolean isConflictsAreResolved() {
-        if (resolution != null && resolution.conflicts.isEmpty()) {
+        if (analysis != null && analysis.conflicts.isEmpty()) {
             return true;
         }
         if (selections.isEmpty()) {
@@ -149,7 +190,12 @@ public class MergeController implements Serializable, ActionListener {
     }
     
     public List<ConflictInfo> getConflicts() {
-        return resolution.conflicts;
+        List<ConflictInfo> conflicts = new ArrayList<ConflictInfo>();
+        for (Key key : analysis.conflicts) {
+            conflicts.add(new ConflictInfo(key, baseTmx.getSourceLanguage(),
+                    baseTmx.get(key), leftTmx.get(key), rightTmx.get(key)));
+        }
+        return conflicts;
     }
 
     public ITmx getBaseTmx() {
@@ -183,7 +229,7 @@ public class MergeController implements Serializable, ActionListener {
     }
 
     public int getConflictCount() {
-        return resolution.conflicts.size();
+        return analysis.conflicts.size();
     }
     
     public void setCanCancel(boolean canCancel) {
@@ -223,10 +269,12 @@ public class MergeController implements Serializable, ActionListener {
         propertySupport.firePropertyChange(PROP_CONFLICTSARERESOLVED, null, null);
     }
     
-    private ITmx resolve() {
+    private ResolutionSet getResolution() {
         if (!isConflictsAreResolved()) {
             return null;
         }
+        
+        ResolutionSet resolution = ResolutionSet.fromAnalysis(analysis, leftTmx, rightTmx);
         
         for (Entry<Key, AbstractButton[]> e : selections.entrySet()) {
             Key key = e.getKey();
@@ -243,16 +291,16 @@ public class MergeController implements Serializable, ActionListener {
             }
         }
         
-        return baseTmx.applyChanges(resolution);
+        return resolution;
     }
     
     private static void dispatchKey(Key key, ITmx baseTmx, ITmx thisTmx, ResolutionSet resolution) {
-        if (!thisTmx.getTuvMap().containsKey(key)) {
+        if (!thisTmx.containsKey(key)) {
             resolution.toDelete.add(key);
-        } else if (baseTmx.getTuvMap().containsKey(key)) {
-            resolution.toReplace.put(key, thisTmx.getTuvMap().get(key));
+        } else if (baseTmx.containsKey(key)) {
+            resolution.toReplace.put(key, thisTmx.get(key));
         } else {
-            resolution.toAdd.add(thisTmx.getTuMap().get(key));
+            resolution.toAdd.add(thisTmx.getTu(key));
         }
     }
     
@@ -265,5 +313,39 @@ public class MergeController implements Serializable, ActionListener {
             n++;
         }
         return -1;
+    }
+    
+    public static class ConflictInfo {
+        public final Key key;
+        public final String sourceLanguage;
+        public final String targetLanguage;
+        public final String baseTuvText;
+        public final String leftTuvText;
+        public final String rightTuvText;
+        public final Map<String, String> baseTuvProps;
+        public final Map<String, String> leftTuvProps;
+        public final Map<String, String> rightTuvProps;
+        public final CharDiff leftTuvDiff;
+        public final CharDiff rightTuvDiff;
+        public final CharDiff twoWayDiff;
+    
+        public ConflictInfo(Key key, String sourceLanguage, ITuv baseTuv, ITuv leftTuv, ITuv rightTuv) {
+            this.key = key;
+            this.sourceLanguage = sourceLanguage;
+            this.targetLanguage = baseTuv != null ? baseTuv.getLanguage()
+                    : leftTuv != null ? leftTuv.getLanguage()
+                    : rightTuv != null ? rightTuv.getLanguage()
+                    : null;
+            this.baseTuvText = baseTuv == null ? null : baseTuv.getContent();
+            this.leftTuvText = leftTuv == null ? null : leftTuv.getContent();
+            this.rightTuvText = rightTuv == null ? null : rightTuv.getContent();
+            this.baseTuvProps = baseTuv == null ? null : baseTuv.getMetadata();
+            this.leftTuvProps = leftTuv == null ? null : leftTuv.getMetadata();
+            this.rightTuvProps = rightTuv == null ? null : rightTuv.getMetadata();
+            this.leftTuvDiff = new CharDiff(baseTuvText, leftTuvText);
+            this.rightTuvDiff = new CharDiff(baseTuvText, rightTuvText);
+            this.twoWayDiff = baseTuv == null ? new CharDiff(leftTuvText, rightTuvText)
+                    : null;
+        }
     }
 }
