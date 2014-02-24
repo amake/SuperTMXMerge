@@ -22,7 +22,6 @@ import gen.core.tmx14.Tuv;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.madlonkay.supertmxmerge.data.ITuv;
@@ -88,7 +87,9 @@ public class JAXBTuv implements ITuv {
     @Override
     public Map<String, String> getMetadata() {
         if (props == null) {
-            props = Collections.unmodifiableMap(ReflectionUtil.simplePropsToMap(tuv));
+            Map<String, String> temp = ReflectionUtil.simplePropsToMap(tuv);
+            temp.putAll(ReflectionUtil.listPropsToMap(tuv.getNoteOrProp()));
+            this.props = Collections.unmodifiableMap(temp);
         }
         return props;
     }
@@ -105,13 +106,17 @@ public class JAXBTuv implements ITuv {
         if (this.tuv == null) {
             return other.getContent() == null;
         }
-        return getContent().equals(other.getContent());
+        return getContent().equals(other.getContent()) &&
+                getLanguage().equals(other.getLanguage()) &&
+                tuv.getNoteOrProp().equals(tuv.getNoteOrProp());
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 19 * hash + (this.tuv != null ? this.tuv.hashCode() : 0);
+        hash = 19 * hash + (getLanguage() != null ? getLanguage().hashCode() : 0);
+        hash = 19 * hash + (this.tuv.getNoteOrProp() != null ? this.tuv.getNoteOrProp().hashCode() : 0);
         return hash;
     }
     

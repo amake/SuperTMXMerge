@@ -70,14 +70,31 @@ public class OmTTuv implements ITuv {
             return false;
         }
         final OmTTuv other = (OmTTuv) obj;
-        return getContent().equals(other.getContent());
+        return getContent().equals(other.getContent()) &&
+                getLanguage().equals(other.getLanguage()) &&
+                noteIsEqual(other);
     }
 
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 89 * hash + (this.tmxEntry != null ? this.tmxEntry.hashCode() : 0);
+        hash = 89 * hash + (this.tmxEntry == null ? 0
+                : this.tmxEntry.translation == null ? 0
+                : this.tmxEntry.translation.hashCode());
+        hash = 89 * hash + (this.tmxEntry == null ? 0
+                : this.tmxEntry.note == null ? 0
+                : this.tmxEntry.note.hashCode());
         hash = 89 * hash + (this.language != null ? this.language.hashCode() : 0);
         return hash;
+    }
+    
+    private boolean noteIsEqual(OmTTuv other) {
+        if (tmxEntry.note == null && other.tmxEntry.note == null) {
+            return true;
+        }
+        if (tmxEntry.note != null && other.tmxEntry.note != null) {
+            return tmxEntry.note.equals(other.tmxEntry.note);
+        }
+        return false;
     }
 }
