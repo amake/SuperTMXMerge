@@ -20,6 +20,7 @@ package org.madlonkay.supertmxmerge.gui;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 import org.jdesktop.beansbinding.Converter;
 
 /**
@@ -41,7 +42,7 @@ public class MapToTextConverter extends Converter {
             return "";
         }
         StringBuilder sb = new StringBuilder("<html>");
-        for (Entry<Object, Object> e : map.entrySet()) {
+        for (Entry<Object, Object> e : new TreeMap<Object, Object>(map).entrySet()) {
             sb.append("<b>");
             sb.append(toString(e.getKey()));
             sb.append(":</b> ");
