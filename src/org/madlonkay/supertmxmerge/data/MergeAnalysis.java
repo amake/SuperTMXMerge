@@ -34,10 +34,17 @@ public class MergeAnalysis<K,V> {
     public final Map<K, V> modified;
     public final Set<K> conflicts;
     
-    public MergeAnalysis(Set<K> toDelete, Set<K> toAdd, Map<K,V> toReplace, Set<K> conflicts) {
-        this.deleted = Collections.unmodifiableSet(toDelete);
-        this.added = Collections.unmodifiableSet(toAdd);
-        this.modified = Collections.unmodifiableMap(toReplace);
-        this.conflicts = Collections.unmodifiableSet(conflicts);
+    public static MergeAnalysis unmodifiableAnalysis(MergeAnalysis analysis) {
+        return new MergeAnalysis(Collections.unmodifiableSet(analysis.deleted),
+                Collections.unmodifiableSet(analysis.added),
+                Collections.unmodifiableMap(analysis.modified),
+                Collections.unmodifiableSet(analysis.conflicts));
+    }
+    
+    public MergeAnalysis(Set<K> deleted, Set<K> added, Map<K,V> modified, Set<K> conflicts) {
+        this.deleted = deleted;
+        this.added = added;
+        this.modified = modified;
+        this.conflicts = conflicts;
     }
 }

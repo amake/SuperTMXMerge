@@ -36,4 +36,8 @@ public interface ITuv {
     
     @Override
     public boolean equals(Object o);
+    
+    public boolean equalsImportantMetadata(ITuv other);
+    
+    public int compareTo(ITuv other);
 }

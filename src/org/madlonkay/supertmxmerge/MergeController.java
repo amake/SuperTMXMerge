@@ -31,6 +31,7 @@ import java.util.Map.Entry;
 import java.util.logging.Logger;
 import javax.swing.AbstractButton;
 import javax.swing.JOptionPane;
+import org.madlonkay.supertmxmerge.data.DiffAnalysis;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.ITuv;
 import org.madlonkay.supertmxmerge.data.Key;
@@ -133,10 +134,41 @@ public class MergeController implements Serializable, ActionListener {
         setLeftTmx(leftTmx);
         setRightTmx(rightTmx);
         
-        analysis = DiffUtil.mapMerge(baseTmx, leftTmx, rightTmx);
+        MergeAnalysis<Key, ITuv> initialAnalysis = DiffUtil.mapMerge(baseTmx, leftTmx, rightTmx);
+        
+        // Try to pre-resolve any conflicting TUVs where the only conflict is
+        // uninteresting metadata. In that case, choose the newest one.
+        List<Key> preResolved = new ArrayList<Key>();
+        for (Key key : initialAnalysis.conflicts) {
+            ITuv leftTuv = leftTmx.get(key);
+            ITuv rightTuv = rightTmx.get(key);
+            if (leftTuv == null || rightTuv == null) {
+                continue;
+            }
+            if (!leftTuv.getContent().equals(rightTuv.getContent())) {
+                continue;
+            }
+            if (!leftTuv.equalsImportantMetadata(rightTuv)) {
+                continue;
+            }
+            switch(leftTuv.compareTo(rightTuv)) {
+                case -1:
+                    initialAnalysis.modified.put(key, rightTuv);
+                    break;
+                case 0:
+                    assert(false);
+                    break;
+                case 1:
+                    initialAnalysis.modified.put(key, leftTuv);
+            }
+            preResolved.add(key);
+        }
+        initialAnalysis.conflicts.removeAll(preResolved);
+        
+        this.analysis = initialAnalysis;
         propertySupport.firePropertyChange(PROP_CONFLICTCOUNT, null, null);
         
-        return analysis;
+        return MergeAnalysis.unmodifiableAnalysis(initialAnalysis);
     }
     
     public ITmx resolve(ResolutionSet resolution) {

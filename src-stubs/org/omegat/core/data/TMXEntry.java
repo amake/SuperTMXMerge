@@ -22,8 +22,6 @@
  */
 package org.omegat.core.data;
 
-import java.util.Map;
-
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
@@ -37,9 +35,12 @@ public class TMXEntry {
     public final long creationDate = 0;
     public final String note = null;
     public final boolean defaultTranslation = false;
-    public final Map<String,String> properties = null;
     
     public TMXEntry() {
+        throw new UnsupportedOperationException("This class is a stub.");
+    }
+    
+    public boolean equalsTranslation(TMXEntry other) {
         throw new UnsupportedOperationException("This class is a stub.");
     }
 }

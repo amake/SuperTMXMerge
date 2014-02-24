@@ -24,11 +24,12 @@ import java.util.Set;
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
+ * @param <T>
  */
 public class DiffAnalysis<T> {
-    public Set<T> deleted;
-    public Set<T> added;
-    public Set<T> modified;
+    public final Set<T> deleted;
+    public final Set<T> added;
+    public final Set<T> modified;
     
     public DiffAnalysis(Set<T> deleted, Set<T> added, Set<T> modified) {
         this.deleted = Collections.unmodifiableSet(deleted);

@@ -63,38 +63,53 @@ public class OmTTuv implements ITuv {
     
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj)
+            return true;
+        if (obj == null)
             return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass())
             return false;
-        }
         final OmTTuv other = (OmTTuv) obj;
-        return getContent().equals(other.getContent()) &&
-                getLanguage().equals(other.getLanguage()) &&
-                noteIsEqual(other);
+        return tmxEntry.equalsTranslation(other.tmxEntry) &&
+                this.language.equals(other.language);
     }
 
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 89 * hash + (this.tmxEntry == null ? 0
-                : this.tmxEntry.translation == null ? 0
-                : this.tmxEntry.translation.hashCode());
-        hash = 89 * hash + (this.tmxEntry == null ? 0
-                : this.tmxEntry.note == null ? 0
-                : this.tmxEntry.note.hashCode());
+        hash = 89 * hash + (this.tmxEntry != null ? this.tmxEntry.hashCode() : 0);
         hash = 89 * hash + (this.language != null ? this.language.hashCode() : 0);
         return hash;
     }
-    
-    private boolean noteIsEqual(OmTTuv other) {
-        if (tmxEntry.note == null && other.tmxEntry.note == null) {
+
+    @Override
+    public boolean equalsImportantMetadata(ITuv o) {
+        if (this == o)
+            return true;
+        if (o == null)
+            return false;
+        if (getClass() != o.getClass())
+            return false;
+        final OmTTuv other = (OmTTuv) o;
+        if (this.tmxEntry.note == null && other.tmxEntry.note == null) {
             return true;
         }
-        if (tmxEntry.note != null && other.tmxEntry.note != null) {
-            return tmxEntry.note.equals(other.tmxEntry.note);
+        if (this.tmxEntry.note != null && other.tmxEntry.note != null) {
+            return this.tmxEntry.note.equals(other.tmxEntry.note);
         }
         return false;
+    }
+
+    @Override
+    public int compareTo(ITuv o) {
+        if (this == o)
+            return 0;
+        if (o == null)
+            return 1;
+        if (getClass() != o.getClass())
+            throw new RuntimeException("Can't compare an OmTTuv with a non-OmTTuv");
+        final OmTTuv other = (OmTTuv) o;
+        return this.tmxEntry.changeDate < other.tmxEntry.changeDate ? -1 :
+                this.tmxEntry.changeDate == other.tmxEntry.changeDate ? 0 : 1;
     }
 }
