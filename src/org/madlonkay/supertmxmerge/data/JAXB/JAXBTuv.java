@@ -24,6 +24,7 @@ import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import org.madlonkay.supertmxmerge.data.CannotMergeException;
 import org.madlonkay.supertmxmerge.data.ITuv;
 import org.madlonkay.supertmxmerge.util.ReflectionUtil;
 
@@ -141,38 +142,8 @@ public class JAXBTuv implements ITuv {
     }
 
     @Override
-    public boolean equalsImportantMetadata(ITuv o) {
-        if (this == o)
-            return true;
-        if (o == null)
-            return false;
-        if (getClass() != o.getClass())
-            return false;
-        JAXBTuv other = (JAXBTuv) o;
-        if (this.tuv == null) {
-            return other.tuv == null;
-        }
-        return this.tuv.getNoteOrProp().equals(other.tuv.getNoteOrProp());
-    }
-
-    @Override
-    public int compareTo(ITuv o) {
-        if (this == o)
-            return 0;
-        if (o == null)
-            return 1;
-        if (getClass() != o.getClass())
-            throw new RuntimeException("Can't compare a JAXBTuv with a non-JAXBTuv");
-        JAXBTuv other = (JAXBTuv) o;
-        if (this.tuv == null) {
-            return other.tuv == null ? 0 : -1;
-        }
-        if (this.tuv.getChangedate() != null) {
-            return this.tuv.getChangedate().compareTo(other.tuv.getChangedate());
-        }
-        if (this.tuv.getCreationdate() != null) {
-            return this.tuv.getCreationdate().compareTo(other.tuv.getCreationdate());
-        }
-        return 0;
+    public ITuv merge(ITuv other) throws CannotMergeException {
+        // TODO: Implement some sort of merging here.
+        throw new CannotMergeException();
     }
 }

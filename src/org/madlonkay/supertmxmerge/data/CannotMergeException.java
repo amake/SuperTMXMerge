@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Aaron Madlon-Kay <aaron@madlon-kay.com>.
+ * Copyright (C) 2014 Aaron Madlon-Kay <aaron@madlon-kay.com>.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,26 +16,28 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package org.madlonkay.supertmxmerge.data;
 
-import java.util.Map;
+package org.madlonkay.supertmxmerge.data;
 
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public interface ITuv {
+public class CannotMergeException extends Exception {
+
+    public CannotMergeException() {
+        super();
+    }
     
-    public String getContent();
+    public CannotMergeException(String message) {
+        super(message);
+    }
     
-    public String getLanguage();
+    public CannotMergeException(Throwable cause) {
+        super(cause);
+    }
     
-    public Map<String, String> getMetadata();
-    
-    public Object getUnderlyingRepresentation();
-    
-    @Override
-    public boolean equals(Object o);
-    
-    public ITuv merge(ITuv other) throws CannotMergeException;
+    public CannotMergeException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

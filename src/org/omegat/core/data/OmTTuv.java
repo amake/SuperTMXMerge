@@ -20,6 +20,7 @@ package org.omegat.core.data;
 
 import java.util.Collections;
 import java.util.Map;
+import org.madlonkay.supertmxmerge.data.CannotMergeException;
 import org.madlonkay.supertmxmerge.data.ITuv;
 import org.madlonkay.supertmxmerge.util.ReflectionUtil;
 
@@ -83,33 +84,15 @@ public class OmTTuv implements ITuv {
     }
 
     @Override
-    public boolean equalsImportantMetadata(ITuv o) {
-        if (this == o)
-            return true;
-        if (o == null)
-            return false;
-        if (getClass() != o.getClass())
-            return false;
-        final OmTTuv other = (OmTTuv) o;
-        if (this.tmxEntry.note == null && other.tmxEntry.note == null) {
-            return true;
+    public ITuv merge(ITuv o) throws CannotMergeException {
+        if (!(o instanceof OmTTuv)) {
+            throw new IllegalArgumentException("Cannot merge OmTTuv with non-OmTTuv");
         }
-        if (this.tmxEntry.note != null && other.tmxEntry.note != null) {
-            return this.tmxEntry.note.equals(other.tmxEntry.note);
+        OmTTuv other = (OmTTuv) o;
+        try {
+            return new OmTTuv(TMXEntry.merge(this.tmxEntry, other.tmxEntry), this.language);
+        } catch (TMXEntry.CannotMergeException ex) {
+            throw new CannotMergeException(ex);
         }
-        return false;
-    }
-
-    @Override
-    public int compareTo(ITuv o) {
-        if (this == o)
-            return 0;
-        if (o == null)
-            return 1;
-        if (getClass() != o.getClass())
-            throw new RuntimeException("Can't compare an OmTTuv with a non-OmTTuv");
-        final OmTTuv other = (OmTTuv) o;
-        return this.tmxEntry.changeDate < other.tmxEntry.changeDate ? -1 :
-                this.tmxEntry.changeDate == other.tmxEntry.changeDate ? 0 : 1;
     }
 }
