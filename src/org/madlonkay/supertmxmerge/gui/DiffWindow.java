@@ -99,8 +99,8 @@ public class DiffWindow extends javax.swing.JPanel {
         // Beansbinding is broken now for some reason, so set this manually.
         file1Label.setText(controller.getTmx1().getName());
         file2Label.setText(controller.getTmx2().getName());
-        file1TextUnits.setText((String) changeCountConverter.convertForward(controller.getTmx1().getSize()));
-        file2TextUnits.setText((String) changeCountConverter.convertForward(controller.getTmx2().getSize()));
+        file1TextUnits.setText((String) unitCountConverter.convertForward(controller.getTmx1().getSize()));
+        file2TextUnits.setText((String) unitCountConverter.convertForward(controller.getTmx2().getSize()));
         file1Label.setToolTipText((String) mapToTextConverter.convertForward(controller.getTmx1().getMetadata()));
         file2Label.setToolTipText((String) mapToTextConverter.convertForward(controller.getTmx2().getMetadata()));
         saveAsButton.setEnabled(controller.canSaveDiff());
