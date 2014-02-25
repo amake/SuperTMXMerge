@@ -52,8 +52,8 @@ public class MergeWindow extends javax.swing.JPanel {
         return frame;
     }
     
-    public static JDialog newAsDialog(final MergeController controller, boolean isTwoWayMerge) {
-        final JDialog dialog = new JDialog((JFrame)null, LocString.get("STM_MERGE_WINDOW_TITLE"),
+    public static JDialog newAsDialog(final MergeController controller, boolean isTwoWayMerge, Window parentWindow) {
+        final JDialog dialog = new JDialog(parentWindow, LocString.get("STM_MERGE_WINDOW_TITLE"),
                 Dialog.ModalityType.APPLICATION_MODAL);
         dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         dialog.add(new MergeWindow(dialog, controller, isTwoWayMerge));

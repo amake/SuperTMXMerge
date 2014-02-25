@@ -43,7 +43,7 @@ public class LocString {
             try {
                 return moreBundles.get(i).getString(id);
             } catch (MissingResourceException ex) {
-                LOGGER.log(Level.WARNING, null, ex);
+                LOGGER.log(Level.FINE, "Resource " + id + " not found in supplied resource bundle", ex);
             }
         }
         return bundle.getString(id);
@@ -54,6 +54,9 @@ public class LocString {
     }
     
     public static void addBundle(ResourceBundle bundle) {
+        if (bundle == null) {
+            return;
+        }
         if (!moreBundles.contains(bundle)) {
             moreBundles.add(bundle);
         }

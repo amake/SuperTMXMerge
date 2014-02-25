@@ -76,6 +76,7 @@ public class MergeController implements Serializable, ActionListener {
     private boolean quiet = false;
     private boolean isTwoWayMerge = false;
     private boolean isModal = false;
+    private Window parentWindow = null;
     
     public MergeController() {
         propertySupport = new PropertyChangeSupport(this);
@@ -99,11 +100,11 @@ public class MergeController implements Serializable, ActionListener {
             // Have conflicts; show window.
             Window window;
             if (isModal) {
-                window = MergeWindow.newAsDialog(this, isTwoWayMerge);
+                window = MergeWindow.newAsDialog(this, isTwoWayMerge, parentWindow);
             } else {
                 window = MergeWindow.newAsFrame(this, isTwoWayMerge);
             }
-            GuiUtil.displayWindow(window);
+            GuiUtil.displayWindow(window, parentWindow);
             GuiUtil.blockOnWindow(window);
         } else if (!quiet && !isTwoWayMerge) {
             // Files merged with no conflicts.
@@ -285,6 +286,10 @@ public class MergeController implements Serializable, ActionListener {
     
     public boolean isModal() {
         return isModal;
+    }
+    
+    public void setParentWindow(Window window) {
+        this.parentWindow = window;
     }
 
     @Override

@@ -39,9 +39,13 @@ public class GuiUtil {
     private static final Logger LOGGER = Logger.getLogger(GuiUtil.class.getName());
 
     public static void displayWindow(Window window) {
+        displayWindow(window, null);
+    }
+    
+    public static void displayWindow(Window window, Window parent) {
         window.pack();
-        if (fixSize(window)) {
-            window.setLocationRelativeTo(null);
+        if (parent != null || fixSize(window)) {
+            window.setLocationRelativeTo(parent);
         }
         window.setVisible(true);
     }

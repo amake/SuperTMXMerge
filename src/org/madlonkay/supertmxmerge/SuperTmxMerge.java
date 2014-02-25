@@ -20,7 +20,6 @@ package org.madlonkay.supertmxmerge;
 
 import java.awt.Window;
 import java.io.File;
-import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.gui.FileSelectWindow;
@@ -62,20 +61,22 @@ public class SuperTmxMerge {
         return controller.getOutputFile();
     }
     
-    public static ProjectTMX merge(ProjectTMX baseTmx, String baseTmxName,
-            ProjectTMX tmx1, String tmx1Name,
-            ProjectTMX tmx2, String tmx2Name,
-            String sourceLanguage, String targetLanguage,
-            ResourceBundle resources) {
+    public static ProjectTMX merge(ProjectTMX baseTmx, ProjectTMX tmx1,
+            ProjectTMX tmx2, String sourceLanguage, String targetLanguage,
+            StmProperties properties) {
         
-        LocString.addBundle(resources); 
+        if (properties == null) {
+            properties = new StmProperties();
+        }
+        LocString.addBundle(properties.getLanguageResource()); 
         MergeController controller = new MergeController();
         controller.setQuiet(true);
         controller.setIsModal(true);
         controller.setCanCancel(false);
-        ITmx base = new OmTTmx(baseTmx, baseTmxName, sourceLanguage, targetLanguage);
-        ITmx one = new OmTTmx(tmx1, tmx1Name, sourceLanguage, targetLanguage);
-        ITmx two = new OmTTmx(tmx2, tmx2Name, sourceLanguage, targetLanguage);
+        controller.setParentWindow(properties.getParentWindow());
+        ITmx base = new OmTTmx(baseTmx, properties.getBaseTmxName(), sourceLanguage, targetLanguage);
+        ITmx one = new OmTTmx(tmx1, properties.geTmx1Name(), sourceLanguage, targetLanguage);
+        ITmx two = new OmTTmx(tmx2, properties.getTmx2Name(), sourceLanguage, targetLanguage);
         ITmx merged = controller.merge(base, one, two);
         return merged == null ? null : (ProjectTMX) merged.getUnderlyingRepresentation();
     }
