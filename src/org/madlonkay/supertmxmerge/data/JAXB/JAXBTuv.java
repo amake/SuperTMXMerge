@@ -88,9 +88,13 @@ public class JAXBTuv implements ITuv {
     @Override
     public Map<String, String> getMetadata() {
         if (props == null) {
-            Map<String, String> temp = ReflectionUtil.simplePropsToMap(tuv);
-            temp.putAll(ReflectionUtil.listPropsToMap(tuv.getNoteOrProp()));
-            this.props = Collections.unmodifiableMap(temp);
+            if (tuv == null) {
+                props = Collections.EMPTY_MAP;
+            } else {
+                Map<String, String> temp = ReflectionUtil.simplePropsToMap(tuv);
+                temp.putAll(ReflectionUtil.listPropsToMap(tuv.getNoteOrProp()));
+                this.props = Collections.unmodifiableMap(temp);
+            }
         }
         return props;
     }
