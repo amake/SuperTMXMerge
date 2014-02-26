@@ -36,6 +36,10 @@ public class ReflectionUtil {
     private static final Logger LOGGER = Logger.getLogger(ReflectionUtil.class.getName());
     
     public static Map<String, String> simplePropsToMap(Object object) {
+        if (object == null) {
+            return Collections.EMPTY_MAP;
+        }
+        
         Method[] methods = object.getClass().getMethods();
         if (methods.length == 0) {
             return Collections.EMPTY_MAP;
@@ -59,6 +63,10 @@ public class ReflectionUtil {
     }
     
     public static Map<String, String> simpleMembersToMap(Object object) {
+        if (object == null) {
+            return Collections.EMPTY_MAP;
+        }
+        
         Field[] fields = object.getClass().getDeclaredFields();
         if (fields.length == 0) {
             return Collections.EMPTY_MAP;
@@ -81,7 +89,7 @@ public class ReflectionUtil {
     }
 
     public static Map<String, String> listPropsToMap(List<Object> list) {
-        if (list.isEmpty()) {
+        if (list == null || list.isEmpty()) {
             return Collections.EMPTY_MAP;
         }
         
