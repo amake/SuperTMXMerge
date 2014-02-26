@@ -101,10 +101,6 @@ public class MergeIOController extends DiffIOController {
             }
             updateProgress(progress, 3, null);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null,
-                ex.toString(),
-                LocString.get("STM_ERROR_DIALOG_TITLE"),
-                JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException(ex);
         } finally {
             if (progress != null) {
@@ -142,6 +138,7 @@ public class MergeIOController extends DiffIOController {
             merged.writeTo(getOutputFile());
         } catch (WriteFailedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex);
         }
     }
 }

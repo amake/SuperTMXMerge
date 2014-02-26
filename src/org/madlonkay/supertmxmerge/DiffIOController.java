@@ -24,8 +24,6 @@ import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
 import org.madlonkay.supertmxmerge.data.WriteFailedException;
@@ -124,10 +122,6 @@ public class DiffIOController {
             tmx2 = new JAXBTmx(getFile2());
             updateProgress(progress, 2, null);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null,
-                ex.toString(),
-                LocString.get("STM_ERROR_DIALOG_TITLE"),
-                JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException(ex);
         } finally {
             if (progress != null) {

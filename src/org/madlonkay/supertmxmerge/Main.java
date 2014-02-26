@@ -57,50 +57,54 @@ public class Main {
             public void run() {
                 // TODO: Use a proper args parsing library or something.
                 
-                if (theArgs.length == 0) {
-                    SuperTmxMerge.promptForFiles();
-                    return;
-                }
-                
-                // The order of these tests is important!
-                
-                if ("--combine".equals(theArgs[0])) {
-                    List<File> files = new ArrayList<File>();
-                    File outputFile = null;
-                    int i;
-                    for (i = 1; i < theArgs.length; i++) {
-                        if ("-o".equals(theArgs[i])) {
-                            break;
-                        }
-                        File file = new File(theArgs[i]);
-                        if (!files.contains(file)) {
-                            files.add(file);
-                        }
-                    }
-                    if (i < theArgs.length - 1) {
-                        outputFile = new File(theArgs[i + 1]);
-                    }
-                    SuperTmxMerge.combineTo(outputFile, files.toArray(new File[0]));
-                    return;
-                } else if (theArgs.length == 2) {
-                    SuperTmxMerge.diff(new File(theArgs[0]), new File(theArgs[1]));
-                    return;
-                } else if (theArgs.length == 3) {
-                    SuperTmxMerge.merge(new File(theArgs[0]), new File(theArgs[1]), new File(theArgs[2]));
-                    return;
-                } else if (theArgs.length == 4) {
-                    
-                    if (theArgs[2].equals("-o")) {
-                        SuperTmxMerge.diffTo(new File(theArgs[0]), new File(theArgs[1]), new File(theArgs[3]));
-                        return;
-                    } else {
-                        SuperTmxMerge.mergeTo(new File(theArgs[0]), new File(theArgs[1]), new File(theArgs[2]),
-                                new File(theArgs[3]));
+                try {
+                    if (theArgs.length == 0) {
+                        SuperTmxMerge.promptForFiles();
                         return;
                     }
-                }
 
-                printUsage();
+                    // The order of these tests is important!
+
+                    if ("--combine".equals(theArgs[0])) {
+                        List<File> files = new ArrayList<File>();
+                        File outputFile = null;
+                        int i;
+                        for (i = 1; i < theArgs.length; i++) {
+                            if ("-o".equals(theArgs[i])) {
+                                break;
+                            }
+                            File file = new File(theArgs[i]);
+                            if (!files.contains(file)) {
+                                files.add(file);
+                            }
+                        }
+                        if (i < theArgs.length - 1) {
+                            outputFile = new File(theArgs[i + 1]);
+                        }
+                        SuperTmxMerge.combineTo(outputFile, files.toArray(new File[0]));
+                        return;
+                    } else if (theArgs.length == 2) {
+                        SuperTmxMerge.diff(new File(theArgs[0]), new File(theArgs[1]));
+                        return;
+                    } else if (theArgs.length == 3) {
+                        SuperTmxMerge.merge(new File(theArgs[0]), new File(theArgs[1]), new File(theArgs[2]));
+                        return;
+                    } else if (theArgs.length == 4) {
+
+                        if (theArgs[2].equals("-o")) {
+                            SuperTmxMerge.diffTo(new File(theArgs[0]), new File(theArgs[1]), new File(theArgs[3]));
+                            return;
+                        } else {
+                            SuperTmxMerge.mergeTo(new File(theArgs[0]), new File(theArgs[1]), new File(theArgs[2]),
+                                    new File(theArgs[3]));
+                            return;
+                        }
+                    }
+
+                    printUsage();
+                } catch (Exception ex) {
+                    System.err.println(ex.getLocalizedMessage());
+                }
             }
         };
         

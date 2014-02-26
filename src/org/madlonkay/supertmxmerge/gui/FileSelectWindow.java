@@ -430,7 +430,11 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
         GuiUtil.safelyRunBlockingRoutine(new Runnable() {
             @Override
             public void run() {
-                diffIOController.go();
+                try {
+                    diffIOController.go();
+                } catch (Exception ex) {
+                    GuiUtil.showError(ex.getLocalizedMessage());
+                }
             }
         });
     }//GEN-LAST:event_diffOkButtonActionPerformed
@@ -440,7 +444,11 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
         GuiUtil.safelyRunBlockingRoutine(new Runnable() {
             @Override
             public void run() {
-                mergeIOController.go();
+                try {
+                    mergeIOController.go();
+                } catch (Exception ex) {
+                    GuiUtil.showError(ex.getLocalizedMessage());
+                }
             }
         });
     }//GEN-LAST:event_mergeOkButtonActionPerformed
@@ -474,7 +482,11 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
         GuiUtil.safelyRunBlockingRoutine(new Runnable() {
             @Override
             public void run() {
-                combineIOController.go();
+                try {
+                    combineIOController.go();
+                } catch (Exception ex) {
+                    GuiUtil.showError(ex.getLocalizedMessage());
+                }
             }
         });
     }//GEN-LAST:event_combineOkButtonActionPerformed

@@ -165,6 +165,7 @@ public class CombineIOController {
                 combined.writeTo(getOutputFile());
             } catch (WriteFailedException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
+                throw new RuntimeException(ex);
             }
         } finally {
             if (progress != null) {

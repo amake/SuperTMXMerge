@@ -27,6 +27,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
@@ -107,5 +108,12 @@ public class GuiUtil {
                         evt.getModifiers(), evt.getX(), evt.getY(),
                         evt.getClickCount(), evt.isPopupTrigger(),
                         evt.getScrollType(), evt.getScrollAmount(), evt.getWheelRotation()));
+    }
+    
+    public static void showError(String message) {
+        JOptionPane.showMessageDialog(null,
+                message,
+                LocString.get("STM_ERROR_DIALOG_TITLE"),
+                JOptionPane.ERROR_MESSAGE);
     }
 }
