@@ -18,12 +18,14 @@
  */
 package org.madlonkay.supertmxmerge;
 
+import java.awt.GraphicsEnvironment;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
 import org.madlonkay.supertmxmerge.data.WriteFailedException;
@@ -107,19 +109,20 @@ public class DiffIOController {
         
         DiffController differ = new DiffController();
         
-        ProgressWindow progress = new ProgressWindow();
-        progress.setMaximum(2);
+        ProgressWindow progress = null;
+        if (!GraphicsEnvironment.isHeadless()) {
+           progress = new ProgressWindow();
+           progress.setMaximum(2);
+        }
         
         ITmx tmx1;
         ITmx tmx2;
         try {
-            progress.setValue(0);
-            progress.setMessage(LocString.getFormat("STM_FILE_PROGRESS", getFile1().getName(), 1, 2));
+            updateProgress(progress, 0, LocString.getFormat("STM_FILE_PROGRESS", getFile1().getName(), 1, 2));
             tmx1 = new JAXBTmx(getFile1());
-            progress.setValue(1);
-            progress.setMessage(LocString.getFormat("STM_FILE_PROGRESS", getFile2().getName(), 2, 2));
+            updateProgress(progress, 1, LocString.getFormat("STM_FILE_PROGRESS", getFile2().getName(), 2, 2));
             tmx2 = new JAXBTmx(getFile2());
-            progress.setValue(2);
+            updateProgress(progress, 2, null);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                 ex.toString(),
@@ -127,7 +130,9 @@ public class DiffIOController {
                 JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException(ex);
         } finally {
-            GuiUtil.closeWindow(progress);
+            if (progress != null) {
+                GuiUtil.closeWindow(progress);
+            }
         }
         
         if (outputFile != null) {
@@ -139,6 +144,15 @@ public class DiffIOController {
             }
         } else {
             differ.diff(tmx1, tmx2);
+        }
+    }
+    
+    protected void updateProgress(ProgressWindow window, int value, String message) {
+        if (window != null) {
+            window.setValue(value);
+            if (message != null) {
+                window.setMessage(message);
+            }
         }
     }
 }

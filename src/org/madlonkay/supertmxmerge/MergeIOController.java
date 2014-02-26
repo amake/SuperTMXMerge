@@ -18,6 +18,8 @@
  */
 package org.madlonkay.supertmxmerge;
 
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -75,21 +77,21 @@ public class MergeIOController extends DiffIOController {
             merger.setQuiet(true);
         }
         
-        ProgressWindow progress = new ProgressWindow();
-        progress.setMaximum(3);
+        ProgressWindow progress = null;
+        if (!GraphicsEnvironment.isHeadless()) {
+            progress = new ProgressWindow();
+            progress.setMaximum(3);
+        }
         
         ITmx baseTmx;
         ITmx leftTmx;
         ITmx rightTmx;
         try {
-            progress.setValue(0);
-            progress.setMessage(LocString.getFormat("STM_FILE_PROGRESS", getFile1().getName(), 1, 3));
+            updateProgress(progress, 0, LocString.getFormat("STM_FILE_PROGRESS", getFile1().getName(), 1, 3));
             leftTmx = new JAXBTmx(getFile1());
-            progress.setValue(1);
-            progress.setMessage(LocString.getFormat("STM_FILE_PROGRESS", getFile2().getName(), 2, 3));
+            updateProgress(progress, 1, LocString.getFormat("STM_FILE_PROGRESS", getFile2().getName(), 2, 3));
             rightTmx = new JAXBTmx(getFile2());
-            progress.setValue(2);
-            progress.setMessage(LocString.getFormat("STM_FILE_PROGRESS",
+            updateProgress(progress, 2, LocString.getFormat("STM_FILE_PROGRESS",
                     getBaseFile() == null ? LocString.get("STM_EMPTY_TMX_NAME") : getBaseFile().getName(), 3, 3));
             if (getBaseFile() == null || getBaseFile().length() == 0) {
                 baseTmx = JAXBTmx.newEmptyJAXBTmx((JAXBTmx) leftTmx);
@@ -97,7 +99,7 @@ public class MergeIOController extends DiffIOController {
             } else {
                 baseTmx = new JAXBTmx(getBaseFile());
             }
-            progress.setValue(3);
+            updateProgress(progress, 3, null);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                 ex.toString(),
@@ -105,7 +107,9 @@ public class MergeIOController extends DiffIOController {
                 JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException(ex);
         } finally {
-            GuiUtil.closeWindow(progress);
+            if (progress != null) {
+                GuiUtil.closeWindow(progress);
+            }
         }
         
         ITmx merged = merger.merge(baseTmx, leftTmx, rightTmx);
