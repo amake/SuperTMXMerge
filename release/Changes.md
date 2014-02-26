@@ -1,6 +1,13 @@
 SuperTMXMerge change history
 ============================
 
+# 1.1
+- Greatly improved perceived loading performance
+- Better support for "baseless" merges
+- More metadata exposed in tooltips
+- API improvements for embeded use
+- Preserve "notes" when used with OmegaT
+
 # 1.0.1
 - Fix Japanese localization
 
