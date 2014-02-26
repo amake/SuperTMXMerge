@@ -19,6 +19,7 @@
 
 package org.madlonkay.supertmxmerge;
 
+import java.awt.GraphicsEnvironment;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
@@ -102,17 +103,18 @@ public class CombineIOController {
     }
     
     public void go() {
-        
-        ProgressWindow progress = new ProgressWindow();
-        progress.setMustPopup(true);
-        progress.setMaximum(files.size());
+        ProgressWindow progress = null;
+        if (!GraphicsEnvironment.isHeadless()) {
+            progress = new ProgressWindow();
+            progress.setMustPopup(true);
+            progress.setMaximum(files.size());
+        }
         
         try {
             JAXBTmx combined;
             try {
                 File firstFile = files.get(0);
-                progress.setValue(0);
-                progress.setMessage(LocString.getFormat("STM_FILE_PROGRESS", firstFile.getName(), 1, files.size()));
+                updateProgress(progress, 0, LocString.getFormat("STM_FILE_PROGRESS", firstFile.getName(), 1, files.size()));
                 combined = new JAXBTmx(firstFile);
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
@@ -125,8 +127,7 @@ public class CombineIOController {
             for (int i = 1; i < files.size(); i++) {
                 try {
                     File thisFile = files.get(i);
-                    progress.setValue(i);
-                    progress.setMessage(LocString.getFormat("STM_FILE_PROGRESS", thisFile.getName(), i + 1, files.size()));
+                    updateProgress(progress, i, LocString.getFormat("STM_FILE_PROGRESS", thisFile.getName(), i + 1, files.size()));
                     JAXBTmx next = new JAXBTmx(thisFile);
                     combined = (JAXBTmx) merger.merge(empty, combined, next);
                     if (combined == null) {
@@ -138,8 +139,7 @@ public class CombineIOController {
                 }
             }
 
-            progress.setValue(files.size());
-            progress.setMessage(LocString.get("STM_COMBINE_COMPLETE"));
+            updateProgress(progress, files.size(), LocString.get("STM_COMBINE_COMPLETE"));
 
             while (true) {
                 if (getOutputFile() != null) {
@@ -167,7 +167,18 @@ public class CombineIOController {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
         } finally {
-            GuiUtil.closeWindow(progress);
+            if (progress != null) {
+                GuiUtil.closeWindow(progress);
+            }
+        }
+    }
+    
+    private void updateProgress(ProgressWindow window, int value, String message) {
+        if (window != null) {
+            window.setValue(value);
+            if (message != null) {
+                window.setMessage(message);
+            }
         }
     }
 }
