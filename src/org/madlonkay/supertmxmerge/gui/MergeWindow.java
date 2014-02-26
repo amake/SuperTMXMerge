@@ -20,17 +20,17 @@ package org.madlonkay.supertmxmerge.gui;
 
 import java.awt.Dialog;
 import java.awt.Window;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
-import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.ToolTipManager;
 import javax.swing.WindowConstants;
 import org.madlonkay.supertmxmerge.MergeController;
@@ -48,7 +48,6 @@ public class MergeWindow extends javax.swing.JPanel {
         MenuFrame frame = new MenuFrame(LocString.get("STM_MERGE_WINDOW_TITLE"));
         frame.setContentPane(new MergeWindow(frame, controller, isTwoWayMerge));
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        frame.pack();
         return frame;
     }
     
@@ -61,7 +60,6 @@ public class MergeWindow extends javax.swing.JPanel {
     }
 
     private final Window window;
-    private final ProgressWindow progress;
     
     private final List<JRadioButton> leftRadioButtons = new ArrayList<JRadioButton>();
     private final List<JRadioButton> rightRadioButtons = new ArrayList<JRadioButton>();
@@ -76,8 +74,7 @@ public class MergeWindow extends javax.swing.JPanel {
      * @param isTwoWayMerge
      */
     public MergeWindow(final Window window, final MergeController controller, boolean isTwoWayMerge) {
-        progress = new ProgressWindow();
-
+        
         this.window = window;
         window.addWindowListener(new WindowAdapter() {
             @Override
@@ -99,17 +96,6 @@ public class MergeWindow extends javax.swing.JPanel {
                 window.dispose();
             }
         });
-        window.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentShown(ComponentEvent evt) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GuiUtil.closeWindow(progress);
-                    }
-                });
-            }
-        });
         
         this.controller = controller;
         this.isTwoWayMerge = isTwoWayMerge;
@@ -127,15 +113,61 @@ public class MergeWindow extends javax.swing.JPanel {
     }
     
     private void initContent() {
-        List<ConflictInfo> conflicts = controller.getConflicts();
-        progress.setMaximum(conflicts.size());     
-        int n = 1;
-        for (ConflictInfo info : conflicts) {
-            progress.setValue(n);
-            progress.setMessage(LocString.getFormat("STM_MERGE_PROGRESS", n, conflicts.size()));
-            addMergeInfo(n, info);
-            n++;
-        }
+        SwingWorker worker = new SwingWorker<List<MergeCell>, MergeCell>() {
+            
+            @Override
+            protected List<MergeCell> doInBackground() throws Exception {
+                List<MergeCell> result = new ArrayList<MergeCell>();
+                
+                List<ConflictInfo> conflicts = controller.getConflicts();
+                int n = 1;
+                for (ConflictInfo info : conflicts) {
+                    MergeCell cell = new MergeCell(n, info, jScrollPane1);
+                    cell.setIsTwoWayMerge(isTwoWayMerge);
+                    result.add(cell);
+                    publish(cell);
+                    setProgress(100 * n / conflicts.size());
+                    n++;
+                }
+                return result;
+            }
+
+            @Override
+            protected void process(List<MergeCell> chunks) {
+                for (MergeCell cell : chunks) {
+                    JRadioButton[] buttons = {
+                            cell.getLeftButton(),
+                            cell.getCenterButton(),
+                            cell.getRightButton()
+                        };
+                    leftRadioButtons.add(buttons[0]);
+                    centerRadioButtons.add(buttons[1]);
+                    rightRadioButtons.add(buttons[2]);
+                    for (JRadioButton button : buttons) {
+                        button.addActionListener(controller);
+                    }
+                    controller.addSelection(cell.getKey(), buttons);
+                    conflictInfoPanel.add(cell);
+                }
+                conflictInfoPanel.revalidate();
+            }
+
+            @Override
+            protected void done() {
+                jProgressBar1.setVisible(false);
+            }
+        };
+        
+        worker.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if ("progress".equals(evt.getPropertyName())) {
+                    jProgressBar1.setValue((Integer) evt.getNewValue());
+                }
+            }
+        });
+        
+        worker.execute();
         
         // Beansbinding is broken now for some reason, so set this manually.
         leftFilename.setText(controller.getLeftTmx().getName());
@@ -147,25 +179,10 @@ public class MergeWindow extends javax.swing.JPanel {
         leftFilename.setToolTipText((String) mapToTextConverter.convertForward(controller.getLeftTmx().getMetadata()));
         centerFilename.setToolTipText((String) mapToTextConverter.convertForward(controller.getBaseTmx().getMetadata()));
         rightFilename.setToolTipText((String) mapToTextConverter.convertForward(controller.getRightTmx().getMetadata()));
+        
+        GuiUtil.sizeForScreen(this);
     }
     
-    private void addMergeInfo(int itemNumber, ConflictInfo info) {
-        MergeCell cell = new MergeCell(itemNumber, info, jScrollPane1);
-        cell.setIsTwoWayMerge(isTwoWayMerge);
-        JRadioButton[] buttons = {
-                cell.getLeftButton(),
-                cell.getCenterButton(),
-                cell.getRightButton()
-            };
-        leftRadioButtons.add(buttons[0]);
-        centerRadioButtons.add(buttons[1]);
-        rightRadioButtons.add(buttons[2]);
-        for (JRadioButton button : buttons) {
-            button.addActionListener(controller);
-        }
-        controller.addSelection(info.key, buttons);
-        conflictInfoPanel.add(cell);
-    }
     
     private void activateAllButtons(List<JRadioButton> buttons) {
         for (JRadioButton b : buttons) {
@@ -214,6 +231,7 @@ public class MergeWindow extends javax.swing.JPanel {
         conflictInfoPanel = new org.madlonkay.supertmxmerge.gui.ReasonablySizedPanel();
         jPanel3 = new javax.swing.JPanel();
         doneButton = new javax.swing.JButton();
+        jProgressBar1 = new javax.swing.JProgressBar();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -354,6 +372,7 @@ public class MergeWindow extends javax.swing.JPanel {
             }
         });
         jPanel3.add(doneButton, java.awt.BorderLayout.EAST);
+        jPanel3.add(jProgressBar1, java.awt.BorderLayout.CENTER);
 
         add(jPanel3, java.awt.BorderLayout.SOUTH);
 
@@ -395,6 +414,7 @@ public class MergeWindow extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel leftFilename;
     private javax.swing.JLabel leftTextUnits;

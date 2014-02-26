@@ -27,6 +27,7 @@ import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import org.madlonkay.supertmxmerge.MergeController.ConflictInfo;
+import org.madlonkay.supertmxmerge.data.Key;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
@@ -42,6 +43,7 @@ public class MergeCell extends javax.swing.JPanel {
     private final static MapToTextConverter CONVERTER = new MapToTextConverter();
     
     private final JScrollPane scrollTarget;
+    private final Key key;
     
     static {
         JScrollPane sp = new JScrollPane();
@@ -60,6 +62,7 @@ public class MergeCell extends javax.swing.JPanel {
         
         this.scrollTarget = scrollTarget;
         
+        this.key = info.key;
         itemNumberLabel.setText(String.valueOf(itemNumber));
         sourceText.setText(info.key.sourceText);
         if (info.key.props != null) {
@@ -133,6 +136,10 @@ public class MergeCell extends javax.swing.JPanel {
     
     public JRadioButton getCenterButton() {
         return centerButton;
+    }
+    
+    public Key getKey() {
+        return key;
     }
     
     public void setIsTwoWayMerge(boolean isTwoWayMerge) {

@@ -104,7 +104,7 @@ public class MergeController implements Serializable, ActionListener {
             } else {
                 window = MergeWindow.newAsFrame(this, isTwoWayMerge);
             }
-            GuiUtil.displayWindow(window, parentWindow);
+            GuiUtil.displayWindow(window);
             GuiUtil.blockOnWindow(window);
         } else if (!quiet && !isTwoWayMerge) {
             // Files merged with no conflicts.

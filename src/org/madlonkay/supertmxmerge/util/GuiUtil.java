@@ -39,13 +39,9 @@ public class GuiUtil {
     private static final Logger LOGGER = Logger.getLogger(GuiUtil.class.getName());
 
     public static void displayWindow(Window window) {
-        displayWindow(window, null);
-    }
-    
-    public static void displayWindow(Window window, Window parent) {
         window.pack();
-        if (parent != null || fixSize(window)) {
-            window.setLocationRelativeTo(parent);
+        if (window.getParent() != null) {
+            window.setLocationRelativeTo(window.getParent());
         }
         window.setVisible(true);
     }
@@ -61,25 +57,13 @@ public class GuiUtil {
         window.dispose();
     }
     
-    public static boolean fixSize(Component component) {
-        boolean changed = false;
+    public static void sizeForScreen(Component component) {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        int newHeight = component.getHeight();
-        if (newHeight > screen.height * 0.9) {
-            newHeight = (int) (screen.height * 0.9);
-            changed = true;
-        }
-        int newWidth = component.getWidth();
-        if (newWidth > screen.width * 0.9) {
-            newWidth = (int) (screen.width * 0.9);
-            changed = true;
-        }
-        
-        if (changed) {
-            component.setSize(newWidth, newHeight);
-        }
-        
-        return changed;
+        int maxHeight =  (int) (screen.height * 0.9);
+        int maxWidth = Math.min(maxHeight, (int) (screen.width * 0.9));
+        component.setMaximumSize(new Dimension(maxWidth, maxHeight));
+        component.setPreferredSize(new Dimension(Math.min(800, maxWidth),
+                Math.min(800, maxHeight)));
     }
     
     public static void blockOnWindow(final Window window) {

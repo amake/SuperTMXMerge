@@ -20,13 +20,14 @@ package org.madlonkay.supertmxmerge.gui;
 
 import java.awt.Toolkit;
 import java.awt.Window;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.ToolTipManager;
 import org.madlonkay.supertmxmerge.DiffController;
 import org.madlonkay.supertmxmerge.DiffController.DiffInfo;
@@ -42,12 +43,10 @@ public class DiffWindow extends javax.swing.JPanel {
     public static JFrame newAsFrame(DiffController controller) {
         JFrame frame = new MenuFrame(LocString.get("STM_DIFF_WINDOW_TITLE"));
         frame.setContentPane(new DiffWindow(frame, controller));
-        frame.pack();
         return frame;
     }
     
     private final Window window;
-    private final ProgressWindow progress;
     
     /**
      * Creates new form DiffWindow
@@ -55,26 +54,14 @@ public class DiffWindow extends javax.swing.JPanel {
      * @param controller
      */
     public DiffWindow(Window window, DiffController controller) {
-        progress = new ProgressWindow();
         
         this.window = window;
-        window.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentShown(ComponentEvent evt) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GuiUtil.closeWindow(progress);
-                    }
-                });
-            }
-        });
         
         this.controller = controller;
         initComponents();
         
         if (window instanceof MenuFrame) {
-            buttonPanel.setVisible(false);
+            saveAsButton.setVisible(false);
             ((MenuFrame) window).addFileMenuItem(saveAsMenuItem);
         }
         
@@ -86,15 +73,48 @@ public class DiffWindow extends javax.swing.JPanel {
     }
     
     private void initContent() {
-        List<DiffInfo> infos = controller.getDiffInfos();
-        progress.setMaximum(infos.size());
-        int n = 1;
-        for (DiffInfo info : infos) {
-            progress.setValue(n);
-            progress.setMessage(LocString.getFormat("STM_DIFF_PROGRESS", n, infos.size()));
-            diffsPanel.add(new DiffCell(n, info, jScrollPane1));
-            n++;
-        }
+        SwingWorker worker = new SwingWorker<List<DiffCell>, DiffCell>() {
+            
+            @Override
+            protected List<DiffCell> doInBackground() throws Exception {
+                List<DiffCell> result = new ArrayList<DiffCell>();
+                
+                List<DiffInfo> diffs = controller.getDiffInfos();
+                int n = 1;
+                for (DiffInfo info : diffs) {
+                    DiffCell cell = new DiffCell(n, info, jScrollPane1);
+                    result.add(cell);
+                    publish(cell);
+                    setProgress(100 * n / diffs.size());
+                    n++;
+                }
+                return result;
+            }
+
+            @Override
+            protected void process(List<DiffCell> chunks) {
+                for (DiffCell cell : chunks) {
+                    diffsPanel.add(cell);
+                }
+                diffsPanel.revalidate();
+            }
+
+            @Override
+            protected void done() {
+                buttonPanel.setVisible(false);
+            }
+        };
+        
+        worker.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if ("progress".equals(evt.getPropertyName())) {
+                    jProgressBar1.setValue((Integer) evt.getNewValue());
+                }
+            }
+        });
+        
+        worker.execute();
         
         // Beansbinding is broken now for some reason, so set this manually.
         file1Label.setText(controller.getTmx1().getName());
@@ -104,6 +124,8 @@ public class DiffWindow extends javax.swing.JPanel {
         file1Label.setToolTipText((String) mapToTextConverter.convertForward(controller.getTmx1().getMetadata()));
         file2Label.setToolTipText((String) mapToTextConverter.convertForward(controller.getTmx2().getMetadata()));
         saveAsButton.setEnabled(controller.canSaveDiff());
+        
+        GuiUtil.sizeForScreen(this);
     }
     
     private DiffController getController() {
@@ -137,6 +159,7 @@ public class DiffWindow extends javax.swing.JPanel {
         diffsPanel = new org.madlonkay.supertmxmerge.gui.ReasonablySizedPanel();
         buttonPanel = new javax.swing.JPanel();
         saveAsButton = new javax.swing.JButton();
+        jProgressBar1 = new javax.swing.JProgressBar();
 
         saveAsMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         saveAsMenuItem.setMnemonic('a');
@@ -226,6 +249,7 @@ public class DiffWindow extends javax.swing.JPanel {
             }
         });
         buttonPanel.add(saveAsButton, java.awt.BorderLayout.EAST);
+        buttonPanel.add(jProgressBar1, java.awt.BorderLayout.CENTER);
 
         add(buttonPanel, java.awt.BorderLayout.SOUTH);
 
@@ -249,6 +273,7 @@ public class DiffWindow extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private org.madlonkay.supertmxmerge.gui.MapToTextConverter mapToTextConverter;
     private javax.swing.JButton saveAsButton;
