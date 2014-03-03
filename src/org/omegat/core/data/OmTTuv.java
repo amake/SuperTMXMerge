@@ -20,7 +20,6 @@ package org.omegat.core.data;
 
 import java.util.Collections;
 import java.util.Map;
-import org.madlonkay.supertmxmerge.data.CannotMergeException;
 import org.madlonkay.supertmxmerge.data.ITuv;
 import org.madlonkay.supertmxmerge.util.ReflectionUtil;
 
@@ -82,17 +81,22 @@ public class OmTTuv implements ITuv {
         hash = 89 * hash + (this.language != null ? this.language.hashCode() : 0);
         return hash;
     }
-
+    
     @Override
-    public ITuv merge(ITuv o) throws CannotMergeException {
+    public boolean canMerge(ITuv o) {
         if (!(o instanceof OmTTuv)) {
             throw new IllegalArgumentException("Cannot merge OmTTuv with non-OmTTuv");
         }
         OmTTuv other = (OmTTuv) o;
-        try {
-            return new OmTTuv(TMXEntry.merge(this.tmxEntry, other.tmxEntry), this.language);
-        } catch (TMXEntry.CannotMergeException ex) {
-            throw new CannotMergeException(ex);
+        return TMXEntry.canMerge(this.tmxEntry, other.tmxEntry);
+    }
+
+    @Override
+    public ITuv merge(ITuv o) {
+        if (!(o instanceof OmTTuv)) {
+            throw new IllegalArgumentException("Cannot merge OmTTuv with non-OmTTuv");
         }
+        OmTTuv other = (OmTTuv) o;
+        return new OmTTuv(TMXEntry.autoMerge(this.tmxEntry, other.tmxEntry), this.language);
     }
 }

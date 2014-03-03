@@ -24,7 +24,6 @@ import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import org.madlonkay.supertmxmerge.data.CannotMergeException;
 import org.madlonkay.supertmxmerge.data.ITuv;
 import org.madlonkay.supertmxmerge.util.ReflectionUtil;
 
@@ -144,10 +143,14 @@ public class JAXBTuv implements ITuv {
         }
         return tuv.getXmlLang();
     }
+    
+    @Override
+    public boolean canMerge(ITuv other) {
+        return false;
+    }
 
     @Override
-    public ITuv merge(ITuv other) throws CannotMergeException {
-        // TODO: Implement some sort of merging here.
-        throw new CannotMergeException();
+    public ITuv merge(ITuv other) {
+        throw new UnsupportedOperationException("Not implemented");
     }
 }

@@ -44,9 +44,11 @@ public class TMXEntry {
         throw new UnsupportedOperationException("This class is a stub.");
     }
     
-    public static TMXEntry merge(TMXEntry a, TMXEntry b) throws CannotMergeException {
+    public static boolean canMerge(TMXEntry a, TMXEntry b) {
         throw new UnsupportedOperationException("This class is a stub.");
     }
     
-    public static class CannotMergeException extends Exception {}
+    public static TMXEntry autoMerge(TMXEntry a, TMXEntry b) {
+        throw new UnsupportedOperationException("This class is a stub.");
+    }
 }
