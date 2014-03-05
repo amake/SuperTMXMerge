@@ -61,11 +61,11 @@ public class JAXBTuv implements ITuv {
                 tmp.append((String) o);
             } else {
                 try {
-                    Method m = o.getClass().getDeclaredMethod("getContent", (Class<?>[]) null);
+                    Method m = o.getClass().getDeclaredMethod("getContent");
                     if (m == null) {
                         throw new RuntimeException("TUV contained item that didn't respond to getContent().");
                     }
-                    Object subContent = m.invoke(o, (Object[]) null);
+                    Object subContent = m.invoke(o);
                     if (!(subContent instanceof List)) {
                         throw new RuntimeException("TUV contained item that didn't return a List from getContent().");
                     }

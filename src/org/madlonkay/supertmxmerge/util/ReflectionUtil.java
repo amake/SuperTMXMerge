@@ -51,7 +51,7 @@ public class ReflectionUtil {
             if (m.getName().startsWith("get") && m.getParameterTypes().length == 0 &&
                     (m.getReturnType().isPrimitive() || m.getReturnType().equals(String.class))) {
                 try {
-                    Object value = m.invoke(object, (Object[])null);
+                    Object value = m.invoke(object);
                     result.put(m.getName().substring("get".length()),
                             value == null ? "null" : value.toString());
                 } catch (Exception ex) {
@@ -98,7 +98,7 @@ public class ReflectionUtil {
         
         for (Object o : list) {
             try {
-                Method m = o.getClass().getDeclaredMethod("getContent", (Class<?>[]) null);
+                Method m = o.getClass().getDeclaredMethod("getContent");
                 if (m == null) {
                     throw new RuntimeException("TUV contained item that didn't respond to getContent().");
                 }
@@ -109,7 +109,7 @@ public class ReflectionUtil {
                 if (n == null) {
                     n = 1;
                 }
-                result.put(o.getClass().getSimpleName() + n, (String) m.invoke(o, (Object[]) null));
+                result.put(o.getClass().getSimpleName() + n, (String) m.invoke(o));
                 count.put(o.getClass(), n + 1);
             } catch (Exception ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
