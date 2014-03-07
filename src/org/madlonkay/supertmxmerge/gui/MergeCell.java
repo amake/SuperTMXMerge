@@ -44,7 +44,8 @@ public class MergeCell extends javax.swing.JPanel {
     private final static MapToTextConverter CONVERTER = new MapToTextConverter();
     
     private final JScrollPane scrollTarget;
-    private final Key key;
+    private final ConflictInfo info;
+    private final boolean isDetailMode;
     
     static {
         JScrollPane sp = new JScrollPane();
@@ -57,13 +58,15 @@ public class MergeCell extends javax.swing.JPanel {
      * @param itemNumber
      * @param info
      * @param scrollTarget
+     * @param isDetailMode
      */
-    public MergeCell(int itemNumber, ConflictInfo info, JScrollPane scrollTarget) {
+    public MergeCell(int itemNumber, ConflictInfo info, JScrollPane scrollTarget,
+            boolean isDetailMode) {
         initComponents();
         
         this.scrollTarget = scrollTarget;
-        
-        this.key = info.key;
+        this.isDetailMode = isDetailMode;
+        this.info = info;
         itemNumberLabel.setText(String.valueOf(itemNumber));
         sourceText.setText(info.key.sourceText);
         if (info.key.props != null) {
@@ -71,17 +74,22 @@ public class MergeCell extends javax.swing.JPanel {
         }
         setSourceLanguage(info.sourceLanguage);
         setTargetLanguage(info.targetLanguage);
-        setBaseText(info.baseTuvText, info.baseTuvProps);
-        setLeftText(info.leftTuvText, info.leftTuvProps, info.baseTuvText != null);
-        setRightText(info.rightTuvText, info.rightTuvProps, info.baseTuvText != null);
+        String baseText = setBaseText(info.baseTuvText, info.baseTuvProps);
+        String leftText = setLeftText(info.leftTuvText, info.leftTuvProps, info.baseTuvText != null);
+        String rightText = setRightText(info.rightTuvText, info.rightTuvProps, info.baseTuvText != null);
+        
         tuvTextLeft.addMouseListener(new ClickForwarder(leftButton));
         tuvTextRight.addMouseListener(new ClickForwarder(rightButton));
         tuvTextCenter.addMouseListener(new ClickForwarder(centerButton));
         if (info.baseTuvText == null) {
-            CharDiff.applyStyling(info.leftTuvText, info.rightTuvText, tuvTextLeft, tuvTextRight);
+            CharDiff.applyStyling(leftText, rightText, tuvTextLeft, tuvTextRight);
         } else {
-            CharDiff.applyStyling(info.baseTuvText, info.leftTuvText, tuvTextCenter, tuvTextLeft);
-            CharDiff.applyStyling(info.baseTuvText, info.rightTuvText, tuvTextCenter, tuvTextRight, true);
+            CharDiff.applyStyling(baseText, leftText, tuvTextCenter, tuvTextLeft);
+            CharDiff.applyStyling(baseText, rightText, tuvTextCenter, tuvTextRight, true);
+        }
+        
+        if (isDetailMode) {
+            itemNumberLabel.setVisible(false);
         }
     }
     
@@ -95,37 +103,54 @@ public class MergeCell extends javax.swing.JPanel {
         targetBorder.setTitle(language);
     }
     
-    private void setBaseText(String text, Map<String, String> props) {
+    private String setBaseText(String text, Map<String, String> props) {
+        if (props != null && !isDetailMode) {
+            tuvTextCenter.setToolTipText(MapToTextConverter.mapToHtml(props));
+        }
         if (text == null) {
             tuvTextCenter.setBackground(getBackground());
-            text = LocString.get("STM_TUV_NOT_PRESENT");
+            tuvTextCenter.setText(LocString.get("STM_TUV_NOT_PRESENT"));
+            return null;
         }
-        if (props != null) {
-            tuvTextCenter.setToolTipText((String) CONVERTER.convertForward(props));
+        if (isDetailMode && props != null) {
+            text += "\n\n" + MapToTextConverter.mapToPlainText(props);
         }
         tuvTextCenter.setText(text);
+        return text;
     }
     
-    private void setLeftText(String text, Map<String, String> props, boolean presentInBase) {
+    private String setLeftText(String text, Map<String, String> props, boolean presentInBase) {
+        if (props != null && !isDetailMode) {
+            tuvTextLeft.setToolTipText(MapToTextConverter.mapToHtml(props));
+        }
         if (text == null) {
             tuvTextLeft.setBackground(getBackground());
-            text = presentInBase? LocString.get("STM_TUV_DELETED") : LocString.get("STM_TUV_NOT_PRESENT");
+            tuvTextLeft.setText(presentInBase? LocString.get("STM_TUV_DELETED") :
+                    LocString.get("STM_TUV_NOT_PRESENT"));
+            return null;
         }
-        if (props != null) {
-            tuvTextLeft.setToolTipText((String) CONVERTER.convertForward(props));
+        if (isDetailMode) {
+            text += "\n\n" + MapToTextConverter.mapToPlainText(props);
         }
         tuvTextLeft.setText(text);
+        return text;
     }
     
-    private void setRightText(String text, Map<String, String> props, boolean presentInBase) {
+    private String setRightText(String text, Map<String, String> props, boolean presentInBase) {
+        if (props != null && !isDetailMode) {
+            tuvTextRight.setToolTipText(MapToTextConverter.mapToHtml(props));
+        }
         if (text == null) {
             tuvTextRight.setBackground(getBackground());
-            text = presentInBase? LocString.get("STM_TUV_DELETED") : LocString.get("STM_TUV_NOT_PRESENT");
+            tuvTextRight.setText(presentInBase? LocString.get("STM_TUV_DELETED") :
+                    LocString.get("STM_TUV_NOT_PRESENT"));
+            return null;
         }
-        if (props != null) {
-            tuvTextRight.setToolTipText((String) CONVERTER.convertForward(props));
+        if (isDetailMode) {
+            text += "\n\n" + MapToTextConverter.mapToPlainText(props);
         }
         tuvTextRight.setText(text);
+        return text;
     }
     
     public JRadioButton getLeftButton() {
@@ -141,7 +166,7 @@ public class MergeCell extends javax.swing.JPanel {
     }
     
     public Key getKey() {
-        return key;
+        return info.key;
     }
     
     public void setIsTwoWayMerge(boolean isTwoWayMerge) {

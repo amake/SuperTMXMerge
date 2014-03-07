@@ -20,8 +20,10 @@ package org.madlonkay.supertmxmerge.gui;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.MissingResourceException;
 import java.util.TreeMap;
 import org.jdesktop.beansbinding.Converter;
+import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
  *
@@ -37,19 +39,38 @@ public class MapToTextConverter extends Converter {
         if (!(value instanceof Map)) {
             throw new IllegalArgumentException();
         }
-        Map<Object, Object> map = (Map<Object, Object>) value;
+        Map<?, ?> map = (Map<?, ?>) value;
+        return mapToHtml(map);
+    }
+    
+    public static String mapToHtml(Map<?, ?> map) {
         if (map.isEmpty()) {
             return "";
         }
         StringBuilder sb = new StringBuilder("<html>");
         for (Entry<Object, Object> e : new TreeMap<Object, Object>(map).entrySet()) {
             sb.append("<b>");
-            sb.append(toString(e.getKey()));
+            sb.append(localize(toString(e.getKey())));
             sb.append(":</b> ");
             sb.append(toString(e.getValue()));
             sb.append("<br>");
         }
         sb.append("</html>");
+        return sb.toString();
+    }
+    
+    public static String mapToPlainText(Map<?, ?> map) {
+        if (map.isEmpty()) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (Entry<Object, Object> e : new TreeMap<Object, Object>(map).entrySet()) {
+            sb.append(" - ");
+            sb.append(localize(toString(e.getKey())));
+            sb.append(": ");
+            sb.append(toString(e.getValue()));
+            sb.append("\n");
+        }
         return sb.toString();
     }
 
@@ -58,7 +79,15 @@ public class MapToTextConverter extends Converter {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    private String toString(Object o) {
+    private static String localize(String string) {
+        try {
+            return LocString.get("STM_METADATA_" + string.toUpperCase());
+        } catch (MissingResourceException ex) {
+            return string;
+        }
+    }
+    
+    private static String toString(Object o) {
         return o == null ? "null" : o.toString();
     }
 }

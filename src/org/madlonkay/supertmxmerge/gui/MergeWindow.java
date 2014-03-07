@@ -18,6 +18,7 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
@@ -66,7 +67,11 @@ public class MergeWindow extends javax.swing.JPanel {
     private final List<JRadioButton> centerRadioButtons = new ArrayList<JRadioButton>();
     
     private boolean isTwoWayMerge = false;
-        
+    private boolean isDetailMode = false;
+    private List<ConflictInfo> conflicts = null;
+    private List<MergeCell> detailModeCells = new ArrayList<MergeCell>();
+    private int detailModeIndex = -1;
+    
     /**
      * Creates new form MergeWindow
      * @param window
@@ -74,6 +79,7 @@ public class MergeWindow extends javax.swing.JPanel {
      * @param isTwoWayMerge
      */
     public MergeWindow(final Window window, final MergeController controller, boolean isTwoWayMerge) {
+        initComponents();
         
         this.window = window;
         window.addWindowListener(new WindowAdapter() {
@@ -99,75 +105,45 @@ public class MergeWindow extends javax.swing.JPanel {
         
         this.controller = controller;
         this.isTwoWayMerge = isTwoWayMerge;
-        initComponents();
         
         // Keep tooltips open. Via:
         // http://www.rgagnon.com/javadetails/java-0528.html
         ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
         
-        initContent();
+        this.conflicts = controller.getConflicts();
+        this.isDetailMode = conflicts.size() < 5;
         
-        allBaseButton.setVisible(!isTwoWayMerge);
-        centerFilename.setVisible(!isTwoWayMerge);
-        centerTextUnits.setVisible(!isTwoWayMerge);
+        initContent();
     }
     
     private void initContent() {
-        SwingWorker worker = new SwingWorker<List<MergeCell>, MergeCell>() {
-            
-            @Override
-            protected List<MergeCell> doInBackground() throws Exception {
-                List<MergeCell> result = new ArrayList<MergeCell>();
-                
-                List<ConflictInfo> conflicts = controller.getConflicts();
-                int n = 1;
-                for (ConflictInfo info : conflicts) {
-                    MergeCell cell = new MergeCell(n, info, jScrollPane1);
-                    cell.setIsTwoWayMerge(isTwoWayMerge);
-                    result.add(cell);
-                    publish(cell);
-                    setProgress(100 * n / conflicts.size());
-                    n++;
-                }
-                return result;
-            }
-
-            @Override
-            protected void process(List<MergeCell> chunks) {
-                for (MergeCell cell : chunks) {
-                    JRadioButton[] buttons = {
-                            cell.getLeftButton(),
-                            cell.getCenterButton(),
-                            cell.getRightButton()
-                        };
-                    leftRadioButtons.add(buttons[0]);
-                    centerRadioButtons.add(buttons[1]);
-                    rightRadioButtons.add(buttons[2]);
-                    for (JRadioButton button : buttons) {
-                        button.addActionListener(controller);
-                    }
-                    controller.addSelection(cell.getKey(), buttons);
-                    conflictInfoPanel.add(cell);
-                }
-                conflictInfoPanel.revalidate();
-            }
-
-            @Override
-            protected void done() {
-                jProgressBar1.setVisible(false);
-            }
-        };
+        detailModeCells.clear();
+        detailModeIndex = -1;
         
-        worker.addPropertyChangeListener(new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                if ("progress".equals(evt.getPropertyName())) {
-                    jProgressBar1.setValue((Integer) evt.getNewValue());
-                }
-            }
-        });
+        centerRadioButtons.clear();
+        leftRadioButtons.clear();
+        rightRadioButtons.clear();
         
-        worker.execute();
+        conflictInfoPanel.removeAll();
+        
+        jProgressBar1.setVisible(true);
+        jProgressBar1.setValue(0);
+        
+        if (isDetailMode) {
+            remove(jScrollPane1);
+            currentConflict.setVisible(true);
+            modeSwtichButton.setText(LocString.get("STM_LIST_VIEW_BUTTON"));
+        } else {
+            add(jScrollPane1, BorderLayout.CENTER);
+            nextButton.setVisible(false);
+            backButton.setVisible(false);
+            doneButton.setVisible(true);
+            doneButton.setEnabled(controller.isConflictsAreResolved());
+            currentConflict.setVisible(false);
+            modeSwtichButton.setText(LocString.get("STM_DETAIL_VIEW_BUTTON"));
+        }
+        
+        new InitWorker().execute();
         
         // Beansbinding is broken now for some reason, so set this manually.
         leftFilename.setText(controller.getLeftTmx().getName());
@@ -176,24 +152,124 @@ public class MergeWindow extends javax.swing.JPanel {
         leftTextUnits.setText((String) unitCountConverter.convertForward(controller.getLeftTmx().getSize()));
         centerTextUnits.setText((String) unitCountConverter.convertForward(controller.getBaseTmx().getSize()));
         rightTextUnits.setText((String) unitCountConverter.convertForward(controller.getRightTmx().getSize()));
-        leftFilename.setToolTipText((String) mapToTextConverter.convertForward(controller.getLeftTmx().getMetadata()));
-        centerFilename.setToolTipText((String) mapToTextConverter.convertForward(controller.getBaseTmx().getMetadata()));
-        rightFilename.setToolTipText((String) mapToTextConverter.convertForward(controller.getRightTmx().getMetadata()));
+        leftFilename.setToolTipText(MapToTextConverter.mapToHtml(controller.getLeftTmx().getMetadata()));
+        centerFilename.setToolTipText(MapToTextConverter.mapToHtml(controller.getBaseTmx().getMetadata()));
+        rightFilename.setToolTipText(MapToTextConverter.mapToHtml(controller.getRightTmx().getMetadata()));
+        
+        allBaseButton.setVisible(!isTwoWayMerge);
+        centerFilename.setVisible(!isTwoWayMerge);
+        centerTextUnits.setVisible(!isTwoWayMerge);
         
         GuiUtil.sizeForScreen(this);
     }
     
+    private void addMergeCell(MergeCell cell) {
+        if (isDetailMode) {
+            detailModeCells.add(cell);
+            if (detailModeIndex < 0) {
+                nextButtonActionPerformed(null);
+            }
+        } else {
+            conflictInfoPanel.add(cell);
+        }
+    }
+    
+    private void swapCells(int before, int after) {
+        if (before == after) {
+            return;
+        }
+        if (before > -1 && before < conflicts.size()) {
+            MergeCell current = detailModeCells.get(before);
+            remove(current);
+        }
+        if (after > -1 && after < conflicts.size()) {
+            MergeCell newCell = detailModeCells.get(after);
+            add(newCell, BorderLayout.CENTER);
+            newCell.validate();
+            newCell.repaint();
+        }
+    }
+    
+    private void updateDetailModeState() {
+        currentConflict.setText(LocString.getFormat("STM_DETAIL_VIEW_LOCATION", detailModeIndex + 1, conflicts.size()));
+        if (conflicts.size() == 1) {
+            nextButton.setVisible(false);
+            backButton.setVisible(false);
+            doneButton.setVisible(true);
+            return;
+        }
+        backButton.setEnabled(detailModeIndex != 0);
+        nextButton.setVisible(detailModeIndex < conflicts.size() - 1);
+        doneButton.setVisible(detailModeIndex == conflicts.size() - 1);
+        doneButton.setEnabled(controller.isConflictsAreResolved());
+    }
     
     private void activateAllButtons(List<JRadioButton> buttons) {
         for (JRadioButton b : buttons) {
             b.setSelected(true);
         }
         controller.actionPerformed(null);
+        doneButton.setEnabled(controller.isConflictsAreResolved());
     }
     
     private MergeController getController() {
         return controller;
     }
+    
+    private class InitWorker extends SwingWorker<List<MergeCell>, MergeCell> {
+
+        public InitWorker() {
+            addPropertyChangeListener(new PropertyChangeListener() {
+                @Override
+                public void propertyChange(PropertyChangeEvent evt) {
+                    if ("progress".equals(evt.getPropertyName())) {
+                        jProgressBar1.setValue((Integer) evt.getNewValue());
+                    }
+                }
+            });
+        }
+        
+        @Override
+        protected List<MergeCell> doInBackground() throws Exception {
+            List<MergeCell> result = new ArrayList<MergeCell>();
+
+            int n = 1;
+            for (ConflictInfo info : conflicts) {
+                MergeCell cell = new MergeCell(n, info, jScrollPane1, isDetailMode);
+                cell.setIsTwoWayMerge(isTwoWayMerge);
+                result.add(cell);
+                publish(cell);
+                setProgress(100 * n / conflicts.size());
+                n++;
+            }
+            return result;
+        }
+        
+        @Override
+        protected void process(List<MergeCell> chunks) {
+            for (MergeCell cell : chunks) {
+                JRadioButton[] buttons = {
+                        cell.getLeftButton(),
+                        cell.getCenterButton(),
+                        cell.getRightButton()
+                    };
+                leftRadioButtons.add(buttons[0]);
+                centerRadioButtons.add(buttons[1]);
+                rightRadioButtons.add(buttons[2]);
+                for (JRadioButton button : buttons) {
+                    button.addActionListener(controller);
+                }
+                controller.addSelection(cell.getKey(), buttons);
+                addMergeCell(cell);
+            }
+            conflictInfoPanel.revalidate();
+        }
+        
+        @Override
+        protected void done() {
+            jProgressBar1.setVisible(false);
+        }
+    };
     
 /**
      * This method is called from within the constructor to initialize the form.
@@ -210,7 +286,7 @@ public class MergeWindow extends javax.swing.JPanel {
         saveButtonConverter = new org.madlonkay.supertmxmerge.gui.SaveButtonConverter();
         conflictCountConverter = new LocStringConverter("STM_NUMBER_OF_CONFLICTS", "STM_NUMBER_OF_CONFLICTS_SINGULAR");
         mapToTextConverter = new org.madlonkay.supertmxmerge.gui.MapToTextConverter();
-        jPanel4 = new javax.swing.JPanel();
+        topPanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         leftFilename = new javax.swing.JLabel();
         centerFilename = new javax.swing.JLabel();
@@ -229,13 +305,20 @@ public class MergeWindow extends javax.swing.JPanel {
         allRightButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         conflictInfoPanel = new org.madlonkay.supertmxmerge.gui.ReasonablySizedPanel();
-        jPanel3 = new javax.swing.JPanel();
-        doneButton = new javax.swing.JButton();
+        bottomPanel = new javax.swing.JPanel();
+        modeSwtichButton = new javax.swing.JButton();
         jProgressBar1 = new javax.swing.JProgressBar();
+        bottomButtonsPanel = new javax.swing.JPanel();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(4, 0), new java.awt.Dimension(4, 0), new java.awt.Dimension(4, 0));
+        currentConflict = new javax.swing.JLabel();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(4, 0), new java.awt.Dimension(4, 0), new java.awt.Dimension(4, 0));
+        backButton = new javax.swing.JButton();
+        nextButton = new javax.swing.JButton();
+        doneButton = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
-        jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.PAGE_AXIS));
+        topPanel.setLayout(new javax.swing.BoxLayout(topPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         jPanel2.setLayout(new java.awt.GridLayout(2, 3, 10, 0));
@@ -297,7 +380,7 @@ public class MergeWindow extends javax.swing.JPanel {
 
         jPanel2.add(rightTextUnits);
 
-        jPanel4.add(jPanel2);
+        topPanel.add(jPanel2);
 
         jPanel6.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         jPanel6.setLayout(new java.awt.GridLayout(0, 1, 0, 4));
@@ -316,7 +399,7 @@ public class MergeWindow extends javax.swing.JPanel {
         instructionsLabel.setText(LocString.get("STM_MERGE_WINDOW_DIRECTIONS")); // NOI18N
         jPanel6.add(instructionsLabel);
 
-        jPanel4.add(jPanel6);
+        topPanel.add(jPanel6);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.LINE_AXIS));
@@ -347,9 +430,9 @@ public class MergeWindow extends javax.swing.JPanel {
         });
         jPanel5.add(allRightButton);
 
-        jPanel4.add(jPanel5);
+        topPanel.add(jPanel5);
 
-        add(jPanel4, java.awt.BorderLayout.NORTH);
+        add(topPanel, java.awt.BorderLayout.NORTH);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -358,8 +441,39 @@ public class MergeWindow extends javax.swing.JPanel {
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
-        jPanel3.setLayout(new java.awt.BorderLayout());
+        bottomPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        bottomPanel.setLayout(new java.awt.BorderLayout());
+
+        modeSwtichButton.setText(LocString.get("STM_LIST_VIEW_BUTTON")); // NOI18N
+        modeSwtichButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modeSwtichButtonActionPerformed(evt);
+            }
+        });
+        bottomPanel.add(modeSwtichButton, java.awt.BorderLayout.WEST);
+        bottomPanel.add(jProgressBar1, java.awt.BorderLayout.CENTER);
+
+        bottomButtonsPanel.setLayout(new javax.swing.BoxLayout(bottomButtonsPanel, javax.swing.BoxLayout.LINE_AXIS));
+        bottomButtonsPanel.add(filler4);
+        bottomButtonsPanel.add(currentConflict);
+        bottomButtonsPanel.add(filler3);
+
+        backButton.setText(LocString.get("STM_BACK_BUTTON")); // NOI18N
+        backButton.setEnabled(false);
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
+        bottomButtonsPanel.add(backButton);
+
+        nextButton.setText(LocString.get("STM_NEXT_BUTTON")); // NOI18N
+        nextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextButtonActionPerformed(evt);
+            }
+        });
+        bottomButtonsPanel.add(nextButton);
 
         doneButton.setText(LocString.get("STM_DONE_BUTTON")); // NOI18N
 
@@ -371,10 +485,11 @@ public class MergeWindow extends javax.swing.JPanel {
                 doneButtonActionPerformed(evt);
             }
         });
-        jPanel3.add(doneButton, java.awt.BorderLayout.EAST);
-        jPanel3.add(jProgressBar1, java.awt.BorderLayout.CENTER);
+        bottomButtonsPanel.add(doneButton);
 
-        add(jPanel3, java.awt.BorderLayout.SOUTH);
+        bottomPanel.add(bottomButtonsPanel, java.awt.BorderLayout.EAST);
+
+        add(bottomPanel, java.awt.BorderLayout.SOUTH);
 
         bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
@@ -395,23 +510,51 @@ public class MergeWindow extends javax.swing.JPanel {
         activateAllButtons(rightRadioButtons);
     }//GEN-LAST:event_useAllRight
 
+    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+        int before = detailModeIndex;
+        detailModeIndex = Math.min(detailModeCells.size() - 1, detailModeIndex + 1);
+        swapCells(before, detailModeIndex);
+        updateDetailModeState();
+    }//GEN-LAST:event_nextButtonActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        int before = detailModeIndex;
+        detailModeIndex = Math.max(0, detailModeIndex - 1);
+        swapCells(before, detailModeIndex);
+        updateDetailModeState();
+    }//GEN-LAST:event_backButtonActionPerformed
+
+    private void modeSwtichButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modeSwtichButtonActionPerformed
+        if (isDetailMode) {
+            swapCells(detailModeIndex, -1);
+        }
+        isDetailMode = !isDetailMode;
+        initContent();
+        validate();
+        repaint();
+    }//GEN-LAST:event_modeSwtichButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton allBaseButton;
     private javax.swing.JButton allLeftButton;
     private javax.swing.JButton allRightButton;
+    private javax.swing.JButton backButton;
+    private javax.swing.JPanel bottomButtonsPanel;
+    private javax.swing.JPanel bottomPanel;
     private javax.swing.JLabel centerFilename;
     private javax.swing.JLabel centerTextUnits;
     private org.madlonkay.supertmxmerge.gui.LocStringConverter conflictCountConverter;
     private javax.swing.JLabel conflictCountLabel;
     private org.madlonkay.supertmxmerge.gui.ReasonablySizedPanel conflictInfoPanel;
     private org.madlonkay.supertmxmerge.MergeController controller;
+    private javax.swing.JLabel currentConflict;
     private javax.swing.JButton doneButton;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
     private javax.swing.JLabel instructionsLabel;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JProgressBar jProgressBar1;
@@ -419,9 +562,12 @@ public class MergeWindow extends javax.swing.JPanel {
     private javax.swing.JLabel leftFilename;
     private javax.swing.JLabel leftTextUnits;
     private org.madlonkay.supertmxmerge.gui.MapToTextConverter mapToTextConverter;
+    private javax.swing.JButton modeSwtichButton;
+    private javax.swing.JButton nextButton;
     private javax.swing.JLabel rightFilename;
     private javax.swing.JLabel rightTextUnits;
     private org.madlonkay.supertmxmerge.gui.SaveButtonConverter saveButtonConverter;
+    private javax.swing.JPanel topPanel;
     private org.madlonkay.supertmxmerge.gui.LocStringConverter unitCountConverter;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables

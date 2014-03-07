@@ -67,13 +67,7 @@ public class CharDiff {
     }
     
     private static Patch makePatch(String from, String to) {
-        if (from == null) {
-            from = "";
-        }
-        if (to == null) {
-            to = "";
-        }
-        if (from.equals(to) || (from.length() == 0 && to.length() == 0)) {
+        if (from == null || to == null || from.equals(to) || (from.equals("") && to.equals(""))) {
             return null;
         }
         
