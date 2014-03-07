@@ -154,7 +154,7 @@ public class MergeController implements Serializable, ActionListener {
             } else if (!leftTuv.equivalentTo(rightTuv)) {
                 continue;
             } else {
-                selected = leftTuv.compareTo(rightTuv) == -1 ? rightTuv : leftTuv;
+                selected = rightTuv;
             }
             initialAnalysis.modified.put(key, selected);
             preResolved.add(key);

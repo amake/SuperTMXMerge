@@ -38,6 +38,4 @@ public interface ITuv {
     public boolean equals(Object o);
     
     public boolean equivalentTo(ITuv other);
-    
-    public int compareTo(ITuv other);
 }

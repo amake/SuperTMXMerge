@@ -148,9 +148,4 @@ public class JAXBTuv implements ITuv {
     public boolean equivalentTo(ITuv other) {
         return false;
     }
-
-    @Override
-    public int compareTo(ITuv other) {
-        throw new UnsupportedOperationException("Not implemented");
-    }
 }

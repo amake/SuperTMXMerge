@@ -93,13 +93,4 @@ public class OmTTuv implements ITuv {
         OmTTuv other = (OmTTuv) o;
         return tmxEntry.equalsTranslation(other.tmxEntry);
     }
-
-    @Override
-    public int compareTo(ITuv o) {
-        if (!(o instanceof OmTTuv)) {
-            throw new IllegalArgumentException("Cannot compare OmTTuv with non-OmTTuv");
-        }
-        OmTTuv other = (OmTTuv) o;
-        return tmxEntry.compareTo(other.tmxEntry);
-    }
 }

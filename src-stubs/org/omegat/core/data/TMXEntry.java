@@ -43,8 +43,4 @@ public class TMXEntry {
     public boolean equalsTranslation(TMXEntry other) {
         throw new UnsupportedOperationException("This class is a stub.");
     }
-    
-    public int compareTo(TMXEntry other) {
-        throw new UnsupportedOperationException("This class is a stub.");
-    }
 }
