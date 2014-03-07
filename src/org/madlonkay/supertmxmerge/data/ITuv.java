@@ -37,7 +37,7 @@ public interface ITuv {
     @Override
     public boolean equals(Object o);
     
-    public boolean canMerge(ITuv other);
+    public boolean equivalentTo(ITuv other);
     
-    public ITuv merge(ITuv other);
+    public int compareTo(ITuv other);
 }

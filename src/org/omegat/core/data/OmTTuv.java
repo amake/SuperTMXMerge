@@ -70,7 +70,7 @@ public class OmTTuv implements ITuv {
         if (getClass() != obj.getClass())
             return false;
         final OmTTuv other = (OmTTuv) obj;
-        return tmxEntry.equalsTranslation(other.tmxEntry) &&
+        return tmxEntry.equals(other.tmxEntry) &&
                 this.language.equals(other.language);
     }
 
@@ -83,20 +83,23 @@ public class OmTTuv implements ITuv {
     }
     
     @Override
-    public boolean canMerge(ITuv o) {
+    public boolean equivalentTo(ITuv o) {
+        if (o == null) {
+            return false;
+        }
         if (!(o instanceof OmTTuv)) {
-            throw new IllegalArgumentException("Cannot merge OmTTuv with non-OmTTuv");
+            throw new IllegalArgumentException("Cannot check equivalence between OmTTuv and non-OmTTuv");
         }
         OmTTuv other = (OmTTuv) o;
-        return TMXEntry.canMerge(this.tmxEntry, other.tmxEntry);
+        return tmxEntry.equalsTranslation(other.tmxEntry);
     }
 
     @Override
-    public ITuv merge(ITuv o) {
+    public int compareTo(ITuv o) {
         if (!(o instanceof OmTTuv)) {
-            throw new IllegalArgumentException("Cannot merge OmTTuv with non-OmTTuv");
+            throw new IllegalArgumentException("Cannot compare OmTTuv with non-OmTTuv");
         }
         OmTTuv other = (OmTTuv) o;
-        return new OmTTuv(TMXEntry.autoMerge(this.tmxEntry, other.tmxEntry), this.language);
+        return tmxEntry.compareTo(other.tmxEntry);
     }
 }

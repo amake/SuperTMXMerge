@@ -140,17 +140,25 @@ public class MergeController implements Serializable, ActionListener {
         // uninteresting metadata. In that case, choose the newest one.
         List<Key> preResolved = new ArrayList<Key>();
         for (Key key : initialAnalysis.conflicts) {
+            ITuv baseTuv = baseTmx.get(key);
             ITuv leftTuv = leftTmx.get(key);
             ITuv rightTuv = rightTmx.get(key);
             assert(!(leftTuv == null && rightTuv == null));
             if (leftTuv == null || rightTuv == null) {
                 continue;
             }
-            if (leftTuv.canMerge(rightTuv)) {
-                ITuv mergedTuv = leftTuv.merge(rightTuv);
-                initialAnalysis.modified.put(key, mergedTuv);
-                preResolved.add(key);
+            ITuv selected;
+            if (leftTuv.equivalentTo(baseTuv)) {
+                selected = rightTuv;
+            } else if (rightTuv.equivalentTo(baseTuv)) {
+                selected = leftTuv;
+            } else if (!leftTuv.equivalentTo(rightTuv)) {
+                continue;
+            } else {
+                selected = leftTuv.compareTo(rightTuv) == -1 ? rightTuv : leftTuv;
             }
+            initialAnalysis.modified.put(key, selected);
+            preResolved.add(key);
         }
         initialAnalysis.conflicts.removeAll(preResolved);
         

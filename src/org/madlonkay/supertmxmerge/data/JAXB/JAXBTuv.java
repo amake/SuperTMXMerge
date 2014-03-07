@@ -145,12 +145,12 @@ public class JAXBTuv implements ITuv {
     }
     
     @Override
-    public boolean canMerge(ITuv other) {
+    public boolean equivalentTo(ITuv other) {
         return false;
     }
 
     @Override
-    public ITuv merge(ITuv other) {
+    public int compareTo(ITuv other) {
         throw new UnsupportedOperationException("Not implemented");
     }
 }
