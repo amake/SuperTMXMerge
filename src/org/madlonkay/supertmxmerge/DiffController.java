@@ -36,7 +36,6 @@ import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
 import org.madlonkay.supertmxmerge.data.Key;
 import org.madlonkay.supertmxmerge.data.WriteFailedException;
 import org.madlonkay.supertmxmerge.gui.DiffWindow;
-import org.madlonkay.supertmxmerge.util.CharDiff;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
@@ -176,7 +175,6 @@ public class DiffController implements Serializable {
         public final String tuv2Text;
         public final Map<String, String> tuv1Props;
         public final Map<String, String> tuv2Props;
-        public final CharDiff diff;
 
         public DiffInfo(Key key, String sourceLanguage, ITuv tuv1, ITuv tuv2) {
             this.key = key;
@@ -188,7 +186,6 @@ public class DiffController implements Serializable {
             this.tuv2Text = tuv2 == null ? null : tuv2.getContent();
             this.tuv1Props = tuv1 == null ? null : tuv1.getMetadata();
             this.tuv2Props = tuv2 == null ? null : tuv2.getMetadata();
-            this.diff = new CharDiff(tuv1Text, tuv2Text);
         }
     }
 }

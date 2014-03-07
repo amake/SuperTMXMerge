@@ -66,27 +66,25 @@ public class CharDiff {
         STYLE_DELETED_ALT = deletedAlt;
     }
     
-    private final Patch patch;
-    
-    public CharDiff(Patch patch) {
-        this.patch = patch;
-    }
-
-    public CharDiff(String from, String to) {
-        // Don't compute diff if entire strings were added/removed.
-        if (from == null || to == null || from.equals(to)) {
-            patch = null;
-            return;
+    private static Patch makePatch(String from, String to) {
+        if (from == null) {
+            from = "";
+        }
+        if (to == null) {
+            to = "";
+        }
+        if (from.equals(to) || (from.length() == 0 && to.length() == 0)) {
+            return null;
         }
         
         List<Character> fromList = toList(from);
         List<Character> toList = toList(to);
         
-        patch = DiffUtils.diff(fromList, toList);
+        return DiffUtils.diff(fromList, toList);
     }
     
     private static List<Character> toList(String string) {
-        if (string == null) {
+        if (string == null || string.length() == 0) {
             return Collections.EMPTY_LIST;
         }
         List<Character> result = new ArrayList<Character>();
@@ -96,8 +94,9 @@ public class CharDiff {
         return result;
     }
     
-    public void applyStyling(JTextPane deleteComponent,
+    public static void applyStyling(String from, String to, JTextPane deleteComponent,
             JTextPane insertComponent, boolean alternateColors) {
+        Patch patch = makePatch(from, to);
         if (patch == null) {
             return;
         }
@@ -121,7 +120,8 @@ public class CharDiff {
         }
     }
     
-    public void applyStyling(JTextPane deleteComponent, JTextPane insertComponent) {
-        applyStyling(deleteComponent, insertComponent, false);
+    public static void applyStyling(String from, String to, JTextPane deleteComponent,
+            JTextPane insertComponent) {
+        applyStyling(from, to, deleteComponent, insertComponent, false);
     }
 }

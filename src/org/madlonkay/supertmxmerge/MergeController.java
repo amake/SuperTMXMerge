@@ -37,7 +37,6 @@ import org.madlonkay.supertmxmerge.data.Key;
 import org.madlonkay.supertmxmerge.data.MergeAnalysis;
 import org.madlonkay.supertmxmerge.data.ResolutionSet;
 import org.madlonkay.supertmxmerge.gui.MergeWindow;
-import org.madlonkay.supertmxmerge.util.CharDiff;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
@@ -358,9 +357,6 @@ public class MergeController implements Serializable, ActionListener {
         public final Map<String, String> baseTuvProps;
         public final Map<String, String> leftTuvProps;
         public final Map<String, String> rightTuvProps;
-        public final CharDiff leftTuvDiff;
-        public final CharDiff rightTuvDiff;
-        public final CharDiff twoWayDiff;
     
         public ConflictInfo(Key key, String sourceLanguage, ITuv baseTuv, ITuv leftTuv, ITuv rightTuv) {
             this.key = key;
@@ -375,10 +371,6 @@ public class MergeController implements Serializable, ActionListener {
             this.baseTuvProps = baseTuv == null ? null : baseTuv.getMetadata();
             this.leftTuvProps = leftTuv == null ? null : leftTuv.getMetadata();
             this.rightTuvProps = rightTuv == null ? null : rightTuv.getMetadata();
-            this.leftTuvDiff = new CharDiff(baseTuvText, leftTuvText);
-            this.rightTuvDiff = new CharDiff(baseTuvText, rightTuvText);
-            this.twoWayDiff = this.baseTuvText == null ? new CharDiff(leftTuvText, rightTuvText)
-                    : null;
         }
     }
 }

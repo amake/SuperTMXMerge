@@ -24,6 +24,7 @@ import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.JTextComponent;
 import org.madlonkay.supertmxmerge.DiffController.DiffInfo;
+import org.madlonkay.supertmxmerge.util.CharDiff;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
@@ -57,7 +58,7 @@ public class DiffCell extends javax.swing.JPanel {
         setTextWithFallback(sourceText, info.key.sourceText, "STM_TUV_NOT_PRESENT", null);
         setTextWithFallback(tuvText1, info.tuv1Text, "STM_TUV_NOT_PRESENT", info.tuv1Props);
         setTextWithFallback(tuvText2, info.tuv2Text, "STM_TUV_DELETED", info.tuv2Props);
-        info.diff.applyStyling(tuvText1, tuvText2);
+        CharDiff.applyStyling(info.tuv1Text, info.tuv2Text, tuvText1, tuvText2);
     }
     
     private void setSourceLanguage(String language) {
