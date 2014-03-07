@@ -377,7 +377,7 @@ public class MergeController implements Serializable, ActionListener {
             this.rightTuvProps = rightTuv == null ? null : rightTuv.getMetadata();
             this.leftTuvDiff = new CharDiff(baseTuvText, leftTuvText);
             this.rightTuvDiff = new CharDiff(baseTuvText, rightTuvText);
-            this.twoWayDiff = baseTuv == null ? new CharDiff(leftTuvText, rightTuvText)
+            this.twoWayDiff = this.baseTuvText == null ? new CharDiff(leftTuvText, rightTuvText)
                     : null;
         }
     }
