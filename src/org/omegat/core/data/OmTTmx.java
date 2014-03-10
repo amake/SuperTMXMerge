@@ -20,6 +20,7 @@ package org.omegat.core.data;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -104,7 +105,7 @@ public class OmTTmx implements ITmx {
 
     @Override
     public Map<String, String> getMetadata() {
-        return null;
+        return Collections.EMPTY_MAP;
     }
 
     @Override

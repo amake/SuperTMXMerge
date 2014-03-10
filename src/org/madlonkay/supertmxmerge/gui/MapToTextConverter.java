@@ -44,7 +44,7 @@ public class MapToTextConverter extends Converter {
     }
     
     public static String mapToHtml(Map<?, ?> map) {
-        if (map.isEmpty()) {
+        if (map == null || map.isEmpty()) {
             return "";
         }
         StringBuilder sb = new StringBuilder("<html>");
@@ -60,7 +60,7 @@ public class MapToTextConverter extends Converter {
     }
     
     public static String mapToPlainText(Map<?, ?> map) {
-        if (map.isEmpty()) {
+        if (map == null || map.isEmpty()) {
             return "";
         }
         StringBuilder sb = new StringBuilder();
