@@ -18,15 +18,18 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
-import java.awt.BorderLayout;
 import java.awt.Dialog;
+import java.awt.GridLayout;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -124,17 +127,19 @@ public class MergeWindow extends javax.swing.JPanel {
         leftRadioButtons.clear();
         rightRadioButtons.clear();
         
+        controller.clearSelections();
+        
         conflictInfoPanel.removeAll();
         
         jProgressBar1.setVisible(true);
         jProgressBar1.setValue(0);
         
         if (isDetailMode) {
-            remove(jScrollPane1);
+            conflictInfoPanel.setLayout(new GridLayout(1, 1));
             currentConflict.setVisible(true);
             modeSwtichButton.setText(LocString.get("STM_LIST_VIEW_BUTTON"));
         } else {
-            add(jScrollPane1, BorderLayout.CENTER);
+            conflictInfoPanel.setLayout(new BoxLayout(conflictInfoPanel, BoxLayout.PAGE_AXIS));
             nextButton.setVisible(false);
             backButton.setVisible(false);
             doneButton.setVisible(true);
@@ -155,6 +160,7 @@ public class MergeWindow extends javax.swing.JPanel {
         leftFilename.setToolTipText(MapToTextConverter.mapToHtml(controller.getLeftTmx().getMetadata()));
         centerFilename.setToolTipText(MapToTextConverter.mapToHtml(controller.getBaseTmx().getMetadata()));
         rightFilename.setToolTipText(MapToTextConverter.mapToHtml(controller.getRightTmx().getMetadata()));
+        conflictCountLabel.setText((String) conflictCountConverter.convertForward(controller.getConflictCount()));
         
         allBaseButton.setVisible(!isTwoWayMerge);
         centerFilename.setVisible(!isTwoWayMerge);
@@ -180,11 +186,11 @@ public class MergeWindow extends javax.swing.JPanel {
         }
         if (before > -1 && before < conflicts.size()) {
             MergeCell current = detailModeCells.get(before);
-            remove(current);
+            conflictInfoPanel.remove(current);
         }
         if (after > -1 && after < conflicts.size()) {
             MergeCell newCell = detailModeCells.get(after);
-            add(newCell, BorderLayout.CENTER);
+            conflictInfoPanel.add(newCell);
             newCell.validate();
             newCell.repaint();
         }
@@ -192,14 +198,10 @@ public class MergeWindow extends javax.swing.JPanel {
     
     private void updateDetailModeState() {
         currentConflict.setText(LocString.getFormat("STM_DETAIL_VIEW_LOCATION", detailModeIndex + 1, conflicts.size()));
-        if (conflicts.size() == 1) {
-            nextButton.setVisible(false);
-            backButton.setVisible(false);
-            doneButton.setVisible(true);
-            return;
-        }
+        backButton.setVisible(conflicts.size() > 1);
         backButton.setEnabled(detailModeIndex != 0);
-        nextButton.setVisible(detailModeIndex < conflicts.size() - 1);
+        nextButton.setVisible(conflicts.size() > 1 && detailModeIndex < conflicts.size() - 1);
+        nextButton.setEnabled(detailModeCells.get(detailModeIndex).isSelectionPerformed());
         doneButton.setVisible(detailModeIndex == conflicts.size() - 1);
         doneButton.setEnabled(controller.isConflictsAreResolved());
     }
@@ -210,11 +212,22 @@ public class MergeWindow extends javax.swing.JPanel {
         }
         controller.actionPerformed(null);
         doneButton.setEnabled(controller.isConflictsAreResolved());
+        if (isDetailMode) {
+            updateDetailModeState();
+        }
     }
     
     private MergeController getController() {
         return controller;
     }
+    
+    private ActionListener mergeSelectionListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            nextButton.setEnabled(true);
+            doneButton.setEnabled(controller.isConflictsAreResolved());
+        }
+    };
     
     private class InitWorker extends SwingWorker<List<MergeCell>, MergeCell> {
 
@@ -237,6 +250,9 @@ public class MergeWindow extends javax.swing.JPanel {
             for (ConflictInfo info : conflicts) {
                 MergeCell cell = new MergeCell(n, info, jScrollPane1, isDetailMode);
                 cell.setIsTwoWayMerge(isTwoWayMerge);
+                if (isDetailMode) {
+                    cell.addSelectionListener(mergeSelectionListener);
+                }
                 result.add(cell);
                 publish(cell);
                 setProgress(100 * n / conflicts.size());
@@ -436,7 +452,7 @@ public class MergeWindow extends javax.swing.JPanel {
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        conflictInfoPanel.setLayout(new javax.swing.BoxLayout(conflictInfoPanel, javax.swing.BoxLayout.PAGE_AXIS));
+        conflictInfoPanel.setLayout(null);
         jScrollPane1.setViewportView(conflictInfoPanel);
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);

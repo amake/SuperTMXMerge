@@ -217,6 +217,11 @@ public class MergeController implements Serializable, ActionListener {
         selections.put(key, buttons);
     }
     
+    public void clearSelections() {
+        selections.clear();
+        actionPerformed(null);
+    }
+    
     public List<ConflictInfo> getConflicts() {
         List<ConflictInfo> conflicts = new ArrayList<ConflictInfo>();
         for (Key key : analysis.conflicts) {

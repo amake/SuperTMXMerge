@@ -293,8 +293,8 @@
       <SubComponents>
         <Container class="org.madlonkay.supertmxmerge.gui.ReasonablySizedPanel" name="conflictInfoPanel">
 
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout">
-            <Property name="axis" type="int" value="3"/>
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+            <Property name="useNullLayout" type="boolean" value="true"/>
           </Layout>
         </Container>
       </SubComponents>

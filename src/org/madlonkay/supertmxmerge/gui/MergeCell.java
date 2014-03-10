@@ -19,6 +19,7 @@
 package org.madlonkay.supertmxmerge.gui;
 
 import java.awt.Color;
+import java.awt.event.ActionListener;
 import java.util.Map;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -175,6 +176,17 @@ public class MergeCell extends javax.swing.JPanel {
         } else {
             jPanel1.add(jScrollPane2, 1);
         }
+    }
+    
+    public boolean isSelectionPerformed() {
+        return leftButton.getModel().isSelected() || rightButton.getModel().isSelected()||
+                centerButton.getModel().isSelected();
+    }
+    
+    public void addSelectionListener(ActionListener listener) {
+        leftButton.addActionListener(listener);
+        rightButton.addActionListener(listener);
+        centerButton.addActionListener(listener);
     }
 
     /**
