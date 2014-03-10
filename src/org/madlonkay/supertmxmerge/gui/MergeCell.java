@@ -105,53 +105,59 @@ public class MergeCell extends javax.swing.JPanel {
     }
     
     private String setBaseText(String text, Map<String, String> props) {
-        if (props != null && !isDetailMode) {
-            tuvTextCenter.setToolTipText(MapToTextConverter.mapToHtml(props));
-        }
+        boolean disableCharDiff = false;
         if (text == null) {
             tuvTextCenter.setBackground(getBackground());
-            tuvTextCenter.setText(LocString.get("STM_TUV_NOT_PRESENT"));
-            return null;
+            text = LocString.get("STM_TUV_NOT_PRESENT");
+            disableCharDiff = true;
         }
-        if (isDetailMode && props != null) {
-            text += "\n\n" + MapToTextConverter.mapToPlainText(props);
+        if (props != null) {
+            if (isDetailMode) {
+                text += "\n\n" + MapToTextConverter.mapToPlainText(props);
+            } else {
+                tuvTextCenter.setToolTipText(MapToTextConverter.mapToHtml(props));
+            }
         }
         tuvTextCenter.setText(text);
-        return text;
+        return disableCharDiff ? null : text;
     }
     
     private String setLeftText(String text, Map<String, String> props, boolean presentInBase) {
-        if (props != null && !isDetailMode) {
-            tuvTextLeft.setToolTipText(MapToTextConverter.mapToHtml(props));
-        }
+        boolean disableCharDiff = false;
         if (text == null) {
             tuvTextLeft.setBackground(getBackground());
-            tuvTextLeft.setText(presentInBase? LocString.get("STM_TUV_DELETED") :
-                    LocString.get("STM_TUV_NOT_PRESENT"));
-            return null;
+            text = presentInBase? LocString.get("STM_TUV_DELETED") :
+                    LocString.get("STM_TUV_NOT_PRESENT");
+            disableCharDiff = true;
         }
-        if (isDetailMode) {
-            text += "\n\n" + MapToTextConverter.mapToPlainText(props);
+        if (props != null) {
+            if (isDetailMode) {
+                text += "\n\n" + MapToTextConverter.mapToPlainText(props);
+            } else {
+                tuvTextLeft.setToolTipText(MapToTextConverter.mapToHtml(props));
+            }
         }
         tuvTextLeft.setText(text);
-        return text;
+        return disableCharDiff ? null : text;
     }
     
     private String setRightText(String text, Map<String, String> props, boolean presentInBase) {
-        if (props != null && !isDetailMode) {
-            tuvTextRight.setToolTipText(MapToTextConverter.mapToHtml(props));
-        }
+        boolean disableCharDiff = false;
         if (text == null) {
             tuvTextRight.setBackground(getBackground());
-            tuvTextRight.setText(presentInBase? LocString.get("STM_TUV_DELETED") :
-                    LocString.get("STM_TUV_NOT_PRESENT"));
-            return null;
+            text = presentInBase? LocString.get("STM_TUV_DELETED") :
+                    LocString.get("STM_TUV_NOT_PRESENT");
+            disableCharDiff = true;
         }
-        if (isDetailMode) {
-            text += "\n\n" + MapToTextConverter.mapToPlainText(props);
+        if (props != null) {
+            if (isDetailMode) {
+                text += "\n\n" + MapToTextConverter.mapToPlainText(props);
+            } else {
+                tuvTextRight.setToolTipText(MapToTextConverter.mapToHtml(props));
+            }
         }
         tuvTextRight.setText(text);
-        return text;
+        return disableCharDiff ? null : text;
     }
     
     public JRadioButton getLeftButton() {
