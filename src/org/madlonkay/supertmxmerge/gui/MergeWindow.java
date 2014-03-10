@@ -154,13 +154,13 @@ public class MergeWindow extends javax.swing.JPanel {
         leftFilename.setText(controller.getLeftTmx().getName());
         centerFilename.setText(controller.getBaseTmx().getName());
         rightFilename.setText(controller.getRightTmx().getName());
-        leftTextUnits.setText((String) unitCountConverter.convertForward(controller.getLeftTmx().getSize()));
-        centerTextUnits.setText((String) unitCountConverter.convertForward(controller.getBaseTmx().getSize()));
-        rightTextUnits.setText((String) unitCountConverter.convertForward(controller.getRightTmx().getSize()));
+        leftTextUnits.setText(unitCountConverter.convert(controller.getLeftTmx().getSize()));
+        centerTextUnits.setText(unitCountConverter.convert(controller.getBaseTmx().getSize()));
+        rightTextUnits.setText(unitCountConverter.convert(controller.getRightTmx().getSize()));
         leftFilename.setToolTipText(MapToTextConverter.mapToHtml(controller.getLeftTmx().getMetadata()));
         centerFilename.setToolTipText(MapToTextConverter.mapToHtml(controller.getBaseTmx().getMetadata()));
         rightFilename.setToolTipText(MapToTextConverter.mapToHtml(controller.getRightTmx().getMetadata()));
-        conflictCountLabel.setText((String) conflictCountConverter.convertForward(controller.getConflictCount()));
+        conflictCountLabel.setText(conflictCountConverter.convert(controller.getConflictCount()));
         
         allBaseButton.setVisible(!isTwoWayMerge);
         centerFilename.setVisible(!isTwoWayMerge);

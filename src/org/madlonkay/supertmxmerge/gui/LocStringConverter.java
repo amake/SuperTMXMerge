@@ -46,14 +46,18 @@ public class LocStringConverter extends Converter {
     
     @Override
     public Object convertForward(Object value) {
-        if (value instanceof Integer && ((Integer) value) == 1) {
-            return LocString.get(idSingular);
-        }
-        return LocString.getFormat(id, value);
+        return convert(value);
     }
 
     @Override
     public Object convertReverse(Object value) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public String convert(Object value) {
+        if (value instanceof Integer && ((Integer) value) == 1) {
+            return LocString.get(idSingular);
+        }
+        return LocString.getFormat(id, value);
     }
 }
