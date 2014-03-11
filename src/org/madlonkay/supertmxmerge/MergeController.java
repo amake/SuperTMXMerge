@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.beans.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -220,6 +221,10 @@ public class MergeController implements Serializable, ActionListener {
     public void clearSelections() {
         selections.clear();
         actionPerformed(null);
+    }
+    
+    public Map<Key, AbstractButton[]> getSelections() {
+        return Collections.unmodifiableMap(new HashMap<Key, AbstractButton[]>(selections));
     }
     
     public List<ConflictInfo> getConflicts() {

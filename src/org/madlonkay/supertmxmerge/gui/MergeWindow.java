@@ -29,6 +29,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
@@ -39,6 +40,7 @@ import javax.swing.ToolTipManager;
 import javax.swing.WindowConstants;
 import org.madlonkay.supertmxmerge.MergeController;
 import org.madlonkay.supertmxmerge.MergeController.ConflictInfo;
+import org.madlonkay.supertmxmerge.data.Key;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
@@ -127,6 +129,7 @@ public class MergeWindow extends javax.swing.JPanel {
         leftRadioButtons.clear();
         rightRadioButtons.clear();
         
+        Map<Key, AbstractButton[]> presets = controller.getSelections();
         controller.clearSelections();
         
         conflictInfoPanel.removeAll();
@@ -148,7 +151,7 @@ public class MergeWindow extends javax.swing.JPanel {
             modeSwtichButton.setText(LocString.get("STM_DETAIL_VIEW_BUTTON"));
         }
         
-        new InitWorker().execute();
+        new InitWorker(presets).execute();
         
         // Beansbinding is broken now for some reason, so set this manually.
         leftFilename.setText(controller.getLeftTmx().getName());
@@ -230,8 +233,11 @@ public class MergeWindow extends javax.swing.JPanel {
     };
     
     private class InitWorker extends SwingWorker<List<MergeCell>, MergeCell> {
+        
+        private final Map<Key, AbstractButton[]> presets;
 
-        public InitWorker() {
+        public InitWorker(Map<Key, AbstractButton[]> presets) {
+            this.presets = presets;
             addPropertyChangeListener(new PropertyChangeListener() {
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
@@ -267,6 +273,17 @@ public class MergeWindow extends javax.swing.JPanel {
                 rightRadioButtons.add(buttons[2]);
                 for (AbstractButton button : buttons) {
                     button.addActionListener(mergeSelectionListener);
+                }
+                if (presets.size() > 0) {
+                    AbstractButton[] preset = presets.get(cell.getKey());
+                    if (preset != null) {
+                        for (int i = 0; i < preset.length; i++) {
+                            if (preset[i].isSelected()) {
+                                buttons[i].setSelected(true);
+                                break;
+                            }
+                        }
+                    }
                 }
                 controller.addSelection(cell.getKey(), buttons);
                 addMergeCell(cell);
