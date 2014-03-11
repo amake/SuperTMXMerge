@@ -116,7 +116,7 @@ public class MergeWindow extends javax.swing.JPanel {
         ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
         
         this.conflicts = controller.getConflicts();
-        this.isDetailMode = conflicts.size() < 5;
+        this.isDetailMode = conflicts.size() <= controller.getListViewThreshold();
         
         initContent();
     }

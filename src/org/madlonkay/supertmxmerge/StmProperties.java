@@ -34,6 +34,7 @@ public class StmProperties {
     private String rightTmxName = LocString.get("STM_RIGHT_TMX_DEFAULT_NAME");
     private ResourceBundle resource = null;
     private Window parentWindow = null;
+    private int listViewThreshold = 5;
 
     public StmProperties() {
     }
@@ -81,5 +82,17 @@ public class StmProperties {
     
     public Window getParentWindow() {
         return parentWindow;
+    }
+    
+    public StmProperties setListViewThreshold(int threshold) {
+        if (threshold < 0) {
+            throw new IllegalArgumentException("The list view threshold must be at least 0.");
+        }
+        this.listViewThreshold = threshold;
+        return this;
+    }
+    
+    public int getListViewThreshold() {
+        return listViewThreshold;
     }
 }

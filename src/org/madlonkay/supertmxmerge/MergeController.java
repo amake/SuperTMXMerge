@@ -75,6 +75,7 @@ public class MergeController implements Serializable, ActionListener {
     private boolean quiet = false;
     private boolean isTwoWayMerge = false;
     private boolean isModal = false;
+    private int listViewThreshold = 5;
     private Window parentWindow = null;
     
     public MergeController() {
@@ -300,6 +301,17 @@ public class MergeController implements Serializable, ActionListener {
     
     public boolean isModal() {
         return isModal;
+    }
+    
+    public void setListViewThreshold(int conflicts) {
+        if (conflicts < 0) {
+            throw new IllegalArgumentException("The list view threshold must be at least 0.");
+        }
+        this.listViewThreshold = conflicts;
+    }
+    
+    public int getListViewThreshold() {
+        return this.listViewThreshold;
     }
     
     public void setParentWindow(Window window) {
