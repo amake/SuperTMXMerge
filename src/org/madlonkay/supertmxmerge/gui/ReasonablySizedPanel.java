@@ -18,6 +18,7 @@
  */
 package org.madlonkay.supertmxmerge.gui;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import javax.swing.JPanel;
@@ -37,12 +38,23 @@ public class ReasonablySizedPanel extends JPanel implements Scrollable {
 
     @Override
     public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-        return UIManager.getDefaults().getFont("Label.font").getSize();
+        int result = 0;
+        int n = 0;
+        for (Component c : getComponents()) {
+            result += c.getHeight();
+            n++;
+            if (n > 5) {
+                result /= n;
+                break;
+            }
+        }
+        return result > 0 ? result : UIManager.getDefaults().getFont("Label.font").getSize();
     }
 
     @Override
     public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
-        return UIManager.getDefaults().getFont("Label.font").getSize();
+        //return visibleRect.height / 2;
+        return getScrollableUnitIncrement(visibleRect, orientation, direction);
     }
 
     @Override
