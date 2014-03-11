@@ -271,9 +271,6 @@ public class MergeWindow extends javax.swing.JPanel {
                 leftRadioButtons.add(buttons[0]);
                 centerRadioButtons.add(buttons[1]);
                 rightRadioButtons.add(buttons[2]);
-                for (AbstractButton button : buttons) {
-                    button.addActionListener(mergeSelectionListener);
-                }
                 if (presets.size() > 0) {
                     AbstractButton[] preset = presets.get(cell.getKey());
                     if (preset != null) {
@@ -285,6 +282,9 @@ public class MergeWindow extends javax.swing.JPanel {
                         }
                     }
                 }
+                for (AbstractButton button : buttons) {
+                    button.addActionListener(mergeSelectionListener);
+                }
                 controller.addSelection(cell.getKey(), buttons);
                 addMergeCell(cell);
             }
@@ -294,6 +294,7 @@ public class MergeWindow extends javax.swing.JPanel {
         @Override
         protected void done() {
             jProgressBar1.setVisible(false);
+            doneButton.setEnabled(controller.isConflictsAreResolved());
         }
     };
     
