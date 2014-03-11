@@ -66,30 +66,21 @@
             <Property name="rows" type="int" value="1"/>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane3">
+            <Component class="javax.swing.JTextArea" name="sourceText">
               <Properties>
-                <Property name="horizontalScrollBarPolicy" type="int" value="31"/>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="columns" type="int" value="72"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="UIManager.getDefaults().getFont(&quot;Label.font&quot;)" type="code"/>
+                </Property>
+                <Property name="lineWrap" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="Source text"/>
+                <Property name="wrapStyleWord" type="boolean" value="true"/>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="BORDER_DEFAULT" type="code"/>
+                </Property>
               </Properties>
-              <Events>
-                <EventHandler event="mouseWheelMoved" listener="java.awt.event.MouseWheelListener" parameters="java.awt.event.MouseWheelEvent" handler="forwardScrollEvent"/>
-              </Events>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JTextArea" name="sourceText">
-                  <Properties>
-                    <Property name="editable" type="boolean" value="false"/>
-                    <Property name="columns" type="int" value="72"/>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="UIManager.getDefaults().getFont(&quot;Label.font&quot;)" type="code"/>
-                    </Property>
-                    <Property name="lineWrap" type="boolean" value="true"/>
-                    <Property name="text" type="java.lang.String" value="Source text"/>
-                    <Property name="wrapStyleWord" type="boolean" value="true"/>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="targetTextsPanel">
@@ -111,48 +102,30 @@
             <Property name="rows" type="int" value="1"/>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+            <Component class="javax.swing.JTextPane" name="tuvText1">
               <Properties>
-                <Property name="horizontalScrollBarPolicy" type="int" value="31"/>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="BORDER_DEFAULT" type="code"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="UIManager.getDefaults().getFont(&quot;Label.font&quot;)" type="code"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Target text 1"/>
               </Properties>
-              <Events>
-                <EventHandler event="mouseWheelMoved" listener="java.awt.event.MouseWheelListener" parameters="java.awt.event.MouseWheelEvent" handler="forwardScrollEvent"/>
-              </Events>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JTextPane" name="tuvText1">
-                  <Properties>
-                    <Property name="editable" type="boolean" value="false"/>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="UIManager.getDefaults().getFont(&quot;Label.font&quot;)" type="code"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Target text 1"/>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+            </Component>
+            <Component class="javax.swing.JTextPane" name="tuvText2">
               <Properties>
-                <Property name="horizontalScrollBarPolicy" type="int" value="31"/>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="BORDER_DEFAULT" type="code"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="UIManager.getDefaults().getFont(&quot;Label.font&quot;)" type="code"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Target text 2"/>
               </Properties>
-              <Events>
-                <EventHandler event="mouseWheelMoved" listener="java.awt.event.MouseWheelListener" parameters="java.awt.event.MouseWheelEvent" handler="forwardScrollEvent"/>
-              </Events>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JTextPane" name="tuvText2">
-                  <Properties>
-                    <Property name="editable" type="boolean" value="false"/>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="UIManager.getDefaults().getFont(&quot;Label.font&quot;)" type="code"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Target text 2"/>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>

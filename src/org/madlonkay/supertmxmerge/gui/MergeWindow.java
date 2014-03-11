@@ -248,7 +248,7 @@ public class MergeWindow extends javax.swing.JPanel {
 
             int n = 1;
             for (ConflictInfo info : conflicts) {
-                MergeCell cell = new MergeCell(n, info, jScrollPane1, isDetailMode);
+                MergeCell cell = new MergeCell(n, info, isDetailMode);
                 cell.setIsTwoWayMerge(isTwoWayMerge);
                 if (isDetailMode) {
                     cell.addSelectionListener(mergeSelectionListener);

@@ -30,7 +30,6 @@ import javax.swing.border.TitledBorder;
 import org.madlonkay.supertmxmerge.MergeController.ConflictInfo;
 import org.madlonkay.supertmxmerge.data.Key;
 import org.madlonkay.supertmxmerge.util.CharDiff;
-import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
@@ -44,7 +43,6 @@ public class MergeCell extends javax.swing.JPanel {
     
     private final static MapToTextConverter CONVERTER = new MapToTextConverter();
     
-    private final JScrollPane scrollTarget;
     private final ConflictInfo info;
     private final boolean isDetailMode;
     
@@ -58,14 +56,11 @@ public class MergeCell extends javax.swing.JPanel {
      * Creates new form TUDiffCell
      * @param itemNumber
      * @param info
-     * @param scrollTarget
      * @param isDetailMode
      */
-    public MergeCell(int itemNumber, ConflictInfo info, JScrollPane scrollTarget,
-            boolean isDetailMode) {
+    public MergeCell(int itemNumber, ConflictInfo info, boolean isDetailMode) {
         initComponents();
         
-        this.scrollTarget = scrollTarget;
         this.isDetailMode = isDetailMode;
         this.info = info;
         itemNumberLabel.setText(String.valueOf(itemNumber));
@@ -178,9 +173,9 @@ public class MergeCell extends javax.swing.JPanel {
     
     public void setIsTwoWayMerge(boolean isTwoWayMerge) {
         if (isTwoWayMerge) {
-            jPanel1.remove(jScrollPane2);
+            jPanel1.remove(tuvTextCenter);
         } else {
-            jPanel1.add(jScrollPane2, 1);
+            jPanel1.add(tuvTextCenter, 1);
         }
     }
     
@@ -213,23 +208,14 @@ public class MergeCell extends javax.swing.JPanel {
         itemNumberLabel = new javax.swing.JLabel();
         sourceTargetPanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        sourceScrollPane = new javax.swing.JScrollPane();
         sourceText = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
         tuvTextLeft = new javax.swing.JTextPane();
-        jScrollPane2 = new javax.swing.JScrollPane();
         tuvTextCenter = new javax.swing.JTextPane();
-        jScrollPane5 = new javax.swing.JScrollPane();
         tuvTextRight = new javax.swing.JTextPane();
 
         buttonGroup.add(leftButton);
         leftButton.setContentAreaFilled(false);
-        leftButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                leftButtonActionPerformed(evt);
-            }
-        });
 
         buttonGroup.add(centerButton);
         centerButton.setContentAreaFilled(false);
@@ -250,87 +236,49 @@ public class MergeCell extends javax.swing.JPanel {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Source Language"));
         jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
-        sourceScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        sourceScrollPane.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
-            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
-                forwardScrollEvent(evt);
-            }
-        });
-
         sourceText.setEditable(false);
         sourceText.setColumns(72);
         sourceText.setFont(UIManager.getDefaults().getFont("Label.font"));
         sourceText.setLineWrap(true);
         sourceText.setText("Source text");
         sourceText.setWrapStyleWord(true);
-        sourceScrollPane.setViewportView(sourceText);
-
-        jPanel2.add(sourceScrollPane);
+        sourceText.setBorder(BORDER_DEFAULT);
+        jPanel2.add(sourceText);
 
         sourceTargetPanel.add(jPanel2, java.awt.BorderLayout.NORTH);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Target Language"));
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, leftButton, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jScrollPane1, org.jdesktop.beansbinding.BeanProperty.create("border"), "tuvTextLeftBorder");
-        binding.setConverter(borderConverter1);
-        bindingGroup.addBinding(binding);
-
-        jScrollPane1.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
-            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
-                forwardScrollEvent(evt);
-            }
-        });
-
         tuvTextLeft.setEditable(false);
         tuvTextLeft.setFont(UIManager.getDefaults().getFont("Label.font"));
         tuvTextLeft.setText("Target text 1");
-        jScrollPane1.setViewportView(tuvTextLeft);
 
-        jPanel1.add(jScrollPane1);
-
-        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, centerButton, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jScrollPane2, org.jdesktop.beansbinding.BeanProperty.create("border"), "tuvTextCenterBorder");
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, leftButton, org.jdesktop.beansbinding.ELProperty.create("${selected}"), tuvTextLeft, org.jdesktop.beansbinding.BeanProperty.create("border"), "tuvTextLeftBorder");
         binding.setConverter(borderConverter1);
         bindingGroup.addBinding(binding);
 
-        jScrollPane2.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
-            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
-                forwardScrollEvent(evt);
-            }
-        });
+        jPanel1.add(tuvTextLeft);
 
         tuvTextCenter.setEditable(false);
         tuvTextCenter.setFont(UIManager.getDefaults().getFont("Label.font"));
         tuvTextCenter.setText("Target text 2");
-        jScrollPane2.setViewportView(tuvTextCenter);
 
-        jPanel1.add(jScrollPane2);
-
-        jScrollPane5.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane5.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, rightButton, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jScrollPane5, org.jdesktop.beansbinding.BeanProperty.create("border"), "tuvTextRightBorder");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, centerButton, org.jdesktop.beansbinding.ELProperty.create("${selected}"), tuvTextCenter, org.jdesktop.beansbinding.BeanProperty.create("border"), "tuvTextCenterBorder");
         binding.setConverter(borderConverter1);
         bindingGroup.addBinding(binding);
 
-        jScrollPane5.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
-            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
-                forwardScrollEvent(evt);
-            }
-        });
+        jPanel1.add(tuvTextCenter);
 
         tuvTextRight.setEditable(false);
         tuvTextRight.setFont(UIManager.getDefaults().getFont("Label.font"));
         tuvTextRight.setText("Target text 3");
-        jScrollPane5.setViewportView(tuvTextRight);
 
-        jPanel1.add(jScrollPane5);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, rightButton, org.jdesktop.beansbinding.ELProperty.create("${selected}"), tuvTextRight, org.jdesktop.beansbinding.BeanProperty.create("border"), "tuvTextRightBorder");
+        binding.setConverter(borderConverter1);
+        bindingGroup.addBinding(binding);
+
+        jPanel1.add(tuvTextRight);
 
         sourceTargetPanel.add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -339,14 +287,6 @@ public class MergeCell extends javax.swing.JPanel {
         bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void leftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leftButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_leftButtonActionPerformed
-
-    private void forwardScrollEvent(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_forwardScrollEvent
-        GuiUtil.forwardMouseWheelEvent(scrollTarget, evt);
-    }//GEN-LAST:event_forwardScrollEvent
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.madlonkay.supertmxmerge.gui.BorderConverter borderConverter1;
     private javax.swing.ButtonGroup buttonGroup;
@@ -354,12 +294,8 @@ public class MergeCell extends javax.swing.JPanel {
     private javax.swing.JLabel itemNumberLabel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JRadioButton leftButton;
     private javax.swing.JRadioButton rightButton;
-    private javax.swing.JScrollPane sourceScrollPane;
     private javax.swing.JPanel sourceTargetPanel;
     private javax.swing.JTextArea sourceText;
     private javax.swing.JTextPane tuvTextCenter;
