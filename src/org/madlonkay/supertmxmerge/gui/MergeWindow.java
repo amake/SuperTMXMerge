@@ -29,11 +29,11 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
 import javax.swing.SwingWorker;
 import javax.swing.ToolTipManager;
 import javax.swing.WindowConstants;
@@ -65,9 +65,9 @@ public class MergeWindow extends javax.swing.JPanel {
 
     private final Window window;
     
-    private final List<JRadioButton> leftRadioButtons = new ArrayList<JRadioButton>();
-    private final List<JRadioButton> rightRadioButtons = new ArrayList<JRadioButton>();
-    private final List<JRadioButton> centerRadioButtons = new ArrayList<JRadioButton>();
+    private final List<AbstractButton> leftRadioButtons = new ArrayList<AbstractButton>();
+    private final List<AbstractButton> rightRadioButtons = new ArrayList<AbstractButton>();
+    private final List<AbstractButton> centerRadioButtons = new ArrayList<AbstractButton>();
     
     private boolean isTwoWayMerge = false;
     private boolean isDetailMode = false;
@@ -206,8 +206,8 @@ public class MergeWindow extends javax.swing.JPanel {
         doneButton.setEnabled(controller.isConflictsAreResolved());
     }
     
-    private void activateAllButtons(List<JRadioButton> buttons) {
-        for (JRadioButton b : buttons) {
+    private void activateAllButtons(List<AbstractButton> buttons) {
+        for (AbstractButton b : buttons) {
             b.setSelected(true);
         }
         controller.actionPerformed(null);
@@ -250,9 +250,6 @@ public class MergeWindow extends javax.swing.JPanel {
             for (ConflictInfo info : conflicts) {
                 MergeCell cell = new MergeCell(n, info, isDetailMode);
                 cell.setIsTwoWayMerge(isTwoWayMerge);
-                if (isDetailMode) {
-                    cell.addSelectionListener(mergeSelectionListener);
-                }
                 result.add(cell);
                 publish(cell);
                 setProgress(100 * n / conflicts.size());
@@ -264,16 +261,12 @@ public class MergeWindow extends javax.swing.JPanel {
         @Override
         protected void process(List<MergeCell> chunks) {
             for (MergeCell cell : chunks) {
-                JRadioButton[] buttons = {
-                        cell.getLeftButton(),
-                        cell.getCenterButton(),
-                        cell.getRightButton()
-                    };
+                AbstractButton[] buttons = cell.getButtons();
                 leftRadioButtons.add(buttons[0]);
                 centerRadioButtons.add(buttons[1]);
                 rightRadioButtons.add(buttons[2]);
-                for (JRadioButton button : buttons) {
-                    button.addActionListener(controller);
+                for (AbstractButton button : buttons) {
+                    button.addActionListener(mergeSelectionListener);
                 }
                 controller.addSelection(cell.getKey(), buttons);
                 addMergeCell(cell);
