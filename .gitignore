@@ -1,3 +1,5 @@
 /nbproject/private
 /build
 /dist/
+Strings_*.properties
+/l10n/work
