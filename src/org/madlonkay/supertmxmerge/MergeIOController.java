@@ -18,7 +18,6 @@
  */
 package org.madlonkay.supertmxmerge;
 
-import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.util.logging.Level;
