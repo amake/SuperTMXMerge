@@ -2,6 +2,7 @@ SuperTMXMerge change history
 ============================
 
 # 1.1
+- Added "detail view" to merge mode
 - Greatly improved perceived loading performance
 - Better support for "baseless" merges
 - More metadata exposed in tooltips
