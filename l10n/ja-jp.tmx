@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tmx version="1.4"><header creationtool="unknown" creationtoolversion="unknown" segtype="paragraph" o-tmf="unknown" adminlang="en" srclang="en-us" datatype="text"></header><body>
-<tu tuid="diff_window_title">
+<tu tuid="STM_DIFF_WINDOW_TITLE">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -30,75 +30,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="merge_window_title">
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="wassegmented">true</prop>
-<tuv xml:lang="en-us"><seg>Merge</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-<tuv xml:lang="ja-jp"><seg>マージ</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="approved">yes</prop>
-</tuv>
-</tu>
-<tu tuid="number_of_units">
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="wassegmented">true</prop>
-<tuv xml:lang="en-us"><seg><ph x="1">{0}</ph> units</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-<tuv xml:lang="ja-jp"><seg><ph x="1">{0}</ph>個のユニット</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-</tu>
-<tu tuid="number_of_units_singular">
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="wassegmented">true</prop>
-<tuv xml:lang="en-us"><seg>1 unit</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-<tuv xml:lang="ja-jp"><seg>1個のユニット</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="approved">yes</prop>
-</tuv>
-</tu>
-<tu tuid="number_of_conflicts">
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="wassegmented">true</prop>
-<tuv xml:lang="en-us"><seg><ph x="1">{0}</ph> conflicts</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-<tuv xml:lang="ja-jp"><seg><ph x="1">{0}</ph>点の競合</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-</tu>
-<tu tuid="number_of_conflicts_singular">
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="wassegmented">true</prop>
-<tuv xml:lang="en-us"><seg>1 conflict</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-<tuv xml:lang="ja-jp"><seg>1点の競合</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="approved">yes</prop>
-</tuv>
-</tu>
-<tu tuid="number_of_changes">
+<tu tuid="STM_NUMBER_OF_CHANGES">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -109,9 +41,10 @@
 <tuv xml:lang="ja-jp"><seg><ph x="1">{0}</ph>点の変更</seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="number_of_changes_singular">
+<tu tuid="STM_NUMBER_OF_CHANGES_SINGULAR">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -125,35 +58,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="tuv_deleted">
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="wassegmented">true</prop>
-<tuv xml:lang="en-us"><seg>Deleted</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-<tuv xml:lang="ja-jp"><seg>削除済み</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="approved">yes</prop>
-</tuv>
-</tu>
-<tu tuid="tuv_not_present">
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="wassegmented">true</prop>
-<tuv xml:lang="en-us"><seg>Not present</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-<tuv xml:lang="ja-jp"><seg>なし</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="approved">yes</prop>
-</tuv>
-</tu>
-<tu tuid="save_button">
+<tu tuid="STM_SAVE_BUTTON">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -167,7 +72,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="save_as_button">
+<tu tuid="STM_SAVE_AS_BUTTON">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -181,7 +86,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="discard_button">
+<tu tuid="STM_DISCARD_BUTTON">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -195,49 +100,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="choose_all_left">
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="wassegmented">true</prop>
-<tuv xml:lang="en-us"><seg>Use all left</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-<tuv xml:lang="ja-jp"><seg>左をすべて使用</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="approved">yes</prop>
-</tuv>
-</tu>
-<tu tuid="choose_all_center">
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="wassegmented">true</prop>
-<tuv xml:lang="en-us"><seg>Use all base</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-<tuv xml:lang="ja-jp"><seg>親をすべて使用</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="approved">yes</prop>
-</tuv>
-</tu>
-<tu tuid="choose_all_right">
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="wassegmented">true</prop>
-<tuv xml:lang="en-us"><seg>Use all right</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-<tuv xml:lang="ja-jp"><seg>右をすべて使用</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="approved">yes</prop>
-</tuv>
-</tu>
-<tu tuid="error_bad_file">
+<tu tuid="STM_ERROR_BAD_FILE">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -250,9 +113,10 @@
 <ph x="1">{0}</ph></seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="usage_directions_0">
+<tu tuid="STM_USAGE_DIRECTIONS_0">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -265,9 +129,10 @@
 </seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="usage_directions_1">
+<tu tuid="STM_USAGE_DIRECTIONS_1">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -280,9 +145,10 @@
 </seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="usage_directions_2">
+<tu tuid="STM_USAGE_DIRECTIONS_2">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -295,9 +161,10 @@
 </seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="usage_directions_3">
+<tu tuid="STM_USAGE_DIRECTIONS_3">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -310,9 +177,10 @@
 </seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="usage_directions_4">
+<tu tuid="STM_USAGE_DIRECTIONS_4">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -325,9 +193,10 @@
 </seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="usage_directions_5">
+<tu tuid="STM_USAGE_DIRECTIONS_5">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -340,9 +209,10 @@
 </seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="usage_directions_6">
+<tu tuid="STM_USAGE_DIRECTIONS_6">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -353,9 +223,10 @@
 <tuv xml:lang="ja-jp"><seg>    SuperTMXMerge --combine file1 file2 [file3 ...] [-o outputFile]</seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="file_select_diff_tab">
+<tu tuid="STM_FILE_SELECT_DIFF_TAB">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -369,7 +240,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="file_select_merge_tab">
+<tu tuid="STM_FILE_SELECT_MERGE_TAB">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -383,7 +254,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="select_button_file1">
+<tu tuid="STM_SELECT_BUTTON_FILE1">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -397,7 +268,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="select_button_file2">
+<tu tuid="STM_SELECT_BUTTON_FILE2">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -411,7 +282,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="ok_button">
+<tu tuid="STM_OK_BUTTON">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -425,7 +296,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="cancel_button">
+<tu tuid="STM_CANCEL_BUTTON">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -439,21 +310,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="done_button">
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="wassegmented">true</prop>
-<tuv xml:lang="en-us"><seg>Done</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-<tuv xml:lang="ja-jp"><seg>完了</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="approved">yes</prop>
-</tuv>
-</tu>
-<tu tuid="select_button_base_file">
+<tu tuid="STM_SELECT_BUTTON_BASE_FILE">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -467,7 +324,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="select_button_left_file">
+<tu tuid="STM_SELECT_BUTTON_LEFT_FILE">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -481,7 +338,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="select_button_right_file">
+<tu tuid="STM_SELECT_BUTTON_RIGHT_FILE">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -495,7 +352,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="file_select_window_title">
+<tu tuid="STM_FILE_SELECT_WINDOW_TITLE">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -509,7 +366,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="tmx_file_type_label">
+<tu tuid="STM_TMX_FILE_TYPE_LABEL">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -523,7 +380,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="identical_files_message">
+<tu tuid="STM_IDENTICAL_FILES_MESSAGE">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -537,7 +394,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="no_conflicts_message_0">
+<tu tuid="STM_NO_CONFLICTS_MESSAGE_0">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -551,7 +408,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="no_conflicts_message_1">
+<tu tuid="STM_NO_CONFLICTS_MESSAGE_1">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -565,7 +422,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="confirm_close_message_0">
+<tu tuid="STM_CONFIRM_CLOSE_MESSAGE_0">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -579,7 +436,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="confirm_close_message_1">
+<tu tuid="STM_CONFIRM_CLOSE_MESSAGE_1">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -593,21 +450,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="merge_window_directions">
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="wassegmented">true</prop>
-<tuv xml:lang="en-us"><seg>Please resolve the conflicts by choosing a translation for each text unit below.</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-<tuv xml:lang="ja-jp"><seg>以下の各ユニットについて、使用したい翻訳を選んで競合を解決してください。</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="approved">yes</prop>
-</tuv>
-</tu>
-<tu tuid="confirm_cancel_save_message">
+<tu tuid="STM_CONFIRM_CANCEL_SAVE_MESSAGE">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -621,35 +464,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="progress_window_title">
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="wassegmented">true</prop>
-<tuv xml:lang="en-us"><seg>SuperTMXMerge</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-<tuv xml:lang="ja-jp"><seg>SuperTMXMerge</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="approved">yes</prop>
-</tuv>
-</tu>
-<tu tuid="progress_window_label">
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="wassegmented">true</prop>
-<tuv xml:lang="en-us"><seg>Processing...</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-<tuv xml:lang="ja-jp"><seg>処理中…</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="approved">yes</prop>
-</tuv>
-</tu>
-<tu tuid="diff_progress">
+<tu tuid="STM_DIFF_PROGRESS">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -660,22 +475,10 @@
 <tuv xml:lang="ja-jp"><seg>差分（<ph x="1">{0}</ph>／<ph x="2">{1}</ph>）</seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="merge_progress">
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="wassegmented">true</prop>
-<tuv xml:lang="en-us"><seg>Conflict <ph x="1">{0}</ph> of <ph x="2">{1}</ph></seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-<tuv xml:lang="ja-jp"><seg>競合（<ph x="1">{0}</ph>／<ph x="2">{1}</ph>）</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-</tu>
-<tu tuid="file_progress">
+<tu tuid="STM_FILE_PROGRESS">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -686,9 +489,10 @@
 <tuv xml:lang="ja-jp"><seg><ph x="1">{0}</ph>（<ph x="2">{1}</ph>／<ph x="3">{2}</ph>）</seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="combine_complete">
+<tu tuid="STM_COMBINE_COMPLETE">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -699,9 +503,10 @@
 <tuv xml:lang="ja-jp"><seg>マージ完了</seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="file_no_name">
+<tu tuid="STM_FILE_NO_NAME">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -715,7 +520,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="merged_tmx_name">
+<tu tuid="STM_MERGED_TMX_NAME">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -729,7 +534,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="combined_tmx_name">
+<tu tuid="STM_COMBINED_TMX_NAME">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -740,9 +545,10 @@
 <tuv xml:lang="ja-jp"><seg>マージ済み</seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="empty_tmx_name">
+<tu tuid="STM_EMPTY_TMX_NAME">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -753,9 +559,10 @@
 <tuv xml:lang="ja-jp"><seg>空</seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="new_tmx_name">
+<tu tuid="STM_NEW_TMX_NAME">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -766,23 +573,10 @@
 <tuv xml:lang="ja-jp"><seg>新規</seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
-</tuv>
-</tu>
-<tu tuid="tmx_details_unavailable">
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="wassegmented">true</prop>
-<tuv xml:lang="en-us"><seg>Details unavailable</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-<tuv xml:lang="ja-jp"><seg>詳細不明</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="error">
+<tu tuid="STM_ERROR_DIALOG_TITLE">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -796,7 +590,7 @@
 <prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="combine_button">
+<tu tuid="STM_COMBINE_BUTTON">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -807,9 +601,10 @@
 <tuv xml:lang="ja-jp"><seg>通常マージ</seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="add_button">
+<tu tuid="STM_ADD_BUTTON">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -820,9 +615,10 @@
 <tuv xml:lang="ja-jp"><seg>＋</seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="remove_button">
+<tu tuid="STM_REMOVE_BUTTON">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -833,9 +629,10 @@
 <tuv xml:lang="ja-jp"><seg>－</seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="combine_window_title">
+<tu tuid="STM_COMBINE_WINDOW_TITLE">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -846,9 +643,10 @@
 <tuv xml:lang="ja-jp"><seg>通常マージ</seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="file_menu">
+<tu tuid="STM_FILE_MENU">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -859,9 +657,10 @@
 <tuv xml:lang="ja-jp"><seg>ファイル</seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="file_menu_new">
+<tu tuid="STM_FILE_MENU_NEW">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -872,9 +671,10 @@
 <tuv xml:lang="ja-jp"><seg>新規</seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="file_menu_saveas">
+<tu tuid="STM_FILE_MENU_SAVEAS">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -885,22 +685,10 @@
 <tuv xml:lang="ja-jp"><seg>名前を付けて保存...</seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
 </tuv>
 </tu>
-<tu tuid="new_menu_item">
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-<prop type="wassegmented">true</prop>
-<tuv xml:lang="en-us"><seg>New</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-<tuv xml:lang="ja-jp"><seg>新規</seg>
-<prop type="locQualityIssuesRef"></prop>
-<prop type="provenanceRecordsRef"></prop>
-</tuv>
-</tu>
-<tu tuid="file_menu_close">
+<tu tuid="STM_FILE_MENU_CLOSE">
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 <prop type="wassegmented">true</prop>
@@ -909,6 +697,662 @@
 <prop type="provenanceRecordsRef"></prop>
 </tuv>
 <tuv xml:lang="ja-jp"><seg>閉じる</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
+</tuv>
+</tu>
+<tu tuid="STM_BASE_TMX_DEFAULT_NAME">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Base</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>Base</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_LEFT_TMX_DEFAULT_NAME">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Mine</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>Mine</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_RIGHT_TMX_DEFAULT_NAME">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Theirs</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>Theirs</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_MERGE_WINDOW_TITLE">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<prop type="note"> Used in OmegaT</prop>
+<tuv xml:lang="en-us"><seg>Merge</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>マージ</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
+</tuv>
+</tu>
+<tu tuid="STM_MERGE_WINDOW_DIRECTIONS">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Please resolve the conflicts by choosing a translation for each text unit below.</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>以下の各ユニットについて、使用したい翻訳を選んで競合を解決してください。</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
+</tuv>
+</tu>
+<tu tuid="STM_NUMBER_OF_UNITS">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg><ph x="1">{0}</ph> units</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg><ph x="1">{0}</ph>個のユニット</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
+</tuv>
+</tu>
+<tu tuid="STM_NUMBER_OF_UNITS_SINGULAR">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>1 unit</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>1個のユニット</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
+</tuv>
+</tu>
+<tu tuid="STM_NUMBER_OF_CONFLICTS">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg><ph x="1">{0}</ph> conflicts</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg><ph x="1">{0}</ph>点の競合</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
+</tuv>
+</tu>
+<tu tuid="STM_NUMBER_OF_CONFLICTS_SINGULAR">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>1 conflict</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>1点の競合</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
+</tuv>
+</tu>
+<tu tuid="STM_TMX_DETAILS_UNAVAILABLE">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Details unavailable</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>詳細不明</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
+</tuv>
+</tu>
+<tu tuid="STM_USE_ALL_MINE_BUTTON">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Use all left</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>左をすべて使用</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
+</tuv>
+</tu>
+<tu tuid="STM_USE_ALL_BASE_BUTTON">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Use all base</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>親をすべて使用</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
+</tuv>
+</tu>
+<tu tuid="STM_USE_ALL_THEIRS_BUTTON">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Use all right</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>右をすべて使用</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
+</tuv>
+</tu>
+<tu tuid="STM_DONE_BUTTON">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Done</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>完了</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
+</tuv>
+</tu>
+<tu tuid="STM_PROGRESS_WINDOW_TITLE">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>SuperTMXMerge</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>SuperTMXMerge</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
+</tuv>
+</tu>
+<tu tuid="STM_PROGRESS_WINDOW_LABEL">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Processing...</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>処理中…</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
+</tuv>
+</tu>
+<tu tuid="STM_MERGE_PROGRESS">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Conflict <ph x="1">{0}</ph> of <ph x="2">{1}</ph></seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>競合（<ph x="1">{0}</ph>／<ph x="2">{1}</ph>）</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
+</tuv>
+</tu>
+<tu tuid="STM_TUV_DELETED">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Deleted</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>削除済み</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
+</tuv>
+</tu>
+<tu tuid="STM_TUV_NOT_PRESENT">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Not present</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>なし</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
+</tuv>
+</tu>
+<tu tuid="STM_DETAIL_VIEW_LOCATION">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg><ph x="1">{0}</ph>/<ph x="2">{1}</ph></seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg><ph x="1">{0}</ph>/<ph x="2">{1}</ph></seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_BACK_BUTTON">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>← Back</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>← 戻る</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_NEXT_BUTTON">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Next →</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>次へ →</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_CHANGEDATE">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Change date</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>変更日</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_CHANGER">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Changer</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>変更者</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_CREATIONDATE">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Creation date</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>作成日</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_CREATOR">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Creator</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>作成者</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_DEFAULTTRANSLATION">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Is default translation</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>デフォルト</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_NOTE">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Note</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>メモ</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_SOURCE">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Source</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>原文</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_TRANSLATION">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Translation</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>訳文</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_FILE">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>File</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>ファイル</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="approved">yes</prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_NEXT">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Next</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>次</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_PREV">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Previous</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>前</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_CHANGEID">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Change ID</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>変更者ID</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_CREATIONID">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Creation ID</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>作成者ID</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_CREATIONTOOL">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Creation tool</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>作成ツール</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_CREATIONTOOLVERSION">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Creation tool version</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>作成ツールバージョン</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_DATATYPE">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Data type</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>データタイプ</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_LANG">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Language</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>言語</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_LASTUSAGEDATE">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Last usage date</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>最終使用日</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_OENCODING">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>OEncoding</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>OEncoding</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_OTMF">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>OTmf</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>OTmf</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_USAGECOUNT">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Usage count</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>使用カウント</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_XMLLANG">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>XML language</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>XML言語</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_PATH">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Path</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>パス</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_SEGTYPE">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Segment type</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>文節タイプ</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_METADATA_SRCLANG">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Source language</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>原文言語</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_LIST_VIEW_BUTTON">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>List View</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>リスト表示</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+</tu>
+<tu tuid="STM_DETAIL_VIEW_BUTTON">
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+<prop type="wassegmented">true</prop>
+<tuv xml:lang="en-us"><seg>Detail View</seg>
+<prop type="locQualityIssuesRef"></prop>
+<prop type="provenanceRecordsRef"></prop>
+</tuv>
+<tuv xml:lang="ja-jp"><seg>詳細表示</seg>
 <prop type="locQualityIssuesRef"></prop>
 <prop type="provenanceRecordsRef"></prop>
 </tuv>
