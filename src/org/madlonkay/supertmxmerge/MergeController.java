@@ -354,7 +354,7 @@ public class MergeController implements Serializable, ActionListener {
         } else if (baseTmx.containsKey(key)) {
             resolution.toReplace.put(key, thisTmx.get(key));
         } else {
-            resolution.toAdd.add(thisTmx.getTu(key));
+            resolution.toAdd.put(key, thisTmx.getTu(key));
         }
     }
     

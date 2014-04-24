@@ -1,6 +1,9 @@
 SuperTMXMerge change history
 ============================
 
+# 1.1.1
+- Fixed bug where alternate translations were not syned correctly in OmegaT
+
 # 1.1
 - Added "detail view" to merge mode
 - Greatly improved perceived loading performance

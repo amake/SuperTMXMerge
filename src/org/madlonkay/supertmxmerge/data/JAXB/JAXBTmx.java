@@ -289,7 +289,7 @@ public class JAXBTmx implements ITmx {
                 tu.getTuv().add((Tuv) e.getValue().getUnderlyingRepresentation());
             }
         }
-        for (ITu tu : resolution.toAdd) {
+        for (ITu tu : resolution.toAdd.values()) {
             tus.add((Tu) tu.getUnderlyingRepresentation());
         }
         Tmx modifiedData = tmx;

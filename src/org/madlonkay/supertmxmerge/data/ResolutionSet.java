@@ -29,30 +29,30 @@ import java.util.Set;
  */
 public class ResolutionSet {
     public final Set<Key> toDelete;
-    public final Set<ITu> toAdd;
+    public final Map<Key, ITu> toAdd;
     public final Map<Key, ITuv> toReplace;
     
     public static ResolutionSet fromAnalysis(MergeAnalysis<Key,ITuv> analysis, ITmx leftTmx, ITmx rightTmx) {
         Set<Key> toDelete = new HashSet<Key>(analysis.deleted);
-        Set<ITu> toAdd = new HashSet<ITu>();
+        Map<Key,ITu> toAdd = new HashMap<Key,ITu>();
         Map<Key,ITuv> toReplace = new HashMap<Key,ITuv>(analysis.modified);
         
         // Add
         for (Key key : analysis.added) {
             ITu leftTuv = leftTmx.getTu(key);
             if (leftTuv != null) {
-                toAdd.add(leftTuv);
+                toAdd.put(key, leftTuv);
                 continue;
             }
             ITu rightTuv = rightTmx.getTu(key);
             assert(rightTuv != null);
-            toAdd.add(rightTuv);
+            toAdd.put(key, rightTuv);
         }
         
         return new ResolutionSet(toDelete, toAdd, toReplace);
     }
     
-    private ResolutionSet(Set<Key> toDelete, Set<ITu> toAdd, Map<Key, ITuv> toReplace) {
+    private ResolutionSet(Set<Key> toDelete, Map<Key, ITu> toAdd, Map<Key, ITuv> toReplace) {
         this.toDelete = toDelete;
         this.toAdd = toAdd;
         this.toReplace = toReplace;

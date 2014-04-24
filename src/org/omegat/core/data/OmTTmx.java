@@ -118,9 +118,8 @@ public class OmTTmx implements ITmx {
             remove(e.getKey());
             add(e.getKey(), (TMXEntry) e.getValue().getUnderlyingRepresentation());
         }
-        for (ITu tu : resolution.toAdd) {
-            TMXEntry entry = (TMXEntry) tu.getUnderlyingRepresentation();
-            tmx.defaults.put(entry.source, entry);
+        for (Entry<Key, ITu> e : resolution.toAdd.entrySet()) {
+            add(e.getKey(), (TMXEntry) e.getValue().getUnderlyingRepresentation());
         }
         ProjectTMX modifiedData = tmx;
         this.tmx = originalData;
