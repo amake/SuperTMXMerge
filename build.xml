@@ -3,6 +3,11 @@
     <description>Builds, tests, and runs the project SuperTMXMerge.</description>
     <import file="nbproject/build-impl.xml"/>
     
+    <!-- Disable doclint on Java 1.8 -->
+    <condition property="javadoc.additionalparam" value="" else="-Xdoclint:none">
+        <matches pattern="1\.[89](\..*)?" string="${java.specification.version}"/>
+    </condition>
+    
     <!-- Set up Okapi -->
     <property environment="env"/>
     <condition property="okapi.lib" value="${env.OKAPI_HOME}/lib"
