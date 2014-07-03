@@ -105,11 +105,18 @@ hampered by the above caveats, please raise an issue on GitHub or get in contact
 by email.
 
 
-Notes
------
+Building
+--------
 
 When building for release, git must be present on the system's
 path in order to generate the version number correctly. That means
 on Windows you will need something like [msysGit](http://msysgit.github.io/).
 
-Copyright 2013 Aaron Madlon-Kay <aaron@madlon-kay.com>
+Translation of localizable strings can be automated if a local copy of the
+[Okapi Applications](http://okapi.opentag.com/) is available. Provide the
+installation path via an OKAPI_HOME envar or okapi.home parameter. When Okapi is
+available, an OmegaT-compatible translation kit will be created in `l10n/work`
+at build time if there are untranslated strings. After translation, run `ant`
+again to merge the kit.
+
+Copyright 2013-2014 Aaron Madlon-Kay <aaron@madlon-kay.com>

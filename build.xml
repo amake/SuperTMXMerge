@@ -11,28 +11,30 @@
     
     <!-- Set up Okapi -->
     <property environment="env"/>
-    <condition property="okapi.lib" value="${env.OKAPI_HOME}/lib"
-        else="/Applications/Productivity/OkapiApps/lib/">
+    <condition property="okapi.lib" value="${env.OKAPI_HOME}/lib" else="${okapi.home}/lib">
         <isset property="env.OKAPI_HOME"/>
     </condition>
     <available file="${okapi.lib}" type="dir" property="okapi.present" />
-    <path id="okapi.classpath">
-        <fileset dir="${okapi.lib}" includes="**/*.jar" />
-        <fileset dir="lib" includes="okapi-ant-1.2-SNAPSHOT.jar" />
-    </path>
-    <taskdef uri="antlib:com.spartansoftwareinc.okapi.ant"
-        resource="com/spartansoftwareinc/okapi/ant/antlib.xml"
-        classpathref="okapi.classpath" />
+    
+    <target name="okapi" if="okapi.present" description="Load okapi-ant tasks">
+        <path id="okapi.classpath">
+            <fileset dir="${okapi.lib}" includes="**/*.jar" />
+            <fileset dir="lib" includes="okapi-ant-*.jar" />
+        </path>
+        <taskdef uri="antlib:com.spartansoftwareinc.okapi.ant"
+            resource="com/spartansoftwareinc/okapi/ant/antlib.xml"
+            classpathref="okapi.classpath" />
+    </target>
     
     <!-- Okapi Translate task -->
-    <target name="translate" description="Translate localizable assets" if="okapi.present">
+    <target name="translate" description="Translate localizable assets" if="okapi.present" depends="okapi">
         <okapi:translate srcLang="en-us" srx="l10n/Segmentation.srx">
             <filterMapping extension=".properties" filterConfig="okf_properties" />
             <fileset dir="src" includes="**/Strings.properties" />
         </okapi:translate> 
     </target>
 
-    <target name="post-translate" description="Post-process translation kit" if="okapi.present">
+    <target name="post-translate" description="Post-process translation kit" if="okapi.present" depends="okapi">
         <okapi:post-translate srcLang="en-us" />
     </target>
 
