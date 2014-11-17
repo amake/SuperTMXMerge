@@ -78,7 +78,7 @@ public class SuperTmxMerge {
         ITmx base = new OmTTmx(baseTmx, properties.getBaseTmxName(), sourceLanguage, targetLanguage);
         ITmx one = new OmTTmx(tmx1, properties.geTmx1Name(), sourceLanguage, targetLanguage);
         ITmx two = new OmTTmx(tmx2, properties.getTmx2Name(), sourceLanguage, targetLanguage);
-        ITmx merged = controller.merge(base, one, two);
+        ITmx merged = controller.merge(base, one, two, properties.getResolutionStrategy());
         return merged == null ? null : (ProjectTMX) merged.getUnderlyingRepresentation();
     }
     
