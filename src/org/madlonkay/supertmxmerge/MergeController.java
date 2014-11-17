@@ -37,6 +37,7 @@ import org.madlonkay.supertmxmerge.data.ITuv;
 import org.madlonkay.supertmxmerge.data.Key;
 import org.madlonkay.supertmxmerge.data.MergeAnalysis;
 import org.madlonkay.supertmxmerge.data.ResolutionSet;
+import org.madlonkay.supertmxmerge.data.ResolutionStrategy;
 import org.madlonkay.supertmxmerge.gui.MergeWindow;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
@@ -47,10 +48,6 @@ import org.madlonkay.supertmxmerge.util.LocString;
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
 public class MergeController implements Serializable, ActionListener {
-    
-    public enum BatchResolution {
-        BASE, LEFT, RIGHT
-    }
     
     public static final Logger LOGGER = Logger.getLogger(MergeController.class.getName());
     
@@ -173,21 +170,8 @@ public class MergeController implements Serializable, ActionListener {
         return baseTmx.applyChanges(resolution);
     }
     
-    public ITmx resolve(BatchResolution res) {
-        ResolutionSet resolution = ResolutionSet.fromAnalysis(analysis, leftTmx, rightTmx);
-        for (Key key : analysis.conflicts) {
-            switch (res) {
-                case LEFT:
-                    dispatchKey(key, baseTmx, leftTmx, resolution);
-                    break;
-                case BASE:
-                    // No change
-                    break;
-                case RIGHT:
-                    dispatchKey(key, baseTmx, rightTmx, resolution);
-                    break;
-            }
-        }
+    public ITmx resolve(ResolutionStrategy strategy) {
+        ResolutionSet resolution = strategy.resolve(analysis, baseTmx, leftTmx, rightTmx);
         return resolve(resolution);
     }
     
@@ -328,45 +312,36 @@ public class MergeController implements Serializable, ActionListener {
             return null;
         }
         
-        ResolutionSet resolution = ResolutionSet.fromAnalysis(analysis, leftTmx, rightTmx);
-        
-        for (Entry<Key, AbstractButton[]> e : selections.entrySet()) {
-            Key key = e.getKey();
-            switch (getSelection(e.getValue())) {
-                case 0:
-                    dispatchKey(key, baseTmx, leftTmx, resolution);
-                    break;
-                case 1:
-                    // No change
-                    break;
-                case 2:
-                    dispatchKey(key, baseTmx, rightTmx, resolution);
-                    break;
+        ResolutionStrategy strategy = new ResolutionStrategy() {
+            @Override
+            public ITuv resolveConflict(Key key, ITuv baseTuv, ITuv leftTuv, ITuv rightTuv) {
+                AbstractButton[] buttons = selections.get(key);
+                assert(buttons != null);
+                switch (getSelectionIndex(buttons)) {
+                    case 0:
+                        return leftTuv;
+                    case 1:
+                        return baseTuv;
+                    case 2:
+                        return rightTuv;
+                    default:
+                        throw new RuntimeException();
+                }
             }
-        }
-        
-        return resolution;
-    }
-    
-    private static void dispatchKey(Key key, ITmx baseTmx, ITmx thisTmx, ResolutionSet resolution) {
-        if (!thisTmx.containsKey(key)) {
-            resolution.toDelete.add(key);
-        } else if (baseTmx.containsKey(key)) {
-            resolution.toReplace.put(key, thisTmx.get(key));
-        } else {
-            resolution.toAdd.put(key, thisTmx.getTu(key));
-        }
-    }
-    
-    private static int getSelection(AbstractButton[] buttons) {
-        int n = 0;
-        for (AbstractButton b : buttons) {
-            if (b.isSelected()) {
-                return n;
+            
+            private int getSelectionIndex(AbstractButton[] buttons) {
+                int n = 0;
+                for (AbstractButton b : buttons) {
+                    if (b.isSelected()) {
+                        return n;
+                    }
+                    n++;
+                }
+                return -1;
             }
-            n++;
-        }
-        return -1;
+        };
+        
+        return strategy.resolve(analysis, baseTmx, leftTmx, rightTmx);
     }
     
     public static class ConflictInfo {
