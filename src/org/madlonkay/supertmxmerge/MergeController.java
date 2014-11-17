@@ -104,7 +104,11 @@ public class MergeController implements Serializable, ActionListener {
                 GuiUtil.displayWindow(window);
                 GuiUtil.blockOnWindow(window);
             }
-            return super.resolve(analysis, baseTmx, leftTmx, rightTmx);
+            if (isConflictsAreResolved()) {
+                return super.resolve(analysis, baseTmx, leftTmx, rightTmx);
+            } else {
+                return null;
+            }
         }
 
         @Override
@@ -143,10 +147,6 @@ public class MergeController implements Serializable, ActionListener {
         analysis = null;
         resolution = null;
         result = null;
-        
-        if (strategy == null) {
-            strategy = guiResolutionStrategy;
-        }
         
         analyze(baseTmx, leftTmx, rightTmx);
         
@@ -222,7 +222,13 @@ public class MergeController implements Serializable, ActionListener {
     }
     
     public ResolutionSet resolve(ResolutionStrategy strategy) {
+        assert(analysis != null);
         result = null;
+        
+        if (strategy == null) {
+            strategy = guiResolutionStrategy;
+        }
+        
         resolution = strategy.resolve(analysis, baseTmx, leftTmx, rightTmx);
         return resolution;
     }
