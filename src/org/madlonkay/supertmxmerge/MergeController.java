@@ -86,24 +86,68 @@ public class MergeController implements Serializable, ActionListener {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertySupport.removePropertyChangeListener(listener);
     }
+
+    private final ResolutionStrategy guiResolutionStrategy = new ResolutionStrategy() {
+
+        @Override
+        public ResolutionSet resolve(MergeAnalysis<Key, ITuv> analysis, ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
+            if (analysis.hasConflicts()) {
+                // Have conflicts; show window.
+                Window window;
+                if (isModal) {
+                    window = MergeWindow.newAsDialog(MergeController.this, isTwoWayMerge, parentWindow);
+                } else {
+                    window = MergeWindow.newAsFrame(MergeController.this, isTwoWayMerge);
+                }
+                GuiUtil.displayWindow(window);
+                GuiUtil.blockOnWindow(window);
+            }
+            return super.resolve(analysis, baseTmx, leftTmx, rightTmx);
+        }
+
+        @Override
+        public ITuv resolveConflict(Key key, ITuv baseTuv, ITuv leftTuv, ITuv rightTuv) {
+            AbstractButton[] buttons = selections.get(key);
+            assert(buttons != null);
+            switch (getSelectionIndex(buttons)) {
+                case 0:
+                    return leftTuv;
+                case 1:
+                    return baseTuv;
+                case 2:
+                    return rightTuv;
+                default:
+                    throw new RuntimeException();
+            }
+        }
+
+        private int getSelectionIndex(AbstractButton[] buttons) {
+            int n = 0;
+            for (AbstractButton b : buttons) {
+                if (b.isSelected()) {
+                    return n;
+                }
+                n++;
+            }
+            return -1;
+        }
+    };
     
     public ITmx merge(ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
+        return merge(baseTmx, leftTmx, rightTmx, guiResolutionStrategy);
+    }
+    
+    public ITmx merge(ITmx baseTmx, ITmx leftTmx, ITmx rightTmx, ResolutionStrategy strategy) {
 
+        if (strategy == null) {
+            strategy = guiResolutionStrategy;
+        }
+        
         analyze(baseTmx, leftTmx, rightTmx);
         
         boolean showDiff = false;
         
-        if (analysis.hasConflicts()) {
-            // Have conflicts; show window.
-            Window window;
-            if (isModal) {
-                window = MergeWindow.newAsDialog(this, isTwoWayMerge, parentWindow);
-            } else {
-                window = MergeWindow.newAsFrame(this, isTwoWayMerge);
-            }
-            GuiUtil.displayWindow(window);
-            GuiUtil.blockOnWindow(window);
-        } else if (!quiet && !isTwoWayMerge) {
+        if (!analysis.hasConflicts() && !quiet && !isTwoWayMerge) {
             // Files merged with no conflicts.
             showDiff = JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null,
                     LocString.get("STM_NO_CONFLICTS_MESSAGE"),
@@ -112,7 +156,7 @@ public class MergeController implements Serializable, ActionListener {
                     JOptionPane.INFORMATION_MESSAGE);
         }
         
-        ResolutionSet resolution = getResolution();
+        ResolutionSet resolution = strategy.resolve(analysis, baseTmx, leftTmx, rightTmx);
         if (resolution == null) {
             return null;
         }
@@ -305,43 +349,6 @@ public class MergeController implements Serializable, ActionListener {
     @Override
     public void actionPerformed(ActionEvent ae) {
         propertySupport.firePropertyChange(PROP_CONFLICTSARERESOLVED, null, null);
-    }
-    
-    private ResolutionSet getResolution() {
-        if (!isConflictsAreResolved()) {
-            return null;
-        }
-        
-        ResolutionStrategy strategy = new ResolutionStrategy() {
-            @Override
-            public ITuv resolveConflict(Key key, ITuv baseTuv, ITuv leftTuv, ITuv rightTuv) {
-                AbstractButton[] buttons = selections.get(key);
-                assert(buttons != null);
-                switch (getSelectionIndex(buttons)) {
-                    case 0:
-                        return leftTuv;
-                    case 1:
-                        return baseTuv;
-                    case 2:
-                        return rightTuv;
-                    default:
-                        throw new RuntimeException();
-                }
-            }
-            
-            private int getSelectionIndex(AbstractButton[] buttons) {
-                int n = 0;
-                for (AbstractButton b : buttons) {
-                    if (b.isSelected()) {
-                        return n;
-                    }
-                    n++;
-                }
-                return -1;
-            }
-        };
-        
-        return strategy.resolve(analysis, baseTmx, leftTmx, rightTmx);
     }
     
     public static class ConflictInfo {
