@@ -21,6 +21,7 @@ package org.madlonkay.supertmxmerge;
 
 import java.awt.Window;
 import java.util.ResourceBundle;
+import org.madlonkay.supertmxmerge.data.Report;
 import org.madlonkay.supertmxmerge.data.ResolutionStrategy;
 import org.madlonkay.supertmxmerge.util.LocString;
 
@@ -37,6 +38,7 @@ public class StmProperties {
     private Window parentWindow = null;
     private int listViewThreshold = 5;
     private ResolutionStrategy resolutionStrategy = null;
+    private Report report = null;
 
     public StmProperties() {
     }
@@ -104,6 +106,15 @@ public class StmProperties {
     
     public StmProperties setResolutionStrategy(ResolutionStrategy resolutionStrategy) {
         this.resolutionStrategy = resolutionStrategy;
+        return this;
+    }
+    
+    public Report getReport() {
+        return report;
+    }
+    
+    StmProperties setReport(Report report) {
+        this.report = report;
         return this;
     }
 }

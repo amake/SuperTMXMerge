@@ -22,6 +22,9 @@ import java.awt.Window;
 import java.io.File;
 import java.util.logging.Logger;
 import org.madlonkay.supertmxmerge.data.ITmx;
+import org.madlonkay.supertmxmerge.data.MergeAnalysis;
+import org.madlonkay.supertmxmerge.data.Report;
+import org.madlonkay.supertmxmerge.data.ResolutionSet;
 import org.madlonkay.supertmxmerge.gui.FileSelectWindow;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
@@ -68,18 +71,28 @@ public class SuperTmxMerge {
         if (properties == null) {
             properties = new StmProperties();
         }
-        LocString.addBundle(properties.getLanguageResource()); 
+        
+        LocString.addBundle(properties.getLanguageResource());
+        
         MergeController controller = new MergeController();
         controller.setQuiet(true);
         controller.setIsModal(true);
         controller.setCanCancel(false);
         controller.setParentWindow(properties.getParentWindow());
         controller.setListViewThreshold(properties.getListViewThreshold());
+        
         ITmx base = new OmTTmx(baseTmx, properties.getBaseTmxName(), sourceLanguage, targetLanguage);
         ITmx one = new OmTTmx(tmx1, properties.geTmx1Name(), sourceLanguage, targetLanguage);
         ITmx two = new OmTTmx(tmx2, properties.getTmx2Name(), sourceLanguage, targetLanguage);
-        ITmx merged = controller.merge(base, one, two, properties.getResolutionStrategy());
-        return merged == null ? null : (ProjectTMX) merged.getUnderlyingRepresentation();
+        
+        MergeAnalysis analysis = controller.analyze(base, one, two);
+        ResolutionSet resolution = controller.resolve(properties.getResolutionStrategy());
+        ITmx wrappedResult = controller.apply(resolution);
+        if (wrappedResult != null) {
+            properties.setReport(new Report(analysis, resolution));
+            return (ProjectTMX) wrappedResult.getUnderlyingRepresentation();
+        }
+        return null;
     }
     
     public static void mergeTo(File baseFile, File file1, File file2, File outputFile) {

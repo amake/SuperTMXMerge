@@ -229,11 +229,16 @@ public class MergeController implements Serializable, ActionListener {
             strategy = guiResolutionStrategy;
         }
         
-        resolution = strategy.resolve(analysis, baseTmx, leftTmx, rightTmx);
-        return resolution;
+        ResolutionSet initialResolution = strategy.resolve(analysis, baseTmx, leftTmx, rightTmx);
+        resolution = ResolutionSet.unmodifiableSet(initialResolution);
+        return initialResolution;
     }
     
     public ITmx apply(ResolutionSet resolution) {
+        if (resolution == null) {
+            resolution = this.resolution;
+        }
+        assert(resolution != null);
         result = baseTmx.applyChanges(resolution);
         return result;
     }

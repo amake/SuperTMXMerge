@@ -68,7 +68,7 @@ public abstract class ResolutionStrategy {
             }
         }
         
-        return ResolutionSet.unmodifiableSet(resolution);
+        return resolution;
     }
 
     public abstract ITuv resolveConflict(Key key, ITuv baseTuv, ITuv leftTuv, ITuv rightTuv);
