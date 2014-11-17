@@ -96,7 +96,7 @@ public class MergeController implements Serializable, ActionListener {
         
         boolean showDiff = false;
         
-        if (!analysis.conflicts.isEmpty()) {
+        if (analysis.hasConflicts()) {
             // Have conflicts; show window.
             Window window;
             if (isModal) {

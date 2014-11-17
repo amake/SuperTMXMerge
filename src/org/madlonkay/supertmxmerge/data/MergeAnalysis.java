@@ -47,4 +47,8 @@ public class MergeAnalysis<K,V> {
         this.modified = modified;
         this.conflicts = conflicts;
     }
+    
+    public boolean hasConflicts() {
+        return !conflicts.isEmpty();
+    }
 }
