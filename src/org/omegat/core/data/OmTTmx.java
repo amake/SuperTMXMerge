@@ -36,15 +36,15 @@ import org.madlonkay.supertmxmerge.data.WriteFailedException;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class OmTTmx implements ITmx {
+public class OmTTmx implements ITmx<ProjectTMX,OmTTu,OmTTuv> {
 
     private ProjectTMX tmx;
     private final String name;
     private final String sourceLanguage;
     private final String targetLanguage;
     
-    private Map<Key, ITu> tuMap;
-    private Map<Key, ITuv> tuvMap;
+    private Map<Key, OmTTu> tuMap;
+    private Map<Key, OmTTuv> tuvMap;
     
     public OmTTmx(ProjectTMX tmx, String name, String sourceLanguage, String targetLanguage) {
         this.tmx = tmx;
@@ -55,10 +55,10 @@ public class OmTTmx implements ITmx {
     }
     
     private void generateMaps() {
-        tuvMap = new HashMap<Key, ITuv>();
-        tuMap = new HashMap<Key, ITu>();
+        tuvMap = new HashMap<Key, OmTTuv>();
+        tuMap = new HashMap<Key, OmTTu>();
         for (Entry<String, TMXEntry> e : tmx.defaults.entrySet()) {
-            ITu tu = new OmTTu(e.getValue(), targetLanguage);
+            OmTTu tu = new OmTTu(e.getValue(), targetLanguage);
             Key key = makeKey(e.getKey(), e.getValue());
             assert(!tuMap.containsKey(key));
             assert(!tuvMap.containsKey(key));
@@ -66,7 +66,7 @@ public class OmTTmx implements ITmx {
             tuvMap.put(key, tu.getTargetTuv());
         }
         for (Entry<EntryKey, TMXEntry> e : tmx.alternatives.entrySet()) {
-            ITu tu = new OmTTu(e.getValue(), targetLanguage);
+            OmTTu tu = new OmTTu(e.getValue(), targetLanguage);
             Key key = makeKey(e.getKey(), e.getValue());
             assert(!tuMap.containsKey(key));
             assert(!tuvMap.containsKey(key));
@@ -109,17 +109,17 @@ public class OmTTmx implements ITmx {
     }
 
     @Override
-    public ITmx applyChanges(ResolutionSet resolution) {
+    public OmTTmx applyChanges(ResolutionSet<OmTTu,OmTTuv> resolution) {
         ProjectTMX originalData = clone(tmx);
         for (Key key : resolution.toDelete) {
             remove(key);
         }
-        for (Entry<Key, ITuv> e : resolution.toReplace.entrySet()) {
+        for (Entry<Key, OmTTuv> e : resolution.toReplace.entrySet()) {
             remove(e.getKey());
-            add(e.getKey(), (TMXEntry) e.getValue().getUnderlyingRepresentation());
+            add(e.getKey(), e.getValue().getUnderlyingRepresentation());
         }
-        for (Entry<Key, ITu> e : resolution.toAdd.entrySet()) {
-            add(e.getKey(), (TMXEntry) e.getValue().getUnderlyingRepresentation());
+        for (Entry<Key, OmTTu> e : resolution.toAdd.entrySet()) {
+            add(e.getKey(), e.getValue().getUnderlyingRepresentation());
         }
         ProjectTMX modifiedData = tmx;
         this.tmx = originalData;
@@ -167,12 +167,12 @@ public class OmTTmx implements ITmx {
     }
 
     @Override
-    public Object getUnderlyingRepresentation() {
+    public ProjectTMX getUnderlyingRepresentation() {
         return tmx;
     }
 
     @Override
-    public ITu getTu(Key key) {
+    public OmTTu getTu(Key key) {
         return tuMap.get(key);
     }
 
@@ -197,22 +197,22 @@ public class OmTTmx implements ITmx {
     }
 
     @Override
-    public ITuv get(Object key) {
+    public OmTTuv get(Object key) {
         return tuvMap.get(key);
     }
 
     @Override
-    public ITuv put(Key key, ITuv value) {
+    public OmTTuv put(Key key, OmTTuv value) {
         return tuvMap.put(key, value);
     }
 
     @Override
-    public ITuv remove(Object key) {
+    public OmTTuv remove(Object key) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void putAll(Map<? extends Key, ? extends ITuv> m) {
+    public void putAll(Map<? extends Key, ? extends OmTTuv> m) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -227,12 +227,12 @@ public class OmTTmx implements ITmx {
     }
 
     @Override
-    public Collection<ITuv> values() {
+    public Collection<OmTTuv> values() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Set<Entry<Key, ITuv>> entrySet() {
+    public Set<Entry<Key, OmTTuv>> entrySet() {
         return tuvMap.entrySet();
     }
     

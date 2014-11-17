@@ -73,7 +73,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class JAXBTmx implements ITmx {
+public class JAXBTmx implements ITmx<Tmx,JAXBTu,JAXBTuv> {
 
     public static final String DIFF_PROP_TYPE = "x-diff-type";
     public static final String DIFF_PROP_VALUE_ADDED = "added";
@@ -98,8 +98,8 @@ public class JAXBTmx implements ITmx {
     private Tmx tmx;
     private final String name;
     private File file;
-    private Map<Key, ITuv> tuvMap;
-    private Map<Key, ITu> tuMap;
+    private Map<Key, JAXBTuv> tuvMap;
+    private Map<Key, JAXBTu> tuMap;
     private Map<String, String> tmxMetadata;
     
     private static final String FEATURE_NAMESPACES = "http://xml.org/sax/features/namespaces";
@@ -244,15 +244,15 @@ public class JAXBTmx implements ITmx {
     }
     
     private void generateMaps() {
-        tuvMap = new HashMap<Key, ITuv>();
-        tuMap = new HashMap<Key, ITu>();
+        tuvMap = new HashMap<Key, JAXBTuv>();
+        tuMap = new HashMap<Key, JAXBTu>();
         for (Tu rawTu : tmx.getBody().getTu()) {
             JAXBTu tu = new JAXBTu(rawTu, getSourceLanguage());
             Key key = tu.getKey();
             assert(!tuMap.containsKey(key));
             assert(!tuvMap.containsKey(key));
             tuMap.put(key, tu);
-            ITuv tuv = tu.getTargetTuv();
+            JAXBTuv tuv = tu.getTargetTuv();
             tuvMap.put(key, tuv == null ? JAXBTuv.EMPTY_TUV : tuv);
         }
     }
@@ -270,7 +270,7 @@ public class JAXBTmx implements ITmx {
     }
     
     @Override
-    public ITmx applyChanges(ResolutionSet resolution) {
+    public JAXBTmx applyChanges(ResolutionSet<JAXBTu,JAXBTuv> resolution) {
         Tmx originalData;
         try {
             originalData = clone(tmx);
@@ -279,18 +279,18 @@ public class JAXBTmx implements ITmx {
         }
         List<Tu> tus = tmx.getBody().getTu();
         for (Key key : resolution.toDelete) {
-            tus.remove((Tu) tuMap.get(key).getUnderlyingRepresentation());
+            tus.remove(tuMap.get(key).getUnderlyingRepresentation());
         }
-        for (Entry<Key, ITuv> e : resolution.toReplace.entrySet()) {
-            Tu tu = (Tu) tuMap.get(e.getKey()).getUnderlyingRepresentation();
-            ITuv tuvToRemove = tuvMap.get(e.getKey());
+        for (Entry<Key, JAXBTuv> e : resolution.toReplace.entrySet()) {
+            Tu tu = tuMap.get(e.getKey()).getUnderlyingRepresentation();
+            JAXBTuv tuvToRemove = tuvMap.get(e.getKey());
             if (tuvToRemove != null) {
-                tu.getTuv().remove((Tuv) tuvToRemove.getUnderlyingRepresentation());
-                tu.getTuv().add((Tuv) e.getValue().getUnderlyingRepresentation());
+                tu.getTuv().remove(tuvToRemove.getUnderlyingRepresentation());
+                tu.getTuv().add(e.getValue().getUnderlyingRepresentation());
             }
         }
-        for (ITu tu : resolution.toAdd.values()) {
-            tus.add((Tu) tu.getUnderlyingRepresentation());
+        for (JAXBTu tu : resolution.toAdd.values()) {
+            tus.add(tu.getUnderlyingRepresentation());
         }
         Tmx modifiedData = tmx;
         this.tmx = originalData;
@@ -327,7 +327,7 @@ public class JAXBTmx implements ITmx {
     }
 
     @Override
-    public Object getUnderlyingRepresentation() {
+    public Tmx getUnderlyingRepresentation() {
         return tmx;
     }
     
@@ -359,7 +359,7 @@ public class JAXBTmx implements ITmx {
     }
 
     @Override
-    public ITu getTu(Key key) {
+    public JAXBTu getTu(Key key) {
         return tuMap.get(key);
     }
 
@@ -384,22 +384,22 @@ public class JAXBTmx implements ITmx {
     }
 
     @Override
-    public ITuv get(Object key) {
+    public JAXBTuv get(Object key) {
         return tuvMap.get(key);
     }
 
     @Override
-    public ITuv put(Key key, ITuv value) {
+    public JAXBTuv put(Key key, JAXBTuv value) {
         return tuvMap.put(key, value);
     }
 
     @Override
-    public ITuv remove(Object key) {
+    public JAXBTuv remove(Object key) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void putAll(Map<? extends Key, ? extends ITuv> m) {
+    public void putAll(Map<? extends Key, ? extends JAXBTuv> m) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -414,12 +414,12 @@ public class JAXBTmx implements ITmx {
     }
 
     @Override
-    public Collection<ITuv> values() {
+    public Collection<JAXBTuv> values() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Set<Entry<Key, ITuv>> entrySet() {
+    public Set<Entry<Key, JAXBTuv>> entrySet() {
         return tuvMap.entrySet();
     }
 }

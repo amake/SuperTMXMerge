@@ -44,22 +44,22 @@ import org.madlonkay.supertmxmerge.util.LocString;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class DiffController implements Serializable {
+public class DiffController<TmxType extends ITmx<?,?,TuvType>, TuvType extends ITuv> implements Serializable {
     
     public static final String PROP_TMX1 = "tmx1";
     public static final String PROP_TMX2 = "tmx2";
     public static final String PROP_CHANGECOUNT = "changeCount";
     public static final String PROP_CANSAVEDIFF = "canSaveDiff";
 
-    private ITmx tmx1;
-    private ITmx tmx2;
+    private TmxType tmx1;
+    private TmxType tmx2;
     
     private List<DiffInfo> diffInfos;
     private JFrame diffWindow;
     
     private final PropertyChangeSupport propertySupport;
     
-    public DiffController() {
+    public <TmxType extends ITmx, TuvType extends ITuv> DiffController() {
         propertySupport = new PropertyChangeSupport(this);
     }
     
@@ -75,7 +75,7 @@ public class DiffController implements Serializable {
         return tmx1;
     }
     
-    public void setTmx1(ITmx tmx1) {
+    public void setTmx1(TmxType tmx1) {
         ITmx oldTmx1 = this.tmx1;
         this.tmx1 = tmx1;
         propertySupport.firePropertyChange(PROP_TMX1, oldTmx1, tmx1);
@@ -86,19 +86,19 @@ public class DiffController implements Serializable {
         return tmx2;
     }
     
-    public void setTmx2(ITmx tmx2) {
+    public void setTmx2(TmxType tmx2) {
         ITmx oldTmx2 = this.tmx2;
         this.tmx2 = tmx2;
         propertySupport.firePropertyChange(PROP_TMX2, oldTmx2, tmx2);
         propertySupport.firePropertyChange(PROP_CANSAVEDIFF, null, null);
     }
     
-    public void diff(ITmx tmx1, ITmx tmx2) {
+    public void diff(TmxType tmx1, TmxType tmx2) {
         
         setTmx1(tmx1);
         setTmx2(tmx2);
         
-        diffInfos = generateDiffData(tmx1, tmx2);
+        generateDiffData(tmx1, tmx2);
         propertySupport.firePropertyChange(PROP_CHANGECOUNT, null, null);
         
         if (diffInfos.isEmpty()) {
@@ -144,9 +144,9 @@ public class DiffController implements Serializable {
         }
     }
     
-    private static List<DiffInfo> generateDiffData(ITmx tmx1, ITmx tmx2) {
+    private List<DiffInfo> generateDiffData(TmxType tmx1, TmxType tmx2) {
         
-        List<DiffInfo> diffInfos = new ArrayList<DiffInfo>();
+        diffInfos = new ArrayList<DiffInfo>();
         
         DiffAnalysis<Key> set = DiffUtil.mapDiff(tmx1, tmx2);
         

@@ -27,7 +27,7 @@ import org.madlonkay.supertmxmerge.util.ReflectionUtil;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class OmTTuv implements ITuv {
+public class OmTTuv implements ITuv<TMXEntry> {
 
     private final TMXEntry tmxEntry;
     private final String language;
@@ -57,7 +57,7 @@ public class OmTTuv implements ITuv {
     }
 
     @Override
-    public Object getUnderlyingRepresentation() {
+    public TMXEntry getUnderlyingRepresentation() {
         return tmxEntry;
     }
     

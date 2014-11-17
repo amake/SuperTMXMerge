@@ -19,13 +19,12 @@
 package org.omegat.core.data;
 
 import org.madlonkay.supertmxmerge.data.ITu;
-import org.madlonkay.supertmxmerge.data.ITuv;
 
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class OmTTu implements ITu {
+public class OmTTu implements ITu<TMXEntry,OmTTuv> {
 
     private final TMXEntry tmxEntry;
     private final String targetLanguage;
@@ -36,12 +35,12 @@ public class OmTTu implements ITu {
     }
 
     @Override
-    public ITuv getTargetTuv() {
+    public OmTTuv getTargetTuv() {
         return new OmTTuv(tmxEntry, targetLanguage);
     }
 
     @Override
-    public Object getUnderlyingRepresentation() {
+    public TMXEntry getUnderlyingRepresentation() {
         return tmxEntry;
     }
     

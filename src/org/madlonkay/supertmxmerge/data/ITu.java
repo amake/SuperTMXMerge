@@ -22,9 +22,9 @@ package org.madlonkay.supertmxmerge.data;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public interface ITu {
+public interface ITu<BaseTuType,TuvType extends ITuv> {
     
-    public ITuv getTargetTuv();
+    public TuvType getTargetTuv();
     
-    public Object getUnderlyingRepresentation();
+    public BaseTuType getUnderlyingRepresentation();
 }

@@ -24,7 +24,7 @@ import java.util.Map;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public interface ITuv {
+public interface ITuv<BaseTuvType> {
     
     public String getContent();
     
@@ -32,10 +32,10 @@ public interface ITuv {
     
     public Map<String, String> getMetadata();
     
-    public Object getUnderlyingRepresentation();
+    public BaseTuvType getUnderlyingRepresentation();
     
     @Override
     public boolean equals(Object o);
     
-    public boolean equivalentTo(ITuv other);
+    public <T extends ITuv> boolean equivalentTo(T other);
 }

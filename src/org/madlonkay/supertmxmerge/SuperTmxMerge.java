@@ -21,11 +21,12 @@ package org.madlonkay.supertmxmerge;
 import java.awt.Window;
 import java.io.File;
 import java.util.logging.Logger;
-import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.gui.FileSelectWindow;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 import org.omegat.core.data.OmTTmx;
+import org.omegat.core.data.OmTTu;
+import org.omegat.core.data.OmTTuv;
 import org.omegat.core.data.ProjectTMX;
 
 /**
@@ -69,17 +70,17 @@ public class SuperTmxMerge {
             properties = new StmProperties();
         }
         LocString.addBundle(properties.getLanguageResource()); 
-        MergeController controller = new MergeController();
+        MergeController<OmTTmx,OmTTu,OmTTuv> controller = new MergeController();
         controller.setQuiet(true);
         controller.setIsModal(true);
         controller.setCanCancel(false);
         controller.setParentWindow(properties.getParentWindow());
         controller.setListViewThreshold(properties.getListViewThreshold());
-        ITmx base = new OmTTmx(baseTmx, properties.getBaseTmxName(), sourceLanguage, targetLanguage);
-        ITmx one = new OmTTmx(tmx1, properties.geTmx1Name(), sourceLanguage, targetLanguage);
-        ITmx two = new OmTTmx(tmx2, properties.getTmx2Name(), sourceLanguage, targetLanguage);
-        ITmx merged = controller.merge(base, one, two, properties.getResolutionStrategy());
-        return merged == null ? null : (ProjectTMX) merged.getUnderlyingRepresentation();
+        OmTTmx base = new OmTTmx(baseTmx, properties.getBaseTmxName(), sourceLanguage, targetLanguage);
+        OmTTmx one = new OmTTmx(tmx1, properties.geTmx1Name(), sourceLanguage, targetLanguage);
+        OmTTmx two = new OmTTmx(tmx2, properties.getTmx2Name(), sourceLanguage, targetLanguage);
+        OmTTmx merged = controller.merge(base, one, two, properties.getResolutionStrategy());
+        return merged == null ? null : merged.getUnderlyingRepresentation();
     }
     
     public static void mergeTo(File baseFile, File file1, File file2, File outputFile) {

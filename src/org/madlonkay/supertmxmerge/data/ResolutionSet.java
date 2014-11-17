@@ -27,24 +27,24 @@ import java.util.Set;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class ResolutionSet {
+public class ResolutionSet<TuType extends ITu, TuvType extends ITuv> {
     public final Set<Key> toDelete;
-    public final Map<Key, ITu> toAdd;
-    public final Map<Key, ITuv> toReplace;
+    public final Map<Key, TuType> toAdd;
+    public final Map<Key, TuvType> toReplace;
     
-    public static ResolutionSet fromAnalysis(MergeAnalysis<Key,ITuv> analysis, ITmx leftTmx, ITmx rightTmx) {
+    public static <TmxType extends ITmx<?,TuType,TuvType>,TuvType extends ITuv,TuType extends ITu> ResolutionSet<TuType,TuvType> fromAnalysis(MergeAnalysis<Key,TuvType> analysis, TmxType leftTmx, TmxType rightTmx) {
         Set<Key> toDelete = new HashSet<Key>(analysis.deleted);
-        Map<Key,ITu> toAdd = new HashMap<Key,ITu>();
-        Map<Key,ITuv> toReplace = new HashMap<Key,ITuv>(analysis.modified);
+        Map<Key,TuType> toAdd = new HashMap<Key,TuType>();
+        Map<Key,TuvType> toReplace = new HashMap<Key,TuvType>(analysis.modified);
         
         // Add
         for (Key key : analysis.added) {
-            ITu leftTuv = leftTmx.getTu(key);
+            TuType leftTuv = leftTmx.getTu(key);
             if (leftTuv != null) {
                 toAdd.put(key, leftTuv);
                 continue;
             }
-            ITu rightTuv = rightTmx.getTu(key);
+            TuType rightTuv = rightTmx.getTu(key);
             assert(rightTuv != null);
             toAdd.put(key, rightTuv);
         }
@@ -52,7 +52,7 @@ public class ResolutionSet {
         return new ResolutionSet(toDelete, toAdd, toReplace);
     }
     
-    private ResolutionSet(Set<Key> toDelete, Map<Key, ITu> toAdd, Map<Key, ITuv> toReplace) {
+    private ResolutionSet(Set<Key> toDelete, Map<Key, TuType> toAdd, Map<Key, TuvType> toReplace) {
         this.toDelete = toDelete;
         this.toAdd = toAdd;
         this.toReplace = toReplace;

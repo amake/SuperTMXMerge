@@ -29,7 +29,7 @@ import org.madlonkay.supertmxmerge.data.Key;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class JAXBTu implements ITu {
+public class JAXBTu implements ITu<Tu,JAXBTuv> {
     
     private final Tu tu;
     private final String sourceLanguage;
@@ -39,7 +39,7 @@ public class JAXBTu implements ITu {
         this.sourceLanguage = sourceLanguage;
     }
     
-    public ITuv getSourceTuv() {
+    public ITuv<Tuv> getSourceTuv() {
         for (Tuv tuv : tu.getTuv()) {
             if (sourceLanguage.equalsIgnoreCase(JAXBTuv.getLanguage(tuv))) {
                 return new JAXBTuv(tuv);
@@ -49,12 +49,12 @@ public class JAXBTu implements ITu {
     }
     
     @Override
-    public Object getUnderlyingRepresentation() {
+    public Tu getUnderlyingRepresentation() {
         return tu;
     }
     
     @Override
-    public ITuv getTargetTuv() {
+    public JAXBTuv getTargetTuv() {
         for (Tuv tuv : tu.getTuv()) {
             if (!sourceLanguage.equalsIgnoreCase(JAXBTuv.getLanguage(tuv))) {
                 return new JAXBTuv(tuv);

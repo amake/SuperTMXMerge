@@ -33,6 +33,7 @@ import java.util.logging.Logger;
 import javax.swing.AbstractButton;
 import javax.swing.JOptionPane;
 import org.madlonkay.supertmxmerge.data.ITmx;
+import org.madlonkay.supertmxmerge.data.ITu;
 import org.madlonkay.supertmxmerge.data.ITuv;
 import org.madlonkay.supertmxmerge.data.Key;
 import org.madlonkay.supertmxmerge.data.MergeAnalysis;
@@ -47,7 +48,7 @@ import org.madlonkay.supertmxmerge.util.LocString;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class MergeController implements Serializable, ActionListener {
+public class MergeController<TmxType extends ITmx<?,TuType,TuvType>, TuType extends ITu, TuvType extends ITuv> implements Serializable, ActionListener {
     
     public static final Logger LOGGER = Logger.getLogger(MergeController.class.getName());
     
@@ -60,13 +61,13 @@ public class MergeController implements Serializable, ActionListener {
 
     private final PropertyChangeSupport propertySupport;
     
-    private ITmx baseTmx;
-    private ITmx leftTmx;
-    private ITmx rightTmx;
+    private TmxType baseTmx;
+    private TmxType leftTmx;
+    private TmxType rightTmx;
         
     private final Map<Key, AbstractButton[]> selections = new HashMap<Key, AbstractButton[]>();
     
-    private MergeAnalysis<Key,ITuv> analysis;
+    private MergeAnalysis<Key,TuvType> analysis;
     
     private boolean canCancel = true;
     private boolean quiet = false;
@@ -87,10 +88,10 @@ public class MergeController implements Serializable, ActionListener {
         propertySupport.removePropertyChangeListener(listener);
     }
 
-    private final ResolutionStrategy guiResolutionStrategy = new ResolutionStrategy() {
+    private final ResolutionStrategy<TmxType,TuType,TuvType> guiResolutionStrategy = new ResolutionStrategy() {
 
         @Override
-        public ResolutionSet resolve(MergeAnalysis<Key, ITuv> analysis, ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
+        public ResolutionSet resolve(MergeAnalysis analysis, ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
             if (analysis.hasConflicts()) {
                 // Have conflicts; show window.
                 Window window;
@@ -133,11 +134,11 @@ public class MergeController implements Serializable, ActionListener {
         }
     };
     
-    public ITmx merge(ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
+    public TmxType merge(TmxType baseTmx, TmxType leftTmx, TmxType rightTmx) {
         return merge(baseTmx, leftTmx, rightTmx, guiResolutionStrategy);
     }
     
-    public ITmx merge(ITmx baseTmx, ITmx leftTmx, ITmx rightTmx, ResolutionStrategy strategy) {
+    public TmxType merge(TmxType baseTmx, TmxType leftTmx, TmxType rightTmx, ResolutionStrategy<TmxType,TuType,TuvType> strategy) {
 
         if (strategy == null) {
             strategy = guiResolutionStrategy;
@@ -156,12 +157,12 @@ public class MergeController implements Serializable, ActionListener {
                     JOptionPane.INFORMATION_MESSAGE);
         }
         
-        ResolutionSet resolution = strategy.resolve(analysis, baseTmx, leftTmx, rightTmx);
+        ResolutionSet<TuType,TuvType> resolution = strategy.resolve(analysis, baseTmx, leftTmx, rightTmx);
         if (resolution == null) {
             return null;
         }
         
-        ITmx resolved = resolve(resolution);
+        TmxType resolved = resolve(resolution);
         
         if (showDiff) {
             DiffController differ = new DiffController();
@@ -171,25 +172,25 @@ public class MergeController implements Serializable, ActionListener {
         return resolved;
     }
     
-    public MergeAnalysis analyze(ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
+    public MergeAnalysis analyze(TmxType baseTmx, TmxType leftTmx, TmxType rightTmx) {
         setBaseTmx(baseTmx);
         setLeftTmx(leftTmx);
         setRightTmx(rightTmx);
         
-        MergeAnalysis<Key, ITuv> initialAnalysis = DiffUtil.mapMerge(baseTmx, leftTmx, rightTmx);
+        MergeAnalysis<Key, TuvType> initialAnalysis = DiffUtil.mapMerge(baseTmx, leftTmx, rightTmx);
         
         // Try to pre-resolve any conflicting TUVs where the only conflict is
         // uninteresting metadata. In that case, choose the newest one.
         List<Key> preResolved = new ArrayList<Key>();
         for (Key key : initialAnalysis.conflicts) {
-            ITuv baseTuv = baseTmx.get(key);
-            ITuv leftTuv = leftTmx.get(key);
-            ITuv rightTuv = rightTmx.get(key);
+            TuvType baseTuv = baseTmx.get(key);
+            TuvType leftTuv = leftTmx.get(key);
+            TuvType rightTuv = rightTmx.get(key);
             assert(!(leftTuv == null && rightTuv == null));
             if (leftTuv == null || rightTuv == null) {
                 continue;
             }
-            ITuv selected;
+            TuvType selected;
             if (leftTuv.equivalentTo(baseTuv)) {
                 selected = rightTuv;
             } else if (rightTuv.equivalentTo(baseTuv)) {
@@ -210,12 +211,12 @@ public class MergeController implements Serializable, ActionListener {
         return this.analysis;
     }
     
-    public ITmx resolve(ResolutionSet resolution) {
-        return baseTmx.applyChanges(resolution);
+    public TmxType resolve(ResolutionSet<TuType,TuvType> resolution) {
+        return (TmxType) baseTmx.applyChanges(resolution);
     }
     
-    public ITmx resolve(ResolutionStrategy strategy) {
-        ResolutionSet resolution = strategy.resolve(analysis, baseTmx, leftTmx, rightTmx);
+    public TmxType resolve(ResolutionStrategy strategy) {
+        ResolutionSet<TuType,TuvType> resolution = strategy.resolve(analysis, baseTmx, leftTmx, rightTmx);
         return resolve(resolution);
     }
     
@@ -269,7 +270,7 @@ public class MergeController implements Serializable, ActionListener {
         return baseTmx;
     }
 
-    public void setBaseTmx(ITmx baseTmx) {
+    public void setBaseTmx(TmxType baseTmx) {
         ITmx oldBaseTmx = this.baseTmx;
         this.baseTmx = baseTmx;
         propertySupport.firePropertyChange(PROP_BASETMX, oldBaseTmx, baseTmx);
@@ -279,7 +280,7 @@ public class MergeController implements Serializable, ActionListener {
         return leftTmx;
     }
 
-    public void setLeftTmx(ITmx leftTmx) {
+    public void setLeftTmx(TmxType leftTmx) {
         ITmx oldLeftTmx = this.leftTmx;
         this.leftTmx = leftTmx;
         propertySupport.firePropertyChange(PROP_LEFTTMX, oldLeftTmx, leftTmx);
@@ -289,7 +290,7 @@ public class MergeController implements Serializable, ActionListener {
         return rightTmx;
     }
 
-    public void setRightTmx(ITmx rightTmx) {
+    public void setRightTmx(TmxType rightTmx) {
         ITmx oldRightTmx = this.rightTmx;
         this.rightTmx = rightTmx;
         propertySupport.firePropertyChange(PROP_RIGHTTMX, oldRightTmx, rightTmx);

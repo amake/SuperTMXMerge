@@ -22,7 +22,7 @@ package org.madlonkay.supertmxmerge.data;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public abstract class ResolutionStrategy {
+public abstract class ResolutionStrategy<TmxType extends ITmx<?,TuType,TuvType>, TuType extends ITu, TuvType extends ITuv> {
     
     public static final ResolutionStrategy BASE = new ResolutionStrategy() {
         @Override
@@ -45,11 +45,11 @@ public abstract class ResolutionStrategy {
         }
     };
     
-    private ResolutionSet resolution;
+    private ResolutionSet<TuType,TuvType> resolution;
     
     public ResolutionStrategy() {}
     
-    public ResolutionSet resolve(MergeAnalysis<Key,ITuv> analysis, ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
+    public ResolutionSet resolve(MergeAnalysis<Key,TuvType> analysis, TmxType baseTmx, TmxType leftTmx, TmxType rightTmx) {
         resolution = ResolutionSet.fromAnalysis(analysis, leftTmx, rightTmx);
         
         for (Key key : analysis.conflicts) {
@@ -75,7 +75,7 @@ public abstract class ResolutionStrategy {
 
     public abstract ITuv resolveConflict(Key key, ITuv baseTuv, ITuv leftTuv, ITuv rightTuv);
     
-    private void dispatchKey(Key key, ITmx baseTmx, ITmx thisTmx) {
+    private void dispatchKey(Key key, TmxType baseTmx, TmxType thisTmx) {
         if (!thisTmx.containsKey(key)) {
             resolution.toDelete.add(key);
         } else if (baseTmx.containsKey(key)) {

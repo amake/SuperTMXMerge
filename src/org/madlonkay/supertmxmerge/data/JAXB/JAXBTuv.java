@@ -31,7 +31,7 @@ import org.madlonkay.supertmxmerge.util.ReflectionUtil;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class JAXBTuv implements ITuv {
+public class JAXBTuv implements ITuv<Tuv> {
     
     public static final JAXBTuv EMPTY_TUV = new JAXBTuv(null);
     
@@ -125,7 +125,7 @@ public class JAXBTuv implements ITuv {
     }
     
     @Override
-    public Object getUnderlyingRepresentation() {
+    public Tuv getUnderlyingRepresentation() {
         return tuv;
     }
     
@@ -145,7 +145,7 @@ public class JAXBTuv implements ITuv {
     }
     
     @Override
-    public boolean equivalentTo(ITuv other) {
+    public <T2 extends ITuv> boolean equivalentTo(T2 other) {
         return false;
     }
 }

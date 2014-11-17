@@ -25,9 +25,9 @@ import java.util.Map;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public interface ITmx extends Map<Key,ITuv> {
+public interface ITmx<BaseTmxType,TuType extends ITu,TuvType extends ITuv> extends Map<Key,TuvType> {
         
-    public ITu getTu(Key key);
+    public TuType getTu(Key key);
     
     public String getSourceLanguage();
     
@@ -37,9 +37,9 @@ public interface ITmx extends Map<Key,ITuv> {
     
     public Map<String, String> getMetadata();
     
-    public ITmx applyChanges(ResolutionSet resolution);
+    public ITmx<BaseTmxType,TuType,TuvType> applyChanges(ResolutionSet<TuType,TuvType> resolution);
     
     public void writeTo(File outputFile) throws WriteFailedException;
     
-    public Object getUnderlyingRepresentation();
+    public BaseTmxType getUnderlyingRepresentation();
 }
