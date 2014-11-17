@@ -18,6 +18,7 @@
  */
 package org.madlonkay.supertmxmerge.data;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -50,6 +51,12 @@ public class ResolutionSet {
         }
         
         return new ResolutionSet(toDelete, toAdd, toReplace);
+    }
+    
+    public static ResolutionSet unmodifiableSet(ResolutionSet set) {
+        return new ResolutionSet(Collections.unmodifiableSet(set.toDelete),
+                Collections.unmodifiableMap(set.toAdd),
+                Collections.unmodifiableMap(set.toReplace));
     }
     
     private ResolutionSet(Set<Key> toDelete, Map<Key, ITu> toAdd, Map<Key, ITuv> toReplace) {

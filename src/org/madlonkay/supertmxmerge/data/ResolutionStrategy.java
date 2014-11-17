@@ -44,13 +44,11 @@ public abstract class ResolutionStrategy {
             return rightTuv;
         }
     };
-    
-    private ResolutionSet resolution;
-    
+        
     public ResolutionStrategy() {}
     
     public ResolutionSet resolve(MergeAnalysis<Key,ITuv> analysis, ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
-        resolution = ResolutionSet.fromAnalysis(analysis, leftTmx, rightTmx);
+        ResolutionSet resolution = ResolutionSet.fromAnalysis(analysis, leftTmx, rightTmx);
         
         for (Key key : analysis.conflicts) {
             ITuv baseTuv = baseTmx.get(key);
@@ -62,20 +60,20 @@ public abstract class ResolutionStrategy {
             if (selection == baseTuv) {
                 // No change
             } else if (selection == leftTuv) {
-                dispatchKey(key, baseTmx, leftTmx);
+                dispatchKey(resolution, key, baseTmx, leftTmx);
             } else if (selection == rightTuv) {
-                dispatchKey(key, baseTmx, rightTmx);
+                dispatchKey(resolution, key, baseTmx, rightTmx);
             } else {
                 throw new RuntimeException("ResolutionStrategy resolved conflict with unknown ITuv.");
             }
         }
         
-        return resolution;
+        return ResolutionSet.unmodifiableSet(resolution);
     }
 
     public abstract ITuv resolveConflict(Key key, ITuv baseTuv, ITuv leftTuv, ITuv rightTuv);
     
-    private void dispatchKey(Key key, ITmx baseTmx, ITmx thisTmx) {
+    private void dispatchKey(ResolutionSet resolution, Key key, ITmx baseTmx, ITmx thisTmx) {
         if (!thisTmx.containsKey(key)) {
             resolution.toDelete.add(key);
         } else if (baseTmx.containsKey(key)) {

@@ -67,6 +67,8 @@ public class MergeController implements Serializable, ActionListener {
     private final Map<Key, AbstractButton[]> selections = new HashMap<Key, AbstractButton[]>();
     
     private MergeAnalysis<Key,ITuv> analysis;
+    private ResolutionSet resolution;
+    private ITmx result;
     
     private boolean canCancel = true;
     private boolean quiet = false;
@@ -138,7 +140,10 @@ public class MergeController implements Serializable, ActionListener {
     }
     
     public ITmx merge(ITmx baseTmx, ITmx leftTmx, ITmx rightTmx, ResolutionStrategy strategy) {
-
+        analysis = null;
+        resolution = null;
+        result = null;
+        
         if (strategy == null) {
             strategy = guiResolutionStrategy;
         }
@@ -156,25 +161,31 @@ public class MergeController implements Serializable, ActionListener {
                     JOptionPane.INFORMATION_MESSAGE);
         }
         
-        ResolutionSet resolution = strategy.resolve(analysis, baseTmx, leftTmx, rightTmx);
+        resolve(strategy);
+
         if (resolution == null) {
             return null;
         }
         
-        ITmx resolved = resolve(resolution);
+        apply(resolution);
         
         if (showDiff) {
             DiffController differ = new DiffController();
-            differ.diff(baseTmx, resolved);
+            differ.diff(baseTmx, result);
         }
         
-        return resolved;
+        return result;
     }
     
     public MergeAnalysis analyze(ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
+        resolution = null;
+        result = null;
+        
         setBaseTmx(baseTmx);
         setLeftTmx(leftTmx);
         setRightTmx(rightTmx);
+        
+        assert((isTwoWayMerge || baseTmx != null) && leftTmx != null && rightTmx != null);
         
         MergeAnalysis<Key, ITuv> initialAnalysis = DiffUtil.mapMerge(baseTmx, leftTmx, rightTmx);
         
@@ -204,19 +215,21 @@ public class MergeController implements Serializable, ActionListener {
         }
         initialAnalysis.conflicts.removeAll(preResolved);
         
-        this.analysis = MergeAnalysis.unmodifiableAnalysis(initialAnalysis);
+        analysis = MergeAnalysis.unmodifiableAnalysis(initialAnalysis);
         propertySupport.firePropertyChange(PROP_CONFLICTCOUNT, null, null);
         
-        return this.analysis;
+        return analysis;
     }
     
-    public ITmx resolve(ResolutionSet resolution) {
-        return baseTmx.applyChanges(resolution);
+    public ResolutionSet resolve(ResolutionStrategy strategy) {
+        result = null;
+        resolution = strategy.resolve(analysis, baseTmx, leftTmx, rightTmx);
+        return resolution;
     }
     
-    public ITmx resolve(ResolutionStrategy strategy) {
-        ResolutionSet resolution = strategy.resolve(analysis, baseTmx, leftTmx, rightTmx);
-        return resolve(resolution);
+    public ITmx apply(ResolutionSet resolution) {
+        result = baseTmx.applyChanges(resolution);
+        return result;
     }
     
     public boolean isConflictsAreResolved() {

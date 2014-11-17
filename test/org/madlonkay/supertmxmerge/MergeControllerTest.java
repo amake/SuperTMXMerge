@@ -28,6 +28,7 @@ import org.junit.Test;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
 import org.madlonkay.supertmxmerge.data.MergeAnalysis;
+import org.madlonkay.supertmxmerge.data.ResolutionSet;
 import org.madlonkay.supertmxmerge.data.ResolutionStrategy;
 
 /**
@@ -70,18 +71,22 @@ public class MergeControllerTest {
         MergeController merger = new MergeController();
         MergeAnalysis analysis = merger.analyze(new JAXBTmx(baseFile),
                 new JAXBTmx(file1), new JAXBTmx(file2));
+        assert(!analysis.conflicts.isEmpty());
         
-        ITmx result = merger.resolve(ResolutionStrategy.LEFT);
+        ResolutionSet resolution = merger.resolve(ResolutionStrategy.LEFT);
+        ITmx result = merger.apply(resolution);
         File goldFile = TestUtils.getFilePath("resources/gold/manualResolveLeftGold.tmx");
         TestUtils.ensureEmptyDiff(result, goldFile);
         outFile.delete();
         
-        result = merger.resolve(ResolutionStrategy.BASE);
+        resolution = merger.resolve(ResolutionStrategy.BASE);
+        result = merger.apply(resolution);
         goldFile = TestUtils.getFilePath("resources/gold/manualResolveBaseGold.tmx");
         TestUtils.ensureEmptyDiff(result, goldFile);
         outFile.delete();
         
-        result = merger.resolve(ResolutionStrategy.RIGHT);
+        resolution = merger.resolve(ResolutionStrategy.RIGHT);
+        result = merger.apply(resolution);
         goldFile = TestUtils.getFilePath("resources/gold/manualResolveRightGold.tmx");
         TestUtils.ensureEmptyDiff(result, goldFile);
         outFile.delete();
