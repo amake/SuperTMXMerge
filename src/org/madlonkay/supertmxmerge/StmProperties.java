@@ -102,7 +102,8 @@ public class StmProperties {
         return this.resolutionStrategy;
     }
     
-    public void setResolutionStrategy(ResolutionStrategy resolutionStrategy) {
+    public StmProperties setResolutionStrategy(ResolutionStrategy resolutionStrategy) {
         this.resolutionStrategy = resolutionStrategy;
+        return this;
     }
 }
