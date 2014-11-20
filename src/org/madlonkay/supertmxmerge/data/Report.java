@@ -36,6 +36,13 @@ public class Report {
         this.deleted = resolution.toDelete.size();
         this.modified = resolution.toReplace.size();
     }
+    
+    public Report(MergeAnalysis analysis, DiffAnalysis diff) {
+        this.conflicts = analysis.conflicts.size();
+        this.added = diff.added.size();
+        this.deleted = diff.deleted.size();
+        this.modified = diff.modified.size();
+    }
 
     @Override
     public String toString() {

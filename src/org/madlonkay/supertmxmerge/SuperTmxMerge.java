@@ -21,11 +21,13 @@ package org.madlonkay.supertmxmerge;
 import java.awt.Window;
 import java.io.File;
 import java.util.logging.Logger;
+import org.madlonkay.supertmxmerge.data.DiffAnalysis;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.MergeAnalysis;
 import org.madlonkay.supertmxmerge.data.Report;
 import org.madlonkay.supertmxmerge.data.ResolutionSet;
 import org.madlonkay.supertmxmerge.gui.FileSelectWindow;
+import org.madlonkay.supertmxmerge.util.DiffUtil;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 import org.omegat.core.data.OmTTmx;
@@ -89,7 +91,8 @@ public class SuperTmxMerge {
         ResolutionSet resolution = controller.resolve(properties.getResolutionStrategy());
         ITmx wrappedResult = controller.apply(resolution);
         if (wrappedResult != null) {
-            properties.setReport(new Report(analysis, resolution));
+            DiffAnalysis diff = DiffUtil.mapDiff(two, wrappedResult);
+            properties.setReport(new Report(analysis, diff));
             return (ProjectTMX) wrappedResult.getUnderlyingRepresentation();
         }
         return null;
