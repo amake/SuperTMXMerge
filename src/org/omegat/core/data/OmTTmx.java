@@ -44,6 +44,7 @@ public class OmTTmx implements ITmx {
     
     private Map<Key, ITu> tuMap;
     private Map<Key, ITuv> tuvMap;
+    private int size = -1;
     
     public OmTTmx(ProjectTMX tmx, String name, String sourceLanguage, String targetLanguage) {
         this.tmx = tmx;
@@ -56,7 +57,9 @@ public class OmTTmx implements ITmx {
     private void generateMaps() {
         tuvMap = new HashMap<Key, ITuv>();
         tuMap = new HashMap<Key, ITu>();
-        for (Entry<String, TMXEntry> e : tmx.getDefaults().entrySet()) {
+        Map<String,TMXEntry> defaults = tmx.getDefaults();
+        size = defaults.size();
+        for (Entry<String, TMXEntry> e : defaults.entrySet()) {
             ITu tu = new OmTTu(e.getValue(), targetLanguage);
             Key key = makeKey(e.getKey(), e.getValue());
             assert(!tuMap.containsKey(key));
@@ -64,7 +67,9 @@ public class OmTTmx implements ITmx {
             tuMap.put(key, tu);
             tuvMap.put(key, tu.getTargetTuv());
         }
-        for (Entry<EntryKey, TMXEntry> e : tmx.getAlternatives().entrySet()) {
+        Map<EntryKey,TMXEntry> alternatives = tmx.getAlternatives();
+        size += alternatives.size();
+        for (Entry<EntryKey, TMXEntry> e : alternatives.entrySet()) {
             ITu tu = new OmTTu(e.getValue(), targetLanguage);
             Key key = makeKey(e.getKey(), e.getValue());
             assert(!tuMap.containsKey(key));
@@ -99,7 +104,7 @@ public class OmTTmx implements ITmx {
 
     @Override
     public int getSize() {
-        return tmx.getAlternatives().size() + tmx.getDefaults().size();
+        return size;
     }
 
     @Override
@@ -124,6 +129,7 @@ public class OmTTmx implements ITmx {
         this.tmx = originalData;
         this.tuvMap = null;
         this.tuMap = null;
+        this.size = -1;
         return new OmTTmx(modifiedData, this.name, this.sourceLanguage, this.targetLanguage);
     }
     
