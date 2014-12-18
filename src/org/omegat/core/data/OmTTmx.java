@@ -57,7 +57,7 @@ public class OmTTmx implements ITmx {
     private void generateMaps() {
         tuvMap = new HashMap<Key, ITuv>();
         tuMap = new HashMap<Key, ITu>();
-        for (Entry<String, TMXEntry> e : tmx.defaults.entrySet()) {
+        for (Entry<String, TMXEntry> e : tmx.getDefaults().entrySet()) {
             ITu tu = new OmTTu(e.getValue(), targetLanguage);
             Key key = makeKey(e.getKey(), e.getValue());
             assert(!tuMap.containsKey(key));
@@ -65,7 +65,7 @@ public class OmTTmx implements ITmx {
             tuMap.put(key, tu);
             tuvMap.put(key, tu.getTargetTuv());
         }
-        for (Entry<EntryKey, TMXEntry> e : tmx.alternatives.entrySet()) {
+        for (Entry<EntryKey, TMXEntry> e : tmx.getAlternatives().entrySet()) {
             ITu tu = new OmTTu(e.getValue(), targetLanguage);
             Key key = makeKey(e.getKey(), e.getValue());
             assert(!tuMap.containsKey(key));
@@ -100,7 +100,7 @@ public class OmTTmx implements ITmx {
 
     @Override
     public int getSize() {
-        return tmx.alternatives.size() + tmx.defaults.size();
+        return tmx.getAlternatives().size() + tmx.getDefaults().size();
     }
 
     @Override
@@ -130,9 +130,9 @@ public class OmTTmx implements ITmx {
     
     private void add(Key key, TMXEntry tuv) {
         if (key.foreignKey instanceof String) {
-            tmx.defaults.put((String) key.foreignKey, tuv);
+            tmx.setDefault((String) key.foreignKey, tuv);
         } else if (key.foreignKey instanceof EntryKey) {
-            tmx.alternatives.put((EntryKey) key.foreignKey, tuv);
+            tmx.setAlternative((EntryKey) key.foreignKey, tuv);
         } else {
             throw new IllegalArgumentException("Cannot add key of type "
                     + key.getClass().getName() + " to a " + getClass().getName());
@@ -141,9 +141,9 @@ public class OmTTmx implements ITmx {
     
     private void remove(Key key) {
         if (key.foreignKey instanceof String) {
-            tmx.defaults.remove((String) key.foreignKey);
+            tmx.setDefault((String) key.foreignKey, null);
         } else if (key.foreignKey instanceof EntryKey) {
-            tmx.alternatives.remove((EntryKey) key.foreignKey);
+            tmx.setAlternative((EntryKey) key.foreignKey, null);
         } else {
             throw new IllegalArgumentException("Cannot remove key of type "
                     + key.getClass().getName() + " from a " + getClass().getName());
@@ -152,12 +152,8 @@ public class OmTTmx implements ITmx {
     
     private static ProjectTMX clone(ProjectTMX tmx) {
         ProjectTMX newTmx = new ProjectTMX();
-        for (Entry<EntryKey, TMXEntry> e : tmx.alternatives.entrySet()) {
-            newTmx.alternatives.put(e.getKey(), e.getValue());
-        }
-        for (Entry<String, TMXEntry> e : tmx.defaults.entrySet()) {
-            newTmx.defaults.put(e.getKey(), e.getValue());
-        }
+        newTmx.applyAlternatives(tmx.getAlternatives());
+        newTmx.applyDefaults(tmx.getDefaults());
         return newTmx;
     }
 

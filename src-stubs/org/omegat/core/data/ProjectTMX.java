@@ -22,7 +22,6 @@
  */
 package org.omegat.core.data;
 
-import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -31,19 +30,30 @@ import java.util.Map;
  */
 public class ProjectTMX {
     
-    Map<String, TMXEntry> defaults;
-
-    Map<EntryKey, TMXEntry> alternatives;
-    
     public ProjectTMX() {
         throw new UnsupportedOperationException("This class is a stub.");
     }
     
-    public Collection<TMXEntry> getDefaults() {
+    public Map<String, TMXEntry> getDefaults() {
         throw new UnsupportedOperationException("This class is a stub.");
     }
     
-    public Collection<TMXEntry> getAlternatives() {
+    public Map<EntryKey, TMXEntry> getAlternatives() {
+        throw new UnsupportedOperationException("This class is a stub.");
+    }
+
+    public void setDefault(String source, TMXEntry entry) {
+        throw new UnsupportedOperationException("This class is a stub.");
+    }
+
+    public void setAlternative(EntryKey key, TMXEntry entry) {
+        throw new UnsupportedOperationException("This class is a stub.");
+    }
+    public void applyDefaults(Map<String, TMXEntry> newDefaults) {
+        throw new UnsupportedOperationException("This class is a stub.");
+    }
+
+    public void applyAlternatives(Map<EntryKey, TMXEntry> newAlternatives) {
         throw new UnsupportedOperationException("This class is a stub.");
     }
 }
