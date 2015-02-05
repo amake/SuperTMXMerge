@@ -122,7 +122,7 @@ public class DiffIOController {
             tmx2 = new JAXBTmx(getFile2());
             updateProgress(progress, 2, null);
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            throw new RuntimeException(LocString.get("STM_LOAD_ERROR"), ex);
         } finally {
             if (progress != null) {
                 GuiUtil.closeWindow(progress);

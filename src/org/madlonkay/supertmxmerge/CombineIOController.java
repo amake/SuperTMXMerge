@@ -117,7 +117,7 @@ public class CombineIOController {
                 updateProgress(progress, 0, LocString.getFormat("STM_FILE_PROGRESS", firstFile.getName(), 1, files.size()));
                 combined = new JAXBTmx(firstFile);
             } catch (Exception ex) {
-                throw new RuntimeException(ex);
+                throw new RuntimeException(LocString.get("STM_LOAD_ERROR"), ex);
             }
             ITmx empty = JAXBTmx.newEmptyJAXBTmx(combined);
 

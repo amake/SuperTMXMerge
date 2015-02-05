@@ -100,7 +100,7 @@ public class MergeIOController extends DiffIOController {
             }
             updateProgress(progress, 3, null);
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            throw new RuntimeException(LocString.get("STM_LOAD_ERROR"), ex);
         } finally {
             if (progress != null) {
                 GuiUtil.closeWindow(progress);
