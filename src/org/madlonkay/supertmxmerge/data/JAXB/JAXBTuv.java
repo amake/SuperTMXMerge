@@ -120,7 +120,9 @@ public class JAXBTuv implements ITuv {
         int hash = 7;
         hash = 19 * hash + (this.tuv != null ? this.tuv.hashCode() : 0);
         hash = 19 * hash + (getLanguage() != null ? getLanguage().hashCode() : 0);
-        hash = 19 * hash + (this.tuv.getNoteOrProp() != null ? this.tuv.getNoteOrProp().hashCode() : 0);
+        if (this.tuv != null) {
+            hash = 19 * hash + (this.tuv.getNoteOrProp() != null ? this.tuv.getNoteOrProp().hashCode() : 0);
+        }
         return hash;
     }
     
