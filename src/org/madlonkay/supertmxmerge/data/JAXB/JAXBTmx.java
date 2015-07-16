@@ -314,6 +314,10 @@ public class JAXBTmx implements ITmx {
     @Override
     public void writeTo(File output) throws WriteFailedException {
         try {
+            File parent = output.getParentFile();
+            if (!parent.exists()){
+                output.getParentFile().mkdirs();
+            }
             OutputStream stream = new FileOutputStream(output);
             XMLStreamWriter writer = XMLOutputFactory.newInstance().createXMLStreamWriter(stream, "UTF-8");
             MARSHALLER.marshal(tmx, new TmxWriter(writer));
