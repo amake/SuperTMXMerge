@@ -178,7 +178,8 @@ public class CombineIOController {
             try {
                 result = get();
             } catch (Exception ex) {
-                throw new RuntimeException(LocString.get("STM_LOAD_ERROR"), ex);
+                GuiUtil.showError(LocString.getFormat("STM_LOAD_ERROR", ex));
+                throw new RuntimeException(ex);
             } finally {
                 GuiUtil.closeWindow(progress);
             }
