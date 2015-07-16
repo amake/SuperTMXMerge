@@ -210,7 +210,7 @@ public class MergeCell extends javax.swing.JPanel {
         buttonGroup.add(rightButton);
         rightButton.setContentAreaFilled(false);
 
-        setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, javax.swing.UIManager.getDefaults().getColor("List.dropLineColor")), javax.swing.BorderFactory.createEmptyBorder(5, 1, 5, 1)));
         setLayout(new java.awt.BorderLayout());
 
         itemNumberLabel.setText("n");
@@ -219,7 +219,7 @@ public class MergeCell extends javax.swing.JPanel {
 
         sourceTargetPanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Source Language"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1), "Source Language"));
         jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
         sourceText.setEditable(false);
@@ -233,7 +233,7 @@ public class MergeCell extends javax.swing.JPanel {
 
         sourceTargetPanel.add(jPanel2, java.awt.BorderLayout.NORTH);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Target Language"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1), "Target Language"));
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         tuvTextLeft.setEditable(false);
