@@ -34,6 +34,7 @@ import javax.swing.AbstractButton;
 import javax.swing.JOptionPane;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.ITuv;
+import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
 import org.madlonkay.supertmxmerge.data.Key;
 import org.madlonkay.supertmxmerge.data.MergeAnalysis;
 import org.madlonkay.supertmxmerge.data.ResolutionSet;
@@ -73,7 +74,6 @@ public class MergeController implements Serializable, ActionListener {
     private boolean canCancel = true;
     private boolean quiet = false;
     private boolean isTwoWayMerge = false;
-    private boolean isModal = false;
     private int listViewThreshold = 5;
     private Window parentWindow = null;
     
@@ -95,14 +95,8 @@ public class MergeController implements Serializable, ActionListener {
         public ResolutionSet resolve(MergeAnalysis<Key, ITuv> analysis, ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
             if (analysis.hasConflicts()) {
                 // Have conflicts; show window.
-                Window window;
-                if (isModal) {
-                    window = MergeWindow.newAsDialog(MergeController.this, isTwoWayMerge, parentWindow);
-                } else {
-                    window = MergeWindow.newAsFrame(MergeController.this, isTwoWayMerge);
-                }
+                Window window = MergeWindow.newAsDialog(MergeController.this, isTwoWayMerge, parentWindow);
                 GuiUtil.displayWindow(window);
-                GuiUtil.blockOnWindow(window);
             }
             if (isConflictsAreResolved()) {
                 return super.resolve(analysis, baseTmx, leftTmx, rightTmx);
@@ -138,6 +132,12 @@ public class MergeController implements Serializable, ActionListener {
             return -1;
         }
     };
+    
+    public ITmx merge(ITmx leftTmx, ITmx rightTmx) {
+        setIsTwoWayMerge(true);
+        ITmx baseTmx = JAXBTmx.newEmptyJAXBTmx((JAXBTmx) leftTmx);
+        return merge(baseTmx, leftTmx, rightTmx);
+    }
     
     public ITmx merge(ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
         return merge(baseTmx, leftTmx, rightTmx, guiResolutionStrategy);
@@ -345,14 +345,6 @@ public class MergeController implements Serializable, ActionListener {
     
     public boolean isTwoWayMerge() {
         return isTwoWayMerge;
-    }
-    
-    public void setIsModal(boolean isModal) {
-        this.isModal = isModal;
-    }
-    
-    public boolean isModal() {
-        return isModal;
     }
     
     public void setListViewThreshold(int conflicts) {

@@ -19,7 +19,6 @@
 
 package org.madlonkay.supertmxmerge;
 
-import java.awt.GraphicsEnvironment;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
@@ -32,6 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
 import org.madlonkay.supertmxmerge.data.WriteFailedException;
@@ -54,6 +54,8 @@ public class CombineIOController {
     
     private List<File> files = new ArrayList<File>();
     private File outputFile;
+    
+    private boolean isDone;
     
     public CombineIOController() {
         propertySupport = new PropertyChangeSupport(this);
@@ -103,83 +105,120 @@ public class CombineIOController {
     }
     
     public void go() {
-        ProgressWindow progress = null;
-        if (!GraphicsEnvironment.isHeadless()) {
+        isDone = false;
+        GuiUtil.safelyRunBlockingRoutine(new Runnable() {
+            @Override
+            public void run() {
+                new CombineWorker(getFiles()).run();
+                try {
+                    synchronized (CombineIOController.this) {
+                        while (!isDone) {
+                            CombineIOController.this.wait();
+                        }
+                    }
+                } catch (InterruptedException ex) {
+                    LOGGER.log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
+    
+    private class CombineWorker extends SwingWorker<ITmx, Object[]> {
+
+        private final ProgressWindow progress;
+        private final List<File> files;
+        
+        public CombineWorker(List<File> files) {
             progress = new ProgressWindow();
             progress.setMustPopup(true);
             progress.setMaximum(files.size());
+            this.files = files;
         }
-        
-        try {
+
+        @Override
+        protected ITmx doInBackground() throws Exception {
+            
             JAXBTmx combined;
-            try {
-                File firstFile = files.get(0);
-                updateProgress(progress, 0, LocString.getFormat("STM_FILE_PROGRESS", firstFile.getName(), 1, files.size()));
-                combined = new JAXBTmx(firstFile);
-            } catch (Exception ex) {
-                throw new RuntimeException(LocString.get("STM_LOAD_ERROR"), ex);
-            }
+            File firstFile = files.get(0);
+            publish(new Object[] { 0, LocString.getFormat("STM_FILE_PROGRESS", firstFile.getName(), 1, files.size()) });
+            combined = new JAXBTmx(firstFile);
             ITmx empty = JAXBTmx.newEmptyJAXBTmx(combined);
 
             MergeController merger = new MergeController();
             merger.setIsTwoWayMerge(true);
-
+            
             for (int i = 1; i < files.size(); i++) {
-                try {
-                    File thisFile = files.get(i);
-                    updateProgress(progress, i, LocString.getFormat("STM_FILE_PROGRESS", thisFile.getName(), i + 1, files.size()));
-                    JAXBTmx next = new JAXBTmx(thisFile);
-                    combined = (JAXBTmx) merger.merge(empty, combined, next);
-                    if (combined == null) {
-                        // User canceled out.
-                        return;
-                    }
-                } catch (Exception ex) {
-                    LOGGER.log(Level.SEVERE, null, ex);
+                File file = files.get(i);
+                publish(new Object[] { i, LocString.getFormat("STM_FILE_PROGRESS", file.getName(), i + 1, files.size()) });
+                JAXBTmx next = new JAXBTmx(file);
+                combined = (JAXBTmx) merger.merge(empty, combined, next);
+                if (combined == null) {
+                    // User canceled out.
+                    return null;
                 }
             }
 
-            updateProgress(progress, files.size(), LocString.get("STM_COMBINE_COMPLETE"));
-
-            while (true) {
-                if (getOutputFile() != null) {
-                    break;
-                }
-                // Output location not set.
-                JFileChooser chooser = new JFileChooser();
-                if (chooser.showSaveDialog(progress) == JFileChooser.APPROVE_OPTION) {
-                    setOutputFile(chooser.getSelectedFile());
-                } else {
-                    int response = JOptionPane.showConfirmDialog(progress,
-                        LocString.get("STM_CONFIRM_CANCEL_SAVE_MESSAGE"),
-                        LocString.get("STM_COMBINE_WINDOW_TITLE"),
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.WARNING_MESSAGE);
-                    if (response == JOptionPane.YES_OPTION) {
-                        return;
-                    }
-                }
+            publish(new Object[] { files.size() });
+            
+            return combined;
+        }
+        
+        @Override
+        protected void process(List<Object[]> chunks) {
+            Object[] last = chunks.get(chunks.size() - 1);
+            progress.setValue((Integer) last[0]);
+            if (last.length > 1) {
+                progress.setMessage((String) last[1]);
             }
+        }
 
+        @Override
+        protected void done() {
+            ITmx result;
             try {
-                combined.writeTo(getOutputFile());
+                result = get();
+            } catch (Exception ex) {
+                throw new RuntimeException(LocString.get("STM_LOAD_ERROR"), ex);
+            } finally {
+                GuiUtil.closeWindow(progress);
+            }
+            
+            try {
+                writeOutputFile(result);
             } catch (WriteFailedException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
-                throw new RuntimeException(ex);
-            }
-        } finally {
-            if (progress != null) {
-                GuiUtil.closeWindow(progress);
+            } finally {
+                synchronized (CombineIOController.this) {
+                    isDone = true;
+                    CombineIOController.this.notify();
+                }
             }
         }
     }
-    
-    private void updateProgress(ProgressWindow window, int value, String message) {
-        if (window != null) {
-            window.setValue(value);
-            if (message != null) {
-                window.setMessage(message);
+
+    private void writeOutputFile(ITmx combined) throws WriteFailedException {
+        if (combined == null) {
+            return;
+        }
+        while (true) {
+            if (getOutputFile() != null) {
+                break;
+            }
+            // Output location not set.
+            JFileChooser chooser = new JFileChooser();
+            if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+                setOutputFile(chooser.getSelectedFile());
+            } else {
+                int response = JOptionPane.showConfirmDialog(null,
+                    LocString.get("STM_CONFIRM_CANCEL_SAVE_MESSAGE"),
+                    LocString.get("STM_COMBINE_WINDOW_TITLE"),
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+                if (response == JOptionPane.YES_OPTION) {
+                    return;
+                }
             }
         }
+        combined.writeTo(getOutputFile());
     }
 }

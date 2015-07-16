@@ -427,30 +427,12 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
 
     private void diffOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diffOkButtonActionPerformed
         window.dispose();
-        GuiUtil.safelyRunBlockingRoutine(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    diffIOController.go();
-                } catch (Exception ex) {
-                    GuiUtil.showError(ex.getLocalizedMessage());
-                }
-            }
-        });
+        diffIOController.go();
     }//GEN-LAST:event_diffOkButtonActionPerformed
 
     private void mergeOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mergeOkButtonActionPerformed
         window.dispose();
-        GuiUtil.safelyRunBlockingRoutine(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    mergeIOController.go();
-                } catch (Exception ex) {
-                    GuiUtil.showError(ex.getLocalizedMessage());
-                }
-            }
-        });
+        mergeIOController.go();
     }//GEN-LAST:event_mergeOkButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
@@ -479,16 +461,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
 
     private void combineOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combineOkButtonActionPerformed
         window.dispose();
-        GuiUtil.safelyRunBlockingRoutine(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    combineIOController.go();
-                } catch (Exception ex) {
-                    GuiUtil.showError(ex.getLocalizedMessage());
-                }
-            }
-        });
+        combineIOController.go();
     }//GEN-LAST:event_combineOkButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

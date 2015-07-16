@@ -109,7 +109,6 @@ public class DiffController implements Serializable {
         } else {
             diffWindow = DiffWindow.newAsFrame(this);
             GuiUtil.displayWindow(diffWindow);
-            GuiUtil.blockOnWindow(diffWindow);
         }
     }
     

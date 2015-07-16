@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
@@ -32,14 +31,13 @@ import org.madlonkay.supertmxmerge.util.LocString;
  */
 public class Main {
     
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         
         // Set up look-and-feel stuff.
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             System.setProperty("apple.laf.useScreenMenuBar", "true");
-            System.setProperty(
-                "com.apple.mrj.application.apple.menu.about.name", "SuperTMXMerge");
+            System.setProperty("com.apple.mrj.application.apple.menu.about.name", "SuperTMXMerge");
         } catch (UnsupportedLookAndFeelException ex) {
             throw new RuntimeException(ex);
         } catch (ClassNotFoundException ex) {
@@ -50,65 +48,57 @@ public class Main {
             throw new RuntimeException(ex);
         }
         
-        final String[] theArgs = args;
-        
-        Runnable run = new Runnable() {
-            @Override
-            public void run() {
-                // TODO: Use a proper args parsing library or something.
+        // TODO: Use a proper args parsing library or something.
                 
-                try {
-                    if (theArgs.length == 0) {
-                        SuperTmxMerge.promptForFiles();
-                        return;
+        try {
+            if (args.length == 0) {
+                
+                SuperTmxMerge.promptForFiles();
+                return;
+            }
+
+            // The order of these tests is important!
+
+            if ("--combine".equals(args[0])) {
+                List<File> files = new ArrayList<File>();
+                File outputFile = null;
+                int i;
+                for (i = 1; i < args.length; i++) {
+                    if ("-o".equals(args[i])) {
+                        break;
                     }
-
-                    // The order of these tests is important!
-
-                    if ("--combine".equals(theArgs[0])) {
-                        List<File> files = new ArrayList<File>();
-                        File outputFile = null;
-                        int i;
-                        for (i = 1; i < theArgs.length; i++) {
-                            if ("-o".equals(theArgs[i])) {
-                                break;
-                            }
-                            File file = new File(theArgs[i]);
-                            if (!files.contains(file)) {
-                                files.add(file);
-                            }
-                        }
-                        if (i < theArgs.length - 1) {
-                            outputFile = new File(theArgs[i + 1]);
-                        }
-                        SuperTmxMerge.combineTo(outputFile, files.toArray(new File[0]));
-                        return;
-                    } else if (theArgs.length == 2) {
-                        SuperTmxMerge.diff(new File(theArgs[0]), new File(theArgs[1]));
-                        return;
-                    } else if (theArgs.length == 3) {
-                        SuperTmxMerge.merge(new File(theArgs[0]), new File(theArgs[1]), new File(theArgs[2]));
-                        return;
-                    } else if (theArgs.length == 4) {
-
-                        if (theArgs[2].equals("-o")) {
-                            SuperTmxMerge.diffTo(new File(theArgs[0]), new File(theArgs[1]), new File(theArgs[3]));
-                            return;
-                        } else {
-                            SuperTmxMerge.mergeTo(new File(theArgs[0]), new File(theArgs[1]), new File(theArgs[2]),
-                                    new File(theArgs[3]));
-                            return;
-                        }
+                    File file = new File(args[i]);
+                    if (!files.contains(file)) {
+                        files.add(file);
                     }
+                }
+                if (i < args.length - 1) {
+                    outputFile = new File(args[i + 1]);
+                }
+                SuperTmxMerge.combineTo(outputFile, files.toArray(new File[0]));
+                return;
+            } else if (args.length == 2) {
+                SuperTmxMerge.diff(new File(args[0]), new File(args[1]));
+                return;
+            } else if (args.length == 3) {
+                SuperTmxMerge.merge(new File(args[0]), new File(args[1]), new File(args[2]));
+                return;
+            } else if (args.length == 4) {
 
-                    printUsage();
-                } catch (Exception ex) {
-                    System.err.println(ex.getLocalizedMessage());
+                if (args[2].equals("-o")) {
+                    SuperTmxMerge.diffTo(new File(args[0]), new File(args[1]), new File(args[3]));
+                    return;
+                } else {
+                    SuperTmxMerge.mergeTo(new File(args[0]), new File(args[1]), new File(args[2]),
+                            new File(args[3]));
+                    return;
                 }
             }
-        };
-        
-        GuiUtil.safelyRunBlockingRoutine(run);
+
+            printUsage();
+        } catch (Exception ex) {
+            System.err.println(ex.getLocalizedMessage());
+        }
     }
     
     private static void printUsage() {

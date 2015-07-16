@@ -21,6 +21,7 @@ package org.madlonkay.supertmxmerge;
 import java.awt.Window;
 import java.io.File;
 import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
 import org.madlonkay.supertmxmerge.data.DiffAnalysis;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.MergeAnalysis;
@@ -78,7 +79,6 @@ public class SuperTmxMerge {
         
         MergeController controller = new MergeController();
         controller.setQuiet(true);
-        controller.setIsModal(true);
         controller.setCanCancel(false);
         controller.setParentWindow(properties.getParentWindow());
         controller.setListViewThreshold(properties.getListViewThreshold());
@@ -119,8 +119,13 @@ public class SuperTmxMerge {
     }
     
     public static void promptForFiles() {
-        Window window = FileSelectWindow.newAsFrame();
-        GuiUtil.displayWindow(window);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                Window window = FileSelectWindow.newAsFrame();
+                GuiUtil.displayWindow(window);
+            }
+        });
     }
     
 }

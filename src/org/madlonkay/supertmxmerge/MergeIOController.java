@@ -18,16 +18,14 @@
  */
 package org.madlonkay.supertmxmerge;
 
-import java.awt.GraphicsEnvironment;
 import java.io.File;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.madlonkay.supertmxmerge.data.ITmx;
-import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
 import org.madlonkay.supertmxmerge.data.WriteFailedException;
-import org.madlonkay.supertmxmerge.gui.ProgressWindow;
 import org.madlonkay.supertmxmerge.util.FileUtil;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
@@ -43,6 +41,8 @@ public class MergeIOController extends DiffIOController {
     public static final String PROP_MERGEBASEFILE = "mergeBaseFile";
     
     private File baseFile;
+    
+    private boolean isDone;
     
     public MergeIOController() {
         super();
@@ -69,48 +69,62 @@ public class MergeIOController extends DiffIOController {
     
     @Override
     public void go() {
-        
-        MergeController merger = new MergeController();
-        
-        if (getOutputFile() != null) {
-            merger.setQuiet(true);
-        }
-        
-        ProgressWindow progress = null;
-        if (!GraphicsEnvironment.isHeadless()) {
-            progress = new ProgressWindow();
-            progress.setMaximum(3);
-        }
-        
-        ITmx baseTmx;
-        ITmx leftTmx;
-        ITmx rightTmx;
-        try {
-            updateProgress(progress, 0, LocString.getFormat("STM_FILE_PROGRESS", getFile1().getName(), 1, 3));
-            leftTmx = new JAXBTmx(getFile1());
-            updateProgress(progress, 1, LocString.getFormat("STM_FILE_PROGRESS", getFile2().getName(), 2, 3));
-            rightTmx = new JAXBTmx(getFile2());
-            updateProgress(progress, 2, LocString.getFormat("STM_FILE_PROGRESS",
-                    getBaseFile() == null ? LocString.get("STM_EMPTY_TMX_NAME") : getBaseFile().getName(), 3, 3));
-            if (getBaseFile() == null || getBaseFile().length() == 0) {
-                baseTmx = JAXBTmx.newEmptyJAXBTmx((JAXBTmx) leftTmx);
-                merger.setIsTwoWayMerge(true);
-            } else {
-                baseTmx = new JAXBTmx(getBaseFile());
+        isDone = false;
+        GuiUtil.safelyRunBlockingRoutine(new Runnable() {
+            @Override
+            public void run() {
+                if (getBaseFile() == null || getBaseFile().length() == 0) {
+                    new MergeWorker(getFile1(), getFile2()).run();
+                } else {
+                    new MergeWorker(getBaseFile(), getFile1(), getFile2()).run();
+                }
+                try {
+                    synchronized (MergeIOController.this) {
+                        while (!isDone) {
+                            MergeIOController.this.wait();
+                        }
+                    }
+                } catch (InterruptedException ex) {
+                    LOGGER.log(Level.SEVERE, null, ex);
+                }
             }
-            updateProgress(progress, 3, null);
-        } catch (Exception ex) {
-            throw new RuntimeException(LocString.get("STM_LOAD_ERROR"), ex);
-        } finally {
-            if (progress != null) {
-                GuiUtil.closeWindow(progress);
-            }
-        }
-        
-        ITmx merged = merger.merge(baseTmx, leftTmx, rightTmx);
+        });
+    }
+    
+    private class MergeWorker extends FileLoaderWorker {
 
+        public MergeWorker(File... files) {
+            super(files);
+        }
+        
+        @Override
+        protected void processLoadedTmxs(List<ITmx> tmxs) {
+            try {
+                MergeController merger = new MergeController();
+                if (getOutputFile() != null) {
+                    merger.setQuiet(true);
+                }
+
+                ITmx merged;
+                if (tmxs.size() == 2) {
+                    merged = merger.merge(tmxs.get(0), tmxs.get(1));
+                } else {
+                    merged = merger.merge(tmxs.get(0), tmxs.get(1), tmxs.get(2));
+                }
+                writeOutputFile(merged);
+            } catch (WriteFailedException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            } finally {
+                synchronized (MergeIOController.this) {
+                    isDone = true;
+                    MergeIOController.this.notify();
+                }
+            }
+        }
+    }
+
+    private void writeOutputFile(ITmx merged) throws WriteFailedException {
         if (merged == null) {
-            // User canceled out.
             return;
         }
         while (true) {
@@ -132,12 +146,6 @@ public class MergeIOController extends DiffIOController {
                 }
             }
         }
-
-        try {
-            merged.writeTo(getOutputFile());
-        } catch (WriteFailedException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-            throw new RuntimeException(ex);
-        }
+        merged.writeTo(getOutputFile());
     }
 }
