@@ -35,12 +35,6 @@ import org.madlonkay.supertmxmerge.util.LocString;
 public class DiffCell extends javax.swing.JPanel {
 
      private final static MapToTextConverter CONVERTER = new MapToTextConverter();
-     private final static Border BORDER_DEFAULT;
-     
-     static {
-        JScrollPane sp = new JScrollPane();
-        BORDER_DEFAULT = sp.getBorder();
-    }
      
     /**
      * Creates new form TUDiffCell
@@ -119,7 +113,7 @@ public class DiffCell extends javax.swing.JPanel {
         sourceText.setLineWrap(true);
         sourceText.setText("Source text");
         sourceText.setWrapStyleWord(true);
-        sourceText.setBorder(BORDER_DEFAULT);
+        sourceText.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, javax.swing.UIManager.getDefaults().getColor("Button.disabledText")));
         sourceTextPanel.add(sourceText);
 
         jPanel2.add(sourceTextPanel, java.awt.BorderLayout.NORTH);
@@ -128,13 +122,13 @@ public class DiffCell extends javax.swing.JPanel {
         targetTextsPanel.setLayout(new java.awt.GridLayout(1, 0));
 
         tuvText1.setEditable(false);
-        tuvText1.setBorder(BORDER_DEFAULT);
+        tuvText1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, javax.swing.UIManager.getDefaults().getColor("Button.disabledText")));
         tuvText1.setFont(UIManager.getDefaults().getFont("Label.font"));
         tuvText1.setText("Target text 1");
         targetTextsPanel.add(tuvText1);
 
         tuvText2.setEditable(false);
-        tuvText2.setBorder(BORDER_DEFAULT);
+        tuvText2.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, javax.swing.UIManager.getDefaults().getColor("Button.disabledText")));
         tuvText2.setFont(UIManager.getDefaults().getFont("Label.font"));
         tuvText2.setText("Target text 2");
         targetTextsPanel.add(tuvText2);

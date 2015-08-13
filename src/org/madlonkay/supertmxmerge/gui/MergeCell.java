@@ -21,8 +21,6 @@ package org.madlonkay.supertmxmerge.gui;
 import java.awt.Color;
 import java.util.Map;
 import javax.swing.AbstractButton;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
@@ -38,19 +36,13 @@ import org.madlonkay.supertmxmerge.util.LocString;
  */
 public class MergeCell extends javax.swing.JPanel {
 
-    private final static Border BORDER_DEFAULT;
-    private final static Border BORDER_SELECTED;
+    private final static Border BORDER_DEFAULT = new MatteBorder(1, 1, 1, 1, UIManager.getColor("Button.disabledText"));
+    private final static Border BORDER_SELECTED = new MatteBorder(2, 2, 2, 2, Color.BLUE);
     
     private final static MapToTextConverter CONVERTER = new MapToTextConverter();
     
     private final ConflictInfo info;
     private final boolean isDetailMode;
-    
-    static {
-        JScrollPane sp = new JScrollPane();
-        BORDER_DEFAULT = sp.getBorder();
-        BORDER_SELECTED = new MatteBorder(2, 2, 2, 2, Color.BLUE);
-    }
     
     /**
      * Creates new form TUDiffCell
