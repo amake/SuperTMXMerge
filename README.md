@@ -2,7 +2,15 @@ SuperTMXMerge
 =============
 
 SuperTMXMerge is a tool for diffing and merging Translation Memory eXchange
-(TMX) files. 
+(TMX) files.
+
+Diffing:
+
+![Diff screenshot](https://amake.github.io/SuperTMXMerge/screenshot-diff.png)
+
+3-way merging:
+
+![3-way merge screenshot](https://amake.github.io/SuperTMXMerge/screenshot-merge.png)
 
 Standard text-based diff and merge tools can work with TMX files, but they will
 operate on the raw XML text of the file, without understanding the content. This
@@ -119,4 +127,4 @@ available, an OmegaT-compatible translation kit will be created in `l10n/work`
 at build time if there are untranslated strings. After translation, run `ant`
 again to merge the kit.
 
-Copyright 2013-2014 Aaron Madlon-Kay <aaron@madlon-kay.com>
+Copyright 2013-2015 Aaron Madlon-Kay <aaron@madlon-kay.com>
