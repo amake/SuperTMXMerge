@@ -1,3 +1,4 @@
 #!/bin/sh
 
-java -jar "$(dirname "$0")/SuperTMXMerge.jar" "$@"
+SCRIPT_DIR=$(dirname "$(readlink -f $0)")
+java -jar "$SCRIPT_DIR/SuperTMXMerge.jar" "$@"
