@@ -88,6 +88,9 @@ distributions {
             into("${applicationName}.app/Contents/Java") {
                 from jar, configurations.runtime
             }
+            from('.') {
+                include '*.md', 'LICENSE'
+            }
         }
     }
 }
