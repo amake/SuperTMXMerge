@@ -20,16 +20,17 @@
 package org.madlonkay.supertmxmerge;
 
 import java.io.File;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.madlonkay.supertmxmerge.data.ITmx;
-import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
 import org.madlonkay.supertmxmerge.data.MergeAnalysis;
 import org.madlonkay.supertmxmerge.data.ResolutionSet;
 import org.madlonkay.supertmxmerge.data.ResolutionStrategy;
+import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
 
 /**
  *
@@ -62,9 +63,9 @@ public class MergeControllerTest {
      */
     @Test
     public void testManualResolution() throws Exception {        
-        File baseFile = TestUtils.getFilePath("resources/base.tmx");
-        File file1 = TestUtils.getFilePath("resources/left.tmx");
-        File file2 = TestUtils.getFilePath("resources/right.tmx");
+        File baseFile = TestUtils.getFilePath("base.tmx");
+        File file1 = TestUtils.getFilePath("left.tmx");
+        File file2 = TestUtils.getFilePath("right.tmx");
         File outFile = new File(file1.getParentFile(), "output.tmx");
         
         
@@ -75,19 +76,19 @@ public class MergeControllerTest {
         
         ResolutionSet resolution = merger.resolve(ResolutionStrategy.LEFT);
         ITmx result = merger.apply(resolution);
-        File goldFile = TestUtils.getFilePath("resources/gold/manualResolveLeftGold.tmx");
+        File goldFile = TestUtils.getFilePath("gold/manualResolveLeftGold.tmx");
         TestUtils.ensureEmptyDiff(result, goldFile);
         outFile.delete();
         
         resolution = merger.resolve(ResolutionStrategy.BASE);
         result = merger.apply(resolution);
-        goldFile = TestUtils.getFilePath("resources/gold/manualResolveBaseGold.tmx");
+        goldFile = TestUtils.getFilePath("gold/manualResolveBaseGold.tmx");
         TestUtils.ensureEmptyDiff(result, goldFile);
         outFile.delete();
         
         resolution = merger.resolve(ResolutionStrategy.RIGHT);
         result = merger.apply(resolution);
-        goldFile = TestUtils.getFilePath("resources/gold/manualResolveRightGold.tmx");
+        goldFile = TestUtils.getFilePath("gold/manualResolveRightGold.tmx");
         TestUtils.ensureEmptyDiff(result, goldFile);
         outFile.delete();
     }

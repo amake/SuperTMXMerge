@@ -19,12 +19,15 @@
 
 package org.madlonkay.supertmxmerge;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
+import java.net.URISyntaxException;
+
 import org.madlonkay.supertmxmerge.data.DiffAnalysis;
+import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
-import static org.junit.Assert.*;
-import org.madlonkay.supertmxmerge.data.ITmx;
 
 /**
  *
@@ -32,8 +35,8 @@ import org.madlonkay.supertmxmerge.data.ITmx;
  */
 public class TestUtils {
     
-    public static File getFilePath(String identifier) {
-        return new File(TestUtils.class.getClassLoader().getResource(identifier).getFile());
+    public static File getFilePath(String identifier) throws URISyntaxException {
+        return new File(TestUtils.class.getResource(identifier).toURI());
     }
     
     public static void ensureEmptyDiff(ITmx file1, ITmx file2) throws Exception {
