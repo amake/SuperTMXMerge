@@ -29,9 +29,9 @@ dependencies {
 }
 
 sourceSets {
-    main {
+    test {
         resources {
-            exclude 'gen/**'
+            srcDir 'src/main/resources'
         }
     }
 }

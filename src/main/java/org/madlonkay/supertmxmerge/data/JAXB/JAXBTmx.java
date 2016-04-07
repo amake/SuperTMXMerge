@@ -18,12 +18,6 @@
  */
 package org.madlonkay.supertmxmerge.data.JAXB;
 
-import gen.core.tmx14.Body;
-import gen.core.tmx14.Header;
-import gen.core.tmx14.Prop;
-import gen.core.tmx14.Tmx;
-import gen.core.tmx14.Tu;
-import gen.core.tmx14.Tuv;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
@@ -39,9 +33,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -51,6 +45,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.Source;
 import javax.xml.transform.sax.SAXSource;
+
 import org.madlonkay.supertmxmerge.data.DiffAnalysis;
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.ITu;
@@ -68,6 +63,13 @@ import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
+
+import gen.core.tmx14.Body;
+import gen.core.tmx14.Header;
+import gen.core.tmx14.Prop;
+import gen.core.tmx14.Tmx;
+import gen.core.tmx14.Tu;
+import gen.core.tmx14.Tuv;
 
 /**
  *
@@ -124,8 +126,7 @@ public class JAXBTmx implements ITmx {
                 @Override
                 public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
                     File systemFile = new File(systemId);
-                    InputSource s = new InputSource(JAXBTmx.class.getResourceAsStream("/schemas/" + systemFile.getName()));
-                    return s;
+                    return new InputSource(Tmx.class.getResourceAsStream(systemFile.getName()));
                 }
             });
             XMLREADER = xmlreader;
