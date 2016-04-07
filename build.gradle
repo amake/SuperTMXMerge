@@ -1,0 +1,93 @@
+apply plugin: 'application'
+apply plugin: 'eclipse'
+
+applicationName = 'SuperTMXMerge'
+mainClassName = 'org.madlonkay.supertmxmerge.Main'
+
+def getGitVersion = {
+    if (!file('.git').directory) {
+        return 'unknown'
+    }
+    StringBuilder output = new StringBuilder()
+    'git describe --tags --always HEAD'.execute().waitForProcessOutput(output, null)
+    return output.toString().trim()
+}
+
+version = getGitVersion()
+
+sourceCompatibility = '1.6'
+targetCompatibility = '1.6'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.jdesktop:beansbinding:1.2.1'
+    compile 'com.googlecode.java-diff-utils:diffutils:1.2.1'
+    testCompile 'junit:junit:4.12'
+}
+
+sourceSets {
+    main {
+        resources {
+            exclude 'gen/**'
+        }
+    }
+}
+
+jar {
+    exclude 'org/omegat/**'
+}
+
+task genJAXB << {
+    def xjbFile = file('src/main/resources/gen/core/tmx14/tmx14.xjb')
+    def xsdFile = file('src/main/resources/gen/core/tmx14/tmx14.xsd')
+    "xjc -no-header -d src/main/java -p gen.core.tmx14 -b ${xjbFile.path} ${xsdFile.path}".execute().consumeProcessOutput()
+}
+compileJava.dependsOn genJAXB
+
+task macApp {
+    description = 'Generate the Mac .app skeleton. Requires AppBundler (https://bitbucket.org/infinitekind/appbundler) ' +
+        'to be available in ~/.ant/lib'
+    def appbundlerJar = file("${System.getProperty('user.home')}/.ant/lib/appbundler-1.0ea.jar")
+    onlyIf {
+        appbundlerJar.file
+    }
+    def outputDir = file("${buildDir}/mac")
+    outputs.dir outputDir
+    doLast {
+        delete outputDir
+        outputDir.mkdirs()
+        ant.taskdef(name: 'appbundler', classname: 'com.oracle.appbundler.AppBundlerTask',
+            classpath: appbundlerJar)
+        ant.appbundler(outputdirectory: outputDir.path,
+            name: applicationName,
+            displayname: applicationName,
+            identifier: "org.madlonkay.${applicationName}",
+            version: version,
+            jvmrequired: targetCompatibility,
+            shortversion: '${version}',
+            mainclassname: mainClassName) {
+            option(value: "-Xdock:name=${applicationName}")
+        }
+    }
+}
+
+distributions {
+    main {
+        contents {
+            from('.') {
+                include '*.md', 'LICENSE'
+            }
+        }
+    }
+    mac {
+        contents {
+            from macApp.outputs
+            into("${applicationName}.app/Contents/Java") {
+                from jar, configurations.runtime
+            }
+        }
+    }
+}

@@ -1,5 +1,15 @@
-/nbproject/private
 /build
-/dist/
-Strings_*.properties
-/l10n/work
+.gradle
+
+# Eclipse
+.settings
+.project
+.classpath
+/bin
+
+# NetBeans
+.nb-gradle
+
+# Generated
+src/main/java/gen
+l10n/work
