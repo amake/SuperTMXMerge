@@ -21,9 +21,9 @@ package org.madlonkay.supertmxmerge;
 
 import java.awt.Window;
 import java.util.ResourceBundle;
+
 import org.madlonkay.supertmxmerge.data.Report;
 import org.madlonkay.supertmxmerge.data.ResolutionStrategy;
-import org.madlonkay.supertmxmerge.util.LocString;
 
 /**
  *
@@ -31,9 +31,6 @@ import org.madlonkay.supertmxmerge.util.LocString;
  */
 public class StmProperties {
     
-    private String baseTmxName = LocString.get("STM_BASE_TMX_DEFAULT_NAME");
-    private String leftTmxName = LocString.get("STM_LEFT_TMX_DEFAULT_NAME");
-    private String rightTmxName = LocString.get("STM_RIGHT_TMX_DEFAULT_NAME");
     private ResourceBundle resource = null;
     private Window parentWindow = null;
     private int listViewThreshold = 5;
@@ -41,33 +38,6 @@ public class StmProperties {
     private Report report = null;
 
     public StmProperties() {
-    }
-    
-    public StmProperties setBaseTmxName(String name) {
-        this.baseTmxName = name;
-        return this;
-    }
-    
-    public String getBaseTmxName() {
-        return baseTmxName;
-    }
-    
-    public StmProperties setTmx1Name(String name) {
-        this.leftTmxName = name;
-        return this;
-    }
-    
-    public String geTmx1Name() {
-        return leftTmxName;
-    }
-    
-    public StmProperties setTmx2Name(String name) {
-        this.rightTmxName = name;
-        return this;
-    }
-    
-    public String getTmx2Name() {
-        return rightTmxName;
     }
     
     public StmProperties setLanguageResource(ResourceBundle resource) {

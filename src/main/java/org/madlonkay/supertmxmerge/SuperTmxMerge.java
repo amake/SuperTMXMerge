@@ -68,8 +68,7 @@ public class SuperTmxMerge {
         return controller.getOutputFile();
     }
     
-    public static ProjectTMX merge(ITmx baseTmx, ITmx tmx1, ITmx tmx2, String sourceLanguage, String targetLanguage,
-            StmProperties properties) {
+    public static ProjectTMX merge(ITmx baseTmx, ITmx tmx1, ITmx tmx2, StmProperties properties) {
         
         if (properties == null) {
             properties = new StmProperties();
