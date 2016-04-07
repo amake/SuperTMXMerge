@@ -40,12 +40,14 @@ jar {
     exclude 'org/omegat/**'
 }
 
-task genJAXB << {
+task genJAXB(type: Exec) {
+    // See https://discuss.gradle.org/t/how-can-i-compile-generated-sources/7541
+    outputs.dir file('src/main/java/gen')
     def xjbFile = file('src/main/resources/gen/core/tmx14/tmx14.xjb')
     def xsdFile = file('src/main/resources/gen/core/tmx14/tmx14.xsd')
-    "xjc -no-header -d src/main/java -p gen.core.tmx14 -b ${xjbFile.path} ${xsdFile.path}".execute().consumeProcessOutput()
+    commandLine 'xjc', '-no-header', '-d', 'src/main/java', '-p', 'gen.core.tmx14', '-b', xjbFile.path, xsdFile.path
 }
-compileJava.dependsOn genJAXB
+compileJava.source genJAXB.outputs.files, sourceSets.main.java
 
 task macApp {
     description = 'Generate the Mac .app skeleton. Requires AppBundler (https://bitbucket.org/infinitekind/appbundler) ' +
