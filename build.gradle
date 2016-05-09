@@ -1,9 +1,11 @@
 plugins {
   id 'com.github.johnrengelman.shadow' version '1.2.3'
+  id 'com.jfrog.bintray' version '1.6'
 }
 
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'maven-publish'
 apply plugin: 'eclipse'
 
 applicationName = 'SuperTMXMerge'
@@ -100,4 +102,31 @@ distributions {
             }
         }
     }
+}
+
+publishing {
+    publications {
+        forEmbedding(MavenPublication) {
+            groupId 'org.madlonkay.supertmxmerge'
+            artifactId 'supertmxmerge'
+            version version
+
+            from components.java
+        }
+    }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    pkg {
+        repo = 'maven'
+        name = 'org.madlonkay.supertmxmerge'
+        licenses = ['LGPL-2.1']
+        vcsUrl = 'https://github.com/amake/SuperTMXMerge.git'
+        version {
+            name = project.version
+        }
+    }
+    publications = ['forEmbedding']
 }
