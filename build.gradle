@@ -104,9 +104,18 @@ distributions {
     }
 }
 
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+    exclude 'org/omegat/**'
+}
+
 javadoc {
     failOnError = false
     exclude 'org/omegat/**'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc.outputs
 }
 
 publishing {
@@ -117,6 +126,12 @@ publishing {
             version version
 
             from components.java
+            artifact sourceJar {
+                classifier 'sources'
+            }
+            artifact javadocJar {
+                classifier 'javadoc'
+            }
         }
     }
 }
