@@ -104,6 +104,11 @@ distributions {
     }
 }
 
+javadoc {
+    failOnError = false
+    exclude 'org/omegat/**'
+}
+
 publishing {
     publications {
         forEmbedding(MavenPublication) {
