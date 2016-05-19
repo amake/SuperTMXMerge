@@ -104,6 +104,13 @@ distributions {
     }
 }
 
+task debug(dependsOn: classes, type: JavaExec) {
+    description = 'Launch app for debugging.' // Special debug task for NetBeans
+    main = mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    debug true
+}
+
 task sourceJar(type: Jar) {
     from sourceSets.main.allJava
     exclude 'org/omegat/**'
