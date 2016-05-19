@@ -54,7 +54,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
             <MatteColorBorder bottom="1" left="0" right="0" top="0">
-              <Color PropertyName="color" blue="80" green="80" id="Button.disabledText" palette="3" red="80" type="palette"/>
+              <Color PropertyName="color" blue="8e" green="8e" id="Control Shadow" palette="2" red="8e" type="palette"/>
             </MatteColorBorder>
           </Border>
         </Property>
@@ -206,7 +206,7 @@
             <CompoundBorder>
               <Border PropertyName="outside" info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
                 <MatteColorBorder bottom="0" left="0" right="0" top="1">
-                  <Color PropertyName="color" blue="80" green="80" id="Button.disabledText" palette="3" red="80" type="palette"/>
+                  <Color PropertyName="color" blue="8e" green="8e" id="Control Shadow" palette="2" red="8e" type="palette"/>
                 </MatteColorBorder>
               </Border>
               <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">

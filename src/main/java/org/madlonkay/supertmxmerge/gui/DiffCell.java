@@ -95,7 +95,7 @@ public class DiffCell extends javax.swing.JPanel {
         tuvText1 = new javax.swing.JTextPane();
         tuvText2 = new javax.swing.JTextPane();
 
-        setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, javax.swing.UIManager.getDefaults().getColor("List.dropLineColor")), javax.swing.BorderFactory.createEmptyBorder(5, 1, 5, 1)));
+        setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, java.awt.SystemColor.controlShadow), javax.swing.BorderFactory.createEmptyBorder(5, 1, 5, 1)));
         setLayout(new java.awt.BorderLayout());
 
         itemNumberLabel.setText("n");
@@ -113,7 +113,7 @@ public class DiffCell extends javax.swing.JPanel {
         sourceText.setLineWrap(true);
         sourceText.setText("Source text");
         sourceText.setWrapStyleWord(true);
-        sourceText.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, javax.swing.UIManager.getDefaults().getColor("Button.disabledText")));
+        sourceText.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, java.awt.Color.lightGray));
         sourceTextPanel.add(sourceText);
 
         jPanel2.add(sourceTextPanel, java.awt.BorderLayout.NORTH);
@@ -122,13 +122,13 @@ public class DiffCell extends javax.swing.JPanel {
         targetTextsPanel.setLayout(new java.awt.GridLayout(1, 0));
 
         tuvText1.setEditable(false);
-        tuvText1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, javax.swing.UIManager.getDefaults().getColor("Button.disabledText")));
+        tuvText1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, java.awt.Color.lightGray));
         tuvText1.setFont(UIManager.getDefaults().getFont("Label.font"));
         tuvText1.setText("Target text 1");
         targetTextsPanel.add(tuvText1);
 
         tuvText2.setEditable(false);
-        tuvText2.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, javax.swing.UIManager.getDefaults().getColor("Button.disabledText")));
+        tuvText2.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, java.awt.Color.lightGray));
         tuvText2.setFont(UIManager.getDefaults().getFont("Label.font"));
         tuvText2.setText("Target text 2");
         targetTextsPanel.add(tuvText2);

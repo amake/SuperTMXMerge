@@ -36,7 +36,7 @@ import org.madlonkay.supertmxmerge.util.LocString;
  */
 public class MergeCell extends javax.swing.JPanel {
 
-    private final static Border BORDER_DEFAULT = new MatteBorder(1, 1, 1, 1, UIManager.getColor("Button.disabledText"));
+    private final static Border BORDER_DEFAULT = new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY);
     private final static Border BORDER_SELECTED = new MatteBorder(2, 2, 2, 2, Color.BLUE);
     
     private final static MapToTextConverter CONVERTER = new MapToTextConverter();
@@ -202,7 +202,7 @@ public class MergeCell extends javax.swing.JPanel {
         buttonGroup.add(rightButton);
         rightButton.setContentAreaFilled(false);
 
-        setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, javax.swing.UIManager.getDefaults().getColor("List.dropLineColor")), javax.swing.BorderFactory.createEmptyBorder(5, 1, 5, 1)));
+        setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, java.awt.SystemColor.controlShadow), javax.swing.BorderFactory.createEmptyBorder(5, 1, 5, 1)));
         setLayout(new java.awt.BorderLayout());
 
         itemNumberLabel.setText("n");

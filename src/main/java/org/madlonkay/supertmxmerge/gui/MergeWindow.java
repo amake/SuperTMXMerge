@@ -428,7 +428,7 @@ public class MergeWindow extends javax.swing.JPanel {
 
         topPanel.add(jPanel6);
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, javax.swing.UIManager.getDefaults().getColor("Button.disabledText")), javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4)));
+        jPanel5.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, java.awt.SystemColor.controlShadow), javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4)));
         jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.LINE_AXIS));
 
         allLeftButton.setText(LocString.get("STM_USE_ALL_MINE_BUTTON")); // NOI18N
@@ -469,7 +469,7 @@ public class MergeWindow extends javax.swing.JPanel {
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        bottomPanel.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, javax.swing.UIManager.getDefaults().getColor("Button.disabledText")), javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4)));
+        bottomPanel.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, java.awt.SystemColor.controlShadow), javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4)));
         bottomPanel.setLayout(new java.awt.BorderLayout());
 
         modeSwtichButton.setText(LocString.get("STM_LIST_VIEW_BUTTON")); // NOI18N

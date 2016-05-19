@@ -172,7 +172,7 @@ public class DiffWindow extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, javax.swing.UIManager.getDefaults().getColor("Button.disabledText")));
+        jPanel3.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, java.awt.SystemColor.controlShadow));
         jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.PAGE_AXIS));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
@@ -237,7 +237,7 @@ public class DiffWindow extends javax.swing.JPanel {
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        buttonPanel.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, javax.swing.UIManager.getDefaults().getColor("Button.disabledText")), javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4)));
+        buttonPanel.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, java.awt.SystemColor.controlShadow), javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4)));
         buttonPanel.setLayout(new java.awt.BorderLayout());
 
         saveAsButton.setText(LocString.get("STM_SAVE_AS_BUTTON")); // NOI18N
