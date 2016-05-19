@@ -58,6 +58,9 @@ public class LocStringConverter extends Converter {
         if (value instanceof Integer && ((Integer) value) == 1) {
             return LocString.get(idSingular);
         }
+        if (value instanceof Object[]) {
+            return LocString.getFormat(id, (Object[]) value);
+        }
         return LocString.getFormat(id, value);
     }
 }

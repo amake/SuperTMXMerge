@@ -55,6 +55,7 @@ public class DiffController implements Serializable {
     private ITmx tmx2;
     
     private List<DiffInfo> diffInfos;
+    private Integer[] counts;
     private JFrame diffWindow;
     
     private final PropertyChangeSupport propertySupport;
@@ -98,7 +99,7 @@ public class DiffController implements Serializable {
         setTmx1(tmx1);
         setTmx2(tmx2);
         
-        diffInfos = generateDiffData(tmx1, tmx2);
+        generateDiffData(tmx1, tmx2);
         propertySupport.firePropertyChange(PROP_CHANGECOUNT, null, null);
         
         if (diffInfos.isEmpty()) {
@@ -116,8 +117,8 @@ public class DiffController implements Serializable {
         return diffInfos;
     }
 
-    public int getChangeCount() {
-        return diffInfos.size();
+    public Integer[] getChangeCount() {
+        return counts;
     }
     
     public boolean canSaveDiff() {
@@ -143,9 +144,9 @@ public class DiffController implements Serializable {
         }
     }
     
-    private static List<DiffInfo> generateDiffData(ITmx tmx1, ITmx tmx2) {
+    private void generateDiffData(ITmx tmx1, ITmx tmx2) {
         
-        List<DiffInfo> diffInfos = new ArrayList<DiffInfo>();
+        diffInfos = new ArrayList<DiffInfo>();
         
         DiffAnalysis<Key> set = DiffUtil.mapDiff(tmx1, tmx2);
         
@@ -162,8 +163,8 @@ public class DiffController implements Serializable {
             ITuv tuv2 = tmx2.get(key);
             diffInfos.add(new DiffInfo(key, tmx1.getSourceLanguage(), tuv1, tuv2));
         }
-        
-        return diffInfos;
+
+        counts = new Integer[] { diffInfos.size(), set.added.size(), set.deleted.size(), set.modified.size() };
     }
     
     public static class DiffInfo {
