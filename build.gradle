@@ -1,10 +1,8 @@
 plugins {
-  id 'com.github.johnrengelman.shadow' version '1.2.3'
   id 'com.jfrog.bintray' version '1.6'
 }
 
 apply plugin: 'application'
-apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'maven-publish'
 apply plugin: 'eclipse'
 
