@@ -19,14 +19,16 @@
 
 package org.madlonkay.supertmxmerge.util;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.madlonkay.supertmxmerge.data.DiffAnalysis;
 import org.madlonkay.supertmxmerge.data.MergeAnalysis;
 
@@ -194,7 +196,7 @@ public class DiffUtilTest {
         return result;
     }
     
-    private void checkAnalysis(MergeAnalysis analysis, int conflicts,
+    private void checkAnalysis(MergeAnalysis<?, ?> analysis, int conflicts,
             int added, int deleted, int modified) {
         assertEquals(analysis.conflicts.size(), conflicts);
         assertEquals(analysis.added.size(), added);
@@ -202,7 +204,7 @@ public class DiffUtilTest {
         assertEquals(analysis.modified.size(), modified);
     }
     
-    private void checkAnalysis(DiffAnalysis analysis,
+    private void checkAnalysis(DiffAnalysis<?> analysis,
             int added, int deleted, int modified) {
         assertEquals(analysis.added.size(), added);
         assertEquals(analysis.deleted.size(), deleted);

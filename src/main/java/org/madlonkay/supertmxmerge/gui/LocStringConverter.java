@@ -25,7 +25,7 @@ import org.madlonkay.supertmxmerge.util.LocString;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class LocStringConverter extends Converter {
+public class LocStringConverter extends Converter<Object, String> {
 
     private final String id;
     private final String idSingular;
@@ -45,12 +45,12 @@ public class LocStringConverter extends Converter {
     }
     
     @Override
-    public Object convertForward(Object value) {
+    public String convertForward(Object value) {
         return convert(value);
     }
 
     @Override
-    public Object convertReverse(Object value) {
+    public Object convertReverse(String value) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

@@ -30,6 +30,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
@@ -38,6 +39,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import javax.swing.ToolTipManager;
 import javax.swing.WindowConstants;
+
 import org.madlonkay.supertmxmerge.MergeController;
 import org.madlonkay.supertmxmerge.MergeController.ConflictInfo;
 import org.madlonkay.supertmxmerge.data.Key;
@@ -48,6 +50,7 @@ import org.madlonkay.supertmxmerge.util.LocString;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
+@SuppressWarnings("serial")
 public class MergeWindow extends javax.swing.JPanel {
     
     public static JFrame newAsFrame(final MergeController controller, boolean isTwoWayMerge) {

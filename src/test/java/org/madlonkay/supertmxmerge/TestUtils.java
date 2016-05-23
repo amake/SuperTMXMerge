@@ -40,7 +40,7 @@ public class TestUtils {
     }
     
     public static void ensureEmptyDiff(ITmx file1, ITmx file2) throws Exception {
-        DiffAnalysis diff = DiffUtil.mapDiff(file1, file2);
+        DiffAnalysis<?> diff = DiffUtil.mapDiff(file1, file2);
         assertTrue(diff.added.isEmpty());
         assertTrue(diff.deleted.isEmpty());
         assertTrue(diff.modified.isEmpty());

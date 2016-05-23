@@ -22,12 +22,14 @@ import java.awt.Component;
 import java.awt.Window;
 import java.io.File;
 import java.util.Enumeration;
-import java.util.logging.Logger;
+import java.util.List;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.TransferHandler;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import org.madlonkay.supertmxmerge.util.GuiUtil;
 import org.madlonkay.supertmxmerge.util.LocString;
 
@@ -35,6 +37,7 @@ import org.madlonkay.supertmxmerge.util.LocString;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
+@SuppressWarnings("serial")
 public class FileSelectWindow extends javax.swing.JPanel implements IDropCallback {
     
     public static JFrame newAsFrame() {
@@ -48,9 +51,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
         frame.pack();
         return frame;
     }
-    
-    private final static Logger LOGGER = Logger.getLogger(FileSelectWindow.class.getName());
-    
+
     private final static FileNameExtensionFilter FILTER_TMX = 
             new FileNameExtensionFilter(LocString.get("STM_TMX_FILE_TYPE_LABEL"), "tmx");
     
@@ -77,7 +78,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
     @Override
     public void droppedToTarget(Component component) {
         if (component == combineList) {
-            DefaultListModel model = (DefaultListModel) combineList.getModel();
+            DefaultListModel<File> model = (DefaultListModel<File>) combineList.getModel();
             combineIOController.setFiles((Enumeration<File>)model.elements());
         }
     }
@@ -132,7 +133,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
         addButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        combineList = new javax.swing.JList();
+        combineList = new javax.swing.JList<>();
         combineButtonPanel = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         combineOkButton = new javax.swing.JButton();
@@ -142,6 +143,8 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
 
         multiFileChooser.setFileFilter(FILTER_TMX);
         multiFileChooser.setMultiSelectionEnabled(true);
+
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.PAGE_AXIS));
 
         diffPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
         diffPanel.setLayout(new javax.swing.BoxLayout(diffPanel, javax.swing.BoxLayout.PAGE_AXIS));
@@ -347,7 +350,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
 
         jPanel9.add(addRemoveButtonPanel);
 
-        combineList.setModel(new DefaultListModel());
+        combineList.setModel(new DefaultListModel<>());
         combineList.setVisibleRowCount(4);
         jScrollPane1.setViewportView(combineList);
 
@@ -436,7 +439,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
     }//GEN-LAST:event_mergeOkButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        DefaultListModel model = (DefaultListModel) combineList.getModel();
+        DefaultListModel<File> model = (DefaultListModel<File>) combineList.getModel();
         if (multiFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             for (File file : multiFileChooser.getSelectedFiles()) {
                 if (!model.contains(file)) {
@@ -444,19 +447,19 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
                 }
             }
         }
-        combineIOController.setFiles((Enumeration<File>)model.elements());
+        combineIOController.setFiles(model.elements());
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-        DefaultListModel model = (DefaultListModel) combineList.getModel();
-        Object[] toRemove = combineList.getSelectedValues();
-        if (toRemove.length == 0) {
+        DefaultListModel<File> model = (DefaultListModel<File>) combineList.getModel();
+        List<File> toRemove = combineList.getSelectedValuesList();
+        if (toRemove.isEmpty()) {
             return;
         }
         for (Object o : toRemove) {
             model.removeElement(o);
         }
-        combineIOController.setFiles((Enumeration<File>)model.elements());
+        combineIOController.setFiles(model.elements());
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void combineOkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combineOkButtonActionPerformed
@@ -472,7 +475,7 @@ public class FileSelectWindow extends javax.swing.JPanel implements IDropCallbac
     private javax.swing.JPanel combineButtonPanel;
     private javax.swing.JButton combineCancelButton;
     private org.madlonkay.supertmxmerge.CombineIOController combineIOController;
-    private javax.swing.JList combineList;
+    private javax.swing.JList<File> combineList;
     private javax.swing.JButton combineOkButton;
     private javax.swing.JPanel combinePanel;
     private javax.swing.JPanel diffButtonPanel;

@@ -23,6 +23,7 @@ package org.madlonkay.supertmxmerge.data;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
+@SuppressWarnings("serial")
 public class WriteFailedException extends Exception {
     
     public WriteFailedException() {

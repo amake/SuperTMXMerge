@@ -18,14 +18,16 @@
  */
 package org.madlonkay.supertmxmerge.data.JAXB;
 
-import gen.core.tmx14.Tuv;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
 import org.madlonkay.supertmxmerge.data.ITuv;
 import org.madlonkay.supertmxmerge.util.ReflectionUtil;
+
+import gen.core.tmx14.Tuv;
 
 /**
  *
@@ -54,7 +56,7 @@ public class JAXBTuv implements ITuv {
         return content.isEmpty() ? "" : extractContent(content);
     }
     
-    private String extractContent(List<Object> content) {
+    private String extractContent(List<?> content) {
         StringBuilder tmp = new StringBuilder();
         for (Object o : content) {
             if (o instanceof String) {
@@ -70,7 +72,7 @@ public class JAXBTuv implements ITuv {
                         throw new RuntimeException("TUV contained item that didn't return a List from getContent().");
                     }
                     tmp.append(TAG_START_CHAR);
-                    tmp.append(extractContent((List<Object>) subContent));
+                    tmp.append(extractContent((List<?>) subContent));
                     tmp.append(TAG_END_CHAR);
                 } catch (NoSuchMethodException ex) {
                     // Nothing
@@ -88,7 +90,7 @@ public class JAXBTuv implements ITuv {
     public Map<String, String> getMetadata() {
         if (props == null) {
             if (tuv == null) {
-                props = Collections.EMPTY_MAP;
+                props = Collections.emptyMap();
             } else {
                 Map<String, String> temp = ReflectionUtil.simplePropsToMap(tuv);
                 temp.putAll(ReflectionUtil.listPropsToMap(tuv.getNoteOrProp()));

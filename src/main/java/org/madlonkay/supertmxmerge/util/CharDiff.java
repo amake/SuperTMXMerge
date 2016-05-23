@@ -19,19 +19,21 @@
 
 package org.madlonkay.supertmxmerge.util;
 
-import difflib.Chunk;
-import difflib.Delta;
-import difflib.DiffUtils;
-import difflib.Patch;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
+
+import difflib.Chunk;
+import difflib.Delta;
+import difflib.DiffUtils;
+import difflib.Patch;
 
 /**
  *
@@ -79,7 +81,7 @@ public class CharDiff {
     
     private static List<Character> toList(String string) {
         if (string == null || string.length() == 0) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         List<Character> result = new ArrayList<Character>();
         for (Character c : string.toCharArray()) {

@@ -19,22 +19,23 @@
 package org.madlonkay.supertmxmerge.gui;
 
 import java.io.File;
+
 import org.jdesktop.beansbinding.Converter;
 
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class FileStringConverter extends Converter {
+public class FileStringConverter extends Converter<File, String> {
             
     @Override
-    public Object convertForward(Object value) {
+    public String convertForward(File value) {
         return value == null ? "" : ((File) value).getAbsolutePath();
     }
 
     @Override
-    public Object convertReverse(Object value) {
-        return value == null ? null : new File((String) value);
+    public File convertReverse(String value) {
+        return value == null ? null : new File(value);
     }
     
 }

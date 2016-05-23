@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.MissingResourceException;
 import java.util.TreeMap;
+
 import org.jdesktop.beansbinding.Converter;
 import org.madlonkay.supertmxmerge.util.LocString;
 
@@ -29,18 +30,14 @@ import org.madlonkay.supertmxmerge.util.LocString;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class MapToTextConverter extends Converter {
+public class MapToTextConverter extends Converter<Map<?, ?>, String> {
 
     @Override
-    public Object convertForward(Object value) {
+    public String convertForward(Map<?, ?> value) {
         if (value == null) {
             return null;
         }
-        if (!(value instanceof Map)) {
-            throw new IllegalArgumentException();
-        }
-        Map<?, ?> map = (Map<?, ?>) value;
-        return mapToHtml(map);
+        return mapToHtml(value);
     }
     
     public static String mapToHtml(Map<?, ?> map) {
@@ -75,7 +72,7 @@ public class MapToTextConverter extends Converter {
     }
 
     @Override
-    public Object convertReverse(Object value) {
+    public Map<?, ?> convertReverse(String value) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

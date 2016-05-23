@@ -19,13 +19,14 @@
 package org.madlonkay.supertmxmerge.gui;
 
 import javax.swing.border.Border;
+
 import org.jdesktop.beansbinding.Converter;
 
 /**
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class BorderConverter extends Converter {
+public class BorderConverter extends Converter<Boolean, Border> {
     
     private final Border selectedBorder;
     private final Border defaultBorder;
@@ -45,12 +46,12 @@ public class BorderConverter extends Converter {
     }
             
     @Override
-    public Object convertForward(Object value) {
-        return ((Boolean) value) ? selectedBorder : defaultBorder;
+    public Border convertForward(Boolean value) {
+        return value ? selectedBorder : defaultBorder;
     }
 
     @Override
-    public Object convertReverse(Object value) {
+    public Boolean convertReverse(Border value) {
         return value == selectedBorder;
     }
     

@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
 import org.madlonkay.supertmxmerge.data.DiffAnalysis;
 import org.madlonkay.supertmxmerge.data.MergeAnalysis;
 
@@ -31,7 +32,7 @@ import org.madlonkay.supertmxmerge.data.MergeAnalysis;
  */
 public class DiffUtil {
     
-    public static <K,V> DiffAnalysis mapDiff(Map<K,V> before, Map<K,V> after) {
+    public static <K, V> DiffAnalysis<K> mapDiff(Map<K, V> before, Map<K, V> after) {
         // Deleted items
         Set<K> deleted = new HashSet<K>(before.keySet());
         deleted.removeAll(after.keySet());
@@ -148,6 +149,6 @@ public class DiffUtil {
             }
         }
         
-        return new MergeAnalysis(toDelete, toAdd, toReplace, conflicts);
+        return new MergeAnalysis<>(toDelete, toAdd, toReplace, conflicts);
     }
 }

@@ -34,7 +34,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -106,9 +105,7 @@ public class JAXBTmx implements ITmx {
     
     private static final String FEATURE_NAMESPACES = "http://xml.org/sax/features/namespaces";
     private static final String FEATURE_NAMESPACE_PREFIXES = "http://xml.org/sax/features/namespace-prefixes";
-    
-    private static final Logger LOGGER = Logger.getLogger(JAXBTmx.class.getName());
-    
+
     static {
         try {
             CONTEXT = JAXBContext.newInstance(Tmx.class);

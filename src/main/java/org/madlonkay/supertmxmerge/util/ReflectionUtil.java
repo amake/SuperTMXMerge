@@ -37,12 +37,12 @@ public class ReflectionUtil {
     
     public static Map<String, String> simplePropsToMap(Object object) {
         if (object == null) {
-            return Collections.EMPTY_MAP;
+            return Collections.emptyMap();
         }
         
         Method[] methods = object.getClass().getMethods();
         if (methods.length == 0) {
-            return Collections.EMPTY_MAP;
+            return Collections.emptyMap();
         }
         
         Map<String, String> result = new HashMap<String, String>();
@@ -64,12 +64,12 @@ public class ReflectionUtil {
     
     public static Map<String, String> simpleMembersToMap(Object object) {
         if (object == null) {
-            return Collections.EMPTY_MAP;
+            return Collections.emptyMap();
         }
         
         Field[] fields = object.getClass().getDeclaredFields();
         if (fields.length == 0) {
-            return Collections.EMPTY_MAP;
+            return Collections.emptyMap();
         }
         
         Map<String, String> result = new HashMap<String, String>();
@@ -90,11 +90,11 @@ public class ReflectionUtil {
 
     public static Map<String, String> listPropsToMap(List<Object> list) {
         if (list == null || list.isEmpty()) {
-            return Collections.EMPTY_MAP;
+            return Collections.emptyMap();
         }
         
         Map<String, String> result = new HashMap<String, String>();
-        Map<Class, Integer> count = new HashMap<Class, Integer>();
+        Map<Class<?>, Integer> count = new HashMap<>();
         
         for (Object o : list) {
             try {

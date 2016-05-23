@@ -70,7 +70,7 @@ public class MergeControllerTest {
         
         
         MergeController merger = new MergeController();
-        MergeAnalysis analysis = merger.analyze(new JAXBTmx(baseFile),
+        MergeAnalysis<?, ?> analysis = merger.analyze(new JAXBTmx(baseFile),
                 new JAXBTmx(file1), new JAXBTmx(file2));
         assert(!analysis.conflicts.isEmpty());
         

@@ -25,10 +25,12 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 import javax.swing.SwingWorker;
 import javax.swing.ToolTipManager;
+
 import org.madlonkay.supertmxmerge.DiffController;
 import org.madlonkay.supertmxmerge.DiffController.DiffInfo;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
@@ -38,6 +40,7 @@ import org.madlonkay.supertmxmerge.util.LocString;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
+@SuppressWarnings("serial")
 public class DiffWindow extends javax.swing.JPanel {
    
     public static JFrame newAsFrame(DiffController controller) {
@@ -45,18 +48,14 @@ public class DiffWindow extends javax.swing.JPanel {
         frame.setContentPane(new DiffWindow(frame, controller));
         return frame;
     }
-    
-    private final Window window;
-    
+
     /**
      * Creates new form DiffWindow
      * @param window
      * @param controller
      */
     public DiffWindow(Window window, DiffController controller) {
-        
-        this.window = window;
-        
+
         this.controller = controller;
         initComponents();
         
@@ -73,7 +72,7 @@ public class DiffWindow extends javax.swing.JPanel {
     }
     
     private void initContent() {
-        SwingWorker worker = new SwingWorker<List<DiffCell>, DiffCell>() {
+        SwingWorker<List<DiffCell>, DiffCell> worker = new SwingWorker<List<DiffCell>, DiffCell>() {
             
             @Override
             protected List<DiffCell> doInBackground() throws Exception {

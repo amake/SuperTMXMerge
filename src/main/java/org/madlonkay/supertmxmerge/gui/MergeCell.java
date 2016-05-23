@@ -20,11 +20,13 @@ package org.madlonkay.supertmxmerge.gui;
 
 import java.awt.Color;
 import java.util.Map;
+
 import javax.swing.AbstractButton;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
+
 import org.madlonkay.supertmxmerge.MergeController.ConflictInfo;
 import org.madlonkay.supertmxmerge.data.Key;
 import org.madlonkay.supertmxmerge.util.CharDiff;
@@ -34,6 +36,7 @@ import org.madlonkay.supertmxmerge.util.LocString;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
+@SuppressWarnings("serial")
 public class MergeCell extends javax.swing.JPanel {
 
     private final static Border BORDER_DEFAULT = new MatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY);

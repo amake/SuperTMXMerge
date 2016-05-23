@@ -21,6 +21,7 @@ package org.madlonkay.supertmxmerge.gui;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
 import javax.swing.UIManager;
@@ -29,6 +30,7 @@ import javax.swing.UIManager;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
+@SuppressWarnings("serial")
 public class ReasonablySizedPanel extends JPanel implements Scrollable {
 
     @Override

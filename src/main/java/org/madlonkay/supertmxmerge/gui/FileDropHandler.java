@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.TransferHandler;
@@ -35,6 +36,7 @@ import javax.swing.text.JTextComponent;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
+@SuppressWarnings("serial")
 public class FileDropHandler extends TransferHandler {
     
     private static final Logger LOGGER = Logger.getLogger(FileDropHandler.class.getName());
@@ -50,6 +52,7 @@ public class FileDropHandler extends TransferHandler {
         return support.isDataFlavorSupported(DataFlavor.javaFileListFlavor);
     }
     
+    @SuppressWarnings("unchecked")
     @Override
     public boolean importData(TransferHandler.TransferSupport support) {
         if (!canImport(support)) {
@@ -76,7 +79,7 @@ public class FileDropHandler extends TransferHandler {
         if (comp instanceof JTextComponent) {
             return handleSingleDrop(files, (JTextComponent) comp);
         } else if (comp instanceof JList) {
-            return handleMultiDrop(files, (JList) comp);
+            return handleMultiDrop(files, (JList<File>) comp);
         }
         return false;
     }
@@ -90,11 +93,11 @@ public class FileDropHandler extends TransferHandler {
         return true;
     }
     
-    private boolean handleMultiDrop(List<File> files, JList comp) {
+    private boolean handleMultiDrop(List<File> files, JList<File> comp) {
         if (!(comp.getModel() instanceof DefaultListModel)) {
             return false;
         }
-        DefaultListModel model = (DefaultListModel) comp.getModel();
+        DefaultListModel<File> model = (DefaultListModel<File>) comp.getModel();
         for (File file : files) {
             if (!model.contains(file)) {
                 model.addElement(file);

@@ -21,7 +21,8 @@ package org.madlonkay.supertmxmerge;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,15 +31,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
+
 import javax.swing.AbstractButton;
 import javax.swing.JOptionPane;
+
 import org.madlonkay.supertmxmerge.data.ITmx;
 import org.madlonkay.supertmxmerge.data.ITuv;
-import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
 import org.madlonkay.supertmxmerge.data.Key;
 import org.madlonkay.supertmxmerge.data.MergeAnalysis;
 import org.madlonkay.supertmxmerge.data.ResolutionSet;
 import org.madlonkay.supertmxmerge.data.ResolutionStrategy;
+import org.madlonkay.supertmxmerge.data.JAXB.JAXBTmx;
 import org.madlonkay.supertmxmerge.gui.MergeWindow;
 import org.madlonkay.supertmxmerge.util.DiffUtil;
 import org.madlonkay.supertmxmerge.util.GuiUtil;
@@ -48,6 +51,7 @@ import org.madlonkay.supertmxmerge.util.LocString;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
+@SuppressWarnings("serial")
 public class MergeController implements Serializable, ActionListener {
     
     public static final Logger LOGGER = Logger.getLogger(MergeController.class.getName());
@@ -177,7 +181,7 @@ public class MergeController implements Serializable, ActionListener {
         return result;
     }
     
-    public MergeAnalysis analyze(ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
+    public MergeAnalysis<Key, ITuv> analyze(ITmx baseTmx, ITmx leftTmx, ITmx rightTmx) {
         resolution = null;
         result = null;
         

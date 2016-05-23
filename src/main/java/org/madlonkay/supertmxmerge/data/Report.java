@@ -30,14 +30,14 @@ public class Report {
     public final int deleted;
     public final int modified;
 
-    public Report(MergeAnalysis analysis, ResolutionSet resolution) {
+    public Report(MergeAnalysis<?, ?> analysis, ResolutionSet resolution) {
         this.conflicts = analysis.conflicts.size();
         this.added = resolution.toAdd.size();
         this.deleted = resolution.toDelete.size();
         this.modified = resolution.toReplace.size();
     }
     
-    public Report(MergeAnalysis analysis, DiffAnalysis diff) {
+    public Report(MergeAnalysis<?, ?> analysis, DiffAnalysis<?> diff) {
         this.conflicts = analysis.conflicts.size();
         this.added = diff.added.size();
         this.deleted = diff.deleted.size();

@@ -34,8 +34,8 @@ public class MergeAnalysis<K,V> {
     public final Map<K, V> modified;
     public final Set<K> conflicts;
     
-    public static MergeAnalysis unmodifiableAnalysis(MergeAnalysis analysis) {
-        return new MergeAnalysis(Collections.unmodifiableSet(analysis.deleted),
+    public static <L, T> MergeAnalysis<L, T> unmodifiableAnalysis(MergeAnalysis<L, T> analysis) {
+        return new MergeAnalysis<L, T>(Collections.unmodifiableSet(analysis.deleted),
                 Collections.unmodifiableSet(analysis.added),
                 Collections.unmodifiableMap(analysis.modified),
                 Collections.unmodifiableSet(analysis.conflicts));

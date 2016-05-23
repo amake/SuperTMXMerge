@@ -25,16 +25,16 @@ import org.madlonkay.supertmxmerge.util.LocString;
  *
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
-public class SaveButtonConverter extends Converter {
+public class SaveButtonConverter extends Converter<Object, String> {
 
     @Override
-    public Object convertForward(Object value) {
+    public String convertForward(Object value) {
         return value == null ? LocString.get("STM_SAVE_AS_BUTTON")
                 : LocString.get("STM_SAVE_BUTTON");
     }
 
     @Override
-    public Object convertReverse(Object value) {
+    public Object convertReverse(String value) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

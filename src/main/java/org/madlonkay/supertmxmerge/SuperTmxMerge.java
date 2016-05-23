@@ -20,7 +20,6 @@ package org.madlonkay.supertmxmerge;
 
 import java.awt.Window;
 import java.io.File;
-import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 
@@ -40,9 +39,7 @@ import org.omegat.core.data.ProjectTMX;
  * @author Aaron Madlon-Kay <aaron@madlon-kay.com>
  */
 public class SuperTmxMerge {
-    
-    private static final Logger LOGGER = Logger.getLogger(SuperTmxMerge.class.getName());
-    
+
     public static void diff(File file1, File file2) {
         DiffIOController controller = new DiffIOController();
         controller.setFile1(file1);
@@ -82,11 +79,11 @@ public class SuperTmxMerge {
         controller.setParentWindow(properties.getParentWindow());
         controller.setListViewThreshold(properties.getListViewThreshold());
 
-        MergeAnalysis analysis = controller.analyze(baseTmx, tmx1, tmx2);
+        MergeAnalysis<?, ?> analysis = controller.analyze(baseTmx, tmx1, tmx2);
         ResolutionSet resolution = controller.resolve(properties.getResolutionStrategy());
         ITmx wrappedResult = controller.apply(resolution);
         if (wrappedResult != null) {
-            DiffAnalysis diff = DiffUtil.mapDiff(tmx2, wrappedResult);
+            DiffAnalysis<?> diff = DiffUtil.mapDiff(tmx2, wrappedResult);
             properties.setReport(new Report(analysis, diff));
             return (ProjectTMX) wrappedResult.getUnderlyingRepresentation();
         }

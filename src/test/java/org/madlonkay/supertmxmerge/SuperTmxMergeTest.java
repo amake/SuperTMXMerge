@@ -83,7 +83,7 @@ public class SuperTmxMergeTest {
         File baseFile = TestUtils.getFilePath("base.tmx");
         File file1 = TestUtils.getFilePath("left.tmx");
         
-        DiffAnalysis diff = DiffUtil.mapDiff(new JAXBTmx(baseFile), new JAXBTmx(file1));
+        DiffAnalysis<?> diff = DiffUtil.mapDiff(new JAXBTmx(baseFile), new JAXBTmx(file1));
         assertEquals(diff.added.size(), 2);
         assertEquals(diff.deleted.size(), 2);
         assertEquals(diff.modified.size(), 5);
