@@ -147,7 +147,7 @@ bintray {
     pkg {
         repo = 'maven'
         name = 'org.madlonkay.supertmxmerge'
-        licenses = ['LGPL-2.1']
+        licenses = ['LGPL-2.1', 'Apache-2.0']
         vcsUrl = 'https://github.com/amake/SuperTMXMerge.git'
         version {
             name = project.version
