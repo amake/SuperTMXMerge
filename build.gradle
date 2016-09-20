@@ -146,7 +146,7 @@ bintray {
     key = System.getenv('BINTRAY_KEY')
     pkg {
         repo = 'maven'
-        name = 'org.madlonkay.supertmxmerge'
+        name = 'SuperTMXMerge'
         licenses = ['LGPL-2.1', 'Apache-2.0']
         vcsUrl = 'https://github.com/amake/SuperTMXMerge.git'
         version {
