@@ -13,3 +13,6 @@
 # Generated
 src/main/java/gen
 l10n/work
+
+# Secrets
+local.properties

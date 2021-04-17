@@ -1,6 +1,5 @@
 plugins {
     id 'com.github.johnrengelman.shadow' version '5.2.0'
-    id 'com.jfrog.bintray' version '1.6'
     id 'application'
     id 'maven-publish'
     id 'signing'
@@ -25,7 +24,7 @@ sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -110,9 +109,14 @@ task debug(dependsOn: classes, type: JavaExec) {
     debug true
 }
 
+shadowJar {
+    archiveClassifier = ''
+}
+
 task sourceJar(type: Jar) {
     from sourceSets.main.allJava
     exclude 'org/omegat/**'
+    archiveClassifier = 'sources'
 }
 
 javadoc {
@@ -122,37 +126,65 @@ javadoc {
 
 task javadocJar(type: Jar) {
     from javadoc.outputs
+    archiveClassifier = 'javadoc'
+}
+
+ext {
+    def propsFile = file('local.properties')
+    if (propsFile.file) {
+        def props = new Properties()
+        propsFile.withInputStream { props.load(it) }
+        props.each { k, v -> set(k, v) }
+    } else {
+        logger.log(LogLevel.WARN, "$propsFile not found")
+    }
 }
 
 publishing {
     publications {
-        forEmbedding(MavenPublication) {
-            groupId 'org.madlonkay.supertmxmerge'
-            artifactId 'supertmxmerge'
-            version version
+        mavenJava(MavenPublication) { publication ->
+            project.shadow.component(publication)
+            groupId = 'org.madlonkay'
+            artifactId = 'supertmxmerge'
+            artifact sourceJar
+            artifact javadocJar
 
-            from components.java
-            artifact sourceJar {
-                classifier 'sources'
+            pom {
+                name = 'SuperTMXMerge'
+                description = 'A graphical diff & merge tool for TMX files'
+                url = 'https://github.com/amake/SuperTMXMerge'
+                scm {
+                    connection = 'scm:git:https://github.com/amake/SuperTMXMerge'
+                    developerConnection = 'scm:git:https://github.com/amake/SuperTMXMerge'
+                    url = 'https://github.com/amake/SuperTMXMerge.git'
+                }
+                licenses {
+                    license {
+                        name = 'GNU Lesser General Public License, version 2.1'
+                        url = 'https://www.gnu.org/licenses/lgpl-2.1.html'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'amake'
+                        name = 'Aaron Madlon-Kay'
+                        email = 'aaron@madlon-kay.com'
+                    }
+                }
             }
-            artifact javadocJar {
-                classifier 'javadoc'
+        }
+    }
+    repositories {
+        maven {
+            url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+            credentials(PasswordCredentials) {
+                username rootProject.findProperty('ossrhUsername')
+                password rootProject.findProperty('ossrhPassword')
             }
         }
     }
 }
 
-bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-    pkg {
-        repo = 'maven'
-        name = 'org.madlonkay.supertmxmerge'
-        licenses = ['LGPL-2.1']
-        vcsUrl = 'https://github.com/amake/SuperTMXMerge.git'
-        version {
-            name = project.version
-        }
-    }
-    publications = ['forEmbedding']
+signing {
+    sign publishing.publications.mavenJava
 }

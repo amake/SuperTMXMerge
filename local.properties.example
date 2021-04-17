@@ -1,0 +1,8 @@
+# Last 8 characters of full key ID
+signing.keyId=
+signing.password=
+# Exported as e.g. `gpg --export-secret-keys > secring.gpg`
+signing.secretKeyRingFile=
+
+ossrhUsername=
+ossrhPassword=
