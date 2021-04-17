@@ -1,12 +1,11 @@
 plugins {
-  id 'com.github.johnrengelman.shadow' version '1.2.3'
-  id 'com.jfrog.bintray' version '1.6'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'com.jfrog.bintray' version '1.6'
+    id 'application'
+    id 'maven-publish'
+    id 'signing'
+    id 'eclipse'
 }
-
-apply plugin: 'application'
-apply plugin: 'com.github.johnrengelman.shadow'
-apply plugin: 'maven-publish'
-apply plugin: 'eclipse'
 
 applicationName = 'SuperTMXMerge'
 mainClassName = 'org.madlonkay.supertmxmerge.Main'
