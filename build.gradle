@@ -109,10 +109,6 @@ task debug(dependsOn: classes, type: JavaExec) {
     debug true
 }
 
-shadowJar {
-    archiveClassifier = ''
-}
-
 task sourceJar(type: Jar) {
     from sourceSets.main.allJava
     exclude 'org/omegat/**'
@@ -143,11 +139,12 @@ ext {
 publishing {
     publications {
         mavenJava(MavenPublication) { publication ->
-            project.shadow.component(publication)
             groupId = 'org.madlonkay'
             artifactId = 'supertmxmerge'
             artifact sourceJar
             artifact javadocJar
+
+            from components.java
 
             pom {
                 name = 'SuperTMXMerge'
