@@ -43,6 +43,10 @@ sourceSets {
 
 jar {
     exclude 'org/omegat/**'
+    exclude 'gen/**'
+    manifest {
+        attributes('Automatic-Module-Name': 'org.madlonkay.supertmxmerge')
+    }
 }
 
 task genJAXB(type: Exec) {
