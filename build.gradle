@@ -10,12 +10,20 @@ applicationName = 'SuperTMXMerge'
 mainClassName = 'org.madlonkay.supertmxmerge.Main'
 
 def getGitVersion = {
-    if (!file('.git').directory) {
-        return 'unknown'
+    if (file('.git').directory) {
+        StringBuilder output = new StringBuilder()
+        'git describe --tags --always HEAD'.execute().waitForProcessOutput(output, null)
+        return output.toString().trim()
+    } else {
+        def props = new Properties()
+        props.load(new FileInputStream(project.file(".git-archival.properties")))
+        def describe = props.getProperty('describe')
+        if (describe && describe ==~ /^\d+\.\d+\.\d+$/) {
+            return describe
+        } else {
+            return 'unknown'
+        }
     }
-    StringBuilder output = new StringBuilder()
-    'git describe --tags --always HEAD'.execute().waitForProcessOutput(output, null)
-    return output.toString().trim()
 }
 
 version = getGitVersion()
